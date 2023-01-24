@@ -10,5 +10,13 @@ import Foundation
 
 protocol NetworkManager {
     
-    func saveAccessToken()
+    func saveGrantToken()
+}
+
+protocol DatabaseManager {
+    
+}
+
+protocol NetworkManagerContract {
+    
 }

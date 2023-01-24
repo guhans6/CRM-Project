@@ -11,6 +11,10 @@
 		5318F5D5297A85A000AF76DC /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D4297A85A000AF76DC /* DataManager.swift */; };
 		5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D6297AB81E00AF76DC /* NetworkController.swift */; };
 		5318F5D9297ABE0D00AF76DC /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */; };
+		5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375155B2980436A004B00E7 /* UserDefaultsManager.swift */; };
+		53A696DC297C6AD80029F92E /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A696DB297C6AD80029F92E /* KeyChainManager.swift */; };
+		53A696DE297C6D310029F92E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A696DD297C6D310029F92E /* NetworkManager.swift */; };
+		53D1C9B1297BAB2500DA09B4 /* KeyChainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */; };
 		53D273222977D20F001718BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273212977D20F001718BD /* AppDelegate.swift */; };
 		53D273242977D20F001718BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273232977D20F001718BD /* SceneDelegate.swift */; };
 		53D273262977D20F001718BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273252977D20F001718BD /* ViewController.swift */; };
@@ -22,6 +26,10 @@
 		5318F5D4297A85A000AF76DC /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		5318F5D6297AB81E00AF76DC /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseController.swift; sourceTree = "<group>"; };
+		5375155B2980436A004B00E7 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		53A696DB297C6AD80029F92E /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
+		53A696DD297C6D310029F92E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainController.swift; sourceTree = "<group>"; };
 		53D2731E2977D20F001718BD /* CRM Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CRM Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53D273212977D20F001718BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53D273232977D20F001718BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -46,6 +54,7 @@
 			children = (
 				5318F5D6297AB81E00AF76DC /* NetworkController.swift */,
 				5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */,
+				53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */,
 			);
 			path = DomainLayer;
 			sourceTree = "<group>";
@@ -54,6 +63,9 @@
 			isa = PBXGroup;
 			children = (
 				5318F5D4297A85A000AF76DC /* DataManager.swift */,
+				53A696DB297C6AD80029F92E /* KeyChainManager.swift */,
+				53A696DD297C6D310029F92E /* NetworkManager.swift */,
+				5375155B2980436A004B00E7 /* UserDefaultsManager.swift */,
 			);
 			path = DataLayer;
 			sourceTree = "<group>";
@@ -168,7 +180,11 @@
 			files = (
 				53D273262977D20F001718BD /* ViewController.swift in Sources */,
 				5318F5D5297A85A000AF76DC /* DataManager.swift in Sources */,
+				53A696DE297C6D310029F92E /* NetworkManager.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
+				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
+				53D1C9B1297BAB2500DA09B4 /* KeyChainController.swift in Sources */,
+				53A696DC297C6AD80029F92E /* KeyChainManager.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
 				53D273242977D20F001718BD /* SceneDelegate.swift in Sources */,

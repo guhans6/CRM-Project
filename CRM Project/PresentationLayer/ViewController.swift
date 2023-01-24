@@ -7,19 +7,26 @@
 
 import UIKit
 import WebKit
-import SafariServices
 
-class ViewController: UIViewController, SFSafariViewControllerDelegate {
+class ViewController: UIViewController {
     
     private let openLinkButton = UIButton()
+    private var isLoggedIn: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print(isLoggedIn)
+//        if isLoggedIn == true {
+//            openLinkButton.isHidden = true
+//        }
+    }
+    
     deinit {
-        print("Done")
+        print("Main View Controller Deinitialized")
     }
     
     
@@ -42,15 +49,16 @@ class ViewController: UIViewController, SFSafariViewControllerDelegate {
             openLinkButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             //            openLinkButton.widthAnchor.constraint(equalToConstant: 170)
         ])
-        
+//        KeyChainController().getAccessToken()
     }
     
     @objc private func didTapOpenLinkButton() {
         
-        let navController = UINavigationController(rootViewController: WebViewController())
-        navController.modalPresentationStyle = .fullScreen
-        self.present(navController, animated: true)
-        
+//        let navController = UINavigationController(rootViewController: WebViewController())
+//        navController.modalPresentationStyle = .fullScreen
+//        self.present(navController, animated: true)
+//        isLoggedIn = true
+//
     }
 }
 
