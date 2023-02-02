@@ -8,7 +8,14 @@
 import Foundation
 
 
-enum NetworkError: Error {
+enum UserType {         /// There are type to be mentioned in get users api  call
+    case allUsers
+    case activeUsers
+    case currentuser
+    case deactiveUsers
+}
+
+enum NetworkError: Error {          /// This is for the type of error in network
     case invalidURLError(String)
     case incorrectDataError(String)
 }
@@ -22,46 +29,56 @@ enum HTTPMethod: String {
 
 class NetworkController {
     
-    let keyChainController = KeyChainController()
+    private let keyChainController = KeyChainController()
+    
+    private let networkManager = NetworkServiceManager.shared
+    private let zohoURLString = "https://accounts.zoho.in/"
+    private let zohoApiURLString = "https://www.zohoapis.in/"       //MARK: URL Components
+    private let tokenRequestURLString = "oauth/v2/token"
+    private let redirectURL = "https://guhans6.github.io/logIn-20611/"
+    private var accessToken: String {
+        keyChainController.getAccessToken()
+    }
+    private var clientId: String {
+        keyChainController.getClientId()
+    }
+    private var clientSecret: String {
+        keyChainController.getClientSecret()
+    }
     
     deinit {
         print("Network Controller deinitialized")
     }
     
-    private let networkManager = NetworkServiceManager.shared
-    private let zohoURL = URL(string: "https://accounts.zoho.in/oauth/v2/token")!
-    private let clientId = "1000.CCNCZ0VYDA4LNN6YCJIUBKO7WA8ZED"
-    private let clientSecret = "022fb6b257cd3dff0e10460c6a7432226d46555c09"
-    private let redirectURL = "https://guhans6.github.io/logIn-20611/"
-    private let grantType = "authorization_code"
-    
-    func getAccessToken(from url: URL?) throws {
+    func generateAccessToken(from url: URL?) throws {
         
-        print("This called")
+        let grantType = "authorization_code"
+        
         guard let url = url else {
             throw NetworkError.invalidURLError("Not a valid url")
         }
         
-        let urlStirng = url.absoluteString
+        let urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        let queryItems = urlComponents?.queryItems // force-unwrap here because the url should be valid
+        let code = queryItems![0]
         
-        guard urlStirng.contains("?code=") else{
-            print("Not valid")
+        guard code.name.contains("code") else {
+            
+            print("Code does not exists \(code)")
             return
         }
-        let grantCode = try! getGrantToken(from: urlStirng) // force-unwrap here because the url should be valid
+        
         
         var requestBodyComponents = URLComponents()
         requestBodyComponents.queryItems = [
-            URLQueryItem(name: "code", value: grantCode),
+            URLQueryItem(name: "code", value: code.value),
             URLQueryItem(name: "grant_type", value: grantType),
             URLQueryItem(name: "client_id", value: clientId),
             URLQueryItem(name: "client_secret", value: clientSecret),
             URLQueryItem(name: "redirect_uri", value: redirectURL),
         ]
-        var request = URLRequest(url: zohoURL)
-        request.httpMethod = "POST"
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        request.httpBody = requestBodyComponents.query?.data(using: .utf8)
+        
+        let zohoURL = URL(string: zohoURLString + tokenRequestURLString)!
         
         //MARK: Try making all in one method for all requests
         networkManager.getAuthToken(url: zohoURL, method: HTTPMethod.POST.rawValue, components: requestBodyComponents) { data, error in
@@ -76,6 +93,7 @@ class NetworkController {
                 return
             }
 
+
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
 
@@ -83,27 +101,241 @@ class NetworkController {
                 let accessToken = json["access_token"] as! String
                 self.keyChainController.storeRefreshToken(token: refreshToken)
                 self.keyChainController.storeAccessToken(accessToken: accessToken)
-                
+
+                UserDefaultsManager.shared.setLogIn(equalTo: true)
+                print("Login Success")
+
 
             } catch let jsonError {
                 print("Error decoding JSON: \(jsonError)")
             }
+            print("Hmm?")
         }
     }
     
-    private func getGrantToken(from urlString: String) throws -> String {
+    func generateAuthToken() {
         
+        let refreshToken = KeyChainController().getRefreshToken()
         
-        guard let startIndex = urlString.range(of: "code=")?.upperBound else {
-            print("Not a Valid String")
-            throw NetworkError.incorrectDataError("Can't get code= in string")
+        if refreshToken == "" {
+            print("invalid refresh")
+            return
         }
         
-        let endIndex = urlString.index(startIndex, offsetBy: 70)
+        var requestBodyComponents = URLComponents()
+        requestBodyComponents.queryItems = [
+            URLQueryItem(name: "refresh_token", value: refreshToken),
+            URLQueryItem(name: "grant_type", value: "refresh_token"),
+            URLQueryItem(name: "client_id", value: clientId),
+            URLQueryItem(name: "client_secret", value: clientSecret),
+        ]
+        let zohoURL = URL(string: zohoURLString + tokenRequestURLString)!
         
-        let grantCode = String(urlString[startIndex ..< endIndex])
-        print(grantCode)
+        networkManager.getAuthToken(url: zohoURL, method: HTTPMethod.POST.rawValue, components: requestBodyComponents) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                
+                let accessToken = json["access_token"] as! String
+                self.keyChainController.storeAccessToken(accessToken: accessToken)
+                
+                print("AccessToken Generated \(accessToken)")
+                
+                
+            } catch let jsonError {
+                print("Error decoding JSON: \(jsonError)")
+            }
+            print("Hmm?")
+        }
+    }
+    
+    func getUserDetails(completion: @escaping (String?, Error?) -> Void) -> Void {
         
-        return grantCode
+        let requestURLString = "crm/v3/users"
+        let requestURL = URL(string: zohoApiURLString + requestURLString)
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let parameters: [String: String] = [
+            //            "type": "AllUsers"
+            //            "type": "CurrentUser"
+            "type": "ActiveUsers"
+        ]
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: parameters, headers: headers, accessToken: accessToken) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                DispatchQueue.main.async {
+                    completion(nil, error)
+                }
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            let users = data["users"] as! [Dictionary<String, Any>]
+//            print(users)
+            
+            DispatchQueue.main.async {
+                completion((users[0]["full_name"] as! String), nil)
+            }
+        }
+    }
+    
+    func getModules() -> Void {
+        
+        let urlRequestString = "crm/v2/settings/modules"
+        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            let modules = data
+            print(modules)
+        }
+    }
+    
+    func getfieldMetaData() {
+        let urlRequestString = "crm/v3/settings/fields"
+        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        let body: [String: String] = ["module": "users"]
+        
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: body, headers: headers, accessToken: accessToken) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            let modules = data
+            print(modules)
+        }
+    }
+    
+    func addEmployee() {
+//        let url
+    }
+    
+    func getProfiles() {
+        let urlRequestString = "crm/v3/settings/profiles"
+        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            print(data)
+        }
+    }
+    
+    func getRoles() {
+        let urlRequestString = "crm/v3/settings/roles"
+        
+        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            print(data)
+        }
+    }
+    
+    private func getUserRequestType(userType: UserType) -> String {
+        
+        switch userType {
+            
+            case .activeUsers:
+                return "ActiveUsers"
+            case .allUsers:
+                return "AllUsers"
+            case .currentuser:
+                return "CurrentUser"
+            case .deactiveUsers:
+                return "DeactiveUsers"
+        }
     }
 }

@@ -7,13 +7,13 @@
 
 import UIKit
 import WebKit
+import SafariServices
 
 class WebViewController: UIViewController {
     
     private var webView: WKWebView?
     
     private let registerURLString: String = "https://accounts.zoho.in/oauth/v2/auth?scope=ZohoCRM.settings.ALL,ZohoCRM.users.ALL,ZohoCRM.modules.ALL&client_id=1000.CCNCZ0VYDA4LNN6YCJIUBKO7WA8ZED&response_type=code&access_type=offline&redirect_uri=https://guhans6.github.io/logIn-20611/"
-    
     deinit {
         print("Deinit called")
     }
@@ -25,6 +25,7 @@ class WebViewController: UIViewController {
     }
     
     private func configureUI() {
+        
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.backward"), style: .plain, target: self, action: #selector(didPressBackButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(didPressXmarkButton))
         
@@ -35,6 +36,7 @@ class WebViewController: UIViewController {
             print("NOOO")
             return
         }
+        
         webView.navigationDelegate = self
         view.backgroundColor = .systemBackground
         view.addSubview(webView)
@@ -65,7 +67,7 @@ extension WebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         do {
-            try NetworkController().getAccessToken(from: webView.url)
+            try NetworkController().generateAccessToken(from: webView.url)
         } catch {
             print(error)
         }

@@ -62,45 +62,25 @@ class KeyChainManager {
     
     private func updateRefreshToken(with data: Data, service: String, account: String) {
         
-                let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
-                                            kSecAttrServer as String: service]
-                let attributes: [String: Any] = [kSecAttrAccount as String: account,
-                                                 kSecValueData as String: data]
+        let query: [String: Any] = [kSecClass as String: kSecClassGenericPassword,
+                                    kSecAttrService as String: service]
+        let attributes: [String: Any] = [kSecAttrAccount as String: account,
+                                         kSecValueData as String: data]
         
-                let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
-                guard status == errSecItemNotFound else {
-                    print("Not found")
-                    return
-                }
+        let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+        print(status)
         
-                guard status != errSecSuccess else {
-                    print("OS Error \(status)")
-                    return
-                }
-        
-                print("Success \(String(data: data, encoding: .utf8)!)")
-    }
-    
-    func getClientIdandSecret() throws -> Data? {
-        var result: CFTypeRef? = nil
-        
-        let query: [String: AnyObject] = [
-            kSecClass as String: kSecClassGenericPassword,
-            kSecAttrService as String: "www.crm.zoho.com" as AnyObject,
-            kSecAttrAccount as String: "guhan" as AnyObject,
-            kSecReturnData as String: kCFBooleanTrue,
-            kSecMatchLimit as String: kSecMatchLimitOne
-        ]
-        
-        let status = SecItemCopyMatching(query as CFDictionary, &result)
-        
-        if status == errSecItemNotFound {
-            throw KeyChainError.passwordNotFoundError
-        } else if status != errSecSuccess {
-            throw KeyChainError.unhandledError(status: status)
+        guard status != errSecItemNotFound else {
+            print("Not found")
+            return
         }
         
-        return result as? Data
+        guard status == errSecSuccess else {
+            print("OS Errors \(status)")
+            return
+        }
+        
+        print("Success \(String(data: data, encoding: .utf8)!)")
     }
     
     func deleteToken(service: String, account: String) {

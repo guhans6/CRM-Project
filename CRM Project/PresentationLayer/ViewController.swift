@@ -7,11 +7,18 @@
 
 import UIKit
 import WebKit
+import SafariServices
 
 class ViewController: UIViewController {
     
     private let openLinkButton = UIButton()
     private var isLoggedIn: Bool = false
+    
+    private let registerURLString: String = "https://accounts.zoho.in/oauth/v2/auth?scope=ZohoCRM.settings.ALL,ZohoCRM.users.ALL,ZohoCRM.modules.ALL&client_id=1000.CCNCZ0VYDA4LNN6YCJIUBKO7WA8ZED&response_type=code&access_type=offline&redirect_uri=https://guhans6.github.io/logIn-20611/"
+    
+    deinit {
+        print("Main View Controller Deinitialized")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,14 +26,11 @@ class ViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print(isLoggedIn)
-//        if isLoggedIn == true {
-//            openLinkButton.isHidden = true
-//        }
-    }
-    
-    deinit {
-        print("Main View Controller Deinitialized")
+        super.viewWillAppear(animated)
+        
+        if UserDefaultsManager.shared.isUserLoggedIn() {
+            dismiss(animated: true)
+        }
     }
     
     
@@ -47,9 +51,8 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             openLinkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             openLinkButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            //            openLinkButton.widthAnchor.constraint(equalToConstant: 170)
         ])
-//        KeyChainController().getAccessToken()
+        //        KeyChainController().getAccessToken()
     }
     
     @objc private func didTapOpenLinkButton() {
@@ -57,8 +60,8 @@ class ViewController: UIViewController {
 //        let navController = UINavigationController(rootViewController: WebViewController())
 //        navController.modalPresentationStyle = .fullScreen
 //        self.present(navController, animated: true)
-//        isLoggedIn = true
-//
+        print(KeyChainController().getClientId())
+        print(KeyChainController().getClientSecret())
     }
 }
 
