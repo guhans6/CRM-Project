@@ -22,6 +22,11 @@
 		53D273242977D20F001718BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273232977D20F001718BD /* SceneDelegate.swift */; };
 		53D2732B2977D211001718BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53D2732A2977D211001718BD /* Assets.xcassets */; };
 		53EC9A48298261430056C300 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9A47298261430056C300 /* SplashViewController.swift */; };
+		53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */; };
+		53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */; };
+		53EF7B0529921E53000B1FA1 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0429921E53000B1FA1 /* FormViewController.swift */; };
+		53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */; };
+		53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0E29928D0B000B1FA1 /* Field.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +47,11 @@
 		53D2732A2977D211001718BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		53D2732F2977D211001718BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53EC9A47298261430056C300 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
+		53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
+		53EF7B0429921E53000B1FA1 /* FormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
+		53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormPresenter.swift; sourceTree = "<group>"; };
+		53EF7B0E29928D0B000B1FA1 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +68,7 @@
 		5318F5D0297A84D900AF76DC /* DomainLayer */ = {
 			isa = PBXGroup;
 			children = (
+				53EF7B0D29928CFD000B1FA1 /* Entities */,
 				5318F5D6297AB81E00AF76DC /* NetworkController.swift */,
 				531ADF152989344C00BA3B58 /* UserController.swift */,
 				5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */,
@@ -80,6 +91,8 @@
 		5318F5D3297A851000AF76DC /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
+				53EF7B0A299251E0000B1FA1 /* Presenter */,
+				53EF7B0329921E27000B1FA1 /* FormView */,
 				53EC9A47298261430056C300 /* SplashViewController.swift */,
 				5340DEE02982CD8C00ED51D1 /* ViewController.swift */,
 				531B11112980E558000FAF02 /* LoggedInViewController.swift */,
@@ -116,6 +129,32 @@
 				53D2732F2977D211001718BD /* Info.plist */,
 			);
 			path = "CRM Project";
+			sourceTree = "<group>";
+		};
+		53EF7B0329921E27000B1FA1 /* FormView */ = {
+			isa = PBXGroup;
+			children = (
+				53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */,
+				53EF7B0429921E53000B1FA1 /* FormViewController.swift */,
+				53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */,
+			);
+			path = FormView;
+			sourceTree = "<group>";
+		};
+		53EF7B0A299251E0000B1FA1 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		53EF7B0D29928CFD000B1FA1 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				53EF7B0E29928D0B000B1FA1 /* Field.swift */,
+			);
+			path = Entities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,20 +226,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53EF7B0529921E53000B1FA1 /* FormViewController.swift in Sources */,
 				531B11122980E558000FAF02 /* LoggedInViewController.swift in Sources */,
 				5318F5D5297A85A000AF76DC /* DataManager.swift in Sources */,
+				53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */,
 				53A696DE297C6D310029F92E /* NetworkManager.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
 				531ADF162989344C00BA3B58 /* UserController.swift in Sources */,
+				53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */,
 				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
 				53D1C9B1297BAB2500DA09B4 /* KeyChainController.swift in Sources */,
+				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,
 				53A696DC297C6AD80029F92E /* KeyChainManager.swift in Sources */,
 				5340DEE12982CD8C00ED51D1 /* ViewController.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
 				53D273242977D20F001718BD /* SceneDelegate.swift in Sources */,
 				5318F5D9297ABE0D00AF76DC /* DatabaseController.swift in Sources */,
+				53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

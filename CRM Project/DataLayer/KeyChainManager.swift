@@ -68,7 +68,6 @@ class KeyChainManager {
                                          kSecValueData as String: data]
         
         let status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
-        print(status)
         
         guard status != errSecItemNotFound else {
             print("Not found")

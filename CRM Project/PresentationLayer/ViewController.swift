@@ -6,15 +6,10 @@
 //
 
 import UIKit
-import WebKit
-import SafariServices
-
 class ViewController: UIViewController {
     
     private let openLinkButton = UIButton()
     private var isLoggedIn: Bool = false
-    
-    private let registerURLString: String = "https://accounts.zoho.in/oauth/v2/auth?scope=ZohoCRM.settings.ALL,ZohoCRM.users.ALL,ZohoCRM.modules.ALL&client_id=1000.CCNCZ0VYDA4LNN6YCJIUBKO7WA8ZED&response_type=code&access_type=offline&redirect_uri=https://guhans6.github.io/logIn-20611/"
     
     deinit {
         print("Main View Controller Deinitialized")
@@ -57,11 +52,11 @@ class ViewController: UIViewController {
     
     @objc private func didTapOpenLinkButton() {
         
-//        let navController = UINavigationController(rootViewController: WebViewController())
-//        navController.modalPresentationStyle = .fullScreen
-//        self.present(navController, animated: true)
+        let navController = UINavigationController(rootViewController: WebViewController())
+        navController.modalPresentationStyle = .fullScreen
+        self.present(navController, animated: true)
         print(KeyChainController().getClientId())
         print(KeyChainController().getClientSecret())
+//        KeyChainController().saveClientIdAndSecret()
     }
 }
-

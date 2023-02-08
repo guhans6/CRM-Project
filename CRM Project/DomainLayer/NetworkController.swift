@@ -32,10 +32,11 @@ class NetworkController {
     private let keyChainController = KeyChainController()
     
     private let networkManager = NetworkServiceManager.shared
-    private let zohoURLString = "https://accounts.zoho.in/"
-    private let zohoApiURLString = "https://www.zohoapis.in/"       //MARK: URL Components
+    private let zohoURLString = "https://accounts.zoho.com/"
+    private let zohoApiURLString = "https://www.zohoapis.com/"       //MARK: URL Components
     private let tokenRequestURLString = "oauth/v2/token"
     private let redirectURL = "https://guhans6.github.io/logIn-20611/"
+    private let crmV3 = "crm/v3"
     private var accessToken: String {
         keyChainController.getAccessToken()
     }
@@ -104,6 +105,7 @@ class NetworkController {
 
                 UserDefaultsManager.shared.setLogIn(equalTo: true)
                 print("Login Success")
+                print(json)
 
 
             } catch let jsonError {
@@ -170,16 +172,16 @@ class NetworkController {
             return
         }
         
-        let parameters: [String: String] = [
-            //            "type": "AllUsers"
-            //            "type": "CurrentUser"
-            "type": "ActiveUsers"
-        ]
+//        let parameters: [String: String] = [
+//            //            "type": "AllUsers"
+//            //            "type": "CurrentUser"
+//            "type": "ActiveUsers"
+//        ]
         let headers: [String: String] = [
             "Zoho-oauthtoken \(accessToken)": "Authorization"
         ]
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: parameters, headers: headers, accessToken: accessToken) { data, error in
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -204,7 +206,7 @@ class NetworkController {
     
     func getModules() -> Void {
         
-        let urlRequestString = "crm/v2/settings/modules"
+        let urlRequestString = "crm/v3/settings/modules/Leads"
         let requestURL = URL(string: zohoApiURLString + urlRequestString)
         
         guard let requestURL else {
@@ -232,9 +234,11 @@ class NetworkController {
         }
     }
     
-    func getfieldMetaData() {
-        let urlRequestString = "crm/v3/settings/fields"
+    func getfieldMetaData(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
+        
+        let urlRequestString = "crm/v3/settings/fields?module=\(module)"
         let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        var returnData = [Field]()
         
         guard let requestURL else {
             print("Not Valid")
@@ -245,9 +249,8 @@ class NetworkController {
             "Zoho-oauthtoken \(accessToken)": "Authorization"
         ]
         
-        let body: [String: String] = ["module": "users"]
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: body, headers: headers, accessToken: accessToken) { data, error in
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -258,17 +261,88 @@ class NetworkController {
                 print("No data received")
                 return
             }
-            let modules = data
-            print(modules)
+            let fields = data["fields"] as! Array<Any>
+            
+            for field in fields {
+                
+                let field = field as! [String: Any]
+                let jsonType = field["json_type"] as! String
+                let displayLabel = field["field_label"] as! String
+                let fieldApiName = field["api_name"] as! String
+                returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
+            }
+            DispatchQueue.main.async {
+//                print(1)
+                completion(returnData)
+            }
         }
     }
     
-    func addEmployee() {
-//        let url
+    func getLayout(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
+        let urlRequestString = "crm/v3/settings/layouts?module=\(module)"
+        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        var returnData = [Field]()
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            let layouts = data["layouts"] as! Array<Any>
+            let layout = layouts[0] as! [String: Any]
+            let sections = layout["sections"] as! Array<Any>
+            
+            for i in 0..<sections.count {
+                let fields = sections[i] as! [String: Any]
+                let field = fields["fields"] as! Array<Any>
+                
+                for j in 0..<field.count {
+                    
+                    let type = field[j] as! [String: Any]
+                    let jsonType = type["json_type"] as! String
+                    let displayLabel = type["field_label"] as! String
+                    let fieldApiName = type["api_name"] as! String
+                    returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
+                }
+                
+//                returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
+            }
+            
+//
+//            print(fields)
+//            for field in fields {
+//
+//                let field = field as! [String: Any]
+//                let jsonType = field["json_type"] as! String
+//                let displayLabel = field["field_label"] as! String
+//                let fieldApiName = field["api_name"] as! String
+//                returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
+//            }
+//            DispatchQueue.main.async {
+//                completion(returnData)
+//            }
+        }
     }
     
-    func getProfiles() {
-        let urlRequestString = "crm/v3/settings/profiles"
+    func fromMailAddress() {
+        let urlRequestString = "crm/v3/settings/emails/actions/from_addresses"
+        
         let requestURL = URL(string: zohoApiURLString + urlRequestString)
         
         guard let requestURL else {
@@ -279,6 +353,7 @@ class NetworkController {
         let headers: [String: String] = [
             "Zoho-oauthtoken \(accessToken)": "Authorization"
         ]
+        
         
         networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
             
@@ -293,35 +368,7 @@ class NetworkController {
             }
             print(data)
         }
-    }
-    
-    func getRoles() {
-        let urlRequestString = "crm/v3/settings/roles"
         
-        let requestURL = URL(string: zohoApiURLString + urlRequestString)
-        
-        guard let requestURL else {
-            print("Not Valid")
-            return
-        }
-        
-        let headers: [String: String] = [
-            "Zoho-oauthtoken \(accessToken)": "Authorization"
-        ]
-        
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
-            
-            if let error = error {
-                print("Error: \(error)")
-                return
-            }
-            
-            guard let data = data else {
-                print("No data received")
-                return
-            }
-            print(data)
-        }
     }
     
     private func getUserRequestType(userType: UserType) -> String {

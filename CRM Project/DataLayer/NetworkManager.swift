@@ -61,7 +61,6 @@ class NetworkServiceManager {
         
         var requestURL = url
         var request = URLRequest(url: requestURL)
-//        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = method
         if method ==  "GET" {
             
@@ -112,7 +111,7 @@ class NetworkServiceManager {
             
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                print(json)
+//                print(json)
                 completion(json, nil)
             } catch {
                 print(error)
@@ -136,7 +135,7 @@ class NetworkServiceManager {
             return
         }
         let _ = parameters.map {
-            paramString += "\($0)=\($1)"
+            paramString += "\($0)=\($1)&"
         }
         
         guard let rebuiltURL = URL(string: urlString + paramString) else {

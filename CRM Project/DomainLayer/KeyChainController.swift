@@ -35,9 +35,9 @@ class KeyChainController {
     }
     
 //    func saveClientIdAndSecret() {
-//        guard let clientId = "1000.CCNCZ0VYDA4LNN6YCJIUBKO7WA8ZED".data(using: .utf8) else { return }
-//        guard let clientSecret = "022fb6b257cd3dff0e10460c6a7432226d46555c09".data(using: .utf8) else { return }
-//        try? keychainManager.saveData(data: clientId, service: "www.api.crm.zoho.com", account: "clientId")
+//        guard let clientId = "1000.24VNMCSZ1JRK4QJUA6L60NZA91C1KG".data(using: .utf8) else { return }
+//        guard let clientSecret = "b95187fae4e55ecc33ed8634712dfc31d65dfc8981".data(using: .utf8) else { return }
+//        try? keychainManager.saveData(data: clientId, service: clientService, account: clientIdAccount)
 //        try? keychainManager.saveData(data: clientSecret, service: "www.api.crm.zoho.com", account: "clientSecret")
 //    }
     
@@ -95,6 +95,6 @@ class KeyChainController {
     
     // Delete user Tokens
     func deleteAuthToken() {
-        keychainManager.deleteToken(service: refreshTokenService, account: account)
+        keychainManager.deleteToken(service: clientService, account: clientSecretAccount)
     }
 }

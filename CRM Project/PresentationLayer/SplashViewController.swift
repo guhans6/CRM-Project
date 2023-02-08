@@ -49,8 +49,9 @@ class SplashViewController: UIViewController {
         
         if UserDefaultsManager.shared.isUserLoggedIn() {
             let loginVC = LoggedInViewController()
-            loginVC.modalPresentationStyle = .fullScreen
-            self.present(loginVC, animated: true)
+            let navController = UINavigationController(rootViewController: loginVC)
+            navController.modalPresentationStyle = .fullScreen
+            self.present(navController, animated: true)
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let loggedOutVC = ViewController()

@@ -13,6 +13,7 @@ class LoggedInViewController: UIViewController {
     let logoutButton = UIButton()
     let requestButton = UIButton()
     let generateAuthTokenButton = UIButton()
+    let formViewButton = UIButton()
     
     deinit {
         print("Login deinitialized")
@@ -35,6 +36,7 @@ class LoggedInViewController: UIViewController {
         configureRequestButton()
         configureGenerateAuthTokenButton()
         configureWelcomeUserlabel()
+        configureFormViewButton()
     }
     
     private func configureWelcomeUserlabel() {
@@ -101,10 +103,8 @@ class LoggedInViewController: UIViewController {
 //            }
 //            self.welcomeUserLabel.text = "Welcome \(username)"
 //        }
-//        networkController.addUser()
-//        networkController.getfieldMetaData()
-        print(KeyChainController().getClientId())
-        print(KeyChainController().getClientSecret())
+//        FormPresenter().getLayout(module: .employees) { fileds in
+//        }
     }
 
     private func configureGenerateAuthTokenButton() {
@@ -126,5 +126,25 @@ class LoggedInViewController: UIViewController {
     @objc private func generateTokenButtonTapped() {
         NetworkController().generateAuthToken()
     }
+    
+    private func configureFormViewButton() {
+        view.addSubview(formViewButton)
+        formViewButton.translatesAutoresizingMaskIntoConstraints = false
 
+        formViewButton.setTitle("View Form", for: .normal)
+        formViewButton.setTitleColor(.white, for: .normal)
+        formViewButton.addTarget(self, action: #selector(formViewButtonTapped), for: .touchUpInside)
+        formViewButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+        
+        NSLayoutConstraint.activate([
+            formViewButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            formViewButton.centerYAnchor.constraint(equalTo: generateAuthTokenButton.bottomAnchor, constant: 30),
+            
+        ])
+    }
+    
+    @objc private func formViewButtonTapped() {
+        let formVC = FormViewController(module: .employees)
+        navigationController?.pushViewController(formVC, animated: true)
+    }
 }
