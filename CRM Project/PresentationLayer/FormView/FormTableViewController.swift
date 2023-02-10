@@ -7,14 +7,14 @@
 
 import UIKit
 
-class FormViewController: UIViewController {
+class FormTableViewController: UIViewController {
     
     private let tableView = UITableView()
     private let formPresenter = FormPresenter()
     private var fields = [Field]()
-    private var module: Modules
+    private var module: String
     
-    init(module: Modules) {
+    init(module: String) {
         self.module = module
         super.init(nibName: nil, bundle: nil)
     }
@@ -26,7 +26,8 @@ class FormViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .done, target: self, action: #selector(doneButtonClicked))
         configureTableView()
         getFields()
     }
@@ -52,14 +53,29 @@ class FormViewController: UIViewController {
         formPresenter.getLayout(module: module) { data in
             self.fields = data
             self.tableView.reloadData()
-            print(self.fields)
         }
+    }
+    
+    @objc private func doneButtonClicked() {
+        // SAVE DATA
+        var data = [String: Any]()
+        let rows = tableView.numberOfRows(inSection: 0)
+        for row in 0..<rows {
+            let indexPath = IndexPath(row: row, section: 0)
+            let cell = tableView.cellForRow(at: indexPath) as! FormTableViewCell
+            let field = cell.getField()
+            if field.1 != nil {
+                data[fields[row].fieldApiName] = field.1
+            }
+        }
+        formPresenter.saveRecord(module: module, record: data)
+        navigationController?.popViewController(animated: true)
     }
     
 
 }
 
-extension FormViewController: UITableViewDataSource, UITableViewDelegate {
+extension FormTableViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fields.count
@@ -68,7 +84,7 @@ extension FormViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.cellIdentifier) as! FormTableViewCell
         let field = fields[indexPath.row]
-        print(field)
+//        print(field)
         cell.setField(fieldName: field.fieldName, fieldType: field.fieldType)
         return cell
     }
@@ -79,5 +95,7 @@ extension FormViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        
     }
 }

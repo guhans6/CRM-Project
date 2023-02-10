@@ -13,6 +13,7 @@ class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     private let userDefaults = UserDefaults.standard
     private let loggedInKey = "isLoggedIn"
+    private let timeKey = "time"
     private var loggedIn = false
     
     private init() { }
@@ -30,6 +31,19 @@ class UserDefaultsManager {
     
     private func saveLoginBool() {
         userDefaults.set(loggedIn, forKey: loggedInKey)
+    }
+    
+    func saveTokenGeneratedTime() {
+        let date = Date()
+        userDefaults.set(date, forKey: timeKey)
+    }
+    
+    func getLastTokenGenereatedTime() -> Date {
+        if let date = userDefaults.object(forKey: timeKey) as? Date {
+            return date
+        } else {
+            return Date()
+        }
     }
     
 }

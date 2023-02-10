@@ -7,24 +7,29 @@
 
 import Foundation
 
-enum Modules: String {
+enum ModuleType: String {
     case employees = "Employee"
     case menu = "Menu"
+    case employeeRole = "EmployeeRoles"
 }
 
 class FormPresenter {
     
     let networkController = NetworkController()
     
-    func getEmployeeFields(module: Modules, completion: @escaping ([Field]) -> Void) -> Void {
+    func getEmployeeFields(module: ModuleType, completion: @escaping ([Field]) -> Void) -> Void {
         networkController.getfieldMetaData(module: module.rawValue) { fields in
             completion(fields)
         }
     }
     
-    func getLayout(module: Modules, completion: @escaping ([Field]) -> Void) -> Void {
-        networkController.getLayout(module: module.rawValue) { fields in
+    func getLayout(module: String, completion: @escaping ([Field]) -> Void) -> Void {
+        networkController.getLayout(module: module) { fields in
             completion(fields)
         }
+    }
+    
+    func saveRecord(module: String, record: [String: Any]) {
+        networkController.addRecord(module: module, data: record)
     }
 }

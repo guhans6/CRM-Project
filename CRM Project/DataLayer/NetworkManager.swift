@@ -12,6 +12,7 @@ class NetworkServiceManager {
     
     static let shared = NetworkServiceManager() // make it a singleton
     private let session = URLSession.shared
+    private let dispatchSemaphore = DispatchSemaphore(value: 1)
     private init() { }
     
     func getAuthToken(url: URL, method: String, components: URLComponents, completion: @escaping (Data?, Error?) -> Void)
@@ -22,6 +23,7 @@ class NetworkServiceManager {
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = components.query?.data(using: .utf8)
         
+        dispatchSemaphore.wait()
         let task = session.dataTask(with: request) { data, response, error in
             
             guard let response = response as? HTTPURLResponse else {
@@ -46,12 +48,12 @@ class NetworkServiceManager {
             }
             
             completion(data, nil)
-            
+            self.dispatchSemaphore.signal()
         }
         task.resume()
     }
     
-    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any]?, headers: [String: String]?,accessToken: String, completion: @escaping ([String: Any]?, Error?) -> Void) -> Void
+    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?,accessToken: String?, completion: @escaping ([String: Any]?, Error?) -> Void) -> Void
     {
         
         guard let headers = headers else {
@@ -59,32 +61,33 @@ class NetworkServiceManager {
             return
         }
         
-        var requestURL = url
+        
+        let requestURL = url
         var request = URLRequest(url: requestURL)
         request.httpMethod = method
-        if method ==  "GET" {
+//        if method ==  "GET" {
+//
+//            if let parameters = parameters {
+//
+//                reBuildURL(url: url, with: parameters) { rebuiltURL in
+//                    requestURL = rebuiltURL
+//                    print(requestURL.absoluteString)
+//                }
+//            }
+//        } else {
             
-            if let parameters = parameters {
-                
-                reBuildURL(url: url, with: parameters) { rebuiltURL in
-                    requestURL = rebuiltURL
-                    print(requestURL.absoluteString)
-                }
-            }
-        } else {
+        if let parameters = parameters {
             
-            if let parameters = parameters {
-                
-                request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            } else if let urlComponents = urlComponents {
-                request.httpBody = urlComponents.query?.data(using: .utf8)
-            }
+            request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            print(String(data: request.httpBody!, encoding: .utf8)!)
+        } else if let urlComponents = urlComponents {
+            request.httpBody = urlComponents.query?.data(using: .utf8)
         }
+//        }
         //        request.httpMethod = method
         let _ = headers.map { value, headerField in
             request.setValue(value, forHTTPHeaderField: headerField)
         }
-        
         let task = session.dataTask(with: request) { data, response, error in
             
 //            guard let response = response as? HTTPURLResponse else {
@@ -111,7 +114,6 @@ class NetworkServiceManager {
             
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-//                print(json)
                 completion(json, nil)
             } catch {
                 print(error)
@@ -121,28 +123,29 @@ class NetworkServiceManager {
         task.resume()
     }
     
+    
     //    func performGetRequest(url: URL, method: String, parameters: [String: Any]?,headers: [String: String]?,accessToken: String, completion: @escaping (Data?, Error?) -> Void) -> Void {
     //
     //    }
     
-    func reBuildURL(url: URL, with parameters: [String: Any]?, completion: (URL) -> Void) -> Void {
-        let urlString = url.absoluteString
-        
-        var paramString = "?"
-        guard let parameters = parameters as? [String: String] else {
-            print("Invalid parameters while building url")
-            //            completion("")
-            return
-        }
-        let _ = parameters.map {
-            paramString += "\($0)=\($1)&"
-        }
-        
-        guard let rebuiltURL = URL(string: urlString + paramString) else {
-            return
-        }
-        completion(rebuiltURL)
-    }
+//    func reBuildURL(url: URL, with parameters: [String: Any]?, completion: (URL) -> Void) -> Void {
+//        let urlString = url.absoluteString
+//
+//        var paramString = "?"
+//        guard let parameters = parameters as? [String: String] else {
+//            print("Invalid parameters while building url")
+//            //            completion("")
+//            return
+//        }
+//        let _ = parameters.map {
+//            paramString += "\($0)=\($1)&"
+//        }
+//
+//        guard let rebuiltURL = URL(string: urlString + paramString) else {
+//            return
+//        }
+//        completion(rebuiltURL)
+//    }
 }
 
 

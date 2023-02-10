@@ -18,6 +18,7 @@ enum UserType {         /// There are type to be mentioned in get users api  cal
 enum NetworkError: Error {          /// This is for the type of error in network
     case invalidURLError(String)
     case incorrectDataError(String)
+    case invalidOauthTokenError(String)
 }
 
 enum HTTPMethod: String {
@@ -30,6 +31,7 @@ enum HTTPMethod: String {
 class NetworkController {
     
     private let keyChainController = KeyChainController()
+    private let userDefaults = UserDefaultsManager.shared
     
     private let networkManager = NetworkServiceManager.shared
     private let zohoURLString = "https://accounts.zoho.com/"
@@ -38,7 +40,9 @@ class NetworkController {
     private let redirectURL = "https://guhans6.github.io/logIn-20611/"
     private let crmV3 = "crm/v3"
     private var accessToken: String {
-        keyChainController.getAccessToken()
+        get {
+            getAccessToken()
+        }
     }
     private var clientId: String {
         keyChainController.getClientId()
@@ -69,6 +73,7 @@ class NetworkController {
             return
         }
         
+//        let headers = ["application/x-www-form-urlencoded": "Content-Type"]
         
         var requestBodyComponents = URLComponents()
         requestBodyComponents.queryItems = [
@@ -102,6 +107,7 @@ class NetworkController {
                 let accessToken = json["access_token"] as! String
                 self.keyChainController.storeRefreshToken(token: refreshToken)
                 self.keyChainController.storeAccessToken(accessToken: accessToken)
+                
 
                 UserDefaultsManager.shared.setLogIn(equalTo: true)
                 print("Login Success")
@@ -111,13 +117,12 @@ class NetworkController {
             } catch let jsonError {
                 print("Error decoding JSON: \(jsonError)")
             }
-            print("Hmm?")
         }
     }
     
     func generateAuthToken() {
         
-        let refreshToken = KeyChainController().getRefreshToken()
+        let refreshToken = keyChainController.getRefreshToken()
         
         if refreshToken == "" {
             print("invalid refresh")
@@ -151,6 +156,7 @@ class NetworkController {
                 
                 let accessToken = json["access_token"] as! String
                 self.keyChainController.storeAccessToken(accessToken: accessToken)
+                self.userDefaults.saveTokenGeneratedTime()
                 
                 print("AccessToken Generated \(accessToken)")
                 
@@ -158,7 +164,6 @@ class NetworkController {
             } catch let jsonError {
                 print("Error decoding JSON: \(jsonError)")
             }
-            print("Hmm?")
         }
     }
     
@@ -204,9 +209,9 @@ class NetworkController {
         }
     }
     
-    func getModules() -> Void {
+    func getModules(completion: @escaping ([Module]) -> Void) -> Void {
         
-        let urlRequestString = "crm/v3/settings/modules/Leads"
+        let urlRequestString = "crm/v3/settings/modules"
         let requestURL = URL(string: zohoApiURLString + urlRequestString)
         
         guard let requestURL else {
@@ -229,8 +234,21 @@ class NetworkController {
                 print("No data received")
                 return
             }
-            let modules = data
-            print(modules)
+            
+            let modules = data["modules"] as! Array<Any>
+            var customModules = [Module]()
+            modules.forEach { module in
+                let module = module as! [String: Any]
+                if module["generated_type"] as! String == "custom" {
+                    let apiName = module["api_name"] as! String
+                    let moduleName = module["plural_label"] as! String
+                    
+                    customModules.append(Module(apiName: apiName, moduleName: moduleName))
+                }
+            }
+            DispatchQueue.main.async {
+                completion(customModules)                
+            }
         }
     }
     
@@ -261,6 +279,7 @@ class NetworkController {
                 print("No data received")
                 return
             }
+            
             let fields = data["fields"] as! Array<Any>
             
             for field in fields {
@@ -299,12 +318,14 @@ class NetworkController {
                 print("Error: \(error)")
                 return
             }
-            
+    
             guard let data = data else {
                 print("No data received")
                 return
             }
+            
             let layouts = data["layouts"] as! Array<Any>
+            
             let layout = layouts[0] as! [String: Any]
             let sections = layout["sections"] as! Array<Any>
             
@@ -320,23 +341,49 @@ class NetworkController {
                     let fieldApiName = type["api_name"] as! String
                     returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
                 }
-                
-//                returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
             }
-            
-//
-//            print(fields)
-//            for field in fields {
-//
-//                let field = field as! [String: Any]
-//                let jsonType = field["json_type"] as! String
-//                let displayLabel = field["field_label"] as! String
-//                let fieldApiName = field["api_name"] as! String
-//                returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
-//            }
-//            DispatchQueue.main.async {
-//                completion(returnData)
-//            }
+            DispatchQueue.main.async {
+                completion(returnData)
+            }
+        }
+    }
+    
+    func addRecord(module: String, data: [String: Any?]) {
+        
+        let urlRequestString = "crm/v3/\(module)"
+        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        
+        let newData = data.filter {
+            return $0.value as! String == "" ? false : true
+        }
+        
+        let parameter = ["data": [newData]]
+
+
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.POST.rawValue, urlComponents: nil, parameters: parameter, headers: headers, accessToken: accessToken) { data, error in
+
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+
+            guard let result = data else {
+                print("No data received")
+                return
+            }
+
+            print(result)
+
         }
     }
     
@@ -370,6 +417,19 @@ class NetworkController {
         }
         
     }
+    
+    private func getAccessToken() -> String {
+        
+        let lastGeneratedTime = userDefaults.getLastTokenGenereatedTime()
+
+//        dispatchGroup.enter()
+        if Date().timeIntervalSinceReferenceDate - lastGeneratedTime.timeIntervalSinceReferenceDate >= 3480 {
+            self.generateAuthToken()
+
+        }
+        return keyChainController.getAccessToken()
+    }
+    
     
     private func getUserRequestType(userType: UserType) -> String {
         

@@ -9,11 +9,13 @@ import UIKit
 
 class LoggedInViewController: UIViewController {
     
+    let networkController = NetworkController()
+    
     let welcomeUserLabel = UILabel()
     let logoutButton = UIButton()
     let requestButton = UIButton()
     let generateAuthTokenButton = UIButton()
-    let formViewButton = UIButton()
+    let modulesViewButton = UIButton()
     
     deinit {
         print("Login deinitialized")
@@ -22,6 +24,7 @@ class LoggedInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemMint
+        networkController.generateAuthToken()
         
         configureUI()
     }
@@ -128,23 +131,24 @@ class LoggedInViewController: UIViewController {
     }
     
     private func configureFormViewButton() {
-        view.addSubview(formViewButton)
-        formViewButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(modulesViewButton)
+        modulesViewButton.translatesAutoresizingMaskIntoConstraints = false
 
-        formViewButton.setTitle("View Form", for: .normal)
-        formViewButton.setTitleColor(.white, for: .normal)
-        formViewButton.addTarget(self, action: #selector(formViewButtonTapped), for: .touchUpInside)
-        formViewButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+        modulesViewButton.setTitle("View Modules", for: .normal)
+        modulesViewButton.setTitleColor(.white, for: .normal)
+        modulesViewButton.addTarget(self, action: #selector(formViewButtonTapped), for: .touchUpInside)
+        modulesViewButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         
         NSLayoutConstraint.activate([
-            formViewButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            formViewButton.centerYAnchor.constraint(equalTo: generateAuthTokenButton.bottomAnchor, constant: 30),
+            modulesViewButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            modulesViewButton.centerYAnchor.constraint(equalTo: generateAuthTokenButton.bottomAnchor, constant: 30),
             
         ])
     }
     
     @objc private func formViewButtonTapped() {
-        let formVC = FormViewController(module: .employees)
-        navigationController?.pushViewController(formVC, animated: true)
+        let moduleTableVC = ModuleTableViewController()
+        let _ = UINavigationController(rootViewController: moduleTableVC)
+        navigationController?.pushViewController(moduleTableVC, animated: true)
     }
 }

@@ -47,7 +47,6 @@ class ViewController: UIViewController {
             openLinkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             openLinkButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
-        //        KeyChainController().getAccessToken()
     }
     
     @objc private func didTapOpenLinkButton() {

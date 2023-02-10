@@ -13,6 +13,7 @@ class FormTableViewCell: UITableViewCell {
     private let textField = FormTextField()
     private let label = UILabel()
     private let switchButton = UISwitch()
+    private var fieldType: String!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -45,6 +46,7 @@ class FormTableViewCell: UITableViewCell {
         textField.autocorrectionType = .no
 //        textField.keyboardType = .decimalPad
         textField.returnKeyType = .done
+        textField.autocapitalizationType = .none
         
         NSLayoutConstraint.activate([
             textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -68,6 +70,7 @@ class FormTableViewCell: UITableViewCell {
     }
     
     func setField(fieldName: String, fieldType: String) {
+        self.fieldType = fieldType
         label.text = fieldName
         
         if fieldType == "boolean" {
@@ -89,6 +92,28 @@ class FormTableViewCell: UITableViewCell {
                     textField.keyboardType = .default
                 }
             }
+        }
+    }
+    
+    func getField() -> (String, Any?) {
+        
+        switch fieldType {
+        case "String":
+            return (label.text!, textField.text)
+        case "integer":
+            let value = Int(textField.text!)
+            return (label.text!, value)
+        case "double":
+            let value = Double(textField.text!)
+            return (label.text!, value)
+        case "boolean":
+            var value = false
+            if switchButton.isOn {
+                value = true
+            }
+            return (label.text!, value)
+        default:
+            return (label.text!, textField.text)
         }
     }
 }

@@ -7,7 +7,6 @@
 
 import UIKit
 import WebKit
-import SafariServices
 
 class WebViewController: UIViewController {
     
