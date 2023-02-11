@@ -30,7 +30,6 @@ class FormTableViewCell: UITableViewCell {
         
         contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-//        label.backgroundColor = .gray
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),

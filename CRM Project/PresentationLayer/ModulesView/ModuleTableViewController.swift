@@ -18,11 +18,11 @@ class ModuleTableViewController: UIViewController {
         
         title = "Modules"
         view.backgroundColor = .systemBackground
-        configuremoduleTableView()
+        configureModuleTableView()
         getModules()
     }
     
-    private func configuremoduleTableView() {
+    private func configureModuleTableView() {
         view.addSubview(moduleTableView)
         
         moduleTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,8 +64,9 @@ extension ModuleTableViewController: UITableViewDelegate, UITableViewDataSource 
         tableView.deselectRow(at: indexPath, animated: true)
         
         let module = modules[indexPath.row]
-        let formTableVC = FormTableViewController(module: module.apiName)
-        navigationController?.pushViewController(formTableVC, animated: true)
+        let recordsTableVC = RecordsTableViewController(module: module.apiName)
+        let _ = UINavigationController(rootViewController: recordsTableVC)
+        navigationController?.pushViewController(recordsTableVC, animated: true)
     }
-    
+
 }

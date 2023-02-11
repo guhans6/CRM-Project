@@ -177,11 +177,6 @@ class NetworkController {
             return
         }
         
-//        let parameters: [String: String] = [
-//            //            "type": "AllUsers"
-//            //            "type": "CurrentUser"
-//            "type": "ActiveUsers"
-//        ]
         let headers: [String: String] = [
             "Zoho-oauthtoken \(accessToken)": "Authorization"
         ]
@@ -387,6 +382,41 @@ class NetworkController {
         }
     }
     
+    func getRecords(module: String, completion: @escaping ([Any]) -> Void) ->Void {
+        let urlRequestString = "crm/v3/\(module)?fields=Name,Email"
+        
+        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            let recordsResult = data["data"] as! [Any]
+
+            DispatchQueue.main.async {
+                completion(recordsResult)
+            }
+        }
+    }
+    
     func fromMailAddress() {
         let urlRequestString = "crm/v3/settings/emails/actions/from_addresses"
         
@@ -422,7 +452,6 @@ class NetworkController {
         
         let lastGeneratedTime = userDefaults.getLastTokenGenereatedTime()
 
-//        dispatchGroup.enter()
         if Date().timeIntervalSinceReferenceDate - lastGeneratedTime.timeIntervalSinceReferenceDate >= 3480 {
             self.generateAuthToken()
 

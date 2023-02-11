@@ -20,6 +20,11 @@
 		537B6082299635A000ACA883 /* ModulePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B6081299635A000ACA883 /* ModulePresenter.swift */; };
 		537B6084299637DA00ACA883 /* json.json in Resources */ = {isa = PBXBuildFile; fileRef = 537B6083299637DA00ACA883 /* json.json */; };
 		537B608629963F8200ACA883 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B608529963F8200ACA883 /* Module.swift */; };
+		537B60892996694700ACA883 /* RecordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B60882996694700ACA883 /* RecordsTableViewController.swift */; };
+		537B608B299669FD00ACA883 /* RecordsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B608A299669FD00ACA883 /* RecordsPresenter.swift */; };
+		537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B608C299674E700ACA883 /* RecordsTableViewCell.swift */; };
+		537B608F29969BDE00ACA883 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B608E29969BDE00ACA883 /* Record.swift */; };
+		537B60912996A26100ACA883 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 537B60902996A26100ACA883 /* Storyboard.storyboard */; };
 		53A696DC297C6AD80029F92E /* KeyChainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A696DB297C6AD80029F92E /* KeyChainManager.swift */; };
 		53A696DE297C6D310029F92E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A696DD297C6D310029F92E /* NetworkManager.swift */; };
 		53D1C9B1297BAB2500DA09B4 /* KeyChainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */; };
@@ -48,6 +53,11 @@
 		537B6081299635A000ACA883 /* ModulePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulePresenter.swift; sourceTree = "<group>"; };
 		537B6083299637DA00ACA883 /* json.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = json.json; sourceTree = "<group>"; };
 		537B608529963F8200ACA883 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
+		537B60882996694700ACA883 /* RecordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsTableViewController.swift; sourceTree = "<group>"; };
+		537B608A299669FD00ACA883 /* RecordsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsPresenter.swift; sourceTree = "<group>"; };
+		537B608C299674E700ACA883 /* RecordsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsTableViewCell.swift; sourceTree = "<group>"; };
+		537B608E29969BDE00ACA883 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		537B60902996A26100ACA883 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		53A696DB297C6AD80029F92E /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		53A696DD297C6D310029F92E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainController.swift; sourceTree = "<group>"; };
@@ -105,8 +115,8 @@
 				5340DEE02982CD8C00ED51D1 /* ViewController.swift */,
 				531B11112980E558000FAF02 /* LoggedInViewController.swift */,
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
-				537B60872996683800ACA883 /* RecordsView */,
 				537B607C2996216A00ACA883 /* ModulesView */,
+				537B60872996683800ACA883 /* RecordsView */,
 				53EF7B0329921E27000B1FA1 /* FormView */,
 				53EF7B0A299251E0000B1FA1 /* Presenter */,
 			);
@@ -125,6 +135,8 @@
 		537B60872996683800ACA883 /* RecordsView */ = {
 			isa = PBXGroup;
 			children = (
+				537B60882996694700ACA883 /* RecordsTableViewController.swift */,
+				537B608C299674E700ACA883 /* RecordsTableViewCell.swift */,
 			);
 			path = RecordsView;
 			sourceTree = "<group>";
@@ -156,6 +168,7 @@
 				53D2732A2977D211001718BD /* Assets.xcassets */,
 				53D2732F2977D211001718BD /* Info.plist */,
 				537B6083299637DA00ACA883 /* json.json */,
+				537B60902996A26100ACA883 /* Storyboard.storyboard */,
 			);
 			path = "CRM Project";
 			sourceTree = "<group>";
@@ -175,6 +188,7 @@
 			children = (
 				53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */,
 				537B6081299635A000ACA883 /* ModulePresenter.swift */,
+				537B608A299669FD00ACA883 /* RecordsPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -184,6 +198,7 @@
 			children = (
 				53EF7B0E29928D0B000B1FA1 /* Field.swift */,
 				537B608529963F8200ACA883 /* Module.swift */,
+				537B608E29969BDE00ACA883 /* Record.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -248,6 +263,7 @@
 			files = (
 				53D2732B2977D211001718BD /* Assets.xcassets in Resources */,
 				537B6084299637DA00ACA883 /* json.json in Resources */,
+				537B60912996A26100ACA883 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,6 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				537B60892996694700ACA883 /* RecordsTableViewController.swift in Sources */,
 				53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */,
 				531B11122980E558000FAF02 /* LoggedInViewController.swift in Sources */,
 				5318F5D5297A85A000AF76DC /* DataManager.swift in Sources */,
@@ -268,11 +285,14 @@
 				537B608629963F8200ACA883 /* Module.swift in Sources */,
 				53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */,
 				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
+				537B608F29969BDE00ACA883 /* Record.swift in Sources */,
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
+				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				537B6082299635A000ACA883 /* ModulePresenter.swift in Sources */,
 				537B608029962C7E00ACA883 /* ModuleTableViewCell.swift in Sources */,
 				53D1C9B1297BAB2500DA09B4 /* KeyChainController.swift in Sources */,
 				537B607E29962C3B00ACA883 /* ModuleTableViewController.swift in Sources */,
+				537B608B299669FD00ACA883 /* RecordsPresenter.swift in Sources */,
 				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,
 				53A696DC297C6AD80029F92E /* KeyChainManager.swift in Sources */,
 				5340DEE12982CD8C00ED51D1 /* ViewController.swift in Sources */,
