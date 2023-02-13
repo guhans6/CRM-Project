@@ -287,7 +287,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 53D273192977D20F001718BD /* Build configuration list for PBXProject "CRM C" */;
+			buildConfigurationList = 53D273192977D20F001718BD /* Build configuration list for PBXProject "CRM Project" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -544,7 +544,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		53D273192977D20F001718BD /* Build configuration list for PBXProject "CRM C" */ = {
+		53D273192977D20F001718BD /* Build configuration list for PBXProject "CRM Project" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				53D273302977D211001718BD /* Debug */,
