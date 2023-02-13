@@ -8,9 +8,8 @@
 import UIKit
 
 
-class RecordsTableViewController: UIViewController {
+class RecordsTableViewController: UITableViewController {
     
-    private let recordsTableView = UITableView()
     private let recordsPresenter = RecordsPresenter()
     private var module: String
     private var records = [Record]()
@@ -42,19 +41,7 @@ class RecordsTableViewController: UIViewController {
     }
     
     private func configureRecordsTableView() {
-        view.addSubview(recordsTableView)
-        
-        recordsTableView.translatesAutoresizingMaskIntoConstraints = false
-        recordsTableView.delegate = self
-        recordsTableView.dataSource = self
-        recordsTableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
-        
-        NSLayoutConstraint.activate([
-            recordsTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            recordsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            recordsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            recordsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
+        tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
     }
     
     private func getRecords() {
@@ -63,7 +50,7 @@ class RecordsTableViewController: UIViewController {
             records.forEach { record in
                 print(record.recordId)
             }
-            self.recordsTableView.reloadData()
+            self.tableView.reloadData()
         }
     }
     
@@ -77,27 +64,27 @@ class RecordsTableViewController: UIViewController {
     }
 }
 
-extension RecordsTableViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension RecordsTableViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return records.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier) as! RecordsTableViewCell
         let record = records[indexPath.row]
         cell.configureRecordCell(recordName: record.recordName, secondaryData: record.secondaryRecordData)
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let swipeConfiguration = UIContextualAction(style: .normal, title: "Delete") { action, view, complete in
             self.records.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -107,7 +94,7 @@ extension RecordsTableViewController: UITableViewDelegate, UITableViewDataSource
         return UISwipeActionsConfiguration(actions: [swipeConfiguration])
     }
     
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
 }

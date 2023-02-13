@@ -7,9 +7,8 @@
 
 import UIKit
 
-class FormTableViewController: UIViewController {
+class FormTableViewController: UITableViewController {
     
-    private let tableView = UITableView()
     private let formPresenter = FormPresenter()
     private var fields = [Field]()
     private var module: String
@@ -42,18 +41,7 @@ class FormTableViewController: UIViewController {
     }
 
     private func configureTableView() {
-        view.addSubview(tableView)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.delegate = self
-        tableView.dataSource = self
         registerTableViewCells()
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        ])
     }
     
     private func registerTableViewCells() {
@@ -114,13 +102,13 @@ class FormTableViewController: UIViewController {
     }
 }
 
-extension FormTableViewController: UITableViewDataSource, UITableViewDelegate {
+extension FormTableViewController {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return fields.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let field = fields[indexPath.row]
         var cell: FormTableViewCell? = nil
@@ -150,11 +138,11 @@ extension FormTableViewController: UITableViewDataSource, UITableViewDelegate {
         return cell!
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         50
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
