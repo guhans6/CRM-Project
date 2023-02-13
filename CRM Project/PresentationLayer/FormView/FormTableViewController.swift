@@ -91,13 +91,12 @@ class FormTableViewController: UITableViewController {
                 }
                 
             }
-            let rfield = cell!.getField()
-            print(rfield)
-            if rfield.1 != nil {
-                data[fields[row].fieldApiName] = rfield.1
+            let cellField = cell!.getField()
+            if cellField.1 != nil {
+                data[fields[row].fieldApiName] = cellField.1
             }
         }
-        formPresenter.saveRecord(module: module, record: data)
+        formPresenter.saveRecord(module: module, records: data)
         navigationController?.popViewController(animated: true)
     }
 }

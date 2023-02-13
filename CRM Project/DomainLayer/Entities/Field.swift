@@ -13,4 +13,5 @@ struct Field {
     let fieldName: String
     let fieldType: String
     let fieldApiName: String
+    let lookUpApiName: String?
 }

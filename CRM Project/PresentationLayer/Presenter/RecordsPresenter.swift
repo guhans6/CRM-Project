@@ -9,10 +9,10 @@ import Foundation
 
 class RecordsPresenter {
     
-    let networkController = NetworkController()
+    private let networkController = NetworkController()
     
     func displayRecords(for module: String, completion: @escaping ([Record]) -> Void) -> Void {
-        networkController.getRecords(module: module) { records in
+        networkController.getRecords(module: module, ids: nil) { records in
             
             var recordArray = [Record]()
             

@@ -37,7 +37,7 @@ class RecordsTableViewController: UITableViewController {
         
         
         
-        let editButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(editButtonClicked))
+//        let editButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(editButtonClicked))
     }
     
     private func configureRecordsTableView() {

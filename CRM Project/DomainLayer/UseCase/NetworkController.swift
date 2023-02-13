@@ -273,7 +273,7 @@ class NetworkController {
                 let jsonType = field["json_type"] as! String
                 let displayLabel = field["field_label"] as! String
                 let fieldApiName = field["api_name"] as! String
-                returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
+                returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: nil))
             }
             DispatchQueue.main.async {
 //                print(1)
@@ -324,7 +324,16 @@ class NetworkController {
                     let jsonType = type["json_type"] as! String
                     let displayLabel = type["field_label"] as! String
                     let fieldApiName = type["api_name"] as! String
-                    returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName))
+                    let lookUp = type["lookup"] as! [String: Any]
+                    var lookUpApiName: String? = nil
+                    
+                    if !lookUp.isEmpty {
+                        if let module = lookUp["module"] as? [String: Any], let apiName = module["api_name"] {
+                            lookUpApiName = apiName as? String
+                        }
+                    }
+                    
+                    returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: lookUpApiName))
                 }
             }
             DispatchQueue.main.async {
@@ -372,8 +381,19 @@ class NetworkController {
         }
     }
     
-    func getRecords(module: String, completion: @escaping ([Any]) -> Void) ->Void {
-        let urlRequestString = "crm/v3/\(module)?fields=Name,Email"
+    func getRecords(module: String, ids: [String]?, completion: @escaping ([Any]) -> Void) ->Void {
+        
+        var urlRequestString = "crm/v3/\(module)?"
+        
+        if let ids = ids {
+            urlRequestString.append("ids=")
+            ids.forEach { recordId in
+                urlRequestString.append(recordId)
+                urlRequestString.append(",")
+            }
+        } else {
+            urlRequestString.append("fields=Name,Email")
+        }
         
         let requestURL = URL(string: zohoApiURLString + urlRequestString)
         
@@ -443,7 +463,6 @@ class NetworkController {
                 let data = record as! [String: Any]
                 print(data["status"] as! String)
             }
-            
         }
     }
     

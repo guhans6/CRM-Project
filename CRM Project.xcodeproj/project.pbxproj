@@ -38,7 +38,9 @@
 		53D273222977D20F001718BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273212977D20F001718BD /* AppDelegate.swift */; };
 		53D273242977D20F001718BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273232977D20F001718BD /* SceneDelegate.swift */; };
 		53D2732B2977D211001718BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53D2732A2977D211001718BD /* Assets.xcassets */; };
-		53E749FB299A639C000EE176 /* LookUpTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E749FA299A639C000EE176 /* LookUpTableViewController.swift */; };
+		53E749FB299A639C000EE176 /* LookupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E749FA299A639C000EE176 /* LookupTableViewController.swift */; };
+		53E749FD299A7167000EE176 /* FieldRespone.json in Resources */ = {isa = PBXBuildFile; fileRef = 53E749FC299A7167000EE176 /* FieldRespone.json */; };
+		53E74A01299A96C3000EE176 /* LookupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E74A00299A96C3000EE176 /* LookupTableViewCell.swift */; };
 		53EC9A48298261430056C300 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9A47298261430056C300 /* SplashViewController.swift */; };
 		53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */; };
 		53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */; };
@@ -81,7 +83,9 @@
 		53D273232977D20F001718BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		53D2732A2977D211001718BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		53D2732F2977D211001718BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		53E749FA299A639C000EE176 /* LookUpTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookUpTableViewController.swift; sourceTree = "<group>"; };
+		53E749FA299A639C000EE176 /* LookupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewController.swift; sourceTree = "<group>"; };
+		53E749FC299A7167000EE176 /* FieldRespone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FieldRespone.json; sourceTree = "<group>"; };
+		53E74A00299A96C3000EE176 /* LookupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewCell.swift; sourceTree = "<group>"; };
 		53EC9A47298261430056C300 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
@@ -133,8 +137,8 @@
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
 				537B607C2996216A00ACA883 /* ModulesView */,
 				537B60872996683800ACA883 /* RecordsView */,
-				53E749F9299A6348000EE176 /* LookupTableView */,
 				53EF7B0329921E27000B1FA1 /* FormView */,
+				53E749F9299A6348000EE176 /* LookupTableView */,
 				53EF7B0A299251E0000B1FA1 /* Presenter */,
 			);
 			path = PresentationLayer;
@@ -187,6 +191,7 @@
 				537B6083299637DA00ACA883 /* json.json */,
 				537B60902996A26100ACA883 /* Storyboard.storyboard */,
 				537B609629989ADA00ACA883 /* FieldsRespone.json */,
+				53E749FC299A7167000EE176 /* FieldRespone.json */,
 			);
 			path = "CRM Project";
 			sourceTree = "<group>";
@@ -202,7 +207,8 @@
 		53E749F9299A6348000EE176 /* LookupTableView */ = {
 			isa = PBXGroup;
 			children = (
-				53E749FA299A639C000EE176 /* LookUpTableViewController.swift */,
+				53E749FA299A639C000EE176 /* LookupTableViewController.swift */,
+				53E74A00299A96C3000EE176 /* LookupTableViewCell.swift */,
 			);
 			path = LookupTableView;
 			sourceTree = "<group>";
@@ -304,6 +310,7 @@
 				53D2732B2977D211001718BD /* Assets.xcassets in Resources */,
 				537B609729989ADA00ACA883 /* FieldsRespone.json in Resources */,
 				537B6084299637DA00ACA883 /* json.json in Resources */,
+				53E749FD299A7167000EE176 /* FieldRespone.json in Resources */,
 				537B60912996A26100ACA883 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,6 +323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				537B60892996694700ACA883 /* RecordsTableViewController.swift in Sources */,
+				53E74A01299A96C3000EE176 /* LookupTableViewCell.swift in Sources */,
 				53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */,
 				537B60932997933A00ACA883 /* UserType.swift in Sources */,
 				531B11122980E558000FAF02 /* LoggedInViewController.swift in Sources */,
@@ -340,7 +348,7 @@
 				537B608B299669FD00ACA883 /* RecordsPresenter.swift in Sources */,
 				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,
 				53A696DC297C6AD80029F92E /* KeyChainManager.swift in Sources */,
-				53E749FB299A639C000EE176 /* LookUpTableViewController.swift in Sources */,
+				53E749FB299A639C000EE176 /* LookupTableViewController.swift in Sources */,
 				5340DEE12982CD8C00ED51D1 /* ViewController.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,

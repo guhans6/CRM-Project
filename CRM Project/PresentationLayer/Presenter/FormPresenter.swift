@@ -29,7 +29,7 @@ class FormPresenter {
         }
     }
     
-    func saveRecord(module: String, record: [String: Any]) {
-        networkController.addRecord(module: module, data: record)
+    func saveRecord(module: String, records: [String: Any]) {
+        networkController.addRecord(module: module, data: records)
     }
 }
