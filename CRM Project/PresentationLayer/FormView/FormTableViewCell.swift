@@ -11,15 +11,15 @@ class FormTableViewCell: UITableViewCell {
 
     static let cellIdentifier = "formCell"
     let label = UILabel()
-    let textField = FormTextField()
-    let switchButton = UISwitch()
+    lazy var textField = FormTextField()
+    lazy var lookupButton = UIButton()
+    lazy var switchButton = UISwitch()
     var fieldType: String!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureLabel()
-
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +33,8 @@ class FormTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            label.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -10)
         ])
     }
     
@@ -41,9 +42,15 @@ class FormTableViewCell: UITableViewCell {
         label.text = fieldName
     }
     
-    func getField() -> (String, Any?) {
-
-        switch fieldType {
+    func setLookupName(lookupApiName: String) { }
+    
+    func getFieldData(for type: String) -> (String, Any?) {
+        
+        if textField.text! == "" {
+            return (label.text!, nil)
+        }
+        
+        switch type {
         case "String":
             return (label.text!, textField.text)
         case "integer":

@@ -7,15 +7,12 @@
 
 import UIKit
 
-class LookupTableViewController: UITableViewController {
+class LookupTableViewController: RecordsTableViewController {
     
-    let lookUpTableViewPresenter = LookupPresenter()
-    let moduleType: ModuleType
-    var records = [Record]()
+    var delegate: LookupTableViewDelegate?
     
-    init(module: ModuleType) {
-        self.moduleType = module
-        super.init(nibName: nil, bundle: nil)
+    override init(module: String) {
+        super.init(module: module)
     }
     
     required init?(coder: NSCoder) {
@@ -24,36 +21,29 @@ class LookupTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+    }
+   
+    deinit {
+        print("deinit time:\(Date())")
     }
     
-    private func configureTableView() {
-        
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-    }
     
-    private func getLookUpRecords() {
-        lookUpTableViewPresenter.displayLookUPRecords(for: self.moduleType.rawValue) { records in
-            self.records = records
-            self.tableView.reloadData()
-        }
-    }
-
 }
 
 
 extension LookupTableViewController {
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.records.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+       
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        
+        let record = records[indexPath.row]
+        delegate?.getLookupRecordId(recordName: record.recordName, recordId: record.recordId)
+        navigationController?.popViewController(animated: true)
     }
 }

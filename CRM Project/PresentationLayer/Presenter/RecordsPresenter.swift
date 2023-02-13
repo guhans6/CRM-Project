@@ -34,6 +34,8 @@ class RecordsPresenter {
     }
     
     func deleteRecords(for module: String, ids: [String]) {
-        
+        networkController.deleteRecords(module: module, ids: ids) { result in
+            
+        }
     }
 }

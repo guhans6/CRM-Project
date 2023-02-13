@@ -51,7 +51,7 @@ class FormTableViewController: UITableViewController {
         tableView.register(IntegerTableViewCell.self, forCellReuseIdentifier: IntegerTableViewCell.integerCellIdentifier)
         tableView.register(DoubleTableViewCell.self, forCellReuseIdentifier: DoubleTableViewCell.doubleCellIdentifier)
         tableView.register(BooleanTableViewCell.self, forCellReuseIdentifier: BooleanTableViewCell.booleanCellIdentifier)
-        
+        tableView.register(LookupTableViewCell.self, forCellReuseIdentifier: LookupTableViewCell.lookupCellIdentifier)
     }
     
     private func getFields() {
@@ -70,10 +70,10 @@ class FormTableViewController: UITableViewController {
             let indexPath = IndexPath(row: row, section: 0)
             let field = fields[row]
             let cell: FormTableViewCell?
-            
-            if field.fieldName == "Email" {
-        
-                cell = tableView.cellForRow(at: indexPath) as! EmailTableViewCell        
+            //d
+            if field.lookUpApiName != nil {
+                
+                cell = tableView.cellForRow(at: indexPath) as! LookupTableViewCell
             } else {
                 
                 switch field.fieldType {
@@ -87,11 +87,12 @@ class FormTableViewController: UITableViewController {
                     cell = tableView.cellForRow(at: indexPath) as! DoubleTableViewCell
                     
                 default:
-                    cell = tableView.cellForRow(at: indexPath) as! StringTableViewCell
+                    cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
                 }
                 
             }
-            let cellField = cell!.getField()
+            let cellField = cell!.getFieldData(for: field.fieldType)
+            print(cellField)
             if cellField.1 != nil {
                 data[fields[row].fieldApiName] = cellField.1
             }
@@ -116,6 +117,10 @@ extension FormTableViewController {
             
             cell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.emailCellIdentifier) as! EmailTableViewCell
             
+        } else if field.lookUpApiName != nil {
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
+            cell?.setLookupName(lookupApiName: field.lookUpApiName!)
         } else {
             
             switch field.fieldType {

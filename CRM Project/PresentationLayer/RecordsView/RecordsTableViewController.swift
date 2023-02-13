@@ -12,7 +12,7 @@ class RecordsTableViewController: UITableViewController {
     
     private let recordsPresenter = RecordsPresenter()
     private var module: String
-    private var records = [Record]()
+    var records = [Record]()
     
     init(module: String) {
         self.module = module
@@ -85,11 +85,11 @@ extension RecordsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let swipeConfiguration = UIContextualAction(style: .normal, title: "Delete") { action, view, complete in
-            self.records.remove(at: indexPath.row)
+        let swipeConfiguration = UIContextualAction(style: .destructive, title: "Delete") { action, view, complete in
+            let record = self.records.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            
-//            complete(false)
+            self.recordsPresenter.deleteRecords(for: self.module, ids: [record.recordId])
+            complete(true)
         }
         return UISwipeActionsConfiguration(actions: [swipeConfiguration])
     }

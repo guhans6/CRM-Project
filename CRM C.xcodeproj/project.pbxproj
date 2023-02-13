@@ -40,13 +40,14 @@
 		53D2732B2977D211001718BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53D2732A2977D211001718BD /* Assets.xcassets */; };
 		53E749FB299A639C000EE176 /* LookupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E749FA299A639C000EE176 /* LookupTableViewController.swift */; };
 		53E749FD299A7167000EE176 /* FieldRespone.json in Resources */ = {isa = PBXBuildFile; fileRef = 53E749FC299A7167000EE176 /* FieldRespone.json */; };
-		53E74A01299A96C3000EE176 /* LookupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E74A00299A96C3000EE176 /* LookupTableViewCell.swift */; };
 		53EC9A48298261430056C300 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9A47298261430056C300 /* SplashViewController.swift */; };
 		53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */; };
 		53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */; };
 		53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */; };
 		53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */; };
 		53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0E29928D0B000B1FA1 /* Field.swift */; };
+		53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */; };
+		53F43A6D299ADABB002528BE /* LookupTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6C299ADABB002528BE /* LookupTableViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,20 +79,21 @@
 		53A696DB297C6AD80029F92E /* KeyChainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainManager.swift; sourceTree = "<group>"; };
 		53A696DD297C6D310029F92E /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainController.swift; sourceTree = "<group>"; };
-		53D2731E2977D20F001718BD /* CRM Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CRM Project.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53D2731E2977D20F001718BD /* CRM C.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CRM C.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53D273212977D20F001718BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53D273232977D20F001718BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		53D2732A2977D211001718BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		53D2732F2977D211001718BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53E749FA299A639C000EE176 /* LookupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewController.swift; sourceTree = "<group>"; };
 		53E749FC299A7167000EE176 /* FieldRespone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FieldRespone.json; sourceTree = "<group>"; };
-		53E74A00299A96C3000EE176 /* LookupTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewCell.swift; sourceTree = "<group>"; };
 		53EC9A47298261430056C300 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
 		53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
 		53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormPresenter.swift; sourceTree = "<group>"; };
 		53EF7B0E29928D0B000B1FA1 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupTableViewCell.swift; sourceTree = "<group>"; };
+		53F43A6C299ADABB002528BE /* LookupTableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupTableViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,7 +175,7 @@
 		53D2731F2977D20F001718BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				53D2731E2977D20F001718BD /* CRM Project.app */,
+				53D2731E2977D20F001718BD /* CRM C.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -208,7 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				53E749FA299A639C000EE176 /* LookupTableViewController.swift */,
-				53E74A00299A96C3000EE176 /* LookupTableViewCell.swift */,
+				53F43A6C299ADABB002528BE /* LookupTableViewDelegate.swift */,
 			);
 			path = LookupTableView;
 			sourceTree = "<group>";
@@ -224,6 +226,7 @@
 				537B60A22998B70100ACA883 /* EmailTableViewCell.swift */,
 				537B60A12998B70100ACA883 /* IntegerTableViewCell.swift */,
 				537B60A32998B70100ACA883 /* StringTableViewCell.swift */,
+				53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */,
 			);
 			path = FormView;
 			sourceTree = "<group>";
@@ -252,9 +255,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		53D2731D2977D20F001718BD /* CRM Project */ = {
+		53D2731D2977D20F001718BD /* CRM C */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 53D273322977D211001718BD /* Build configuration list for PBXNativeTarget "CRM Project" */;
+			buildConfigurationList = 53D273322977D211001718BD /* Build configuration list for PBXNativeTarget "CRM C" */;
 			buildPhases = (
 				53D2731A2977D20F001718BD /* Sources */,
 				53D2731B2977D20F001718BD /* Frameworks */,
@@ -264,9 +267,9 @@
 			);
 			dependencies = (
 			);
-			name = "CRM Project";
+			name = "CRM C";
 			productName = "CRM Project";
-			productReference = 53D2731E2977D20F001718BD /* CRM Project.app */;
+			productReference = 53D2731E2977D20F001718BD /* CRM C.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -284,7 +287,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 53D273192977D20F001718BD /* Build configuration list for PBXProject "CRM Project" */;
+			buildConfigurationList = 53D273192977D20F001718BD /* Build configuration list for PBXProject "CRM C" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -297,7 +300,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				53D2731D2977D20F001718BD /* CRM Project */,
+				53D2731D2977D20F001718BD /* CRM C */,
 			);
 		};
 /* End PBXProject section */
@@ -323,7 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				537B60892996694700ACA883 /* RecordsTableViewController.swift in Sources */,
-				53E74A01299A96C3000EE176 /* LookupTableViewCell.swift in Sources */,
+				53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */,
 				53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */,
 				537B60932997933A00ACA883 /* UserType.swift in Sources */,
 				531B11122980E558000FAF02 /* LoggedInViewController.swift in Sources */,
@@ -354,6 +357,7 @@
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
 				537B60A72998B70100ACA883 /* EmailTableViewCell.swift in Sources */,
+				53F43A6D299ADABB002528BE /* LookupTableViewDelegate.swift in Sources */,
 				53D273242977D20F001718BD /* SceneDelegate.swift in Sources */,
 				5318F5D9297ABE0D00AF76DC /* DatabaseController.swift in Sources */,
 				53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */,
@@ -540,7 +544,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		53D273192977D20F001718BD /* Build configuration list for PBXProject "CRM Project" */ = {
+		53D273192977D20F001718BD /* Build configuration list for PBXProject "CRM C" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				53D273302977D211001718BD /* Debug */,
@@ -549,7 +553,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		53D273322977D211001718BD /* Build configuration list for PBXNativeTarget "CRM Project" */ = {
+		53D273322977D211001718BD /* Build configuration list for PBXNativeTarget "CRM C" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				53D273332977D211001718BD /* Debug */,

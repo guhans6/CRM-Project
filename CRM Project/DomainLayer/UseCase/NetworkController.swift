@@ -357,11 +357,11 @@ class NetworkController {
         ]
         
         
-        let newData = data.filter {
-            return $0.value as! String == "" ? false : true
-        }
+//        let newData = data.filter {
+//            return $0.value as! String == "" ? false : true
+//        }
         
-        let parameter = ["data": [newData]]
+        let parameter = ["data": [data]]
 
 
         networkManager.performDataTask(url: requestURL, method: HTTPMethod.POST.rawValue, urlComponents: nil, parameters: parameter, headers: headers, accessToken: accessToken) { data, error in
@@ -446,7 +446,7 @@ class NetworkController {
         ]
         
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.DELETE.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
