@@ -11,10 +11,10 @@ import WebKit
 class WebViewController: UIViewController {
     
     private var webView: WKWebView?
+    private var networkController = NetworkController()
     
-    private let registerURLString: String = "https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCRM.settings.ALL,ZohoCRM.users.ALL,ZohoCRM.modules.ALL&client_id=1000.24VNMCSZ1JRK4QJUA6L60NZA91C1KG&response_type=code&access_type=offline&redirect_uri=https://guhans6.github.io/logIn-20611/"
-    deinit {
-        print("Deinit called")
+    private var registerURLString: String {
+        networkController.getRegistrationURL()
     }
     
     override func viewDidLoad() {
@@ -30,9 +30,9 @@ class WebViewController: UIViewController {
         
         let webConfiguration = WKWebViewConfiguration()
         webConfiguration.applicationNameForUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 16_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Mobile/15E148 Safari/604.1"
+        
         webView = WKWebView(frame: view.bounds, configuration: webConfiguration)
         guard let webView = webView else {
-            print("NOOO")
             return
         }
         

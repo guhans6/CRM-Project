@@ -33,4 +33,7 @@ class RecordsPresenter {
         }
     }
     
+    func deleteRecords(for module: String, ids: [String]) {
+        
+    }
 }

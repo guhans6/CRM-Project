@@ -10,7 +10,7 @@ import UIKit
 class ModuleTableViewController: UIViewController {
     
     private let moduleTableView = UITableView()
-    private let modulePresenter = ModulePresenter()
+    private let modulePresenter = ModulesPresenter()
     private var modules = [Module]()
 
     override func viewDidLoad() {

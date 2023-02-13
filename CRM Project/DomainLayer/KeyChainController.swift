@@ -15,7 +15,6 @@ class KeyChainController {
     private let account = "primary"
     private let clientIdAccount = "clientId"
     private let clientSecretAccount = "clientSecret"
-//    private let lastTokenGeneratedDate: Date!
     
     private let keychainManager = KeyChainManager()
     

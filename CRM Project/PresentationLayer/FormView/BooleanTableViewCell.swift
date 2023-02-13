@@ -1,0 +1,36 @@
+//
+//  BooleanTableViewCell.swift
+//  FormPractice
+//
+//  Created by guhan-pt6208 on 12/02/23.
+//
+
+import UIKit
+
+class BooleanTableViewCell: FormTableViewCell {
+
+    static let booleanCellIdentifier = "BooleanCell"
+    private let booleanTextField = FormTextField()  
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureLabel()
+        configureSwitch()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureSwitch() {
+        
+        contentView.addSubview(switchButton)
+        switchButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            switchButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            switchButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ])
+    }
+}
+

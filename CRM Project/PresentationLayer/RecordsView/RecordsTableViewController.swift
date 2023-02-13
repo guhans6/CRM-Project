@@ -34,6 +34,13 @@ class RecordsTableViewController: UIViewController {
         getRecords()
     }
     
+    private func configureNavigationBar() {
+        
+        
+        
+        let editButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(editButtonClicked))
+    }
+    
     private func configureRecordsTableView() {
         view.addSubview(recordsTableView)
         
@@ -53,6 +60,9 @@ class RecordsTableViewController: UIViewController {
     private func getRecords() {
         recordsPresenter.displayRecords(for: module) { records in
             self.records = records
+            records.forEach { record in
+                print(record.recordId)
+            }
             self.recordsTableView.reloadData()
         }
     }
@@ -60,6 +70,10 @@ class RecordsTableViewController: UIViewController {
     @objc private func addNewRecordButtonTapped() {
         let formViewController = FormTableViewController(module: module)
         navigationController?.pushViewController(formViewController, animated: true)
+    }
+    
+    @objc private func editButtonClicked() {
+        
     }
 }
 
@@ -81,5 +95,19 @@ extension RecordsTableViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 50
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let swipeConfiguration = UIContextualAction(style: .normal, title: "Delete") { action, view, complete in
+            self.records.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+//            complete(false)
+        }
+        return UISwipeActionsConfiguration(actions: [swipeConfiguration])
+    }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
     }
 }

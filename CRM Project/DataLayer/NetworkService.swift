@@ -7,10 +7,10 @@
 
 import Foundation
 
-class NetworkServiceManager {
+class NetworkService: NetworkServiceContract {
     
     
-    static let shared = NetworkServiceManager() // make it a singleton
+    static let shared = NetworkService()
     private let session = URLSession.shared
     private let dispatchSemaphore = DispatchSemaphore(value: 1)
     private init() { }
@@ -106,7 +106,7 @@ class NetworkServiceManager {
 //                completion(nil, error)
 //                return
 //            }
-//
+
             guard let data = data else {
                 print("Error in data")
                 return
@@ -122,30 +122,6 @@ class NetworkServiceManager {
         }
         task.resume()
     }
-    
-    
-    //    func performGetRequest(url: URL, method: String, parameters: [String: Any]?,headers: [String: String]?,accessToken: String, completion: @escaping (Data?, Error?) -> Void) -> Void {
-    //
-    //    }
-    
-//    func reBuildURL(url: URL, with parameters: [String: Any]?, completion: (URL) -> Void) -> Void {
-//        let urlString = url.absoluteString
-//
-//        var paramString = "?"
-//        guard let parameters = parameters as? [String: String] else {
-//            print("Invalid parameters while building url")
-//            //            completion("")
-//            return
-//        }
-//        let _ = parameters.map {
-//            paramString += "\($0)=\($1)&"
-//        }
-//
-//        guard let rebuiltURL = URL(string: urlString + paramString) else {
-//            return
-//        }
-//        completion(rebuiltURL)
-//    }
 }
 
 

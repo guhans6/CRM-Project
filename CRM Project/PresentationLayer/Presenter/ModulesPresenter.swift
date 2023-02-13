@@ -8,7 +8,7 @@
 import Foundation
 
 
-class ModulePresenter {
+class ModulesPresenter {
     
     private let networkController = NetworkController()
     private let formPresenter = FormPresenter()

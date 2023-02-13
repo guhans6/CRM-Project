@@ -7,14 +7,6 @@
 
 import Foundation
 
-
-enum UserType {         /// There are type to be mentioned in get users api  call
-    case allUsers
-    case activeUsers
-    case currentuser
-    case deactiveUsers
-}
-
 enum NetworkError: Error {          /// This is for the type of error in network
     case invalidURLError(String)
     case incorrectDataError(String)
@@ -33,7 +25,7 @@ class NetworkController {
     private let keyChainController = KeyChainController()
     private let userDefaults = UserDefaultsManager.shared
     
-    private let networkManager = NetworkServiceManager.shared
+    private let networkManager: NetworkServiceContract = NetworkService.shared
     private let zohoURLString = "https://accounts.zoho.com/"
     private let zohoApiURLString = "https://www.zohoapis.com/"       //MARK: URL Components
     private let tokenRequestURLString = "oauth/v2/token"
@@ -111,8 +103,6 @@ class NetworkController {
 
                 UserDefaultsManager.shared.setLogIn(equalTo: true)
                 print("Login Success")
-                print(json)
-
 
             } catch let jsonError {
                 print("Error decoding JSON: \(jsonError)")
@@ -417,6 +407,46 @@ class NetworkController {
         }
     }
     
+    func deleteRecords(module: String, ids: [String], completion: @escaping ([Any]) -> Void) ->Void {
+        var urlRequestString = "crm/v3/\(module)?ids="
+        
+        ids.forEach { id in
+            urlRequestString = urlRequestString + id + ","
+        }
+        
+        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+        
+        guard let requestURL else {
+            print("Not Valid")
+            return
+        }
+        
+        let headers: [String: String] = [
+            "Zoho-oauthtoken \(accessToken)": "Authorization"
+        ]
+        
+        
+        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+            
+            if let error = error {
+                print("Error: \(error)")
+                return
+            }
+            
+            guard let data = data else {
+                print("No data received")
+                return
+            }
+            
+            let recordsResult = data["data"] as! [Any]
+            recordsResult.forEach { record in
+                let data = record as! [String: Any]
+                print(data["status"] as! String)
+            }
+            
+        }
+    }
+    
     func fromMailAddress() {
         let urlRequestString = "crm/v3/settings/emails/actions/from_addresses"
         
@@ -457,6 +487,14 @@ class NetworkController {
 
         }
         return keyChainController.getAccessToken()
+    }
+    
+    func getRegistrationURL() -> String {
+        // MARK: Should be stored somewhere else
+        
+        let registerURLString = "https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCRM.settings.ALL,ZohoCRM.users.ALL,ZohoCRM.modules.ALL&client_id=1000.24VNMCSZ1JRK4QJUA6L60NZA91C1KG&response_type=code&access_type=offline&redirect_uri=https://guhans6.github.io/logIn-20611/"
+        
+        return registerURLString
     }
     
     

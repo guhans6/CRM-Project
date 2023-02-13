@@ -16,7 +16,5 @@ class FormTextField: UITextField {
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
         return bounds.inset(by: UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 0))
     }
-    
-    
 
 }
