@@ -30,6 +30,10 @@ class FormPresenter {
     }
     
     func saveRecord(module: String, records: [String: Any]) {
-        networkController.addRecord(module: module, data: records)
+        networkController.addRecord(module: module, recordData: records, isAUpdate: false, recordId: nil)
+    }
+    
+    func updateRecord(module: String, records: [String: Any], recordId: String?) {
+        networkController.addRecord(module: module, recordData: records, isAUpdate: true, recordId: recordId)
     }
 }

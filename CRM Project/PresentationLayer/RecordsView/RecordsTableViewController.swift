@@ -36,8 +36,6 @@ class RecordsTableViewController: UITableViewController {
     private func configureNavigationBar() {
         
         
-        
-//        let editButton = UIBarButtonItem(image: UIImage(systemName: "square.and.pencil"), style: .plain, target: self, action: #selector(editButtonClicked))
     }
     
     private func configureRecordsTableView() {
@@ -81,6 +79,7 @@ extension RecordsTableViewController {
         let record = records[indexPath.row]
         
         let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId)
+        let _ = UINavigationController(rootViewController: individualRecordVC)
         navigationController?.pushViewController(individualRecordVC, animated: true)
     }
     

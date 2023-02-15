@@ -21,21 +21,8 @@ class DoubleTableViewCell: FormTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureTextField() {
-        
-        contentView.addSubview(textField)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.keyboardType = .decimalPad
+    override func configureTextField() {
+        super.configureTextField()
         textField.returnKeyType = .done
-        
-        NSLayoutConstraint.activate([
-            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            textField.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
-            textField.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
     }
 }

@@ -18,6 +18,7 @@ enum HTTPMethod: String {
     case GET = "GET"
     case POST = "POST"
     case DELETE = "DELETE"
+    case PUT = "PUT"
 }
 
 class NetworkController {
@@ -333,7 +334,11 @@ class NetworkController {
                         }
                     }
                     
-                    returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: lookUpApiName))
+                    if fieldApiName != "Modified_By" && fieldApiName != "Created_By" && fieldApiName != "Created_Time" && fieldApiName != "Modified_Time" && fieldApiName != "Last_Activity_Time" && fieldApiName != "Unsubscribed_Mode" && fieldApiName != "Unsubscribed_Time" && fieldApiName != "Owner" && fieldApiName != "Tag" {
+//                        print(fieldApiName, "aaaa")
+                        returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: lookUpApiName))
+                    }
+                        
                 }
             }
             DispatchQueue.main.async {
@@ -342,9 +347,9 @@ class NetworkController {
         }
     }
     
-    func addRecord(module: String, data: [String: Any?]) {
+    func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
         
-        let urlRequestString = "crm/v3/\(module)"
+        var urlRequestString = "crm/v3/\(module)"
         let requestURL = URL(string: zohoApiURLString + urlRequestString)
         
         guard let requestURL else {
@@ -356,15 +361,22 @@ class NetworkController {
             "Zoho-oauthtoken \(accessToken)": "Authorization"
         ]
         
+        var data = recordData
+        var httpMethod = HTTPMethod.POST.rawValue
         
-//        let newData = data.filter {
-//            return $0.value as! String == "" ? false : true
-//        }
+        if isAUpdate {
+            guard let recordId = recordId else { print("recordId Invalid"); return }
+            
+            data["id"] = recordId
+            httpMethod =  HTTPMethod.PUT.rawValue
+        }
         
         let parameter = ["data": [data]]
+        
+        
 
 
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.POST.rawValue, urlComponents: nil, parameters: parameter, headers: headers, accessToken: accessToken) { data, error in
+        networkManager.performDataTask(url: requestURL, method: httpMethod, urlComponents: nil, parameters: parameter, headers: headers, accessToken: accessToken) { data, error in
 
             if let error = error {
                 print("Error: \(error)")

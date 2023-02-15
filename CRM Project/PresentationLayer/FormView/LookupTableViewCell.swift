@@ -49,6 +49,10 @@ class LookupTableViewCell: FormTableViewCell {
         }
         return (label.text!, ["id": lookupId])
     }
+    
+    override func setRecordData(for data: String) {
+        self.lookupLabel.text = data
+    }
 }
 
 extension LookupTableViewCell: LookupTableViewDelegate {

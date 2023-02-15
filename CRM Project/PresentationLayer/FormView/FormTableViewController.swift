@@ -12,8 +12,10 @@ class FormTableViewController: UITableViewController {
     private let formPresenter = FormPresenter()
     private var fields = [Field]()
     private var module: String
-    private lazy var editableRecord = [String: Any]()
+    private lazy var editableRecords = [(String, String)]()
     private var isRecordEditing = false
+    private var editingRecordId: String?
+    
     
     init(module: String) {
         self.module = module
@@ -30,8 +32,10 @@ class FormTableViewController: UITableViewController {
 
         
         configureTableView()
-        configureNavigationBar()
-        getFields()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
     }
     
     private func configureNavigationBar() {
@@ -44,6 +48,8 @@ class FormTableViewController: UITableViewController {
 
     private func configureTableView() {
         registerTableViewCells()
+        configureNavigationBar()
+        getFields()
     }
     
     private func registerTableViewCells() {
@@ -62,6 +68,7 @@ class FormTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
+    
     
     @objc private func doneButtonClicked() {
         // SAVE DATA
@@ -94,13 +101,24 @@ class FormTableViewController: UITableViewController {
                 
             }
             let cellField = cell!.getFieldData(for: field.fieldType)
-            print(cellField)
+//            print(cellField)
             if cellField.1 != nil {
+                print(true)
                 data[fields[row].fieldApiName] = cellField.1
             }
+            
         }
-        formPresenter.saveRecord(module: module, records: data)
+        if isRecordEditing {
+            
+            formPresenter.updateRecord(module: module, records: data, recordId: editingRecordId)
+        } else {
+            formPresenter.saveRecord(module: module, records: data)
+        }
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func shoudldIncludeField(field: Field) {
+        
     }
 }
 
@@ -114,6 +132,8 @@ extension FormTableViewController {
         
         let field = fields[indexPath.row]
         var cell: FormTableViewCell? = nil
+        
+        
         
         if field.fieldName == "Email" {
             
@@ -138,12 +158,23 @@ extension FormTableViewController {
                 
             case "double":
                 cell = tableView.dequeueReusableCell(withIdentifier: DoubleTableViewCell.doubleCellIdentifier) as! DoubleTableViewCell
-                
+            case "boolean":
+                cell = tableView.dequeueReusableCell(withIdentifier: BooleanTableViewCell.booleanCellIdentifier) as! BooleanTableViewCell
             default:
                 cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
             }
         }
         cell?.setUpCellWith(fieldName: field.fieldName)
+        
+        if isRecordEditing  {
+            editableRecords.forEach { key, value in
+                print(field.fieldName, key)
+                if field.fieldName == key || field.fieldApiName == key {
+                    cell?.setRecordData(for: value)
+                }
+            }
+        }
+//        print(field.fieldType, field.fieldApiName)
         return cell!
     }
     
@@ -172,8 +203,10 @@ extension FormTableViewController {
 
 extension FormTableViewController {
     
-    func setUpCellsForEditing(recordData: [String: Any]) -> Void {
+    func setUpCellsForEditing(recordid: String, recordData: [(String, String)]) -> Void {
         self.isRecordEditing = true
-        self.editableRecord = recordData
+        self.editableRecords = recordData
+        self.editingRecordId = recordid
+        self.tableView.reloadData()
     }
 }

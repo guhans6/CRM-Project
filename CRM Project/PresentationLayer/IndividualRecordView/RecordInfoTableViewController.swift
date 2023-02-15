@@ -13,7 +13,7 @@ class RecordInfoTableViewController: UITableViewController {
     lazy var individualRecordPresenter = RecordInfoPresenter()
     let recordModule: String
     let recordId: String
-    var recordInfo = [(String, Any)]()
+    var recordInfo = [(String, String)]()
     
     init(recordModule: String, recordId: String) {
         self.recordModule = recordModule
@@ -35,7 +35,9 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     @objc private func editButtonTapped() {
-        
+        let formTableVC = FormTableViewController(module: recordModule)
+        formTableVC.setUpCellsForEditing(recordid: recordId, recordData: recordInfo)
+        navigationController?.pushViewController(formTableVC, animated: true)
     }
     
     func getRecord() {
@@ -53,9 +55,8 @@ class RecordInfoTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier) as! RecordInfoTableViewCell
         let record = recordInfo[indexPath.row]
-        let recordData = record.1 as? String ?? ""
-        print(record.0, recordData)
-        cell.setUpRecordInfoCell(recordName: record.0, recordData: recordData)
+        print(record.0, record.1)
+        cell.setUpRecordInfoCell(recordName: record.0, recordData: record.1)
         
         
         return cell

@@ -23,7 +23,7 @@ class BooleanTableViewCell: FormTableViewCell {
     }
     
     private func configureSwitch() {
-        
+        textField.removeFromSuperview()
         contentView.addSubview(switchButton)
         switchButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -32,5 +32,15 @@ class BooleanTableViewCell: FormTableViewCell {
             switchButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
+    
+    override func setRecordData(for data: String) {
+        print(data)
+        if data == "true" {
+            switchButton.isOn = true
+        } else {
+            switchButton.isOn = false
+        }
+    }
+    // MARK: Can also override the get field
 }
 
