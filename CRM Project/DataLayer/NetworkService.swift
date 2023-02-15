@@ -12,7 +12,8 @@ class NetworkService: NetworkServiceContract {
     
     static let shared = NetworkService()
     private let session = URLSession.shared
-    private let dispatchSemaphore = DispatchSemaphore(value: 1)
+//    private let session2 = URLSession(configuration: .default, delegate: , delegateQueue: <#T##OperationQueue?#>)
+//    private let dispatchSemaphore = DispatchSemaphore(value: 1)
     private init() { }
     
     func getAuthToken(url: URL, method: String, components: URLComponents, completion: @escaping (Data?, Error?) -> Void)
@@ -23,7 +24,7 @@ class NetworkService: NetworkServiceContract {
         request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
         request.httpBody = components.query?.data(using: .utf8)
         
-        dispatchSemaphore.wait()
+        
         let task = session.dataTask(with: request) { data, response, error in
             
             guard let response = response as? HTTPURLResponse else {
@@ -48,7 +49,6 @@ class NetworkService: NetworkServiceContract {
             }
             
             completion(data, nil)
-            self.dispatchSemaphore.signal()
         }
         task.resume()
     }

@@ -32,6 +32,7 @@ class NetworkController {
     private let tokenRequestURLString = "oauth/v2/token"
     private let redirectURL = "https://guhans6.github.io/logIn-20611/"
     private let crmV3 = "crm/v3"
+    private var token = ""
     private var accessToken: String {
         get {
             getAccessToken()
@@ -100,7 +101,7 @@ class NetworkController {
                 let accessToken = json["access_token"] as! String
                 self.keyChainController.storeRefreshToken(token: refreshToken)
                 self.keyChainController.storeAccessToken(accessToken: accessToken)
-                
+                self.token = accessToken
 
                 UserDefaultsManager.shared.setLogIn(equalTo: true)
                 print("Login Success")
@@ -148,7 +149,7 @@ class NetworkController {
                 let accessToken = json["access_token"] as! String
                 self.keyChainController.storeAccessToken(accessToken: accessToken)
                 self.userDefaults.saveTokenGeneratedTime()
-                
+                self.token = accessToken
                 print("AccessToken Generated \(accessToken)")
                 
                 
@@ -510,12 +511,16 @@ class NetworkController {
     private func getAccessToken() -> String {
         
         let lastGeneratedTime = userDefaults.getLastTokenGenereatedTime()
-
+        
         if Date().timeIntervalSinceReferenceDate - lastGeneratedTime.timeIntervalSinceReferenceDate >= 3480 {
             self.generateAuthToken()
-
+            
         }
         return keyChainController.getAccessToken()
+    }
+    
+    private func setAccessToken() {
+        
     }
     
     func getRegistrationURL() -> String {
