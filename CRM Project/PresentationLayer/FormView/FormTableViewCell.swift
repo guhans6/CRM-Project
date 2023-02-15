@@ -12,7 +12,7 @@ class FormTableViewCell: UITableViewCell {
     static let cellIdentifier = "formCell"
     let label = UILabel()
     lazy var textField = FormTextField()
-    lazy var lookupButton = UIButton()
+    lazy var lookupLabel = UILabel()
     lazy var switchButton = UISwitch()
     var fieldType: String!
     
@@ -43,6 +43,10 @@ class FormTableViewCell: UITableViewCell {
     }
     
     func setLookupName(lookupApiName: String) { }
+    
+    func setRecordData(for: String) {
+        
+    }
     
     func getFieldData(for type: String) -> (String, Any?) {
         

@@ -10,14 +10,14 @@ import UIKit
 class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
-    private var lookupName: String!
     private var lookupId: String!
-    private var lookupVC: LookupTableViewController!
+
+    var lookupApiName: String!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureLookUpButton()
+        configureLookupLabel()
     }
     
     required init?(coder: NSCoder) {
@@ -25,32 +25,21 @@ class LookupTableViewCell: FormTableViewCell {
     }
     
     override func setLookupName(lookupApiName: String) {
-        lookupName = lookupApiName
-        lookupVC = LookupTableViewController(module: lookupName)
-        lookupVC.delegate = self
+        self.lookupApiName = lookupApiName
     }
 
-    private func configureLookUpButton() {
-        contentView.addSubview(lookupButton)
-        lookupButton.translatesAutoresizingMaskIntoConstraints = false
-//        lookupButton.setTitle("Okay", for: .normal)
+    private func configureLookupLabel() {
+        contentView.addSubview(lookupLabel)
+        lookupLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        lookupButton.backgroundColor = .systemGray6
-        lookupButton.addTarget(self, action: #selector(lookupButtonClicked), for: .touchUpInside)
+        lookupLabel.backgroundColor = .systemGray6
         
         NSLayoutConstraint.activate([
-            lookupButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            lookupButton.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
-            lookupButton.topAnchor.constraint(equalTo: contentView.topAnchor),
-            lookupButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            lookupLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
+            lookupLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+            lookupLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-    }
-    
-    @objc private func lookupButtonClicked() {
-        // MARK: Change this to the while loop method and learn about UIResponder
-        
-        let formVC = self.next?.next as! FormTableViewController
-        formVC.navigationController?.pushViewController(lookupVC, animated: true)
     }
     
     override func getFieldData(for type: String) -> (String, Any?) {
@@ -65,7 +54,7 @@ class LookupTableViewCell: FormTableViewCell {
 extension LookupTableViewCell: LookupTableViewDelegate {
     
     func getLookupRecordId(recordName: String, recordId: String) {
-        self.lookupButton.setTitle(recordName, for: .normal)
+        self.lookupLabel.text = recordName
         self.lookupId = recordId
     }
 }

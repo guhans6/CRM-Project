@@ -381,18 +381,16 @@ class NetworkController {
         }
     }
     
-    func getRecords(module: String, ids: [String]?, completion: @escaping ([Any]) -> Void) ->Void {
+    func getRecords(module: String, id: String?, completion: @escaping ([Any]) -> Void) ->Void {
         
-        var urlRequestString = "crm/v3/\(module)?"
+        var urlRequestString = "crm/v3/\(module)"
         
-        if let ids = ids {
-            urlRequestString.append("ids=")
-            ids.forEach { recordId in
-                urlRequestString.append(recordId)
-                urlRequestString.append(",")
-            }
+        
+        if let ids = id {
+            urlRequestString.append("/")
+            urlRequestString.append(ids)
         } else {
-            urlRequestString.append("fields=Name,Email")
+            urlRequestString.append("?fields=Name,Email")
         }
         
         let requestURL = URL(string: zohoApiURLString + urlRequestString)

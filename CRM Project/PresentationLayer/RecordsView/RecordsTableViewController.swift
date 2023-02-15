@@ -47,9 +47,9 @@ class RecordsTableViewController: UITableViewController {
     private func getRecords() {
         recordsPresenter.displayRecords(for: module) { records in
             self.records = records
-            records.forEach { record in
-                print(record.recordId)
-            }
+//            records.forEach { record in
+//                print(record.recordId)
+//            }
             self.tableView.reloadData()
         }
     }
@@ -78,6 +78,10 @@ extension RecordsTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let record = records[indexPath.row]
+        
+        let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId)
+        navigationController?.pushViewController(individualRecordVC, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

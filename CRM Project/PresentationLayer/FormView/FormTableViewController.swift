@@ -12,6 +12,8 @@ class FormTableViewController: UITableViewController {
     private let formPresenter = FormPresenter()
     private var fields = [Field]()
     private var module: String
+    private lazy var editableRecord = [String: Any]()
+    private var isRecordEditing = false
     
     init(module: String) {
         self.module = module
@@ -119,7 +121,10 @@ extension FormTableViewController {
             
         } else if field.lookUpApiName != nil {
             
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+            
             cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
+            cell?.addGestureRecognizer(tapGesture)
             cell?.setLookupName(lookupApiName: field.lookUpApiName!)
         } else {
             
@@ -148,5 +153,27 @@ extension FormTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    @objc private func tapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        
+        let cell = gestureRecognizer.view as! LookupTableViewCell
+        let location = gestureRecognizer.location(in: cell)
+        let moduleName = cell.lookupApiName
+
+        if location.x > cell.frame.width / 2 {
+
+            let lookupTableVC = LookupTableViewController(module: moduleName!)
+            lookupTableVC.delegate = cell.self
+            navigationController?.pushViewController(lookupTableVC, animated: true)
+        }
+    }
+}
+
+extension FormTableViewController {
+    
+    func setUpCellsForEditing(recordData: [String: Any]) -> Void {
+        self.isRecordEditing = true
+        self.editableRecord = recordData
     }
 }

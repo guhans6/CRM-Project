@@ -12,7 +12,7 @@ class RecordsPresenter {
     private let networkController = NetworkController()
     
     func displayRecords(for module: String, completion: @escaping ([Record]) -> Void) -> Void {
-        networkController.getRecords(module: module, ids: nil) { records in
+        networkController.getRecords(module: module, id: nil) { records in
             
             var recordArray = [Record]()
             

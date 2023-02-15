@@ -1,0 +1,60 @@
+{
+    "$approval" =     {
+        "approve" = 0;
+        "delegate" = 0;
+        "reject" = 0;
+        "resubmit" = 0;
+    };
+    "$approval_state" = "approved";
+    "$canvas_id" = "<null>";
+    "$currency_symbol" = "$";
+    "$editable" = 1;
+    "$field_states" = "<null>";
+    "$in_merge" = 0;
+    "$orchestration" = 0;
+    "$pathfinder" = "<null>";
+    "$process_flow" = 0;
+    "$review" = "<null>";
+    "$review_process" =     {
+        "approve" = 0;
+        "reject" = 0;
+        "resubmit" = 0;
+    };
+    "$sharing_permission" = "full_access";
+    "$state" = "save";
+    "$wizard_connection_path" = "<null>";
+    "$zia_owner_assignment" = "owner_recommendation_unavailable";
+    "$zia_visions" = "<null>";
+    "Created_By" =     {
+        "email" = "guhan.saravanan@zohocorp.com";
+        "id" = 5622594000000398001;
+        "name" = "Guhan S";
+    };
+    "Created_Time" = "2023-02-14T13:36:43+05:30";
+    "Email" = "balajid@gmail.com";
+    "EmployeeRole" =     {
+        "id" = 5622594000000428245;
+        "name" = "Employee";
+    };
+    "Last_Activity_Time" = "<null>";
+    "Modified_By" =     {
+        "email" = "guhan.saravanan@zohocorp.com";
+        "id" = 5622594000000398001;
+        "name" = "Guhan S";
+    };
+    "Modified_Time" = "2023-02-14T13:36:43+05:30";
+    "Name" = "Balaji";
+    "Owner" =     {
+        "email" = "guhan.saravanan@zohocorp.com";
+        "id" = 5622594000000398001;
+        "name" = "Guhan S";
+    };
+    "Phone_1" = "<null>";
+    "Record_Image" = "<null>";
+    "Reporting_To" = "<null>";
+    "" =     (
+    );
+    "Unsubscribed_Mode" = "<null>";
+    "Unsubscribed_Time" = "<null>";
+    "id" = 5622594000000546001;
+}
