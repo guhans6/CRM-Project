@@ -22,10 +22,6 @@ class LookupTableViewController: RecordsTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-   
-    deinit {
-        print("deinit time:\(Date())")
-    }
     
     
 }
@@ -39,9 +35,8 @@ extension LookupTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
-        
-        
         let record = records[indexPath.row]
         delegate?.getLookupRecordId(recordName: record.recordName, recordId: record.recordId)
         navigationController?.popViewController(animated: true)
