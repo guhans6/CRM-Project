@@ -98,16 +98,16 @@ class LoggedInViewController: UIViewController {
     }
     
     @objc private func makeRequestButtonTapped() {
-        let networkController = NetworkController()
-//        networkController.getUserDetails { username, error in
-//            guard let username = username else {
-//                print(error!)
-//                return
-//            }
-//            self.welcomeUserLabel.text = "Welcome \(username)"
-//        }
-//        FormPresenter().getLayout(module: .employees) { fileds in
-//        }
+        let userController = UserDetailController()
+        
+        userController.getUserDetails { username, error in
+            guard let username = username else {
+                print(error!)
+                return
+            }
+            self.welcomeUserLabel.text = "Welcome \(username)"
+        }
+        
     }
 
     private func configureGenerateAuthTokenButton() {

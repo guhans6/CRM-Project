@@ -16,7 +16,7 @@ class KeyChainController {
     private let clientIdAccount = "clientId"
     private let clientSecretAccount = "clientSecret"
     
-    private let keychainManager = KeyChainManager()
+    private let keychainManager = KeyChainService()
     
     func storeRefreshToken(token: String) {
         

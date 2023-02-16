@@ -21,5 +21,5 @@ protocol NetworkServiceContract {
     
     func getAuthToken(url: URL, method: String, components: URLComponents, completion: @escaping (Data?, Error?) -> Void) -> Void
     
-    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?,accessToken: String?, completion: @escaping ([String: Any]?, Error?) -> Void) -> Void
+    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?, completion: @escaping ([String: Any]?, Error?) -> Void) -> Void
 }

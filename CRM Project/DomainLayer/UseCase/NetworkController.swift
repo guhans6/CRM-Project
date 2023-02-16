@@ -25,8 +25,8 @@ class NetworkController {
     
     private let keyChainController = KeyChainController()
     private let userDefaults = UserDefaultsManager.shared
+    private let networkService: NetworkServiceContract = NetworkService.shared
     
-    private let networkManager: NetworkServiceContract = NetworkService.shared
     private let zohoURLString = "https://accounts.zoho.com/"
     private let zohoApiURLString = "https://www.zohoapis.com/"       //MARK: URL Components
     private let tokenRequestURLString = "oauth/v2/token"
@@ -81,7 +81,7 @@ class NetworkController {
         let zohoURL = URL(string: zohoURLString + tokenRequestURLString)!
         
         //MARK: Try making all in one method for all requests
-        networkManager.getAuthToken(url: zohoURL, method: HTTPMethod.POST.rawValue, components: requestBodyComponents) { data, error in
+        networkService.getAuthToken(url: zohoURL, method: HTTPMethod.POST.rawValue, components: requestBodyComponents) { data, error in
 
             if let error = error {
                 print("Error: \(error)")
@@ -130,7 +130,7 @@ class NetworkController {
         ]
         let zohoURL = URL(string: zohoURLString + tokenRequestURLString)!
         
-        networkManager.getAuthToken(url: zohoURL, method: HTTPMethod.POST.rawValue, components: requestBodyComponents) { data, error in
+        networkService.getAuthToken(url: zohoURL, method: HTTPMethod.POST.rawValue, components: requestBodyComponents) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -159,6 +159,52 @@ class NetworkController {
         }
     }
     
+    func performNetworkCall(url: String, method: HTTPMethod, urlComponents: [String: String]?, parameters: [String: Any]?, headers: [String: String]?, completion: @escaping ([String: Any]) -> Void) -> Void {
+        
+        var authHeader: [String: String] = ["Zoho-oauthtoken \(accessToken)": "Authorization"]
+        let requestURLString = zohoApiURLString.appending(url)
+        let requestURL = URL(string: requestURLString)
+        
+        guard let requestURL = requestURL else {
+            print("Invalid URL")
+            return
+        }
+        
+        var requestBodyComponents: URLComponents? = nil
+        
+        if let urlComponents = urlComponents {
+            
+            requestBodyComponents = URLComponents()
+            urlComponents.forEach { key, value in
+                let queryItem = URLQueryItem(name: key, value: value)
+                
+                requestBodyComponents?.queryItems?.append(queryItem)
+            }
+        }
+        
+        if let headers = headers {
+            headers.forEach { key, value in
+                authHeader[key] = value
+            }
+        }
+        
+        networkService.performDataTask(url: requestURL, method: method.rawValue, urlComponents: requestBodyComponents, parameters: parameters, headers: authHeader) { data, error in
+            
+            if let error = error {
+                
+                print("Error: \(error)")
+                return
+            }
+
+            guard let result = data else {
+                print("No data received")
+                return
+            }
+            
+            completion(result)
+        }
+    }
+    
     func getUserDetails(completion: @escaping (String?, Error?) -> Void) -> Void {
         
         let requestURLString = "crm/v3/users"
@@ -173,7 +219,7 @@ class NetworkController {
             "Zoho-oauthtoken \(accessToken)": "Authorization"
         ]
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -210,7 +256,7 @@ class NetworkController {
             "Zoho-oauthtoken \(accessToken)": "Authorization"
         ]
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -255,7 +301,7 @@ class NetworkController {
         ]
         
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -299,7 +345,7 @@ class NetworkController {
         ]
         
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -377,7 +423,7 @@ class NetworkController {
         
 
 
-        networkManager.performDataTask(url: requestURL, method: httpMethod, urlComponents: nil, parameters: parameter, headers: headers, accessToken: accessToken) { data, error in
+        networkService.performDataTask(url: requestURL, method: httpMethod, urlComponents: nil, parameters: parameter, headers: headers) { data, error in
 
             if let error = error {
                 print("Error: \(error)")
@@ -418,7 +464,7 @@ class NetworkController {
         ]
         
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -457,7 +503,7 @@ class NetworkController {
         ]
         
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.DELETE.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+        networkService.performDataTask(url: requestURL, method: HTTPMethod.DELETE.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
@@ -492,7 +538,7 @@ class NetworkController {
         ]
         
         
-        networkManager.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers, accessToken: accessToken) { data, error in
+        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
             
             if let error = error {
                 print("Error: \(error)")
