@@ -9,7 +9,16 @@ import Foundation
 
 class RecordInfoPresenter {
     
-    let networkController = NetworkController()
+    private let networkController = NetworkController()
+    private weak var recordInfoVc: RecordInfoViewContract?
+    
+    init(recordInfoVc: RecordInfoViewContract? = nil) {
+        self.recordInfoVc = recordInfoVc
+    }
+    
+}
+
+extension RecordInfoPresenter: RecordInfoPresenterContract {
     
     func getRecordFor(id: String, module: String, completion: @escaping ([(String, String)]) -> Void ) -> Void {
         networkController.getRecords(module: module, id: id) { recordForId in
@@ -39,8 +48,13 @@ class RecordInfoPresenter {
 //                    recordInfo.append((key, editedInfo))
                 }
             }
-//
             completion(recordInfo)
+//            self.displayRecordInfo(record: recordInfo)
         }
     }
+    
+    func displayRecordInfo(record: [(String, String)]) {
+        recordInfoVc?.displayRecordInfo(of: record)
+    }
+    
 }

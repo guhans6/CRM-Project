@@ -13,7 +13,7 @@ protocol NetworkManager {
     func saveGrantToken()
 }
 
-protocol DatabaseManager {
+protocol DatabaseManagerContract {
     
 }
 
@@ -23,3 +23,4 @@ protocol NetworkServiceContract {
     
     func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?, completion: @escaping ([String: Any]?, Error?) -> Void) -> Void
 }
+

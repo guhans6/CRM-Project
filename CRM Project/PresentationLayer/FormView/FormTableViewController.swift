@@ -9,7 +9,7 @@ import UIKit
 
 class FormTableViewController: UITableViewController {
     
-    private let formPresenter = FormPresenter()
+    private let formPresenter: FormPresenterContract = FormPresenter()
     private var fields = [Field]()
     private var module: String
     private lazy var editableRecords = [(String, String)]()
@@ -63,7 +63,7 @@ class FormTableViewController: UITableViewController {
     }
     
     private func getFields() {
-        formPresenter.getLayout(module: module) { data in
+        formPresenter.getFieldsfor(module: module) { data in
             self.fields = data
             self.tableView.reloadData()
         }
@@ -100,6 +100,7 @@ class FormTableViewController: UITableViewController {
                 }
                 
             }
+            
             let cellField = cell!.getFieldData(for: field.fieldType)
 //            print(cellField)
             if cellField.1 != nil {
@@ -166,6 +167,7 @@ extension FormTableViewController {
         }
         cell?.setUpCellWith(fieldName: field.fieldName)
         
+        // MARK: Matchup records and fields once by a loop
         if isRecordEditing  {
             editableRecords.forEach { key, value in
                 print(field.fieldName, key)
@@ -184,6 +186,9 @@ extension FormTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+//        let cell = tableView.cellForRow(at: indexPath) as? LookupTableViewCell
+        
     }
     
     @objc private func tapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
@@ -207,6 +212,14 @@ extension FormTableViewController {
         self.isRecordEditing = true
         self.editableRecords = recordData
         self.editingRecordId = recordid
+        self.tableView.reloadData()
+    }
+}
+
+extension FormTableViewController: FormViewContract {
+    
+    func displayFormWith(fields: [Field]) {
+        self.fields = fields
         self.tableView.reloadData()
     }
 }

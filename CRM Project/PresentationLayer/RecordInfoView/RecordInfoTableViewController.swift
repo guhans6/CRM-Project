@@ -10,7 +10,7 @@ import UIKit
 class RecordInfoTableViewController: UITableViewController {
 
 //    var record
-    lazy var individualRecordPresenter = RecordInfoPresenter()
+    lazy var individualRecordPresenter: RecordInfoPresenterContract = RecordInfoPresenter()
     let recordModule: String
     let recordId: String
     var recordInfo = [(String, String)]()
@@ -47,6 +47,10 @@ class RecordInfoTableViewController: UITableViewController {
         }
     }
     
+}
+
+extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return recordInfo.count
     }
@@ -69,4 +73,13 @@ class RecordInfoTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+}
+
+extension RecordInfoTableViewController: RecordInfoViewContract {
+    
+    func displayRecordInfo(of record: [(String, String)]) {
+        self.recordInfo = record
+        self.tableView.reloadData()
+    }
+    
 }

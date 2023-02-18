@@ -9,7 +9,7 @@ import UIKit
 
 class ModuleTableViewController: UITableViewController {
     
-    private let modulePresenter = ModulesPresenter()
+    private let modulePresenter: ModulesPresenterContract = ModulesPresenter()
     private var modules = [Module]()
 
     override func viewDidLoad() {
@@ -27,9 +27,9 @@ class ModuleTableViewController: UITableViewController {
     }
     
     private func getModules() {
-        modulePresenter.getModules { modules in
-            self.modules = modules
-            self.tableView.reloadData()
+        modulePresenter.getModules { [weak self] modules in
+            self?.modules = modules
+            self?.tableView.reloadData()
         }
     }
     
@@ -55,5 +55,13 @@ extension ModuleTableViewController {
         let recordsTableVC = RecordsTableViewController(module: module.apiName)
         let _ = UINavigationController(rootViewController: recordsTableVC)
         navigationController?.pushViewController(recordsTableVC, animated: true)
+    }
+}
+
+extension ModuleTableViewController: ModuleViewContract {
+    
+    func showModules(modules: [Module]) {
+        self.modules = modules
+        self.tableView.reloadData()
     }
 }

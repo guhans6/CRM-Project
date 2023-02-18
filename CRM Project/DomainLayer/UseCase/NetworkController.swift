@@ -21,7 +21,7 @@ enum HTTPMethod: String {
     case PUT = "PUT"
 }
 
-class NetworkController {
+class NetworkController: NetworkControllerContract {
     
     private let keyChainController = KeyChainController()
     private let userDefaults = UserDefaultsManager.shared
@@ -201,43 +201,8 @@ class NetworkController {
                 return
             }
             
-            completion(result)
-        }
-    }
-    
-    func getUserDetails(completion: @escaping (String?, Error?) -> Void) -> Void {
-        
-        let requestURLString = "crm/v3/users"
-        let requestURL = URL(string: zohoApiURLString + requestURLString)
-        
-        guard let requestURL else {
-            print("Not Valid")
-            return
-        }
-        
-        let headers: [String: String] = [
-            "Zoho-oauthtoken \(accessToken)": "Authorization"
-        ]
-        
-        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
-            
-            if let error = error {
-                print("Error: \(error)")
-                DispatchQueue.main.async {
-                    completion(nil, error)
-                }
-                return
-            }
-            
-            guard let data = data else {
-                print("No data received")
-                return
-            }
-            let users = data["users"] as! [Dictionary<String, Any>]
-//            print(users)
-            
             DispatchQueue.main.async {
-                completion((users[0]["full_name"] as! String), nil)
+                completion(result)
             }
         }
     }
@@ -321,7 +286,19 @@ class NetworkController {
                 let jsonType = field["json_type"] as! String
                 let displayLabel = field["field_label"] as! String
                 let fieldApiName = field["api_name"] as! String
-                returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: nil))
+                let lookUp = field["lookup"] as! [String: Any]
+                var lookUpApiName: String? = nil
+                
+                if !lookUp.isEmpty {
+                    if let module = lookUp["module"] as? [String: Any], let apiName = module["api_name"] {
+                        lookUpApiName = apiName as? String
+                    }
+                }
+                
+                if fieldApiName != "Modified_By" && fieldApiName != "Created_By" && fieldApiName != "Created_Time" && fieldApiName != "Modified_Time" && fieldApiName != "Last_Activity_Time" && fieldApiName != "Unsubscribed_Mode" && fieldApiName != "Unsubscribed_Time" && fieldApiName != "Owner" && fieldApiName != "Tag" {
+                    
+                    returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: lookUpApiName))
+                }
             }
             DispatchQueue.main.async {
 //                print(1)
@@ -330,69 +307,71 @@ class NetworkController {
         }
     }
     
-    func getLayout(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
-        let urlRequestString = "crm/v3/settings/layouts?module=\(module)"
-        let requestURL = URL(string: zohoApiURLString + urlRequestString)
-        var returnData = [Field]()
-        
-        guard let requestURL else {
-            print("Not Valid")
-            return
-        }
-        
-        let headers: [String: String] = [
-            "Zoho-oauthtoken \(accessToken)": "Authorization"
-        ]
-        
-        
-        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
-            
-            if let error = error {
-                print("Error: \(error)")
-                return
-            }
     
-            guard let data = data else {
-                print("No data received")
-                return
-            }
-            
-            let layouts = data["layouts"] as! Array<Any>
-            
-            let layout = layouts[0] as! [String: Any]
-            let sections = layout["sections"] as! Array<Any>
-            
-            for i in 0..<sections.count {
-                let fields = sections[i] as! [String: Any]
-                let field = fields["fields"] as! Array<Any>
-                
-                for j in 0..<field.count {
-                    
-                    let type = field[j] as! [String: Any]
-                    let jsonType = type["json_type"] as! String
-                    let displayLabel = type["field_label"] as! String
-                    let fieldApiName = type["api_name"] as! String
-                    let lookUp = type["lookup"] as! [String: Any]
-                    var lookUpApiName: String? = nil
-                    
-                    if !lookUp.isEmpty {
-                        if let module = lookUp["module"] as? [String: Any], let apiName = module["api_name"] {
-                            lookUpApiName = apiName as? String
-                        }
-                    }
-                    
-                    if fieldApiName != "Modified_By" && fieldApiName != "Created_By" && fieldApiName != "Created_Time" && fieldApiName != "Modified_Time" && fieldApiName != "Last_Activity_Time" && fieldApiName != "Unsubscribed_Mode" && fieldApiName != "Unsubscribed_Time" && fieldApiName != "Owner" && fieldApiName != "Tag" {
-//                        print(fieldApiName, "aaaa")
-                        returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: lookUpApiName))
-                    }
-                        
-                }
-            }
-            DispatchQueue.main.async {
-                completion(returnData)
-            }
-        }
-    }
+    // MARK: Currently not in use used to get fields for formTableVc now using getfieldMetaData
+//    func getLayout(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
+//        let urlRequestString = "crm/v3/settings/layouts?module=\(module)"
+//        let requestURL = URL(string: zohoApiURLString + urlRequestString)
+//        var returnData = [Field]()
+//
+//        guard let requestURL else {
+//            print("Not Valid")
+//            return
+//        }
+//
+//        let headers: [String: String] = [
+//            "Zoho-oauthtoken \(accessToken)": "Authorization"
+//        ]
+//
+//
+//        networkService.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
+//
+//            if let error = error {
+//                print("Error: \(error)")
+//                return
+//            }
+//
+//            guard let data = data else {
+//                print("No data received")
+//                return
+//            }
+//
+//            let layouts = data["layouts"] as! Array<Any>
+//
+//            let layout = layouts[0] as! [String: Any]
+//            let sections = layout["sections"] as! Array<Any>
+//
+//            for i in 0..<sections.count {
+//                let fields = sections[i] as! [String: Any]
+//                let field = fields["fields"] as! Array<Any>
+//
+//                for j in 0..<field.count {
+//
+//                    let type = field[j] as! [String: Any]
+//                    let jsonType = type["json_type"] as! String
+//                    let displayLabel = type["field_label"] as! String
+//                    let fieldApiName = type["api_name"] as! String
+//                    let lookUp = type["lookup"] as! [String: Any]
+//                    var lookUpApiName: String? = nil
+//
+//                    if !lookUp.isEmpty {
+//                        if let module = lookUp["module"] as? [String: Any], let apiName = module["api_name"] {
+//                            lookUpApiName = apiName as? String
+//                        }
+//                    }
+//
+//                    if fieldApiName != "Modified_By" && fieldApiName != "Created_By" && fieldApiName != "Created_Time" && fieldApiName != "Modified_Time" && fieldApiName != "Last_Activity_Time" && fieldApiName != "Unsubscribed_Mode" && fieldApiName != "Unsubscribed_Time" && fieldApiName != "Owner" && fieldApiName != "Tag" {
+////                        print(fieldApiName, "aaaa")
+//                        returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: lookUpApiName))
+//                    }
+//
+//                }
+//            }
+//            DispatchQueue.main.async {
+//                completion(returnData)
+//            }
+//        }
+//    }
     
     func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
         
@@ -421,8 +400,6 @@ class NetworkController {
         let parameter = ["data": [data]]
         
         
-
-
         networkService.performDataTask(url: requestURL, method: httpMethod, urlComponents: nil, parameters: parameter, headers: headers) { data, error in
 
             if let error = error {
@@ -434,6 +411,10 @@ class NetworkController {
                 print("No data received")
                 return
             }
+            
+//            if dataisnot  {
+//                addRecord(module: module, recordData: <#T##[String : Any?]#>, isAUpdate: <#T##Bool#>, recordId: <#T##String?#>)
+//            }
 
             print(result)
 
@@ -514,6 +495,7 @@ class NetworkController {
                 print("No data received")
                 return
             }
+            
             
             let recordsResult = data["data"] as! [Any]
             recordsResult.forEach { record in

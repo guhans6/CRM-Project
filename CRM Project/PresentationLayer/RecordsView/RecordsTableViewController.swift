@@ -10,7 +10,7 @@ import UIKit
 
 class RecordsTableViewController: UITableViewController {
     
-    private let recordsPresenter = RecordsPresenter()
+    private let recordsPresenter: RecordsPresenterContract = RecordsPresenter()
     private var module: String
     var records = [Record]()
     
@@ -43,12 +43,9 @@ class RecordsTableViewController: UITableViewController {
     }
     
     private func getRecords() {
-        recordsPresenter.displayRecords(for: module) { records in
-            self.records = records
-//            records.forEach { record in
-//                print(record.recordId)
-//            }
-            self.tableView.reloadData()
+        recordsPresenter.displayRecords(for: module) { [weak self] records in
+            self?.records = records
+            self?.tableView.reloadData()
         }
     }
     
@@ -63,6 +60,7 @@ class RecordsTableViewController: UITableViewController {
 }
 
 extension RecordsTableViewController {
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return records.count
     }

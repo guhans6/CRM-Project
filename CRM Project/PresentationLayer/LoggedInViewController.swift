@@ -20,6 +20,7 @@ class LoggedInViewController: UIViewController {
     deinit {
         print("Login deinitialized")
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()

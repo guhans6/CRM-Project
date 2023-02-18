@@ -60,5 +60,6 @@ extension LookupTableViewCell: LookupTableViewDelegate {
     func getLookupRecordId(recordName: String, recordId: String) {
         self.lookupLabel.text = recordName
         self.lookupId = recordId
+        print(lookupLabel.text, lookupApiName)
     }
 }

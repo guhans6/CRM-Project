@@ -10,9 +10,19 @@ import Foundation
 class RecordsPresenter {
     
     private let networkController = NetworkController()
+    private weak var recordViewController: RecordsViewContract?
+    private weak var router: Router?
+    
+//    init(recordViewController: RecordsTableViewController? = nil) {
+//        self.recordViewController = recordViewController
+//    }
+    
+}
+
+extension RecordsPresenter: RecordsPresenterContract {
     
     func displayRecords(for module: String, completion: @escaping ([Record]) -> Void) -> Void {
-        networkController.getRecords(module: module, id: nil) { records in
+        RecordsController().getRecords(module: module, id: nil) { records in
             
             var recordArray = [Record]()
             
@@ -30,6 +40,7 @@ class RecordsPresenter {
             }
             
             completion(recordArray)
+            print("working")
         }
     }
     
@@ -38,4 +49,9 @@ class RecordsPresenter {
             
         }
     }
+    
+    func showRecord(for module: String, recordId: String) {
+        router?.showRecordInfo(module: module, recordId: recordId)
+    }
+    
 }

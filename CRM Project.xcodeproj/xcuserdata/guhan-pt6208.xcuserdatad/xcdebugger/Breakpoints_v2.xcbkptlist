@@ -318,8 +318,8 @@
             filePath = "CRM Project/PresentationLayer/Presenter/FormPresenter.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
             landmarkName = "getLayout(module:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -369,22 +369,6 @@
             startingLineNumber = "402"
             endingLineNumber = "402"
             landmarkName = "getRecords(module:completion:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "28DC72B5-7702-43DA-9D33-AC84DB12DBA3"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CRM Project/PresentationLayer/Presenter/RecordsPresenter.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
-            landmarkName = "displayRecords(for:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
