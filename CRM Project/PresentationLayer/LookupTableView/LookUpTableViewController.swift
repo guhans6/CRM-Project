@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Looksup
 class LookupTableViewController: RecordsTableViewController {
     
     var delegate: LookupTableViewDelegate?
@@ -42,3 +43,4 @@ extension LookupTableViewController {
         navigationController?.popViewController(animated: true)
     }
 }
+
