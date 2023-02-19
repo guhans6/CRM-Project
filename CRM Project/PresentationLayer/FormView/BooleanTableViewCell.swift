@@ -34,13 +34,22 @@ class BooleanTableViewCell: FormTableViewCell {
     }
     
     override func setRecordData(for data: String) {
-        print(data)
+//        print(data)
         if data == "true" {
             switchButton.isOn = true
         } else {
             switchButton.isOn = false
         }
     }
+    
     // MARK: Can also override the get field
+    override func getFieldData(for type: String) -> (String, Any?) {
+        var value = false
+        if switchButton.isOn {
+            value = true
+        }
+        print(value)
+        return (label.text!, value)
+    }
 }
 

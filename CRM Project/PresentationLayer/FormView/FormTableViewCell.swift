@@ -16,6 +16,7 @@ class FormTableViewCell: UITableViewCell {
     lazy var switchButton = UISwitch()
     var fieldType: String!
     
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -81,12 +82,6 @@ class FormTableViewCell: UITableViewCell {
             return (label.text!, value)
         case "double":
             let value = Double(textField.text!)
-            return (label.text!, value)
-        case "boolean":
-            var value = false
-            if switchButton.isOn {
-                value = true
-            }
             return (label.text!, value)
         default:
             return (label.text!, textField.text)

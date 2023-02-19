@@ -32,7 +32,7 @@ extension RecordsPresenter: RecordsPresenterContract {
                 var secondaryData = ""
                 
                 if module == "Employee" {
-                    secondaryData = record["Email"] as! String
+                    secondaryData = record["Email"] as? String ?? ""
                 }
                 let recordName = record["Name"] as! String
                 let recordId = record["id"] as! String

@@ -9,13 +9,12 @@ import UIKit
 
 class FormTableViewController: UITableViewController {
     
-    private let formPresenter: FormPresenterContract = FormPresenter()
+    private let formPresenter = FormPresenter()
     private var fields = [Field]()
-    private var module: String
     private lazy var editableRecords = [(String, String)]()
+    private var module: String
     private var isRecordEditing = false
     private var editingRecordId: String?
-    
     
     init(module: String) {
         self.module = module
@@ -32,10 +31,8 @@ class FormTableViewController: UITableViewController {
 
         
         configureTableView()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        configureNavigationBar()
+        getFields()
     }
     
     private func configureNavigationBar() {
@@ -48,8 +45,6 @@ class FormTableViewController: UITableViewController {
 
     private func configureTableView() {
         registerTableViewCells()
-        configureNavigationBar()
-        getFields()
     }
     
     private func registerTableViewCells() {
@@ -68,7 +63,6 @@ class FormTableViewController: UITableViewController {
             self.tableView.reloadData()
         }
     }
-    
     
     @objc private func doneButtonClicked() {
         // SAVE DATA
@@ -94,32 +88,28 @@ class FormTableViewController: UITableViewController {
                     
                 case "double":
                     cell = tableView.cellForRow(at: indexPath) as! DoubleTableViewCell
-                    
+                case "boolean":
+                    cell = tableView.cellForRow(at: indexPath) as! BooleanTableViewCell
                 default:
                     cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
                 }
                 
             }
-            
             let cellField = cell!.getFieldData(for: field.fieldType)
-//            print(cellField)
+            print(cellField)
             if cellField.1 != nil {
-                print(true)
                 data[fields[row].fieldApiName] = cellField.1
             }
-            
         }
+        
         if isRecordEditing {
-            
+
             formPresenter.updateRecord(module: module, records: data, recordId: editingRecordId)
         } else {
             formPresenter.saveRecord(module: module, records: data)
         }
+//        formPresenter.saveRecord(module: module, records: data)
         navigationController?.popViewController(animated: true)
-    }
-    
-    private func shoudldIncludeField(field: Field) {
-        
     }
 }
 
@@ -134,19 +124,19 @@ extension FormTableViewController {
         let field = fields[indexPath.row]
         var cell: FormTableViewCell? = nil
         
-        
-        
         if field.fieldName == "Email" {
             
             cell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.emailCellIdentifier) as! EmailTableViewCell
             
+
         } else if field.lookUpApiName != nil {
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
             
             cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
-            cell?.addGestureRecognizer(tapGesture)
-            cell?.setLookupName(lookupApiName: field.lookUpApiName!)
+           cell?.addGestureRecognizer(tapGesture)
+           cell?.setLookupName(lookupApiName: field.lookUpApiName!)
+            
         } else {
             
             switch field.fieldType {
@@ -165,18 +155,18 @@ extension FormTableViewController {
                 cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
             }
         }
+        
         cell?.setUpCellWith(fieldName: field.fieldName)
         
-        // MARK: Matchup records and fields once by a loop
         if isRecordEditing  {
-            editableRecords.forEach { key, value in
-                print(field.fieldName, key)
-                if field.fieldName == key || field.fieldApiName == key {
-                    cell?.setRecordData(for: value)
-                }
-            }
-        }
-//        print(field.fieldType, field.fieldApiName)
+           editableRecords.forEach { key, value in
+//                print(field.fieldName, key)
+               if field.fieldName == key || field.fieldApiName == key {
+                   cell?.setRecordData(for: value)
+               }
+           }
+       }
+        
         return cell!
     }
     
@@ -186,13 +176,10 @@ extension FormTableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
-//        let cell = tableView.cellForRow(at: indexPath) as? LookupTableViewCell
-        
     }
     
     @objc private func tapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-        
+
         let cell = gestureRecognizer.view as! LookupTableViewCell
         let location = gestureRecognizer.location(in: cell)
         let moduleName = cell.lookupApiName
@@ -206,15 +193,6 @@ extension FormTableViewController {
     }
 }
 
-extension FormTableViewController {
-    
-    func setUpCellsForEditing(recordid: String, recordData: [(String, String)]) -> Void {
-        self.isRecordEditing = true
-        self.editableRecords = recordData
-        self.editingRecordId = recordid
-        self.tableView.reloadData()
-    }
-}
 
 extension FormTableViewController: FormViewContract {
     
@@ -223,3 +201,14 @@ extension FormTableViewController: FormViewContract {
         self.tableView.reloadData()
     }
 }
+
+extension FormTableViewController {
+
+    func setUpCellsForEditing(recordid: String, recordData: [(String, String)]) -> Void {
+        self.isRecordEditing = true
+        self.editableRecords = recordData
+        self.editingRecordId = recordid
+        self.tableView.reloadData()
+    }
+}
+

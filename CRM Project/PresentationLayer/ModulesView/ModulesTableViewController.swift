@@ -19,6 +19,10 @@ class ModulesTableViewController: UITableViewController {
         title = "Modules"
         view.backgroundColor = .systemBackground
         configureModuleTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getModules()
     }
     

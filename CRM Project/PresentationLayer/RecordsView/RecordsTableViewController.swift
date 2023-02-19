@@ -12,6 +12,7 @@ class RecordsTableViewController: UITableViewController {
     
     private let recordsPresenter: RecordsPresenterContract = RecordsPresenter()
     private var module: String
+    private var isLookup = false
     var records = [Record]()
     
     init(module: String) {
@@ -28,13 +29,18 @@ class RecordsTableViewController: UITableViewController {
         
         title = module
         view.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addNewRecordButtonTapped))
+        
         configureRecordsTableView()
+        configureNavigationBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         getRecords()
     }
     
     private func configureNavigationBar() {
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addNewRecordButtonTapped))
         
     }
     
@@ -82,13 +88,18 @@ extension RecordsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let swipeConfiguration = UIContextualAction(style: .destructive, title: "Delete") { action, view, complete in
-            let record = self.records.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            self.recordsPresenter.deleteRecords(for: self.module, ids: [record.recordId])
-            complete(true)
+        
+        if isLookup == false {
+            let swipeConfiguration = UIContextualAction(style: .destructive, title: "Delete") { action, view, complete in
+                let record = self.records.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+                self.recordsPresenter.deleteRecords(for: self.module, ids: [record.recordId])
+                complete(true)
+            }
+            return UISwipeActionsConfiguration(actions: [swipeConfiguration])
+        } else {
+            return nil
         }
-        return UISwipeActionsConfiguration(actions: [swipeConfiguration])
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {

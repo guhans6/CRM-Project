@@ -20,21 +20,27 @@ class RecordInfoTableViewController: UITableViewController {
         self.recordId = recordId
         super.init(nibName: nil, bundle: nil)
         
-        configureTableView()
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func configureTableView() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
-        tableView.register(RecordInfoTableViewCell.self, forCellReuseIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier)
+    override func viewDidLoad() {
+        configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         getRecord()
     }
     
+    private func configureTableView() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+        tableView.register(RecordInfoTableViewCell.self, forCellReuseIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier)
+    }
+    
     @objc private func editButtonTapped() {
+        
         let formTableVC = FormTableViewController(module: recordModule)
         formTableVC.setUpCellsForEditing(recordid: recordId, recordData: recordInfo)
         navigationController?.pushViewController(formTableVC, animated: true)

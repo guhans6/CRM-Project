@@ -11,29 +11,35 @@ class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
     private var lookupId: String!
+    private var lookupVC: LookupTableViewController! // added form old commit
 
     var lookupApiName: String!
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
         configureLookupLabel()
+//        configureLookUpButton()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func setLookupName(lookupApiName: String) {
         self.lookupApiName = lookupApiName
+        lookupVC = LookupTableViewController(module: lookupApiName)
+        lookupVC.delegate = self
     }
+
+
 
     private func configureLookupLabel() {
         contentView.addSubview(lookupLabel)
         lookupLabel.translatesAutoresizingMaskIntoConstraints = false
-        
+
         lookupLabel.backgroundColor = .systemGray6
-        
+
         NSLayoutConstraint.activate([
             lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             lookupLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -56,10 +62,10 @@ class LookupTableViewCell: FormTableViewCell {
 }
 
 extension LookupTableViewCell: LookupTableViewDelegate {
-    
+
     func getLookupRecordId(recordName: String, recordId: String) {
+
         self.lookupLabel.text = recordName
         self.lookupId = recordId
-        print(lookupLabel.text, lookupApiName)
     }
 }
