@@ -7,10 +7,11 @@
 
 import UIKit
 
-class ModuleTableViewController: UITableViewController {
+class ModulesTableViewController: UITableViewController {
     
-    private let modulePresenter: ModulesPresenterContract = ModulesPresenter()
+    var modulePresenter: ModulesPresenterContract = ModulesPresenter()
     private var modules = [Module]()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,7 @@ class ModuleTableViewController: UITableViewController {
     
 }
 
-extension ModuleTableViewController {
+extension ModulesTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return modules.count
@@ -58,7 +59,7 @@ extension ModuleTableViewController {
     }
 }
 
-extension ModuleTableViewController: ModuleViewContract {
+extension ModulesTableViewController: ModuleViewContract {
     
     func showModules(modules: [Module]) {
         self.modules = modules

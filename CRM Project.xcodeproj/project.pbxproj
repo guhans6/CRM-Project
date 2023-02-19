@@ -11,14 +11,14 @@
 		5318F5D5297A85A000AF76DC /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D4297A85A000AF76DC /* DataManager.swift */; };
 		5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D6297AB81E00AF76DC /* NetworkController.swift */; };
 		5318F5D9297ABE0D00AF76DC /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */; };
-		531B11122980E558000FAF02 /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531B11112980E558000FAF02 /* LoggedInViewController.swift */; };
-		5340DEE12982CD8C00ED51D1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340DEE02982CD8C00ED51D1 /* ViewController.swift */; };
+		531B11122980E558000FAF02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531B11112980E558000FAF02 /* HomeViewController.swift */; };
+		5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */; };
 		536AD437299E21FA00801158 /* UserDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD436299E21FA00801158 /* UserDetailController.swift */; };
 		536AD439299E3EF400801158 /* RecordsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD438299E3EF400801158 /* RecordsController.swift */; };
 		536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD43D299E5BB100801158 /* UseCaseContact.swift */; };
 		536AD440299E600200801158 /* FormViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD43F299E600200801158 /* FormViewContract.swift */; };
 		5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375155B2980436A004B00E7 /* UserDefaultsManager.swift */; };
-		537B607E29962C3B00ACA883 /* ModuleTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B607D29962C3B00ACA883 /* ModuleTableViewController.swift */; };
+		537B607E29962C3B00ACA883 /* ModulesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B607D29962C3B00ACA883 /* ModulesTableViewController.swift */; };
 		537B608029962C7E00ACA883 /* ModuleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B607F29962C7E00ACA883 /* ModuleTableViewCell.swift */; };
 		537B6082299635A000ACA883 /* ModulesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B6081299635A000ACA883 /* ModulesPresenter.swift */; };
 		537B6084299637DA00ACA883 /* json.json in Resources */ = {isa = PBXBuildFile; fileRef = 537B6083299637DA00ACA883 /* json.json */; };
@@ -55,12 +55,16 @@
 		53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */; };
 		53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0E29928D0B000B1FA1 /* Field.swift */; };
 		53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2A299F47CC0054E08B /* Assembler.swift */; };
-		53F3BB2D299F54C30054E08B /* FirstViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2C299F54C30054E08B /* FirstViewRouter.swift */; };
 		53F3BB30299F55780054E08B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2F299F55780054E08B /* Router.swift */; };
 		53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB34299F60700054E08B /* ModuleViewContract.swift */; };
 		53F3BB37299F61BD0054E08B /* RecordsViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB36299F61BD0054E08B /* RecordsViewContract.swift */; };
 		53F3BB39299F622E0054E08B /* RecordInfoViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB38299F622E0054E08B /* RecordInfoViewContract.swift */; };
 		53F3BB3B299FC85A0054E08B /* LookupViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB3A299FC85A0054E08B /* LookupViewContract.swift */; };
+		53F3BB3F29A1EE420054E08B /* LoginViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB3E29A1EE420054E08B /* LoginViewPresenter.swift */; };
+		53F3BB4129A1EF0D0054E08B /* SplashViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4029A1EF0D0054E08B /* SplashViewPresenter.swift */; };
+		53F3BB4329A1EF670054E08B /* SplashViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4229A1EF670054E08B /* SplashViewContract.swift */; };
+		53F3BB4529A1F61B0054E08B /* HomeViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4429A1F61B0054E08B /* HomeViewPresenter.swift */; };
+		53F3BB4729A1F6320054E08B /* HomeViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4629A1F6320054E08B /* HomeViewContract.swift */; };
 		53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */; };
 		53F43A6D299ADABB002528BE /* LookupTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6C299ADABB002528BE /* LookupTableViewDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -70,14 +74,14 @@
 		5318F5D4297A85A000AF76DC /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		5318F5D6297AB81E00AF76DC /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseController.swift; sourceTree = "<group>"; };
-		531B11112980E558000FAF02 /* LoggedInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
-		5340DEE02982CD8C00ED51D1 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		531B11112980E558000FAF02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		536AD436299E21FA00801158 /* UserDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailController.swift; sourceTree = "<group>"; };
 		536AD438299E3EF400801158 /* RecordsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsController.swift; sourceTree = "<group>"; };
 		536AD43D299E5BB100801158 /* UseCaseContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseContact.swift; sourceTree = "<group>"; };
 		536AD43F299E600200801158 /* FormViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewContract.swift; sourceTree = "<group>"; };
 		5375155B2980436A004B00E7 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
-		537B607D29962C3B00ACA883 /* ModuleTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleTableViewController.swift; sourceTree = "<group>"; };
+		537B607D29962C3B00ACA883 /* ModulesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesTableViewController.swift; sourceTree = "<group>"; };
 		537B607F29962C7E00ACA883 /* ModuleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleTableViewCell.swift; sourceTree = "<group>"; };
 		537B6081299635A000ACA883 /* ModulesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesPresenter.swift; sourceTree = "<group>"; };
 		537B6083299637DA00ACA883 /* json.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = json.json; sourceTree = "<group>"; };
@@ -116,12 +120,16 @@
 		53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormPresenter.swift; sourceTree = "<group>"; };
 		53EF7B0E29928D0B000B1FA1 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
 		53F3BB2A299F47CC0054E08B /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
-		53F3BB2C299F54C30054E08B /* FirstViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewRouter.swift; sourceTree = "<group>"; };
 		53F3BB2F299F55780054E08B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		53F3BB34299F60700054E08B /* ModuleViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewContract.swift; sourceTree = "<group>"; };
 		53F3BB36299F61BD0054E08B /* RecordsViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsViewContract.swift; sourceTree = "<group>"; };
 		53F3BB38299F622E0054E08B /* RecordInfoViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoViewContract.swift; sourceTree = "<group>"; };
 		53F3BB3A299FC85A0054E08B /* LookupViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupViewContract.swift; sourceTree = "<group>"; };
+		53F3BB3E29A1EE420054E08B /* LoginViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewPresenter.swift; sourceTree = "<group>"; };
+		53F3BB4029A1EF0D0054E08B /* SplashViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewPresenter.swift; sourceTree = "<group>"; };
+		53F3BB4229A1EF670054E08B /* SplashViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewContract.swift; sourceTree = "<group>"; };
+		53F3BB4429A1F61B0054E08B /* HomeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewPresenter.swift; sourceTree = "<group>"; };
+		53F3BB4629A1F6320054E08B /* HomeViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewContract.swift; sourceTree = "<group>"; };
 		53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupTableViewCell.swift; sourceTree = "<group>"; };
 		53F43A6C299ADABB002528BE /* LookupTableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupTableViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,9 +172,9 @@
 			isa = PBXGroup;
 			children = (
 				53EC9A47298261430056C300 /* SplashViewController.swift */,
-				5340DEE02982CD8C00ED51D1 /* ViewController.swift */,
-				531B11112980E558000FAF02 /* LoggedInViewController.swift */,
+				5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */,
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
+				531B11112980E558000FAF02 /* HomeViewController.swift */,
 				537B607C2996216A00ACA883 /* ModulesView */,
 				537B60872996683800ACA883 /* RecordsView */,
 				53964857299B7F5E00781CE4 /* RecordInfoView */,
@@ -190,7 +198,7 @@
 		537B607C2996216A00ACA883 /* ModulesView */ = {
 			isa = PBXGroup;
 			children = (
-				537B607D29962C3B00ACA883 /* ModuleTableViewController.swift */,
+				537B607D29962C3B00ACA883 /* ModulesTableViewController.swift */,
 				537B607F29962C7E00ACA883 /* ModuleTableViewCell.swift */,
 			);
 			path = ModulesView;
@@ -296,6 +304,9 @@
 		53EF7B0A299251E0000B1FA1 /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
+				53F3BB4029A1EF0D0054E08B /* SplashViewPresenter.swift */,
+				53F3BB3E29A1EE420054E08B /* LoginViewPresenter.swift */,
+				53F3BB4429A1F61B0054E08B /* HomeViewPresenter.swift */,
 				53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */,
 				537B6081299635A000ACA883 /* ModulesPresenter.swift */,
 				537B608A299669FD00ACA883 /* RecordsPresenter.swift */,
@@ -319,7 +330,6 @@
 		53F3BB2E299F55150054E08B /* Router */ = {
 			isa = PBXGroup;
 			children = (
-				53F3BB2C299F54C30054E08B /* FirstViewRouter.swift */,
 				53F3BB2F299F55780054E08B /* Router.swift */,
 			);
 			path = Router;
@@ -328,11 +338,13 @@
 		53F3BB33299F60260054E08B /* Contract */ = {
 			isa = PBXGroup;
 			children = (
+				53F3BB4229A1EF670054E08B /* SplashViewContract.swift */,
 				536AD43F299E600200801158 /* FormViewContract.swift */,
 				53F3BB34299F60700054E08B /* ModuleViewContract.swift */,
 				53F3BB36299F61BD0054E08B /* RecordsViewContract.swift */,
 				53F3BB38299F622E0054E08B /* RecordInfoViewContract.swift */,
 				53F3BB3A299FC85A0054E08B /* LookupViewContract.swift */,
+				53F3BB4629A1F6320054E08B /* HomeViewContract.swift */,
 			);
 			path = Contract;
 			sourceTree = "<group>";
@@ -415,7 +427,7 @@
 				53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */,
 				53F3BB3B299FC85A0054E08B /* LookupViewContract.swift in Sources */,
 				537B60932997933A00ACA883 /* UserType.swift in Sources */,
-				531B11122980E558000FAF02 /* LoggedInViewController.swift in Sources */,
+				531B11122980E558000FAF02 /* HomeViewController.swift in Sources */,
 				5318F5D5297A85A000AF76DC /* DataManager.swift in Sources */,
 				53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */,
 				53A696DE297C6D310029F92E /* NetworkService.swift in Sources */,
@@ -438,19 +450,23 @@
 				53D1C9B1297BAB2500DA09B4 /* KeyChainController.swift in Sources */,
 				5396485C299B87A300781CE4 /* EditRecordTableViewController.swift in Sources */,
 				537B60A52998B70100ACA883 /* BooleanTableViewCell.swift in Sources */,
-				53F3BB2D299F54C30054E08B /* FirstViewRouter.swift in Sources */,
-				537B607E29962C3B00ACA883 /* ModuleTableViewController.swift in Sources */,
+				537B607E29962C3B00ACA883 /* ModulesTableViewController.swift in Sources */,
 				537B608B299669FD00ACA883 /* RecordsPresenter.swift in Sources */,
 				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,
 				53A696DC297C6AD80029F92E /* KeyChainService.swift in Sources */,
 				53E749FB299A639C000EE176 /* LookupTableViewController.swift in Sources */,
 				53F3BB30299F55780054E08B /* Router.swift in Sources */,
-				5340DEE12982CD8C00ED51D1 /* ViewController.swift in Sources */,
+				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
+				53F3BB4729A1F6320054E08B /* HomeViewContract.swift in Sources */,
+				53F3BB3F29A1EE420054E08B /* LoginViewPresenter.swift in Sources */,
 				53964862299BB34D00781CE4 /* RecordInfo.swift in Sources */,
 				536AD440299E600200801158 /* FormViewContract.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
+				53F3BB4529A1F61B0054E08B /* HomeViewPresenter.swift in Sources */,
+				53F3BB4129A1EF0D0054E08B /* SplashViewPresenter.swift in Sources */,
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
+				53F3BB4329A1EF670054E08B /* SplashViewContract.swift in Sources */,
 				53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */,
 				537B60A72998B70100ACA883 /* EmailTableViewCell.swift in Sources */,
 				5396485E299B9EB600781CE4 /* RecordInfoPresenter.swift in Sources */,

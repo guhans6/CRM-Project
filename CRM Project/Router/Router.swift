@@ -10,10 +10,47 @@ import UIKit
 
 class Router {
     
-    let viewController: UIViewController?
+    var window: UIWindow
+    weak var viewController: UIViewController?
     
-    init(viewController: UIViewController?) {
-        self.viewController = viewController
+    init(window: UIWindow) {
+        self.window = window
+    }
+    
+//    init(viewController: UIViewController) {
+//        self.viewController = viewController
+//    }
+    
+    func launchApp() {
+        
+        let splashViewController = Assembler.getSplashView(router: self)
+        window.rootViewController = splashViewController
+        window.makeKeyAndVisible()
+//        viewController?.present(splashViewController, animated: true)
+    }
+
+}
+
+extension Router: SplashViewRouterContract {
+    
+    func showLoginView() {
+        let loginView = Assembler.getLoginViewController(router: self)
+        let navController = UINavigationController(rootViewController: loginView)
+        navController.modalPresentationStyle = .fullScreen
+        viewController?.present(loginView, animated: true)
+    }
+    
+    func showCRMHomeView() {
+        let crmHomeView = Assembler.getHomeViewController(router: self)
+        viewController?.present(crmHomeView, animated: true)
+    }
+}
+
+extension Router: HomeViewRouterContract {
+    
+    func showModules() {
+        let modulesView = Assembler.getModuleTableView(router: self)
+        viewController?.navigationController?.pushViewController(modulesView, animated: true)
     }
 }
 

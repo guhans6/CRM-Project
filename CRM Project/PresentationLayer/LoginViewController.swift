@@ -6,7 +6,7 @@
 //
 
 import UIKit
-class ViewController: UIViewController {
+class LoginViewController: UIViewController {
     
     private let openLinkButton = UIButton()
     private var isLoggedIn: Bool = false
@@ -54,8 +54,6 @@ class ViewController: UIViewController {
         let navController = UINavigationController(rootViewController: WebViewController())
         navController.modalPresentationStyle = .fullScreen
         self.present(navController, animated: true)
-        print(KeyChainController().getClientId())
-        print(KeyChainController().getClientSecret())
 //        KeyChainController().saveClientIdAndSecret()
     }
 }

@@ -43,7 +43,7 @@ class RecordsTableViewController: UITableViewController {
     }
     
     private func getRecords() {
-        recordsPresenter.displayRecords(for: module) { [weak self] records in
+        recordsPresenter.getAllRecordsFor(module: module) { [weak self] records in
             self?.records = records
             self?.tableView.reloadData()
         }
@@ -52,10 +52,6 @@ class RecordsTableViewController: UITableViewController {
     @objc private func addNewRecordButtonTapped() {
         let formViewController = FormTableViewController(module: module)
         navigationController?.pushViewController(formViewController, animated: true)
-    }
-    
-    @objc private func editButtonClicked() {
-        
     }
 }
 
@@ -98,4 +94,13 @@ extension RecordsTableViewController {
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
         return .delete
     }
+}
+
+extension RecordsTableViewController: RecordsViewContract {
+    
+    func displayRecords(records: [Record]) {
+        self.records = records
+        self.tableView.reloadData()
+    }
+    
 }

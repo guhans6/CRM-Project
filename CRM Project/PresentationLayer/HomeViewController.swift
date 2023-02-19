@@ -7,15 +7,18 @@
 
 import UIKit
 
-class LoggedInViewController: UIViewController {
+class HomeViewController: UIViewController {
     
     let networkController = NetworkController()
+    var presenter: HomeViewPresenterContract?
     
     let welcomeUserLabel = UILabel()
     let logoutButton = UIButton()
     let requestButton = UIButton()
     let generateAuthTokenButton = UIButton()
     let modulesViewButton = UIButton()
+    
+    
     
     deinit {
         print("Login deinitialized")
@@ -26,7 +29,6 @@ class LoggedInViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemMint
         networkController.generateAuthToken()
-        
         configureUI()
     }
     
@@ -148,8 +150,9 @@ class LoggedInViewController: UIViewController {
     }
     
     @objc private func formViewButtonTapped() {
-        let moduleTableVC = ModuleTableViewController()
+        let moduleTableVC = ModulesTableViewController()
         let _ = UINavigationController(rootViewController: moduleTableVC)
         navigationController?.pushViewController(moduleTableVC, animated: true)
+//        presenter?.navigateToModule()
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 class SplashViewController: UIViewController {
     
     let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
+    var splashViewPresenter: SplashViewPresenterContract?
     var isUserLoggedIn: Bool {
         get {
             UserDefaultsManager.shared.isUserLoggedIn()
@@ -48,15 +49,18 @@ class SplashViewController: UIViewController {
     func setUpViewController() {
         
         if UserDefaultsManager.shared.isUserLoggedIn() {
-            let loginVC = LoggedInViewController()
+            let loginVC = HomeViewController()
             let navController = UINavigationController(rootViewController: loginVC)
             navController.modalPresentationStyle = .fullScreen
             self.present(navController, animated: true)
+            
+//            splashViewPresenter?.navigateToCRM()
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                let loggedOutVC = ViewController()
-                loggedOutVC.modalPresentationStyle = .fullScreen
-                self.present(loggedOutVC, animated: true)
+                let loginVC = LoginViewController()
+                loginVC.modalPresentationStyle = .fullScreen
+                self.present(loginVC, animated: true)
+//                self.splashViewPresenter?.naviagteToLogin()
             }
         }
     }

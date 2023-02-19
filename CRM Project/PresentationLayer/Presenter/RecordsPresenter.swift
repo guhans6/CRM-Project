@@ -21,8 +21,8 @@ class RecordsPresenter {
 
 extension RecordsPresenter: RecordsPresenterContract {
     
-    func displayRecords(for module: String, completion: @escaping ([Record]) -> Void) -> Void {
-        RecordsController().getRecords(module: module, id: nil) { records in
+    func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void {
+        RecordsController().getRecords(module: module, id: nil) { [weak self] records in
             
             var recordArray = [Record]()
             
@@ -40,8 +40,13 @@ extension RecordsPresenter: RecordsPresenterContract {
             }
             
             completion(recordArray)
-            print("working")
+//            print("working")
+//            self?.showAllRecords(records: recordArray)
         }
+    }
+    
+    func showAllRecords(records: [Record]) {
+        recordViewController?.displayRecords(records: records)
     }
     
     func deleteRecords(for module: String, ids: [String]) {

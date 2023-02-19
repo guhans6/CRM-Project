@@ -10,10 +10,9 @@ import Foundation
 
 class ModulesPresenter {
     
-    private let networkController: NetworkControllerContract = NetworkController()
-    private let formPresenter = FormPresenter()
-    private weak var router: Router?
-    private weak var moduleTableView: ModuleViewContract?
+    var networkController: NetworkControllerContract = NetworkController()
+    weak var moduleTableView: ModuleViewContract?
+    weak var router: ModuleViewRouterContract?
     
    
 //    init(networkController: NetworkControllerContract) {
@@ -28,10 +27,10 @@ extension ModulesPresenter: ModulesPresenterContract {
     }
     
     func getModules(completion: @escaping ([Module]) -> Void) -> Void {
-        networkController.getModules { modules in
+        networkController.getModules { [weak self] modules in
             completion(modules)
             
-//            self.displayModules(modules: modules)
+//            self?.displayModules(modules: modules)
         }
     }
     
