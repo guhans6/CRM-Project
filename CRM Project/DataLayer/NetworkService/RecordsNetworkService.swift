@@ -9,7 +9,7 @@ import Foundation
 
 class RecordsNetworkService {
     
-    let networkController = NetworkService()
+    let networService = NetworkService()
     
     func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
         
@@ -29,7 +29,7 @@ class RecordsNetworkService {
         let parameters = ["data": [data]]
         
         
-        networkController.performNetworkCall(url: urlRequestString, method: httpMethod, urlComponents: nil, parameters: parameters, headers: nil) { resultData in
+        networService.performNetworkCall(url: urlRequestString, method: httpMethod, urlComponents: nil, parameters: parameters, headers: nil) { resultData in
             print(resultData)
         } failure: { error in
             print(error)
@@ -48,7 +48,7 @@ class RecordsNetworkService {
             urlRequestString.append("?fields=Name,Email")
         }
         
-        networkController.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data in
+        networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data in
             
             let recordsResult = data["data"] as! [Any]
             completion(recordsResult)
@@ -66,7 +66,7 @@ class RecordsNetworkService {
             urlRequestString.append(",")
         }
         
-        networkController.performNetworkCall(url: urlRequestString, method: HTTPMethod.DELETE, urlComponents: nil, parameters: nil, headers: nil) { data in
+        networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.DELETE, urlComponents: nil, parameters: nil, headers: nil) { data in
             
             // MARK: SHOULD DO SOMETHING ABOUT SUCCESSFUL DELETION
             let recordsResult = data["data"] as! [Any]

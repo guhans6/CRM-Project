@@ -18,10 +18,10 @@ protocol RecordsControllerContract {
 
 protocol UserDetailControllerContract {
     
-    func getUserDetails(completion: @escaping (String?, Error?) -> Void) -> Void
+    func getUserDetails(completion: @escaping (String?) -> Void) -> Void
 }
 
-protocol NetworkControllerContract {
+protocol ModulesControllerContract {
     
     func getModules(completion: @escaping ([Module]) -> Void) -> Void
 }

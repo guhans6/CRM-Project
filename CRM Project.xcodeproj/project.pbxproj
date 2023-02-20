@@ -28,6 +28,7 @@
 		5356AF1F29A340D400267943 /* ModulesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1E29A340D400267943 /* ModulesController.swift */; };
 		5356AF2129A3474C00267943 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2029A3474C00267943 /* UserDataManager.swift */; };
 		5356AF2329A348D500267943 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2229A348D500267943 /* WebViewPresenter.swift */; };
+		5356AF2529A35F2000267943 /* LookupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2429A35F2000267943 /* LookupTableViewController.swift */; };
 		536AD437299E21FA00801158 /* UserDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD436299E21FA00801158 /* UserDetailController.swift */; };
 		536AD439299E3EF400801158 /* RecordsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD438299E3EF400801158 /* RecordsController.swift */; };
 		536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD43D299E5BB100801158 /* UseCaseContact.swift */; };
@@ -61,7 +62,6 @@
 		53D273222977D20F001718BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273212977D20F001718BD /* AppDelegate.swift */; };
 		53D273242977D20F001718BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273232977D20F001718BD /* SceneDelegate.swift */; };
 		53D2732B2977D211001718BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53D2732A2977D211001718BD /* Assets.xcassets */; };
-		53E749FB299A639C000EE176 /* LookupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E749FA299A639C000EE176 /* LookupTableViewController.swift */; };
 		53E749FD299A7167000EE176 /* FieldRespone.json in Resources */ = {isa = PBXBuildFile; fileRef = 53E749FC299A7167000EE176 /* FieldRespone.json */; };
 		53EC9A48298261430056C300 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9A47298261430056C300 /* SplashViewController.swift */; };
 		53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */; };
@@ -106,6 +106,7 @@
 		5356AF1E29A340D400267943 /* ModulesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesController.swift; sourceTree = "<group>"; };
 		5356AF2029A3474C00267943 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		5356AF2229A348D500267943 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
+		5356AF2429A35F2000267943 /* LookupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewController.swift; sourceTree = "<group>"; };
 		536AD436299E21FA00801158 /* UserDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailController.swift; sourceTree = "<group>"; };
 		536AD438299E3EF400801158 /* RecordsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsController.swift; sourceTree = "<group>"; };
 		536AD43D299E5BB100801158 /* UseCaseContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseContact.swift; sourceTree = "<group>"; };
@@ -141,7 +142,6 @@
 		53D273232977D20F001718BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		53D2732A2977D211001718BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		53D2732F2977D211001718BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		53E749FA299A639C000EE176 /* LookupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewController.swift; sourceTree = "<group>"; };
 		53E749FC299A7167000EE176 /* FieldRespone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FieldRespone.json; sourceTree = "<group>"; };
 		53EC9A47298261430056C300 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
@@ -355,7 +355,7 @@
 		53E749F9299A6348000EE176 /* LookupTableView */ = {
 			isa = PBXGroup;
 			children = (
-				53E749FA299A639C000EE176 /* LookupTableViewController.swift */,
+				5356AF2429A35F2000267943 /* LookupTableViewController.swift */,
 				53F43A6C299ADABB002528BE /* LookupTableViewDelegate.swift */,
 			);
 			path = LookupTableView;
@@ -503,6 +503,7 @@
 				53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */,
 				53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */,
 				53F3BB3B299FC85A0054E08B /* LookupViewContract.swift in Sources */,
+				5356AF2529A35F2000267943 /* LookupTableViewController.swift in Sources */,
 				537B60932997933A00ACA883 /* UserType.swift in Sources */,
 				531B11122980E558000FAF02 /* HomeViewController.swift in Sources */,
 				5318F5D5297A85A000AF76DC /* NetworkDataManager.swift in Sources */,
@@ -541,7 +542,6 @@
 				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,
 				5356AF0529A2886B00267943 /* DataManagerContract.swift in Sources */,
 				53A696DC297C6AD80029F92E /* KeyChain.swift in Sources */,
-				53E749FB299A639C000EE176 /* LookupTableViewController.swift in Sources */,
 				53F3BB30299F55780054E08B /* Router.swift in Sources */,
 				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
 				53F3BB4729A1F6320054E08B /* HomeViewContract.swift in Sources */,

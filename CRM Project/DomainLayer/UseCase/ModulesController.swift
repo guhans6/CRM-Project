@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ModulesController {
+class ModulesController: ModulesControllerContract {
     
     let moduleNetworkService = ModulesNetworkService()
     

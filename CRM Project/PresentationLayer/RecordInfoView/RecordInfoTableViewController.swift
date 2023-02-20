@@ -47,9 +47,9 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     func getRecord() {
-        individualRecordPresenter.getRecordFor(id: recordId, module: recordModule) { recordInfo in
-            self.recordInfo = recordInfo
-            self.tableView.reloadData()
+        individualRecordPresenter.getRecordFor(id: recordId, module: recordModule) { [weak self] recordInfo in
+            self?.recordInfo = recordInfo
+            self?.tableView.reloadData()
         }
     }
     

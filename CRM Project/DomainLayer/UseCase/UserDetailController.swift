@@ -8,7 +8,7 @@
 import Foundation
 
 
-class UserDetailController {
+class UserDetailController: UserDetailControllerContract {
 
     let userDataManager = UserDataManager()
     
