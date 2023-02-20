@@ -9,7 +9,7 @@ import Foundation
 
 class RecordsPresenter {
     
-    private let networkController = NetworkController()
+    private let networkController = RecordsController()
     private weak var recordViewController: RecordsViewContract?
     private weak var router: Router?
     
@@ -22,7 +22,7 @@ class RecordsPresenter {
 extension RecordsPresenter: RecordsPresenterContract {
     
     func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void {
-        RecordsController().getRecords(module: module, id: nil) { [weak self] records in
+        networkController.getRecords(module: module, id: nil) { [weak self] records in
             
             var recordArray = [Record]()
             

@@ -1,13 +1,13 @@
 //
-//  KeyChainController.swift
-//  CRM Project
+//  KeychainService.swift
+//  CRM C
 //
-//  Created by guhan-pt6208 on 21/01/23.
+//  Created by guhan-pt6208 on 20/02/23.
 //
 
 import Foundation
 
-class KeyChainController {
+class KeychainService {
     
     private let refreshTokenService = "com.zoho.refresh.crm"
     private let accessTokenService = "com.zoho.access.crm"

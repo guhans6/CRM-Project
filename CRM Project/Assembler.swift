@@ -45,7 +45,7 @@ class Assembler {
     
     static func getModuleTableView(router: Router) -> ModulesTableViewController {
         
-        let networkController = NetworkController()
+        let networkController = ModulesController()
         let modulesPresenter = ModulesPresenter()
         let modulesViewController = ModulesTableViewController()
         

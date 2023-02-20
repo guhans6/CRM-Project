@@ -14,9 +14,11 @@ class HomeViewPresenter: HomeViewPresenterContract {
     weak var homeView: HomeViewController?
     
     func navigateToModule() {
-//        if router != nil {
-//            print("r p")
-//        }
+        print("this")
         router?.showModules()
+    }
+    
+    func generateAuthToken() {
+        NetworkController().generateAuthToken()
     }
 }

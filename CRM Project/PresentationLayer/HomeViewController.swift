@@ -9,8 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    let networkController = NetworkController()
-    var presenter: HomeViewPresenterContract?
+    var presenter: HomeViewPresenterContract? = HomeViewPresenter()
     
     let welcomeUserLabel = UILabel()
     let logoutButton = UIButton()
@@ -28,7 +27,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemMint
-        networkController.generateAuthToken()
+        presenter?.generateAuthToken()
         configureUI()
     }
     
@@ -101,15 +100,6 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func makeRequestButtonTapped() {
-        let userController = UserDetailController()
-        
-        userController.getUserDetails { username, error in
-            guard let username = username else {
-                print(error!)
-                return
-            }
-            self.welcomeUserLabel.text = "Welcome \(username)"
-        }
         
     }
 
@@ -130,7 +120,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func generateTokenButtonTapped() {
-        NetworkController().generateAuthToken()
+        presenter?.generateAuthToken()
     }
     
     private func configureFormViewButton() {

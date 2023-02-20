@@ -10,7 +10,7 @@ import Foundation
 
 class ModulesPresenter {
     
-    var networkController: NetworkControllerContract = NetworkController()
+    var networkController = ModulesController()
     weak var moduleTableView: ModuleViewContract?
     weak var router: ModuleViewRouterContract?
     

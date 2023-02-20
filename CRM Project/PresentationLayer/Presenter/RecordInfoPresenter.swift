@@ -9,7 +9,7 @@ import Foundation
 
 class RecordInfoPresenter {
     
-    private let networkController = NetworkController()
+    private let recordsController = RecordsController()
     private weak var recordInfoVc: RecordInfoViewContract?
     
     init(recordInfoVc: RecordInfoViewContract? = nil) {
@@ -21,7 +21,7 @@ class RecordInfoPresenter {
 extension RecordInfoPresenter: RecordInfoPresenterContract {
     
     func getRecordFor(id: String, module: String, completion: @escaping ([(String, String)]) -> Void ) -> Void {
-        networkController.getRecords(module: module, id: id) { recordForId in
+        recordsController.getRecords(module: module, id: id) { recordForId in
             
             let record = recordForId[0] as! [String: Any]
             

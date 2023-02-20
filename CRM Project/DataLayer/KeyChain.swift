@@ -13,7 +13,7 @@ enum KeyChainError: Error {
     case unhandledError(status: OSStatus)
 }
 
-class KeyChainService {
+class KeyChain {
     
     //    saveAuthToken
     

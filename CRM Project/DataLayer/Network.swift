@@ -7,10 +7,10 @@
 
 import Foundation
 
-class NetworkService: NetworkServiceContract {
+class Network: NetworkContract {
     
     
-    static let shared = NetworkService()
+    static let shared = Network()
     private let session = URLSession.shared
    
     
@@ -53,7 +53,7 @@ class NetworkService: NetworkServiceContract {
         task.resume()
     }
     
-    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?, completion: @escaping ([String: Any]?, Error?) -> Void) -> Void
+    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?, success: @escaping ([String: Any]?) -> Void, failure: @escaping (Error) -> Void)
     {
         
         guard let headers = headers else {
@@ -104,9 +104,9 @@ class NetworkService: NetworkServiceContract {
             do {
 
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                completion(json, nil)
+                success(json)
             } catch {
-                print(error)
+                failure(error)
             }
             
         }

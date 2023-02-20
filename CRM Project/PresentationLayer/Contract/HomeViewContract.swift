@@ -10,6 +10,7 @@ import Foundation
 protocol HomeViewPresenterContract: AnyObject {
     
     func navigateToModule() -> Void
+    func generateAuthToken() -> Void
 }
 
 protocol HomeViewRouterContract: AnyObject {

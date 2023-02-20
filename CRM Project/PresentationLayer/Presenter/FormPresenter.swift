@@ -15,7 +15,8 @@ enum ModuleType: String {
 
 class FormPresenter {
     
-    private let networkController = NetworkController()
+    private let recordsController = RecordsController()
+    private let fieldsContorller = FieldsController()
     private weak var formViewController: FormViewContract?
     private weak var router: Router?
     
@@ -24,7 +25,7 @@ class FormPresenter {
 extension FormPresenter: FormPresenterContract {
     
     func getFieldsfor(module: String, completion: @escaping ([Field]) -> Void) -> Void {
-        networkController.getfieldMetaData(module: module) { [weak self] fields in
+        fieldsContorller.getfields(module: module) { [weak self] fields in
             completion(fields)
 //            self?.showForm(fields: fields)
         }
@@ -41,11 +42,11 @@ extension FormPresenter: FormPresenterContract {
     }
     
     func saveRecord(module: String, records: [String: Any]) {
-        networkController.addRecord(module: module, recordData: records, isAUpdate: false, recordId: nil)
+        recordsController.addRecord(module: module, recordData: records, isAUpdate: false, recordId: nil)
     }
     
     func updateRecord(module: String, records: [String: Any], recordId: String?) {
-        networkController.addRecord(module: module, recordData: records, isAUpdate: true, recordId: recordId)
+        recordsController.addRecord(module: module, recordData: records, isAUpdate: true, recordId: recordId)
     }
     
     func showLookupRecord(module: String) {
