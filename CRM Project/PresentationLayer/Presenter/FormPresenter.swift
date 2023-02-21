@@ -35,7 +35,7 @@ extension FormPresenter: FormPresenterContract {
         formViewController?.displayFormWith(fields: fields)
     }
     
-    func getLayout(module: String, completion: @escaping ([Field]) -> Void) -> Void {
+    func getLayout(module: String, completion: @escaping ([Fiel]) -> Void) -> Void {
 //        networkController.getLayout(module: module) { fields in
 //            completion(fields)
 //        }

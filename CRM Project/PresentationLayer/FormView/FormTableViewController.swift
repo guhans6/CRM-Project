@@ -58,8 +58,8 @@ class FormTableViewController: UITableViewController {
     }
     
     private func getFields() {
-        formPresenter.getFieldsfor(module: module) { data in
-            self.fields = data
+        formPresenter.getFieldsfor(module: module) { fields in
+            self.fields = fields
             self.tableView.reloadData()
         }
     }
@@ -74,15 +74,18 @@ class FormTableViewController: UITableViewController {
             let field = fields[row]
             let cell: FormTableViewCell?
             //d
-            if field.lookUpApiName != nil {
+            if field.lookup.apiName != nil {
                 
                 cell = tableView.cellForRow(at: indexPath) as! LookupTableViewCell
             } else {
                 
-                switch field.fieldType {
+                switch field.dataType {
                 case "String":
                     cell = tableView.cellForRow(at: indexPath) as! StringTableViewCell
                     
+                case "phone":
+                    
+                    fallthrough
                 case "integer":
                     cell = tableView.cellForRow(at: indexPath) as! IntegerTableViewCell
                     
@@ -90,15 +93,19 @@ class FormTableViewController: UITableViewController {
                     cell = tableView.cellForRow(at: indexPath) as! DoubleTableViewCell
                 case "boolean":
                     cell = tableView.cellForRow(at: indexPath) as! BooleanTableViewCell
+                case "picklist":
+                    fallthrough
+                case "multiselectpicklist":
+                    fallthrough
                 default:
                     cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
                 }
                 
             }
-            let cellField = cell!.getFieldData(for: field.fieldType)
-            print(cellField)
+            let cellField = cell!.getFieldData(for: field.dataType)
+//            print(cellField)
             if cellField.1 != nil {
-                data[fields[row].fieldApiName] = cellField.1
+                data[fields[row].apiName] = cellField.1
             }
         }
         
@@ -123,45 +130,61 @@ extension FormTableViewController {
         
         let field = fields[indexPath.row]
         var cell: FormTableViewCell? = nil
+//        print(field.lookUpApiName)
         
-        if field.fieldName == "Email" {
+        switch field.dataType {
             
-            cell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.emailCellIdentifier) as! EmailTableViewCell
-            
-
-        } else if field.lookUpApiName != nil {
-            
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGesture))
+        case "lookup":
             
             cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
-           cell?.addGestureRecognizer(tapGesture)
-           cell?.setLookupName(lookupApiName: field.lookUpApiName!)
+            cell?.setLookupName(lookupApiName: field.lookup.module!.apiName)
+        case "email":
             
-        } else {
+            cell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.emailCellIdentifier) as! EmailTableViewCell
+        case "text":
             
-            switch field.fieldType {
-                
-            case "String":
-                cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
-                
-            case "integer":
-                cell = tableView.dequeueReusableCell(withIdentifier: IntegerTableViewCell.integerCellIdentifier) as! IntegerTableViewCell
-                
-            case "double":
-                cell = tableView.dequeueReusableCell(withIdentifier: DoubleTableViewCell.doubleCellIdentifier) as! DoubleTableViewCell
-            case "boolean":
-                cell = tableView.dequeueReusableCell(withIdentifier: BooleanTableViewCell.booleanCellIdentifier) as! BooleanTableViewCell
-            default:
-                cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
-            }
+            cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
+            
+        case "integer":
+            fallthrough
+        case "phone":
+            cell = tableView.dequeueReusableCell(withIdentifier: IntegerTableViewCell.integerCellIdentifier) as! IntegerTableViewCell
+            
+        case "double":
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: DoubleTableViewCell.doubleCellIdentifier) as! DoubleTableViewCell
+        case "boolean":
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: BooleanTableViewCell.booleanCellIdentifier) as! BooleanTableViewCell
+            
+        case "picklist":
+            
+            fallthrough
+        case "multiselectpicklist":
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
+        default:
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
         }
         
-        cell?.setUpCellWith(fieldName: field.fieldName)
+        if field.dataType == "picklist" || field.dataType == "multiselectpicklist" {
+            
+            let pickListTapGesuture = UITapGestureRecognizer(target: self, action: #selector(pickListTapGesuture(sender:)))
+            cell?.addGestureRecognizer(pickListTapGesuture)
+            
+        } else if field.dataType == "lookup" {
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGesture(sender:)))
+            cell?.addGestureRecognizer(tapGesture)
+        }
+        
+        cell?.setUpCellWith(fieldName: field.fieldLabel)
         
         if isRecordEditing  {
            editableRecords.forEach { key, value in
-//                print(field.fieldName, key)
-               if field.fieldName == key || field.fieldApiName == key {
+
+               if field.fieldLabel == key || field.apiName == key {
                    cell?.setRecordData(for: value)
                }
            }
@@ -178,17 +201,32 @@ extension FormTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    @objc private func tapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+    @objc private func tapGesture(sender gestureRecognizer: UITapGestureRecognizer) {
 
         let cell = gestureRecognizer.view as! LookupTableViewCell
         let location = gestureRecognizer.location(in: cell)
         let moduleName = cell.lookupApiName
-
+        print(moduleName)
         if location.x > cell.frame.width / 2 {
 
             let lookupTableVC = LookupTableViewController(module: moduleName!)
             lookupTableVC.delegate = cell.self
             navigationController?.pushViewController(lookupTableVC, animated: true)
+        }
+        
+    }
+    
+    @objc private func pickListTapGesuture(sender gestureRecognizer: UITapGestureRecognizer) {
+        
+        let cell = gestureRecognizer.view as! LookupTableViewCell
+        let location = gestureRecognizer.location(in: cell)
+        let moduleName = cell.lookupApiName
+
+        if location.x > cell.frame.width / 2 {
+            
+//            let lookupTableVC = MultiSelectTableViewController()
+//            lookupTableVC.delegate = cell.self
+//            navigationController?.pushViewController(lookupTableVC, animated: true)
         }
     }
 }

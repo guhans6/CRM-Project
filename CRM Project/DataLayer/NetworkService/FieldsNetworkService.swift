@@ -11,36 +11,72 @@ class FieldsNetworkService {
     
     let networkService = NetworkService()
     
+    
+    // MARK: USE JSON DECODING
     func getfieldMetaData(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
         
         let urlRequestString = "crm/v3/settings/fields?module=\(module)"
-        var returnData = [Field]()
+//        var returnData = [Fiel]()
         
         networkService.performNetworkCall(url: urlRequestString, method: .GET, urlComponents: nil, parameters: nil, headers: nil) { data in
             
-            let fields = data["fields"] as! Array<Any>
-
-            for field in fields {
-
-                let field = field as! [String: Any]
-                let jsonType = field["json_type"] as! String
-                let displayLabel = field["field_label"] as! String
-                let fieldApiName = field["api_name"] as! String
-                let lookUp = field["lookup"] as! [String: Any]
-                var lookUpApiName: String? = nil
-
-                if !lookUp.isEmpty {
-                    if let module = lookUp["module"] as? [String: Any], let apiName = module["api_name"] {
-                        lookUpApiName = apiName as? String
+            let this = try! JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+            
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            do {
+                let result = try decoder.decode(Fields.self, from: this)
+                var fields = [Field]()
+                
+                result.fields.forEach { field in
+                    
+                    if field.apiName != "Modified_By" && field.apiName != "Created_By" && field.apiName != "Created_Time" && field.apiName != "Modified_Time" && field.apiName != "Last_Activity_Time" && field.apiName != "Unsubscribed_Mode" && field.apiName != "Unsubscribed_Time" && field.apiName != "Owner" && field.apiName != "Tag" {
+                            
+                        fields.append(field)
                     }
                 }
-
-                if fieldApiName != "Modified_By" && fieldApiName != "Created_By" && fieldApiName != "Created_Time" && fieldApiName != "Modified_Time" && fieldApiName != "Last_Activity_Time" && fieldApiName != "Unsubscribed_Mode" && fieldApiName != "Unsubscribed_Time" && fieldApiName != "Owner" && fieldApiName != "Tag" {
-
-                    returnData.append(Field(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: lookUpApiName))
-                }
+                
+//                print(fields)
+                completion(fields)
+            } catch {
+                print(error)
             }
-            completion(returnData)
+            
+            
+//            let fields = data["fields"] as! Array<Any>
+//
+//            for field in fields {
+//
+////                print(field)
+//
+//                let field = field as! [String: Any]
+//                let jsonType = field["json_type"] as! String
+//                let displayLabel = field["field_label"] as! String
+//                let fieldApiName = field["api_name"] as! String
+//                let lookUp = field["lookup"] as! [String: Any]
+//                let dataType = field["data_type"] as! String
+//                var lookUpApiName: String? = nil
+//
+//                if dataType == "multiselectpicklist" || dataType == "picklist" {
+//                    let pickListValues = field["pick_list_values"] as! [[String: Any]]
+//                    pickListValues.forEach { value in
+//                        let picklistvalue = value["display_value"]
+//                        let pickListId = value["id"] as! String
+//                    }
+//                }
+//
+//                if !lookUp.isEmpty {
+//                    if let module = lookUp["module"] as? [String: Any], let apiName = module["api_name"] {
+//                        lookUpApiName = apiName as? String
+//                    }
+//                }
+//
+//                if fieldApiName != "Modified_By" && fieldApiName != "Created_By" && fieldApiName != "Created_Time" && fieldApiName != "Modified_Time" && fieldApiName != "Last_Activity_Time" && fieldApiName != "Unsubscribed_Mode" && fieldApiName != "Unsubscribed_Time" && fieldApiName != "Owner" && fieldApiName != "Tag" {
+//
+//                    returnData.append(Fiel(fieldName: displayLabel, fieldType: jsonType, fieldApiName: fieldApiName, lookUpApiName: lookUpApiName, dataType: dataType))
+//                }
+//            }
+//            completion(returnData)
         } failure: { error in
             print(error)
         }

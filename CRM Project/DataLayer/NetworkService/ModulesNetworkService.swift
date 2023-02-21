@@ -14,13 +14,13 @@ class ModulesNetworkService {
     func getModules(completion: @escaping ([Module]) -> Void) -> Void {
         
         let urlRequestString = "crm/v3/settings/modules"
-        print(urlRequestString)
 
         networkService.performNetworkCall(url: urlRequestString, method: .GET, urlComponents: nil, parameters: nil, headers: nil) {data in
             
             let modules = data["modules"] as! Array<Any>
             var customModules = [Module]()
             modules.forEach { module in
+                
                 let module = module as! [String: Any]
                 if module["generated_type"] as! String == "custom" {
                     let apiName = module["api_name"] as! String
@@ -29,7 +29,7 @@ class ModulesNetworkService {
                     customModules.append(Module(apiName: apiName, moduleName: moduleName))
                 }
             }
-//            print(customModules)
+            
             completion(customModules)
         } failure: { error in
             print(error)

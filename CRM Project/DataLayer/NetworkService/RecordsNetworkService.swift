@@ -52,6 +52,8 @@ class RecordsNetworkService {
         
         networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data in
             
+//            print(data)
+            
             let recordsResult = data["data"] as! [Any]
 //            var records = [Record]()
 //            

@@ -102,8 +102,8 @@ class Network: NetworkContract {
             }
             
             do {
-
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+                
                 success(json)
             } catch {
                 failure(error)

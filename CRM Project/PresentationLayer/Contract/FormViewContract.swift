@@ -13,7 +13,7 @@ protocol FormPresenterContract: AnyObject {
     
     func showForm(fields: [Field]) -> Void
     func showLookupRecord(module: String)
-    func getLayout(module: String, completion: @escaping ([Field]) -> Void) -> Void
+//    func getLayout(module: String, completion: @escaping ([Fiel]) -> Void) -> Void
     func saveRecord(module: String, records: [String: Any])
     func updateRecord(module: String, records: [String: Any], recordId: String?)
 }
