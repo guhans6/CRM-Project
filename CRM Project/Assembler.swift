@@ -34,8 +34,6 @@ class Assembler {
         let _ = UINavigationController(rootViewController: homeVC)
         let homeViewPresenter = HomeViewPresenter()
         homeViewPresenter.router = router
-//        homeViewPresenter.homeView = homeVC
-//        homeViewPresenter.
         
         homeVC.presenter = homeViewPresenter
         homeVC.modalPresentationStyle = .fullScreen

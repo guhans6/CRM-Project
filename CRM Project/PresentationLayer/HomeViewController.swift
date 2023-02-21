@@ -16,6 +16,7 @@ class HomeViewController: UIViewController {
     let requestButton = UIButton()
     let generateAuthTokenButton = UIButton()
     let modulesViewButton = UIButton()
+    let darkModeSwitch = UISwitch()
     
     
     
@@ -27,13 +28,13 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemMint
-        presenter?.generateAuthToken()
+//        presenter?.generateAuthToken()
         configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        presenter?.generateAuthToken()
     }
     
     private func configureUI() {
@@ -42,6 +43,7 @@ class HomeViewController: UIViewController {
         configureGenerateAuthTokenButton()
         configureWelcomeUserlabel()
         configureFormViewButton()
+//        configureDarkModeSwitch()
     }
     
     private func configureWelcomeUserlabel() {
@@ -145,4 +147,31 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(moduleTableVC, animated: true)
 //        presenter?.navigateToModule()
     }
+    
+//    private func configureDarkModeSwitch() {
+//
+//        view.addSubview(darkModeSwitch)
+//        darkModeSwitch.translatesAutoresizingMaskIntoConstraints = false
+//
+//        darkModeSwitch.addTarget(self, action: #selector(darkModeButtonTapped), for: .touchUpInside)
+//
+//        NSLayoutConstraint.activate([
+//            darkModeSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            darkModeSwitch.centerYAnchor.constraint(equalTo: modulesViewButton.bottomAnchor, constant: 40),
+//
+//        ])
+//    }
+    
+//    @objc private func darkModeButtonTapped() {
+//
+//        let appDelegate = UIApplication.shared.windows.first
+//
+//        if #available(iOS 13.0, *) {
+//            if darkModeSwitch.isOn {
+//                appDelegate?.overrideUserInterfaceStyle = .dark
+//                return
+//            }
+//            appDelegate?.overrideUserInterfaceStyle = .light
+//        }
+//    }
 }

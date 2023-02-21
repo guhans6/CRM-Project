@@ -25,7 +25,7 @@ class ModuleTableViewCell: UITableViewCell {
     private func configureModuleLabel() {
         contentView.addSubview(moduleLabel)
         moduleLabel.translatesAutoresizingMaskIntoConstraints = false
-        moduleLabel.textColor = .black
+//        moduleLabel.textColor = UIColor(named: "NormalText")
         
         NSLayoutConstraint.activate([
             moduleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),

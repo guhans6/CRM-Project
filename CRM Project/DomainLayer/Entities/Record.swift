@@ -13,4 +13,8 @@ struct Record {
     let recordName: String
     let secondaryRecordData: String
     let recordId: String
+    let owner: String?
+    let createdTime: String?
+    let modifiedBy: String?
+    let modifiedTime: String?
 }

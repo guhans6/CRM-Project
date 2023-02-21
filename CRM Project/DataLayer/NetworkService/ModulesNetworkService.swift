@@ -29,7 +29,7 @@ class ModulesNetworkService {
                     customModules.append(Module(apiName: apiName, moduleName: moduleName))
                 }
             }
-            print(customModules)
+//            print(customModules)
             completion(customModules)
         } failure: { error in
             print(error)

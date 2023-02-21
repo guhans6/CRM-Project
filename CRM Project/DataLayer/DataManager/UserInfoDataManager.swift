@@ -12,7 +12,7 @@ class UserInfoDataManager {
     private let userNetworkService = UserNetworkService()
     
     func getUserDetails(completion: @escaping (String?, Error?) -> Void) -> Void {
-        
+         
         userNetworkService.getUserDetails { data, error in
             completion(data, error)
         }

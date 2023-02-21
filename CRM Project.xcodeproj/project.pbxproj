@@ -29,6 +29,7 @@
 		5356AF2129A3474C00267943 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2029A3474C00267943 /* UserDataManager.swift */; };
 		5356AF2329A348D500267943 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2229A348D500267943 /* WebViewPresenter.swift */; };
 		5356AF2529A35F2000267943 /* LookupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2429A35F2000267943 /* LookupTableViewController.swift */; };
+		5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2829A3683600267943 /* CustomRecordField.swift */; };
 		536AD437299E21FA00801158 /* UserDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD436299E21FA00801158 /* UserDetailController.swift */; };
 		536AD439299E3EF400801158 /* RecordsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD438299E3EF400801158 /* RecordsController.swift */; };
 		536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD43D299E5BB100801158 /* UseCaseContact.swift */; };
@@ -54,11 +55,9 @@
 		5396485C299B87A300781CE4 /* EditRecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5396485B299B87A300781CE4 /* EditRecordTableViewController.swift */; };
 		5396485E299B9EB600781CE4 /* RecordInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5396485D299B9EB600781CE4 /* RecordInfoPresenter.swift */; };
 		53964860299BA76100781CE4 /* IndividualDataRespone.json in Resources */ = {isa = PBXBuildFile; fileRef = 5396485F299BA76100781CE4 /* IndividualDataRespone.json */; };
-		53964862299BB34D00781CE4 /* RecordInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53964861299BB34D00781CE4 /* RecordInfo.swift */; };
 		53964864299BEFB500781CE4 /* RecordInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53964863299BEFB500781CE4 /* RecordInfoTableViewCell.swift */; };
 		53A696DC297C6AD80029F92E /* KeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A696DB297C6AD80029F92E /* KeyChain.swift */; };
 		53A696DE297C6D310029F92E /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A696DD297C6D310029F92E /* Network.swift */; };
-		53D1C9B1297BAB2500DA09B4 /* KeyChainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */; };
 		53D273222977D20F001718BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273212977D20F001718BD /* AppDelegate.swift */; };
 		53D273242977D20F001718BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273232977D20F001718BD /* SceneDelegate.swift */; };
 		53D2732B2977D211001718BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53D2732A2977D211001718BD /* Assets.xcassets */; };
@@ -107,6 +106,7 @@
 		5356AF2029A3474C00267943 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		5356AF2229A348D500267943 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		5356AF2429A35F2000267943 /* LookupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewController.swift; sourceTree = "<group>"; };
+		5356AF2829A3683600267943 /* CustomRecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecordField.swift; sourceTree = "<group>"; };
 		536AD436299E21FA00801158 /* UserDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailController.swift; sourceTree = "<group>"; };
 		536AD438299E3EF400801158 /* RecordsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsController.swift; sourceTree = "<group>"; };
 		536AD43D299E5BB100801158 /* UseCaseContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseContact.swift; sourceTree = "<group>"; };
@@ -132,11 +132,9 @@
 		5396485B299B87A300781CE4 /* EditRecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecordTableViewController.swift; sourceTree = "<group>"; };
 		5396485D299B9EB600781CE4 /* RecordInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoPresenter.swift; sourceTree = "<group>"; };
 		5396485F299BA76100781CE4 /* IndividualDataRespone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = IndividualDataRespone.json; sourceTree = "<group>"; };
-		53964861299BB34D00781CE4 /* RecordInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfo.swift; sourceTree = "<group>"; };
 		53964863299BEFB500781CE4 /* RecordInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoTableViewCell.swift; sourceTree = "<group>"; };
 		53A696DB297C6AD80029F92E /* KeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChain.swift; sourceTree = "<group>"; };
 		53A696DD297C6D310029F92E /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChainController.swift; sourceTree = "<group>"; };
 		53D2731E2977D20F001718BD /* CRM C.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CRM C.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53D273212977D20F001718BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53D273232977D20F001718BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -182,7 +180,6 @@
 				53E749F8299A0326000EE176 /* UseCase */,
 				53EF7B0D29928CFD000B1FA1 /* Entities */,
 				5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */,
-				53D1C9B0297BAB2500DA09B4 /* KeyChainController.swift */,
 			);
 			path = DomainLayer;
 			sourceTree = "<group>";
@@ -244,8 +241,8 @@
 		5356AF0C29A32D5C00267943 /* NetworkService */ = {
 			isa = PBXGroup;
 			children = (
-				5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */,
 				5356AF1429A3382100267943 /* ModulesNetworkService.swift */,
+				5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */,
 				5356AF1629A3393800267943 /* UserNetworkService.swift */,
 				5356AF1829A3397100267943 /* FieldsNetworkService.swift */,
 				5356AF0F29A332B800267943 /* NetworkService.swift */,
@@ -399,7 +396,7 @@
 				537B608529963F8200ACA883 /* Module.swift */,
 				537B608E29969BDE00ACA883 /* Record.swift */,
 				537B60922997933A00ACA883 /* UserType.swift */,
-				53964861299BB34D00781CE4 /* RecordInfo.swift */,
+				5356AF2829A3683600267943 /* CustomRecordField.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -527,11 +524,11 @@
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				537B6082299635A000ACA883 /* ModulesPresenter.swift in Sources */,
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
+				5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */,
 				537B608029962C7E00ACA883 /* ModuleTableViewCell.swift in Sources */,
 				53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */,
 				5356AF1529A3382100267943 /* ModulesNetworkService.swift in Sources */,
 				5356AF2329A348D500267943 /* WebViewPresenter.swift in Sources */,
-				53D1C9B1297BAB2500DA09B4 /* KeyChainController.swift in Sources */,
 				5396485C299B87A300781CE4 /* EditRecordTableViewController.swift in Sources */,
 				537B60A52998B70100ACA883 /* BooleanTableViewCell.swift in Sources */,
 				5356AF1029A332B800267943 /* NetworkService.swift in Sources */,
@@ -547,7 +544,6 @@
 				53F3BB4729A1F6320054E08B /* HomeViewContract.swift in Sources */,
 				5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */,
 				53F3BB3F29A1EE420054E08B /* LoginViewPresenter.swift in Sources */,
-				53964862299BB34D00781CE4 /* RecordInfo.swift in Sources */,
 				536AD440299E600200801158 /* FormViewContract.swift in Sources */,
 				5356AF0729A28BBE00267943 /* ModulesDataManger.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,

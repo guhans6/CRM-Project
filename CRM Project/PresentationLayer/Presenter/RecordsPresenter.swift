@@ -36,7 +36,7 @@ extension RecordsPresenter: RecordsPresenterContract {
                 }
                 let recordName = record["Name"] as! String
                 let recordId = record["id"] as! String
-                recordArray.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId))
+                recordArray.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId, owner: nil ,createdTime: nil, modifiedBy: nil, modifiedTime: nil ))
             }
             
             completion(recordArray)
