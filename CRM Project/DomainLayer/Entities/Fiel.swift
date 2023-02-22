@@ -7,15 +7,6 @@
 
 import Foundation
 
-struct Fiel { // Changed Fields to field
-    
-    let fieldName: String
-    let fieldType: String
-    let fieldApiName: String
-    let lookUpApiName: String?
-    let dataType: String
-}
-
 struct Fields: Codable {
     let fields: [Field]
 }

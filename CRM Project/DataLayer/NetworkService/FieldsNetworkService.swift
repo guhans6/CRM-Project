@@ -20,12 +20,12 @@ class FieldsNetworkService {
         
         networkService.performNetworkCall(url: urlRequestString, method: .GET, urlComponents: nil, parameters: nil, headers: nil) { data in
             
-            let this = try! JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
+            let json = try! JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
             
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
             do {
-                let result = try decoder.decode(Fields.self, from: this)
+                let result = try decoder.decode(Fields.self, from: json)
                 var fields = [Field]()
                 
                 result.fields.forEach { field in
@@ -33,10 +33,10 @@ class FieldsNetworkService {
                     if field.apiName != "Modified_By" && field.apiName != "Created_By" && field.apiName != "Created_Time" && field.apiName != "Modified_Time" && field.apiName != "Last_Activity_Time" && field.apiName != "Unsubscribed_Mode" && field.apiName != "Unsubscribed_Time" && field.apiName != "Owner" && field.apiName != "Tag" {
                             
                         fields.append(field)
+//                        print(field.pickListValues)
                     }
                 }
                 
-//                print(fields)
                 completion(fields)
             } catch {
                 print(error)

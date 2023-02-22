@@ -10,8 +10,8 @@ import UIKit
 class RecordsTableViewCell: UITableViewCell {
 
     static let recordCellIdentifier = "recordCell"
-    private let recordNameLabel = UILabel()
-    private let recordEmailLabel = UILabel()
+    let recordNameLabel = UILabel()
+    let recordEmailLabel = UILabel()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -11,6 +11,7 @@ class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
     private var lookupId: String!
+//    private let lookUpTextField = UITextField()
     private var lookupVC: LookupTableViewController! // added form old commit
 
     var lookupApiName: String!
@@ -18,8 +19,9 @@ class LookupTableViewCell: FormTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        configureLookupLabel()
+//        configureLookupLabel()
 //        configureLookUpButton()
+        configureTextField()
     }
 
     required init?(coder: NSCoder) {
@@ -28,25 +30,31 @@ class LookupTableViewCell: FormTableViewCell {
 
     override func setLookupName(lookupApiName: String) {
         self.lookupApiName = lookupApiName
-        lookupVC = LookupTableViewController(module: lookupApiName)
-        lookupVC.delegate = self
+//        lookupVC = LookupTableViewController(module: lookupApiName)
+//        lookupVC.delegate = self
     }
 
 
-
-    private func configureLookupLabel() {
-        contentView.addSubview(lookupLabel)
-        lookupLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        lookupLabel.backgroundColor = .systemGray6
-
-        NSLayoutConstraint.activate([
-            lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            lookupLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
-            lookupLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            lookupLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+    override func configureTextField() {
+        super.configureTextField()
+//        textField.backgroundColor = .systemGray6
+        textField.isUserInteractionEnabled = false
+        
     }
+
+//    private func configureLookupLabel() {
+//        contentView.addSubview(lookupLabel)
+//        lookupLabel.translatesAutoresizingMaskIntoConstraints = false
+//
+//        lookupLabel.backgroundColor = .systemGray6
+//
+//        NSLayoutConstraint.activate([
+//            lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            lookupLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
+//            lookupLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            lookupLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+//        ])
+//    }
     
     override func getFieldData(for type: String) -> (String, Any?) {
         
@@ -65,7 +73,15 @@ extension LookupTableViewCell: LookupTableViewDelegate {
 
     func getLookupRecordId(recordName: String, recordId: String) {
 
-        self.lookupLabel.text = recordName
+        self.textField.text = recordName
         self.lookupId = recordId
     }
 }
+
+//extension LookupTableViewCell: PickListDelegate {
+//    
+//    func getPickListValues(pickListId: String, pickListValue: [String]) {
+//        self.textField.text = pickListValue.joined(separator: ",")
+////        self.pic
+//    }
+//}

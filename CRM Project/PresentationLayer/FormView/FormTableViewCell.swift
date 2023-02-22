@@ -13,6 +13,7 @@ class FormTableViewCell: UITableViewCell {
     let label = UILabel()
     lazy var textField = FormTextField()
     lazy var lookupLabel = UILabel()
+//    lazy var pickList = [String]()
     lazy var switchButton = UISwitch()
     var fieldType: String!
     
@@ -43,11 +44,15 @@ class FormTableViewCell: UITableViewCell {
         
         contentView.addSubview(textField)
         textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        textField.backgroundColor = .lightText
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
-        textField.keyboardType = .decimalPad
         textField.returnKeyType = .done
+        
+        // MARK: BELOW IS USED TO SET CUSTOM BORDER
+//        textField.layer.borderColor = UIColor.systemGray6.withAlphaComponent(0.5).cgColor
+//        textField.layer.borderWidth = 2.0
+        textField.backgroundColor = .systemGray6
         
         NSLayoutConstraint.activate([
             textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

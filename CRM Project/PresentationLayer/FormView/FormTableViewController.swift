@@ -55,6 +55,7 @@ class FormTableViewController: UITableViewController {
         tableView.register(DoubleTableViewCell.self, forCellReuseIdentifier: DoubleTableViewCell.doubleCellIdentifier)
         tableView.register(BooleanTableViewCell.self, forCellReuseIdentifier: BooleanTableViewCell.booleanCellIdentifier)
         tableView.register(LookupTableViewCell.self, forCellReuseIdentifier: LookupTableViewCell.lookupCellIdentifier)
+        tableView.register(PickListTableViewCell.self, forCellReuseIdentifier: PickListTableViewCell.pickListCellIdentifier)
     }
     
     private func getFields() {
@@ -90,14 +91,19 @@ class FormTableViewController: UITableViewController {
                     cell = tableView.cellForRow(at: indexPath) as! IntegerTableViewCell
                     
                 case "double":
+                    
                     cell = tableView.cellForRow(at: indexPath) as! DoubleTableViewCell
                 case "boolean":
+                    
                     cell = tableView.cellForRow(at: indexPath) as! BooleanTableViewCell
                 case "picklist":
+                    
                     fallthrough
                 case "multiselectpicklist":
-                    fallthrough
+                    
+                    cell = tableView.cellForRow(at: indexPath) as! PickListTableViewCell
                 default:
+                    
                     cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
                 }
                 
@@ -162,7 +168,7 @@ extension FormTableViewController {
             fallthrough
         case "multiselectpicklist":
             
-            cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
+            cell = tableView.dequeueReusableCell(withIdentifier: PickListTableViewCell.pickListCellIdentifier) as! PickListTableViewCell
         default:
             
             cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
@@ -170,12 +176,13 @@ extension FormTableViewController {
         
         if field.dataType == "picklist" || field.dataType == "multiselectpicklist" {
             
-            let pickListTapGesuture = UITapGestureRecognizer(target: self, action: #selector(pickListTapGesuture(sender:)))
+            let pickListTapGesuture = LookupTapGestureRecognizer(target: self, action: #selector(pickListTapGesuture(sender:)))
+            pickListTapGesuture.row = indexPath.row
             cell?.addGestureRecognizer(pickListTapGesuture)
             
         } else if field.dataType == "lookup" {
             
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapGesture(sender:)))
+            let tapGesture = LookupTapGestureRecognizer(target: self, action: #selector(tapGesture(sender:)))
             cell?.addGestureRecognizer(tapGesture)
         }
         
@@ -206,7 +213,7 @@ extension FormTableViewController {
         let cell = gestureRecognizer.view as! LookupTableViewCell
         let location = gestureRecognizer.location(in: cell)
         let moduleName = cell.lookupApiName
-        print(moduleName)
+//        print(moduleName)
         if location.x > cell.frame.width / 2 {
 
             let lookupTableVC = LookupTableViewController(module: moduleName!)
@@ -216,17 +223,20 @@ extension FormTableViewController {
         
     }
     
-    @objc private func pickListTapGesuture(sender gestureRecognizer: UITapGestureRecognizer) {
+    @objc private func pickListTapGesuture(sender gestureRecognizer: LookupTapGestureRecognizer) {
         
-        let cell = gestureRecognizer.view as! LookupTableViewCell
+        let cell = gestureRecognizer.view as! PickListTableViewCell
         let location = gestureRecognizer.location(in: cell)
-        let moduleName = cell.lookupApiName
+        let field = fields[gestureRecognizer.row!]
+        let pickList = field.pickListValues
+        let pickListName = field.fieldLabel
+        let dataType = field.dataType
 
         if location.x > cell.frame.width / 2 {
             
-//            let lookupTableVC = MultiSelectTableViewController()
-//            lookupTableVC.delegate = cell.self
-//            navigationController?.pushViewController(lookupTableVC, animated: true)
+            let lookupTableVC = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickList, isMultiSelect: dataType == "picklist" ? false : true)
+            lookupTableVC.delegate = cell.self
+            navigationController?.pushViewController(lookupTableVC, animated: true)
         }
     }
 }

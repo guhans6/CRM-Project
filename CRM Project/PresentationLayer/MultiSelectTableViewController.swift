@@ -9,10 +9,16 @@ import UIKit
 
 class MultiSelectTableViewController: UITableViewController {
     
-    var pickListValues = [String]()
+    private let pickListName: String
+    var pickListValues = [PickListValue]()
+    var delegate: PickListDelegate?
+    var isMultiSelect: Bool
+    var selectedItems: [Int] = []
     
-    init(pickListValues: [String]) {
+    init(pickListName: String, pickListValues: [PickListValue], isMultiSelect: Bool = false) {
         self.pickListValues = pickListValues
+        self.isMultiSelect = isMultiSelect
+        self.pickListName = pickListName
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -23,72 +29,90 @@ class MultiSelectTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.allowsMultipleSelection = true
+        configureTableView()
     }
     
     private func configureTableView() {
+        
+        title = pickListName
+        tableView.allowsMultipleSelection = true
+        
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
         
+        if isMultiSelect {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(didPressSaveButton))
+        }
+    }
+    
+    @objc private func didPressSaveButton() {
+        
+        guard let indexPaths = tableView.indexPathsForSelectedRows else {
+            print(" No rows are selected")
+            return
+        }
+        
+        // Iterate over the selected rows and perform some action
+        var values = [String]()
+        for indexPath in indexPaths {
+            let pickListValue = pickListValues[indexPath.row]
+            values.append(pickListValue.displayValue)
+        }
+        delegate?.getPickListValues(pickListId: pickListName, pickListValue: values)
+        navigationController?.popViewController(animated: true)
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        
         return pickListValues.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier, for: indexPath) as! RecordsTableViewCell
         let pickListValue = pickListValues[indexPath.row]
-        cell.configureRecordCell(recordName: pickListValue, secondaryData: "")
+        cell.configureRecordCell(recordName: pickListValue.displayValue, secondaryData: "")
+        
+        
+        // MARK: CUSTOM BGC FOR TAPPED CELL
+        let lightBlueColor = UIColor(named: "TableSelect")
+        let selectedBackgroundView = UIView()
+        selectedBackgroundView.backgroundColor = lightBlueColor
+        cell.selectedBackgroundView = selectedBackgroundView
 
         return cell
     }
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if !isMultiSelect {
+            let pickListValue = pickListValues[indexPath.row]
+            let pickListId = pickListValue.id
+            delegate?.getPickListValues(pickListId: pickListId, pickListValue: [pickListValue.displayValue])
+            navigationController?.popViewController(animated: true)
+        }
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        let row = indexPath.row
+        
+        if selectedItems.contains(row) == false {
+
+            selectedItems.append(row)
+            cell?.accessoryType = .checkmark
+            
+        }
     }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        
+        if let index = selectedItems.firstIndex(of: indexPath.row) {
+            selectedItems.remove(at: index)
+            cell?.accessoryType = .none
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

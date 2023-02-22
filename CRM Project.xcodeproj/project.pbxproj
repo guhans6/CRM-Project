@@ -64,6 +64,8 @@
 		53E749FD299A7167000EE176 /* FieldRespone.json in Resources */ = {isa = PBXBuildFile; fileRef = 53E749FC299A7167000EE176 /* FieldRespone.json */; };
 		53EC9A48298261430056C300 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9A47298261430056C300 /* SplashViewController.swift */; };
 		53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */; };
+		53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */; };
+		53EEAEFC29A5402D00403541 /* PickListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */; };
 		53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */; };
 		53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */; };
 		53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */; };
@@ -144,6 +146,8 @@
 		53E749FC299A7167000EE176 /* FieldRespone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FieldRespone.json; sourceTree = "<group>"; };
 		53EC9A47298261430056C300 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiSelectTableViewController.swift; path = "CRM Project/PresentationLayer/MultiSelectTableViewController.swift"; sourceTree = SOURCE_ROOT; };
+		53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTapRecognizer.swift; sourceTree = "<group>"; };
+		53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickListTableViewCell.swift; sourceTree = "<group>"; };
 		53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
 		53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
@@ -207,6 +211,7 @@
 				5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */,
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
 				531B11112980E558000FAF02 /* HomeViewController.swift */,
+				53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */,
 				537B607C2996216A00ACA883 /* ModulesView */,
 				537B60872996683800ACA883 /* RecordsView */,
 				53964857299B7F5E00781CE4 /* RecordInfoView */,
@@ -381,6 +386,7 @@
 				537B60A12998B70100ACA883 /* IntegerTableViewCell.swift */,
 				537B60A32998B70100ACA883 /* StringTableViewCell.swift */,
 				53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */,
+				53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */,
 			);
 			path = FormView;
 			sourceTree = "<group>";
@@ -511,6 +517,7 @@
 				53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */,
 				53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */,
 				53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */,
+				53EEAEFC29A5402D00403541 /* PickListTableViewCell.swift in Sources */,
 				53F3BB3B299FC85A0054E08B /* LookupViewContract.swift in Sources */,
 				5356AF2529A35F2000267943 /* LookupTableViewController.swift in Sources */,
 				537B60932997933A00ACA883 /* UserType.swift in Sources */,
@@ -522,6 +529,7 @@
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
 				53F3BB39299F622E0054E08B /* RecordInfoViewContract.swift in Sources */,
 				537B608629963F8200ACA883 /* Module.swift in Sources */,
+				53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */,
 				5356AF1729A3393800267943 /* UserNetworkService.swift in Sources */,
 				53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */,
 				5356AF1F29A340D400267943 /* ModulesController.swift in Sources */,
