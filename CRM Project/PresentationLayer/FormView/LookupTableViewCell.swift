@@ -11,8 +11,7 @@ class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
     private var lookupId: String!
-//    private let lookUpTextField = UITextField()
-    private var lookupVC: LookupTableViewController! // added form old commit
+    let textView = UILabel()
 
     var lookupApiName: String!
 
@@ -21,7 +20,8 @@ class LookupTableViewCell: FormTableViewCell {
 
 //        configureLookupLabel()
 //        configureLookUpButton()
-        configureTextField()
+//        configureTextField()
+        configureTextView()
     }
 
     required init?(coder: NSCoder) {
@@ -40,6 +40,22 @@ class LookupTableViewCell: FormTableViewCell {
 //        textField.backgroundColor = .systemGray6
         textField.isUserInteractionEnabled = false
         
+    }
+    
+    func configureTextView() {
+        contentView.addSubview(textView)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.isUserInteractionEnabled = false
+        textView.backgroundColor = .systemGray6
+        textView.numberOfLines = 0
+
+        
+        NSLayoutConstraint.activate([
+            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            textView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
+            textView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
 
 //    private func configureLookupLabel() {
@@ -65,7 +81,7 @@ class LookupTableViewCell: FormTableViewCell {
     }
     
     override func setRecordData(for data: String) {
-        self.lookupLabel.text = data
+        self.textView.text = data
     }
 }
 
@@ -73,7 +89,7 @@ extension LookupTableViewCell: LookupTableViewDelegate {
 
     func getLookupRecordId(recordName: String, recordId: String) {
 
-        self.textField.text = recordName
+        self.textView.text = recordName
         self.lookupId = recordId
     }
 }

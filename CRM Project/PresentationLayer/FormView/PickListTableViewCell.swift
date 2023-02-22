@@ -11,10 +11,11 @@ class PickListTableViewCell: LookupTableViewCell {
     
     
     static let pickListCellIdentifier = "pickListCell"
+    private var isMultiSelect = false
     private var pickListValues = [String]()
     
     override func getFieldData(for type: String) -> (String, Any?) {
-        if pickListValues.count == 1 {
+        if !isMultiSelect {
             
             return ("", pickListValues.first)
         } else {
@@ -22,12 +23,15 @@ class PickListTableViewCell: LookupTableViewCell {
         }
     }
     
+    
 }
 
 extension PickListTableViewCell: PickListDelegate {
-
-    func getPickListValues(pickListId: String, pickListValue: [String]) {
-        self.textField.text = pickListValue.joined(separator: ",")
+    
+    func getPickListValues(isMultiSelect: Bool, pickListValue: [String]) {
+        self.textView.text = pickListValue.joined(separator: ",")
         pickListValues = pickListValue
+        self.isMultiSelect = isMultiSelect
     }
+
 }

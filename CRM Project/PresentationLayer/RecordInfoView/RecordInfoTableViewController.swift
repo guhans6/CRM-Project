@@ -50,6 +50,9 @@ class RecordInfoTableViewController: UITableViewController {
         individualRecordPresenter.getRecordFor(id: recordId, module: recordModule) { [weak self] recordInfo in
             self?.recordInfo = recordInfo
             self?.tableView.reloadData()
+//            recordInfo.forEach { a,b in
+////                print(a, b)
+//            }
         }
     }
     

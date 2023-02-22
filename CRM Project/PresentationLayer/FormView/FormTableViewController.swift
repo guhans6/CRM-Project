@@ -15,6 +15,7 @@ class FormTableViewController: UITableViewController {
     private var module: String
     private var isRecordEditing = false
     private var editingRecordId: String?
+    private lazy var textAreaIndexes = [IndexPath]()
     
     init(module: String) {
         self.module = module
@@ -44,6 +45,8 @@ class FormTableViewController: UITableViewController {
     }
 
     private func configureTableView() {
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 50
         registerTableViewCells()
     }
     
@@ -56,6 +59,7 @@ class FormTableViewController: UITableViewController {
         tableView.register(BooleanTableViewCell.self, forCellReuseIdentifier: BooleanTableViewCell.booleanCellIdentifier)
         tableView.register(LookupTableViewCell.self, forCellReuseIdentifier: LookupTableViewCell.lookupCellIdentifier)
         tableView.register(PickListTableViewCell.self, forCellReuseIdentifier: PickListTableViewCell.pickListCellIdentifier)
+        tableView.register(TextAreaTableViewCell.self, forCellReuseIdentifier: TextAreaTableViewCell.textAreaCellIdentifier)
     }
     
     private func getFields() {
@@ -150,12 +154,15 @@ extension FormTableViewController {
         case "text":
             
             cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
+        case "textarea":
             
+            cell = tableView.dequeueReusableCell(withIdentifier: TextAreaTableViewCell.textAreaCellIdentifier) as! TextAreaTableViewCell
+            textAreaIndexes.append(indexPath)
         case "integer":
             fallthrough
         case "phone":
-            cell = tableView.dequeueReusableCell(withIdentifier: IntegerTableViewCell.integerCellIdentifier) as! IntegerTableViewCell
             
+            cell = tableView.dequeueReusableCell(withIdentifier: IntegerTableViewCell.integerCellIdentifier) as! IntegerTableViewCell
         case "double":
             
             cell = tableView.dequeueReusableCell(withIdentifier: DoubleTableViewCell.doubleCellIdentifier) as! DoubleTableViewCell
@@ -193,6 +200,7 @@ extension FormTableViewController {
 
                if field.fieldLabel == key || field.apiName == key {
                    cell?.setRecordData(for: value)
+//                   print(cell == nil ? "y" : "n")
                }
            }
        }
@@ -201,7 +209,14 @@ extension FormTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        50
+        
+        if textAreaIndexes.contains(indexPath) {
+
+            return 65
+        } else {
+            return UITableView.automaticDimension
+        }
+//        UITableView.automaticDimension
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -12,6 +12,7 @@ class FormTableViewCell: UITableViewCell {
     static let cellIdentifier = "formCell"
     let label = UILabel()
     lazy var textField = FormTextField()
+//    lazy var textField = FormTextField()
     lazy var lookupLabel = UILabel()
 //    lazy var pickList = [String]()
     lazy var switchButton = UISwitch()
@@ -35,7 +36,9 @@ class FormTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+//            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
             label.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -10)
         ])
     }
@@ -73,6 +76,7 @@ class FormTableViewCell: UITableViewCell {
 //        print(textField.text)
     }
     
+    // MARK: THIS SHOULD BE OVERRIDED IN EVERY TYPE CELL AND THERE IS NO NEED FOR (for Type) PARAMETER
     func getFieldData(for type: String) -> (String, Any?) {
         
         if textField.text! == "" {

@@ -69,10 +69,7 @@ class RecordsNetworkService {
 //                let recordId = record["id"] as! String
 //                records.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId))
 //            }
-            if isIndividualFetch {
-                
-            }
-            
+            print(recordsResult)
             completion(recordsResult)
         } failure: { error in
             print(error)

@@ -66,6 +66,7 @@
 		53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */; };
 		53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */; };
 		53EEAEFC29A5402D00403541 /* PickListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */; };
+		53EEAEFE29A5EF4F00403541 /* TextAreaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEFD29A5EF4F00403541 /* TextAreaTableViewCell.swift */; };
 		53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */; };
 		53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */; };
 		53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */; };
@@ -148,6 +149,7 @@
 		53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiSelectTableViewController.swift; path = "CRM Project/PresentationLayer/MultiSelectTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTapRecognizer.swift; sourceTree = "<group>"; };
 		53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickListTableViewCell.swift; sourceTree = "<group>"; };
+		53EEAEFD29A5EF4F00403541 /* TextAreaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaTableViewCell.swift; sourceTree = "<group>"; };
 		53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
 		53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
@@ -387,6 +389,7 @@
 				537B60A32998B70100ACA883 /* StringTableViewCell.swift */,
 				53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */,
 				53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */,
+				53EEAEFD29A5EF4F00403541 /* TextAreaTableViewCell.swift */,
 			);
 			path = FormView;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				53F3BB4529A1F61B0054E08B /* HomeViewPresenter.swift in Sources */,
 				5356AF1B29A33A8100267943 /* FieldsController.swift in Sources */,
 				53F3BB4129A1EF0D0054E08B /* SplashViewPresenter.swift in Sources */,
+				53EEAEFE29A5EF4F00403541 /* TextAreaTableViewCell.swift in Sources */,
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
 				53F3BB4329A1EF670054E08B /* SplashViewContract.swift in Sources */,

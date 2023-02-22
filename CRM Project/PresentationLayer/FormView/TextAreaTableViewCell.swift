@@ -1,0 +1,50 @@
+//
+//  TextAreaTableViewCell.swift
+//  CRM C
+//
+//  Created by guhan-pt6208 on 22/02/23.
+//
+
+import UIKit
+
+class TextAreaTableViewCell: FormTableViewCell {
+
+    static let textAreaCellIdentifier = "textAreaCell"
+    private let textView = UITextView()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureTextView()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureTextView() {
+        contentView.addSubview(textView)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.backgroundColor = .systemGray6
+        textView.font = .systemFont(ofSize: 15)
+        textView.autocorrectionType = .no
+
+        
+        NSLayoutConstraint.activate([
+//            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            textView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
+            textView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5),
+            textView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+    }
+    
+    override func setRecordData(for data: String) {
+        self.textView.text = data
+    }
+    
+    override func getFieldData(for type: String) -> (String, Any?) {
+        
+        return ("", textView.text)
+    }
+    
+}

@@ -32,16 +32,20 @@ extension RecordInfoPresenter: RecordInfoPresenterContract {
             let owner = "Owner"         // This should be in usecase layer
             
             record.forEach { key, value in
-                print(key, value)
                 if !key.starts(with: "$") {
                     if let recordDictionary = value as? [String: Any] {
                         let name = recordDictionary["name"] as! String
                         recordInfo.append((key, name))
                     } else if key == name || key == owner {
-                        recordInfo.append(("Employee \(key)", value as! String))
+                        recordInfo.append(("\(module) \(key)", value as! String))
                     } else if let value = value as? Bool {
-                        print(value)
                         recordInfo.append((key, value == true ? "true" : "false"))
+                    } else if let recordArray = value as? [String] {
+                        recordInfo.append((key, recordArray.joined(separator: ",")))
+                    } else if let doubleValue = value as? Double {
+                        recordInfo.append((key, String(doubleValue)))
+                    } else if let intValue = value as? Int {
+                        recordInfo.append((key, String(intValue)))
                     } else {
                         recordInfo.append((key, value as? String ?? ""))
                     }

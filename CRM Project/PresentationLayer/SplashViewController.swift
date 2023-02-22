@@ -66,3 +66,5 @@ class SplashViewController: UIViewController {
     }
     
 }
+
+//let size = topLabel.sizeThatFits(CGSize(width: view.bounds.size.width, height: CGFLOAT_MAX))

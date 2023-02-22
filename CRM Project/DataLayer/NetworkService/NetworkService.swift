@@ -169,6 +169,7 @@ class NetworkService {
                 authHeader[key] = value
             }
         }
+        print(parameters)
         network.performDataTask(url: requestURL, method: method.rawValue, urlComponents: requestBodyComponents, parameters: parameters, headers: authHeader) { data in
         
             guard let data = data else {
