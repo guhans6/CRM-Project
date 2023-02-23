@@ -11,5 +11,6 @@ import Foundation
 struct Module {
     
     let apiName: String
-    let moduleName: String
+    let modulePluralName: String
+    let moduleSingularName: String
 }

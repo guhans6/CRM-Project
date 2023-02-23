@@ -103,6 +103,7 @@ class HomeViewController: UIViewController {
     
     @objc private func makeRequestButtonTapped() {
         
+        self.navigationController?.pushViewController(TableBookingViewController(), animated: true)
     }
 
     private func configureGenerateAuthTokenButton() {

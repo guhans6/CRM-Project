@@ -24,9 +24,10 @@ class ModulesNetworkService {
                 let module = module as! [String: Any]
                 if module["generated_type"] as! String == "custom" {
                     let apiName = module["api_name"] as! String
-                    let moduleName = module["plural_label"] as! String
+                    let pluralLabel = module["plural_label"] as! String
+                    let singularLabel = module["singular_label"] as! String
 
-                    customModules.append(Module(apiName: apiName, moduleName: moduleName))
+                    customModules.append(Module(apiName: apiName, modulePluralName: pluralLabel, moduleSingularName: singularLabel))
                 }
             }
             

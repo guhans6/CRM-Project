@@ -196,13 +196,14 @@ extension FormTableViewController {
         cell?.setUpCellWith(fieldName: field.fieldLabel)
         
         if isRecordEditing  {
-           editableRecords.forEach { key, value in
-
-               if field.fieldLabel == key || field.apiName == key {
-                   cell?.setRecordData(for: value)
-//                   print(cell == nil ? "y" : "n")
-               }
-           }
+            for record in editableRecords {
+                
+//                print(field.fieldLabel, fi)
+                if field.fieldLabel == record.0 || field.apiName == record.0 {
+                    cell?.setRecordData(for: record.1)
+                    break
+                }
+            }
        }
         
         return cell!

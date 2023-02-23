@@ -49,7 +49,7 @@ extension ModulesTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ModuleTableViewCell.moduleTableViewCellIdentifier) as! ModuleTableViewCell
         let module = modules[indexPath.row]
-        cell.setUpModule(moduleName: module.moduleName)
+        cell.setUpModule(moduleName: module.modulePluralName)
         return cell
     }
     
