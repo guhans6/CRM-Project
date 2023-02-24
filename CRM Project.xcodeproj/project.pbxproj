@@ -7,10 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5300C47429A8DEA700706150 /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300C47329A8DEA700706150 /* NoDataView.swift */; };
+		5300C47629A8F51A00706150 /* DropDownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300C47529A8F51A00706150 /* DropDownButton.swift */; };
 		531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531131BF29A79452006124AA /* RelatedListNetworkService.swift */; };
 		5311863F29A794B1004088DD /* RelatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311863E29A794B1004088DD /* RelatedList.swift */; };
 		5311864229A796AE004088DD /* DatePickerTableHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864129A796AE004088DD /* DatePickerTableHeaderView.swift */; };
 		5311864429A796F1004088DD /* TableBookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864329A796F1004088DD /* TableBookingViewController.swift */; };
+		5311864629A7A56D004088DD /* TableBookingViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864529A7A56D004088DD /* TableBookingViewPresenter.swift */; };
+		5311864829A7A66A004088DD /* BookingNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864729A7A66A004088DD /* BookingNetworkService.swift */; };
+		5311864A29A7BBE8004088DD /* BookingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864929A7BBE8004088DD /* BookingController.swift */; };
+		5311864C29A884DF004088DD /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864B29A884DF004088DD /* Table.swift */; };
+		5311864F29A88796004088DD /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 5311864E29A88796004088DD /* OrderedCollections */; };
+		5311865129A8C551004088DD /* TableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311865029A8C551004088DD /* TableViewExtension.swift */; };
 		5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5CE29796B4900AF76DC /* WebViewController.swift */; };
 		5318F5D5297A85A000AF76DC /* NetworkDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D4297A85A000AF76DC /* NetworkDataManager.swift */; };
 		5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D6297AB81E00AF76DC /* NetworkController.swift */; };
@@ -75,7 +83,7 @@
 		53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */; };
 		53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */; };
 		53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */; };
-		53EF7B0F29928D0B000B1FA1 /* Fiel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0E29928D0B000B1FA1 /* Fiel.swift */; };
+		53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0E29928D0B000B1FA1 /* Field.swift */; };
 		53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2A299F47CC0054E08B /* Assembler.swift */; };
 		53F3BB30299F55780054E08B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2F299F55780054E08B /* Router.swift */; };
 		53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB34299F60700054E08B /* ModuleViewContract.swift */; };
@@ -92,10 +100,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5300C47329A8DEA700706150 /* NoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
+		5300C47529A8F51A00706150 /* DropDownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownButton.swift; sourceTree = "<group>"; };
 		531131BF29A79452006124AA /* RelatedListNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedListNetworkService.swift; sourceTree = "<group>"; };
 		5311863E29A794B1004088DD /* RelatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedList.swift; sourceTree = "<group>"; };
 		5311864129A796AE004088DD /* DatePickerTableHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerTableHeaderView.swift; sourceTree = "<group>"; };
 		5311864329A796F1004088DD /* TableBookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableBookingViewController.swift; sourceTree = "<group>"; };
+		5311864529A7A56D004088DD /* TableBookingViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableBookingViewPresenter.swift; sourceTree = "<group>"; };
+		5311864729A7A66A004088DD /* BookingNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingNetworkService.swift; sourceTree = "<group>"; };
+		5311864929A7BBE8004088DD /* BookingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingController.swift; sourceTree = "<group>"; };
+		5311864B29A884DF004088DD /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		5311865029A8C551004088DD /* TableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExtension.swift; sourceTree = "<group>"; };
 		5318F5CE29796B4900AF76DC /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		5318F5D4297A85A000AF76DC /* NetworkDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataManager.swift; sourceTree = "<group>"; };
 		5318F5D6297AB81E00AF76DC /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
@@ -162,7 +177,7 @@
 		53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
 		53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
 		53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormPresenter.swift; sourceTree = "<group>"; };
-		53EF7B0E29928D0B000B1FA1 /* Fiel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fiel.swift; sourceTree = "<group>"; };
+		53EF7B0E29928D0B000B1FA1 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
 		53F3BB2A299F47CC0054E08B /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
 		53F3BB2F299F55780054E08B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		53F3BB34299F60700054E08B /* ModuleViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewContract.swift; sourceTree = "<group>"; };
@@ -183,6 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5311864F29A88796004088DD /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,8 +208,8 @@
 		5311864029A7968A004088DD /* TableBookingView */ = {
 			isa = PBXGroup;
 			children = (
-				5311864129A796AE004088DD /* DatePickerTableHeaderView.swift */,
 				5311864329A796F1004088DD /* TableBookingViewController.swift */,
+				5311864129A796AE004088DD /* DatePickerTableHeaderView.swift */,
 			);
 			path = TableBookingView;
 			sourceTree = "<group>";
@@ -273,8 +289,9 @@
 				5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */,
 				5356AF1629A3393800267943 /* UserNetworkService.swift */,
 				5356AF1829A3397100267943 /* FieldsNetworkService.swift */,
-				5356AF0F29A332B800267943 /* NetworkService.swift */,
 				531131BF29A79452006124AA /* RelatedListNetworkService.swift */,
+				5311864729A7A66A004088DD /* BookingNetworkService.swift */,
+				5356AF0F29A332B800267943 /* NetworkService.swift */,
 			);
 			path = NetworkService;
 			sourceTree = "<group>";
@@ -354,6 +371,9 @@
 				53F3BB2A299F47CC0054E08B /* Assembler.swift */,
 				53F3BB2E299F55150054E08B /* Router */,
 				5318F5D3297A851000AF76DC /* PresentationLayer */,
+				5311865029A8C551004088DD /* TableViewExtension.swift */,
+				5300C47329A8DEA700706150 /* NoDataView.swift */,
+				5300C47529A8F51A00706150 /* DropDownButton.swift */,
 				5318F5D0297A84D900AF76DC /* DomainLayer */,
 				5318F5D2297A84F500AF76DC /* DataLayer */,
 				53D2732A2977D211001718BD /* Assets.xcassets */,
@@ -374,6 +394,7 @@
 				536AD438299E3EF400801158 /* RecordsController.swift */,
 				5356AF1A29A33A8100267943 /* FieldsController.swift */,
 				5356AF1E29A340D400267943 /* ModulesController.swift */,
+				5311864929A7BBE8004088DD /* BookingController.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -424,6 +445,7 @@
 				53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */,
 				5396485D299B9EB600781CE4 /* RecordInfoPresenter.swift */,
 				5356AF2229A348D500267943 /* WebViewPresenter.swift */,
+				5311864529A7A56D004088DD /* TableBookingViewPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -431,12 +453,13 @@
 		53EF7B0D29928CFD000B1FA1 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				53EF7B0E29928D0B000B1FA1 /* Fiel.swift */,
+				53EF7B0E29928D0B000B1FA1 /* Field.swift */,
 				537B608529963F8200ACA883 /* Module.swift */,
 				537B608E29969BDE00ACA883 /* Record.swift */,
 				537B60922997933A00ACA883 /* UserType.swift */,
 				5356AF2829A3683600267943 /* CustomRecordField.swift */,
 				5311863E29A794B1004088DD /* RelatedList.swift */,
+				5311864B29A884DF004088DD /* Table.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -479,6 +502,9 @@
 			dependencies = (
 			);
 			name = "CRM C";
+			packageProductDependencies = (
+				5311864E29A88796004088DD /* OrderedCollections */,
+			);
 			productName = "CRM Project";
 			productReference = 53D2731E2977D20F001718BD /* CRM C.app */;
 			productType = "com.apple.product-type.application";
@@ -507,6 +533,9 @@
 				Base,
 			);
 			mainGroup = 53D273152977D20F001718BD;
+			packageReferences = (
+				5311864D29A88796004088DD /* XCRemoteSwiftPackageReference "swift-collections" */,
+			);
 			productRefGroup = 53D2731F2977D20F001718BD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -547,15 +576,17 @@
 				531B11122980E558000FAF02 /* HomeViewController.swift in Sources */,
 				5318F5D5297A85A000AF76DC /* NetworkDataManager.swift in Sources */,
 				5311864229A796AE004088DD /* DatePickerTableHeaderView.swift in Sources */,
-				53EF7B0F29928D0B000B1FA1 /* Fiel.swift in Sources */,
+				53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */,
 				53A696DE297C6D310029F92E /* Network.swift in Sources */,
 				536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
+				5311864A29A7BBE8004088DD /* BookingController.swift in Sources */,
 				53F3BB39299F622E0054E08B /* RecordInfoViewContract.swift in Sources */,
 				537B608629963F8200ACA883 /* Module.swift in Sources */,
 				53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */,
 				5356AF1729A3393800267943 /* UserNetworkService.swift in Sources */,
 				53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */,
+				5311864C29A884DF004088DD /* Table.swift in Sources */,
 				5356AF1F29A340D400267943 /* ModulesController.swift in Sources */,
 				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
 				536AD439299E3EF400801158 /* RecordsController.swift in Sources */,
@@ -570,6 +601,7 @@
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
 				5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */,
 				537B608029962C7E00ACA883 /* ModuleTableViewCell.swift in Sources */,
+				5300C47629A8F51A00706150 /* DropDownButton.swift in Sources */,
 				53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */,
 				531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */,
 				5356AF1529A3382100267943 /* ModulesNetworkService.swift in Sources */,
@@ -586,6 +618,7 @@
 				53A696DC297C6AD80029F92E /* KeyChain.swift in Sources */,
 				53F3BB30299F55780054E08B /* Router.swift in Sources */,
 				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
+				5311864629A7A56D004088DD /* TableBookingViewPresenter.swift in Sources */,
 				53F3BB4729A1F6320054E08B /* HomeViewContract.swift in Sources */,
 				5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */,
 				53F3BB3F29A1EE420054E08B /* LoginViewPresenter.swift in Sources */,
@@ -594,7 +627,9 @@
 				5311864429A796F1004088DD /* TableBookingViewController.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
 				53F3BB4529A1F61B0054E08B /* HomeViewPresenter.swift in Sources */,
+				5311864829A7A66A004088DD /* BookingNetworkService.swift in Sources */,
 				5356AF1B29A33A8100267943 /* FieldsController.swift in Sources */,
+				5311865129A8C551004088DD /* TableViewExtension.swift in Sources */,
 				53F3BB4129A1EF0D0054E08B /* SplashViewPresenter.swift in Sources */,
 				53EEAEFE29A5EF4F00403541 /* TextAreaTableViewCell.swift in Sources */,
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
@@ -605,6 +640,7 @@
 				5396485E299B9EB600781CE4 /* RecordInfoPresenter.swift in Sources */,
 				53F43A6D299ADABB002528BE /* LookupTableViewDelegate.swift in Sources */,
 				53D273242977D20F001718BD /* SceneDelegate.swift in Sources */,
+				5300C47429A8DEA700706150 /* NoDataView.swift in Sources */,
 				5356AF0B29A28BD800267943 /* UserInfoDataManager.swift in Sources */,
 				5318F5D9297ABE0D00AF76DC /* DatabaseController.swift in Sources */,
 				536AD437299E21FA00801158 /* UserDetailController.swift in Sources */,
@@ -815,6 +851,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5311864D29A88796004088DD /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5311864E29A88796004088DD /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5311864D29A88796004088DD /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 53D273162977D20F001718BD /* Project object */;
 }

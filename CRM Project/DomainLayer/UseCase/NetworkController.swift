@@ -23,7 +23,7 @@ enum HTTPMethod: String {
 
 class NetworkController {
     
-    private let networkDataManager = NetworkDataManager()
+    private let networkService = NetworkService()
     
     deinit {
         print("Network Controller deinitialized")
@@ -32,16 +32,20 @@ class NetworkController {
     
     func generateAccessToken(from url: URL?) {
         
-        networkDataManager.generateAccessToken(from: url)
+        do {
+            try networkService.generateAccessToken(from: url)
+        } catch {
+            print(error)
+        }
     }
     
     func generateAuthToken() {
         
-        networkDataManager.generateAuthToken()
+        networkService.generateAuthToken()
     }
     
     func getRegistrationURL() -> String {
         
-        return networkDataManager.getRegistrationURL()
+        return networkService.getRegistrationURL()
     }
 }

@@ -9,16 +9,21 @@ import UIKit
 
 class TableBookingViewController: UIViewController {
     
-    private let datePicker = UIDatePicker()
-    private let tableView = UITableView()
+    private let bookingViewPresenter = TableBookingViewPresenter()
+    private var tables = [[Table]]()
+    private lazy var noDataView = UIView()
+    let label = UILabel()
     
-    private var availableTables: [Table] = [] // assuming you have a model called Table
+    private let tableView = UITableView()
+    private let datePickerView = DatePickerTableHeaderView()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureDatePicker()
+        configureDatePickerView()
         configureTableView()
+//        configureNoDataView()
         
         // add constraints for subviews
         view.backgroundColor = .systemBackground
@@ -27,63 +32,116 @@ class TableBookingViewController: UIViewController {
         
     }
     
-    private func configureDatePicker() {
+    private func configureDatePickerView() {
+        view.addSubview(datePickerView)
+        datePickerView.datePicker.datePickerMode = .date
+        datePickerView.translatesAutoresizingMaskIntoConstraints = false
+//        datePickerView.datePicker.minimumDate = Date()
+        datePickerView.okButton.addTarget(self, action: #selector(datePickerValueChanged), for: .touchUpInside)
+
+        NSLayoutConstraint.activate([
+            datePickerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            datePickerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            datePickerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            datePickerView.heightAnchor.constraint(equalToConstant: 40)
+        ])
+    }
+    
+    @objc private func datePickerValueChanged() {
         
-        datePicker.datePickerMode = .date
+        bookingViewPresenter.getTablesIn(date: datePickerView.datePicker.date) { allTables in
+            self.tables = allTables
+            self.tableView.reloadData()
+        }
     }
     
     private func configureTableView() {
-        
-        
         
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.tableHeaderView = DatePickerTableHeaderView()
-        tableView.tableHeaderView?.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
-        loadData()
-        
+        tableView.separatorColor = UIColor(named: "tableViewSeperator")
+
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: datePickerView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
-    private func loadData() {
+    private func configureNoDataView() {
         
-        availableTables = [
-                    Table(name: "aa",number: 1, capacity: 4, isAvailable: true),
-                    Table(name: "bb",number: 2, capacity: 2, isAvailable: false),
-                    Table(name: "c",number: 3, capacity: 6, isAvailable: true),
-                    Table(name: "d",number: 4, capacity: 8, isAvailable: true),
-                    Table(name: "e",number: 5, capacity: 2, isAvailable: false)
-                ]
-        tableView.reloadData()
+        noDataView.frame = CGRect(x: self.tableView.center.x, y: self.tableView.center.y, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)
+        let titleLabel = UILabel()
+        titleLabel.textColor = UIColor.black
+        titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+        noDataView.addSubview(label)
+        
+        titleLabel.centerYAnchor.constraint(equalTo: noDataView.centerYAnchor).isActive = true
+        titleLabel.centerXAnchor.constraint(equalTo: noDataView.centerXAnchor).isActive = true
+        label.text = "No tables available"
+        label.sizeToFit()
+        self.tableView.backgroundView = noDataView
+        self.tableView.separatorStyle = .none
+        
     }
+    
 }
 
 extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        tables.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return availableTables.count
+//        self.tables[section].count
+        
+        let count = self.tables[section].count
+        
+        print(count)
+        if count == 0 {
+            self.tableView.setEmptyView(title: "No Tables Available", message: "")
+        } else {
+            self.tableView.restore()
+        }
+        
+        return count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        let table = availableTables[indexPath.row]
-        cell.textLabel?.text =  table.name// assuming Table model has a name property
+        cell.textLabel?.text = tables[indexPath.section][indexPath.row].name
+        
         return cell
     }
-}
-
-
-struct Table {
-    let name: String
-    let number: Int
-    let capacity: Int
-    let isAvailable: Bool
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+      
+        if section == 0 {
+            return "Available Tables"
+        } else {
+            return "Booked Tables"
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        if section == 0 && tables[section].isEmpty {
+            
+            let noDataView = NoDataView()
+            noDataView.setMessage("No Table Available")
+            return noDataView
+            
+        } else if section == 1 && tables[section].isEmpty {
+  
+            let noDataView = NoDataView()
+            noDataView.setMessage("No Table is Booked Till Now")
+            return noDataView
+        }
+        return nil
+    }
 }

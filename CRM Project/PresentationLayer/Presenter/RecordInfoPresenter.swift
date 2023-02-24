@@ -28,8 +28,7 @@ extension RecordInfoPresenter: RecordInfoPresenterContract {
             
             
             var recordInfo = [(String, String)]()
-            let name = "Name"
-            let owner = "Owner"         // This should be in usecase layer
+             // This should be in usecase layer
             
             record.forEach { key, value in
                 if !key.starts(with: "$") {

@@ -17,6 +17,7 @@ class HomeViewController: UIViewController {
     let generateAuthTokenButton = UIButton()
     let modulesViewButton = UIButton()
     let darkModeSwitch = UISwitch()
+    let dropDownButton = dropDownBtn()
     
     
     
@@ -44,6 +45,8 @@ class HomeViewController: UIViewController {
         configureWelcomeUserlabel()
         configureFormViewButton()
 //        configureDarkModeSwitch()
+        configureDropDownButton()
+    
     }
     
     private func configureWelcomeUserlabel() {
@@ -175,4 +178,21 @@ class HomeViewController: UIViewController {
 //            appDelegate?.overrideUserInterfaceStyle = .light
 //        }
 //    }
+    
+    func configureDropDownButton(){
+        view.addSubview(dropDownButton)
+        dropDownButton.translatesAutoresizingMaskIntoConstraints = false
+
+        dropDownButton.setTitle("Drop Down", for: .normal)
+        dropDownButton.setTitleColor(.blue , for: .normal)
+        dropDownButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+        dropDownButton.setDropDownOptions(options: ["a", "bb", "cccccccccccccc"])
+        
+        NSLayoutConstraint.activate([
+            dropDownButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            dropDownButton.centerYAnchor.constraint(equalTo: modulesViewButton.bottomAnchor, constant: 15),
+            dropDownButton.widthAnchor.constraint(equalToConstant: 150),
+            
+        ])
+    }
 }

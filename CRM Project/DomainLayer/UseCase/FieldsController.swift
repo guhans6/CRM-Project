@@ -9,7 +9,7 @@ import Foundation
 
 class FieldsController {
     
-    let fieldsDataManager = FieldsDataManager()
+    let fieldsDataManager = FieldsNetworkService()
     
     func getfields(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
         

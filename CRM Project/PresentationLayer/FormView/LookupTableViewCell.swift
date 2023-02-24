@@ -20,8 +20,8 @@ class LookupTableViewCell: FormTableViewCell {
 
 //        configureLookupLabel()
 //        configureLookUpButton()
-//        configureTextField()
-        configureTextView()
+        configureTextField()
+//        configureTextView()
     }
 
     required init?(coder: NSCoder) {
@@ -89,7 +89,7 @@ extension LookupTableViewCell: LookupTableViewDelegate {
 
     func getLookupRecordId(recordName: String, recordId: String) {
 
-        self.textView.text = recordName
+        self.textField.text = recordName
         self.lookupId = recordId
     }
 }

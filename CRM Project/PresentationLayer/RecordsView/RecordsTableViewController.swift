@@ -12,11 +12,13 @@ class RecordsTableViewController: UITableViewController {
     
     private let recordsPresenter: RecordsPresenterContract = RecordsPresenter()
     private var module: String
-    private var isLookup = false
+    private var isLookUp = false
+    var delegate: LookupTableViewDelegate?
     var records = [Record]()
     
-    init(module: String) {
+    init(module: String, isLookUp: Bool = false) {
         self.module = module
+        self.isLookUp = isLookUp
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,9 +80,16 @@ extension RecordsTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let record = records[indexPath.row]
         
-        let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId)
-        let _ = UINavigationController(rootViewController: individualRecordVC)
-        navigationController?.pushViewController(individualRecordVC, animated: true)
+        if !isLookUp {
+            
+            let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId)
+            let _ = UINavigationController(rootViewController: individualRecordVC)
+            navigationController?.pushViewController(individualRecordVC, animated: true)
+        } else {
+            
+            delegate?.getLookupRecordId(recordName: record.recordName, recordId: record.recordId)
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -89,7 +98,7 @@ extension RecordsTableViewController {
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        if isLookup == false {
+        if isLookUp == false {
             let swipeConfiguration = UIContextualAction(style: .destructive, title: "Delete") { action, view, complete in
                 let record = self.records.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -103,7 +112,10 @@ extension RecordsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        return .delete
+        if isLookUp {
+            return .delete
+        }
+        return .none
     }
 }
 

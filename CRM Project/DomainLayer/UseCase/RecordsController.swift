@@ -9,7 +9,7 @@ import Foundation
 
 class RecordsController: RecordsControllerContract {
     
-    let recordsDataManager = RecordsDataManager()
+    let recordsDataManager = RecordsNetworkService()
     
     func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
         

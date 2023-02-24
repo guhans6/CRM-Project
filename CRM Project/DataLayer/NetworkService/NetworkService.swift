@@ -169,7 +169,7 @@ class NetworkService {
                 authHeader[key] = value
             }
         }
-        print(parameters)
+        
         network.performDataTask(url: requestURL, method: method.rawValue, urlComponents: requestBodyComponents, parameters: parameters, headers: authHeader) { data in
         
             guard let data = data else {
@@ -178,6 +178,7 @@ class NetworkService {
             }
             
             if self.isInvalidTokenResponse(data: data) {
+                
                 self.performNetworkCall(url: url, method: method, urlComponents: urlComponents, parameters: parameters, headers: headers, success: success, failure: failure)
             } else {
                 

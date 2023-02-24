@@ -232,7 +232,7 @@ extension FormTableViewController {
 //        print(moduleName)
         if location.x > cell.frame.width / 2 {
 
-            let lookupTableVC = LookupTableViewController(module: moduleName!)
+            let lookupTableVC = RecordsTableViewController(module: moduleName!, isLookUp: true)
             lookupTableVC.delegate = cell.self
             navigationController?.pushViewController(lookupTableVC, animated: true)
         }

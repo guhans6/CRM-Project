@@ -29,7 +29,7 @@ class PickListTableViewCell: LookupTableViewCell {
 extension PickListTableViewCell: PickListDelegate {
     
     func getPickListValues(isMultiSelect: Bool, pickListValue: [String]) {
-        self.textView.text = pickListValue.joined(separator: ",")
+        self.textField.text = pickListValue.joined(separator: ", ")
         pickListValues = pickListValue
         self.isMultiSelect = isMultiSelect
     }

@@ -14,7 +14,6 @@ class FormTableViewCell: UITableViewCell {
     lazy var textField = FormTextField()
 //    lazy var textField = FormTextField()
     lazy var lookupLabel = UILabel()
-//    lazy var pickList = [String]()
     lazy var switchButton = UISwitch()
     var fieldType: String!
     
