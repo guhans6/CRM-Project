@@ -13,7 +13,7 @@ class DatePickerTableHeaderView: UIView {
     private let timeLabel = UILabel()
     let okButton = UIButton()
     let datePicker = UIDatePicker()
-    let dropDown = UITextField()
+    let dropDownButton = DropDownButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,6 +30,7 @@ class DatePickerTableHeaderView: UIView {
         
         configureLabel()
         configureDatePicker()
+        configureDropDownButton()
         configureButton()
     }
     
@@ -42,37 +43,59 @@ class DatePickerTableHeaderView: UIView {
         // Layout constraints for the label
         NSLayoutConstraint.activate([
             selectDateLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            selectDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 40),
+            selectDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
 //            selectDateLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5)
         ])
     }
     
     private func configureDatePicker() {
         
-        self.addSubview(datePicker)
-        datePicker.datePickerMode = .date
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
+//        self.addSubview(datePicker)
+//        datePicker.datePickerMode = .date
+//        datePicker.translatesAutoresizingMaskIntoConstraints = false
+//
+//
+////        Layout constraints for the date picker
+//        NSLayoutConstraint.activate([
+//            datePicker.leadingAnchor.constraint(equalTo: selectDateLabel.trailingAnchor, constant: 40),
+//            datePicker.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+//            //            datePicker.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
+//            //            datePicker.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3)
+//
+//        ])
+    }
+    
+    private func configureDropDownButton() {
         
+        self.addSubview(dropDownButton)
+        self.superview?.bringSubviewToFront(self)
+        dropDownButton.translatesAutoresizingMaskIntoConstraints = false
         
-//        Layout constraints for the date picker
+
+        dropDownButton.button.setTitle("Pick Time", for: .normal)
+        dropDownButton.button.setTitleColor(.label , for: .normal)
+        dropDownButton.button.titleLabel?.font = .systemFont(ofSize: 20)
+        dropDownButton.setDropDownOptions(options: ["a", "bb", "cccccccccccccc"])
+        dropDownButton.button.backgroundColor = .red
+        
         NSLayoutConstraint.activate([
-            datePicker.leadingAnchor.constraint(equalTo: selectDateLabel.trailingAnchor, constant: 40),
-            datePicker.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            //            datePicker.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
-            //            datePicker.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3)
+            dropDownButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            dropDownButton.leadingAnchor.constraint(equalTo: selectDateLabel.trailingAnchor, constant: 10),
+//            dropDownButton.widthAnchor.constraint(equalToConstant: 150),
             
         ])
     }
     
+    
     private func configureButton() {
         
-        self.addSubview(okButton)
-        okButton.translatesAutoresizingMaskIntoConstraints = false
-        okButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-        
-        NSLayoutConstraint.activate([
-            okButton.leadingAnchor.constraint(equalTo: datePicker.trailingAnchor, constant: 40),
-            okButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-        ])
+//        self.addSubview(okButton)
+//        okButton.translatesAutoresizingMaskIntoConstraints = false
+//        okButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
+//
+//        NSLayoutConstraint.activate([
+//            okButton.leadingAnchor.constraint(equalTo: dropDownButton.trailingAnchor, constant: 10),
+//            okButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+//        ])
     }
 }

@@ -17,7 +17,7 @@ class HomeViewController: UIViewController {
     let generateAuthTokenButton = UIButton()
     let modulesViewButton = UIButton()
     let darkModeSwitch = UISwitch()
-    let dropDownButton = dropDownBtn()
+    let dropDownButton = DropDownButton()
     
     
     
@@ -183,9 +183,9 @@ class HomeViewController: UIViewController {
         view.addSubview(dropDownButton)
         dropDownButton.translatesAutoresizingMaskIntoConstraints = false
 
-        dropDownButton.setTitle("Drop Down", for: .normal)
-        dropDownButton.setTitleColor(.blue , for: .normal)
-        dropDownButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+        dropDownButton.button.setTitle("Drop Down", for: .normal)
+        dropDownButton.button.setTitleColor(.label , for: .normal)
+        dropDownButton.button.titleLabel?.font = .systemFont(ofSize: 20)
         dropDownButton.setDropDownOptions(options: ["a", "bb", "cccccccccccccc"])
         
         NSLayoutConstraint.activate([

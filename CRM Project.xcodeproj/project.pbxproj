@@ -42,6 +42,9 @@
 		5356AF2329A348D500267943 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2229A348D500267943 /* WebViewPresenter.swift */; };
 		5356AF2529A35F2000267943 /* LookupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2429A35F2000267943 /* LookupTableViewController.swift */; };
 		5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2829A3683600267943 /* CustomRecordField.swift */; };
+		5362F76429AA342300DA5F44 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76329AA342300DA5F44 /* ContainerViewController.swift */; };
+		5362F76729AA342C00DA5F44 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76529AA342C00DA5F44 /* MenuVC.swift */; };
+		5362F76829AA342C00DA5F44 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76629AA342C00DA5F44 /* HomeVC.swift */; };
 		536AD437299E21FA00801158 /* UserDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD436299E21FA00801158 /* UserDetailController.swift */; };
 		536AD439299E3EF400801158 /* RecordsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD438299E3EF400801158 /* RecordsController.swift */; };
 		536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD43D299E5BB100801158 /* UseCaseContact.swift */; };
@@ -73,6 +76,8 @@
 		53D273222977D20F001718BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273212977D20F001718BD /* AppDelegate.swift */; };
 		53D273242977D20F001718BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273232977D20F001718BD /* SceneDelegate.swift */; };
 		53D2732B2977D211001718BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53D2732A2977D211001718BD /* Assets.xcassets */; };
+		53E5B7BC29A953070079B567 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5B7BB29A953070079B567 /* PickerViewController.swift */; };
+		53E5B7BE29A955480079B567 /* PickerViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5B7BD29A955480079B567 /* PickerViewPresenter.swift */; };
 		53E749FD299A7167000EE176 /* FieldRespone.json in Resources */ = {isa = PBXBuildFile; fileRef = 53E749FC299A7167000EE176 /* FieldRespone.json */; };
 		53EC9A48298261430056C300 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9A47298261430056C300 /* SplashViewController.swift */; };
 		53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */; };
@@ -134,6 +139,9 @@
 		5356AF2229A348D500267943 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		5356AF2429A35F2000267943 /* LookupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewController.swift; sourceTree = "<group>"; };
 		5356AF2829A3683600267943 /* CustomRecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecordField.swift; sourceTree = "<group>"; };
+		5362F76329AA342300DA5F44 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
+		5362F76529AA342C00DA5F44 /* MenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		5362F76629AA342C00DA5F44 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		536AD436299E21FA00801158 /* UserDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailController.swift; sourceTree = "<group>"; };
 		536AD438299E3EF400801158 /* RecordsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsController.swift; sourceTree = "<group>"; };
 		536AD43D299E5BB100801158 /* UseCaseContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseContact.swift; sourceTree = "<group>"; };
@@ -167,6 +175,8 @@
 		53D273232977D20F001718BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		53D2732A2977D211001718BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		53D2732F2977D211001718BD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		53E5B7BB29A953070079B567 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		53E5B7BD29A955480079B567 /* PickerViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewPresenter.swift; sourceTree = "<group>"; };
 		53E749FC299A7167000EE176 /* FieldRespone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FieldRespone.json; sourceTree = "<group>"; };
 		53EC9A47298261430056C300 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiSelectTableViewController.swift; path = "CRM Project/PresentationLayer/MultiSelectTableViewController.swift"; sourceTree = SOURCE_ROOT; };
@@ -210,6 +220,7 @@
 			children = (
 				5311864329A796F1004088DD /* TableBookingViewController.swift */,
 				5311864129A796AE004088DD /* DatePickerTableHeaderView.swift */,
+				53E5B7BB29A953070079B567 /* PickerViewController.swift */,
 			);
 			path = TableBookingView;
 			sourceTree = "<group>";
@@ -242,6 +253,7 @@
 		5318F5D3297A851000AF76DC /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
+				5362F76229AA33EE00DA5F44 /* MenuVC */,
 				53EC9A47298261430056C300 /* SplashViewController.swift */,
 				5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */,
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
@@ -302,6 +314,16 @@
 				5356AF1129A3362C00267943 /* KeychainService.swift */,
 			);
 			path = KeychainService;
+			sourceTree = "<group>";
+		};
+		5362F76229AA33EE00DA5F44 /* MenuVC */ = {
+			isa = PBXGroup;
+			children = (
+				5362F76329AA342300DA5F44 /* ContainerViewController.swift */,
+				5362F76629AA342C00DA5F44 /* HomeVC.swift */,
+				5362F76529AA342C00DA5F44 /* MenuVC.swift */,
+			);
+			path = MenuVC;
 			sourceTree = "<group>";
 		};
 		536AD43C299E58F300801158 /* UseCaseContract */ = {
@@ -446,6 +468,7 @@
 				5396485D299B9EB600781CE4 /* RecordInfoPresenter.swift */,
 				5356AF2229A348D500267943 /* WebViewPresenter.swift */,
 				5311864529A7A56D004088DD /* TableBookingViewPresenter.swift */,
+				53E5B7BD29A955480079B567 /* PickerViewPresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -580,12 +603,14 @@
 				53A696DE297C6D310029F92E /* Network.swift in Sources */,
 				536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
+				53E5B7BE29A955480079B567 /* PickerViewPresenter.swift in Sources */,
 				5311864A29A7BBE8004088DD /* BookingController.swift in Sources */,
 				53F3BB39299F622E0054E08B /* RecordInfoViewContract.swift in Sources */,
 				537B608629963F8200ACA883 /* Module.swift in Sources */,
 				53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */,
 				5356AF1729A3393800267943 /* UserNetworkService.swift in Sources */,
 				53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */,
+				5362F76429AA342300DA5F44 /* ContainerViewController.swift in Sources */,
 				5311864C29A884DF004088DD /* Table.swift in Sources */,
 				5356AF1F29A340D400267943 /* ModulesController.swift in Sources */,
 				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
@@ -597,6 +622,7 @@
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
 				537B60A82998B70100ACA883 /* StringTableViewCell.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
+				5362F76829AA342C00DA5F44 /* HomeVC.swift in Sources */,
 				537B6082299635A000ACA883 /* ModulesPresenter.swift in Sources */,
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
 				5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */,
@@ -615,6 +641,7 @@
 				5356AF1229A3362C00267943 /* KeychainService.swift in Sources */,
 				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,
 				5356AF0529A2886B00267943 /* DataManagerContract.swift in Sources */,
+				53E5B7BC29A953070079B567 /* PickerViewController.swift in Sources */,
 				53A696DC297C6AD80029F92E /* KeyChain.swift in Sources */,
 				53F3BB30299F55780054E08B /* Router.swift in Sources */,
 				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
@@ -623,6 +650,7 @@
 				5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */,
 				53F3BB3F29A1EE420054E08B /* LoginViewPresenter.swift in Sources */,
 				536AD440299E600200801158 /* FormViewContract.swift in Sources */,
+				5362F76729AA342C00DA5F44 /* MenuVC.swift in Sources */,
 				5356AF0729A28BBE00267943 /* ModulesDataManger.swift in Sources */,
 				5311864429A796F1004088DD /* TableBookingViewController.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,

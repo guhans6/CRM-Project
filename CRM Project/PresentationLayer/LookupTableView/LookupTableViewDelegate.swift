@@ -11,3 +11,8 @@ protocol LookupTableViewDelegate {
     
     func getLookupRecordId(recordName: String,recordId: String)
 }
+
+protocol PickListDelegate {
+    
+    func getPickListValues(isMultiSelect: Bool, pickListValue: [String])
+}

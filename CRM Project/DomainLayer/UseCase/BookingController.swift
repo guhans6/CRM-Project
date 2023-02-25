@@ -11,6 +11,7 @@ class BookingController {
     
     let bookingService = BookingNetworkService()
     let networkService = NetworkService()
+    lazy var fieldsController = FieldsController()
     
     func getAvailableTablesFor(date: Date, completion: @escaping ([[Table]]) -> Void) {
         
@@ -27,6 +28,18 @@ class BookingController {
 //                }
 //            }
             completion(tables)
+        }
+    }
+    
+    func getAllTimings(completion: ([(String, String)]) -> Void ) -> Void {
+        
+        
+        fieldsController.getfields(module: "Reservations") { fields in
+            var values = [(String, String)]()
+            
+            fields[4].pickListValues.forEach { pickListValue in
+                values.append((pickListValue.displayValue, pickListValue.id))
+            }
         }
     }
 }

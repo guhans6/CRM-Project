@@ -13,15 +13,14 @@ class TableBookingViewController: UIViewController {
     private var tables = [[Table]]()
     private lazy var noDataView = UIView()
     let label = UILabel()
-    
     private let tableView = UITableView()
-    private let datePickerView = DatePickerTableHeaderView()
+//    private let datePickerView = DatePickerTableHeaderView()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureDatePickerView()
+//        configureDatePickerView()
         configureTableView()
 //        configureNoDataView()
         
@@ -32,27 +31,38 @@ class TableBookingViewController: UIViewController {
         
     }
     
-    private func configureDatePickerView() {
-        view.addSubview(datePickerView)
-        datePickerView.datePicker.datePickerMode = .date
-        datePickerView.translatesAutoresizingMaskIntoConstraints = false
-//        datePickerView.datePicker.minimumDate = Date()
-        datePickerView.okButton.addTarget(self, action: #selector(datePickerValueChanged), for: .touchUpInside)
-
-        NSLayoutConstraint.activate([
-            datePickerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            datePickerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            datePickerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            datePickerView.heightAnchor.constraint(equalToConstant: 40)
-        ])
-    }
-    
+//    private func configureDatePickerView() {
+//        view.addSubview(datePickerView)
+//        datePickerView.datePicker.datePickerMode = .date
+//        datePickerView.translatesAutoresizingMaskIntoConstraints = false
+////        datePickerView.datePicker.minimumDate = Date()
+//        datePickerView.okButton.addTarget(self, action: #selector(datePickerValueChanged), for: .touchUpInside)
+//
+//        NSLayoutConstraint.activate([
+//            datePickerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+//            datePickerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+//            datePickerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//            datePickerView.heightAnchor.constraint(equalToConstant: 40)
+//        ])
+//    }
+//
     @objc private func datePickerValueChanged() {
+
+//        bookingViewPresenter.getTablesIn(date: datePickerView.datePicker.date) { allTables in
+//            self.tables = allTables
+//            self.tableView.reloadData()
+//        }
+        let myPickerVC = MyPickerViewController()
+        myPickerVC.modalPresentationStyle = .pageSheet
         
-        bookingViewPresenter.getTablesIn(date: datePickerView.datePicker.date) { allTables in
-            self.tables = allTables
-            self.tableView.reloadData()
+        if let sheet = myPickerVC.sheetPresentationController {
+            sheet.prefersGrabberVisible = true
+            sheet.detents = [.medium()]
+            sheet.prefersEdgeAttachedInCompactHeight = true
         }
+        
+        present(myPickerVC, animated: true, completion: nil)
+
     }
     
     private func configureTableView() {
@@ -63,9 +73,10 @@ class TableBookingViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorColor = UIColor(named: "tableViewSeperator")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(datePickerValueChanged))
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: datePickerView.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -145,3 +156,4 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         return nil
     }
 }
+
