@@ -89,6 +89,7 @@
 		53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */; };
 		53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0E29928D0B000B1FA1 /* Field.swift */; };
 		53F1EE8B29AB0BE900C17723 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EE8A29AB0BE900C17723 /* User.swift */; };
+		53F1EEB029AB9DB500C17723 /* Colour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EEAF29AB9DB500C17723 /* Colour.swift */; };
 		53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2A299F47CC0054E08B /* Assembler.swift */; };
 		53F3BB30299F55780054E08B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2F299F55780054E08B /* Router.swift */; };
 		53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB34299F60700054E08B /* ModuleViewContract.swift */; };
@@ -169,7 +170,7 @@
 		53964863299BEFB500781CE4 /* RecordInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoTableViewCell.swift; sourceTree = "<group>"; };
 		53A696DB297C6AD80029F92E /* KeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChain.swift; sourceTree = "<group>"; };
 		53A696DD297C6D310029F92E /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
-		53D2731E2977D20F001718BD /* CRM C.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CRM C.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53D2731E2977D20F001718BD /* Hotel Hub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hotel Hub.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53D273212977D20F001718BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53D273232977D20F001718BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		53D2732A2977D211001718BD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -188,6 +189,7 @@
 		53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormPresenter.swift; sourceTree = "<group>"; };
 		53EF7B0E29928D0B000B1FA1 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
 		53F1EE8A29AB0BE900C17723 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		53F1EEAF29AB9DB500C17723 /* Colour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colour.swift; sourceTree = "<group>"; };
 		53F3BB2A299F47CC0054E08B /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
 		53F3BB2F299F55780054E08B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		53F3BB34299F60700054E08B /* ModuleViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewContract.swift; sourceTree = "<group>"; };
@@ -378,7 +380,7 @@
 		53D2731F2977D20F001718BD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				53D2731E2977D20F001718BD /* CRM C.app */,
+				53D2731E2977D20F001718BD /* Hotel Hub.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -386,6 +388,7 @@
 		53D273202977D20F001718BD /* CRM Project */ = {
 			isa = PBXGroup;
 			children = (
+				53F1EEAE29AB9DA100C17723 /* Colours */,
 				53D273212977D20F001718BD /* AppDelegate.swift */,
 				53D273232977D20F001718BD /* SceneDelegate.swift */,
 				53F3BB2A299F47CC0054E08B /* Assembler.swift */,
@@ -487,6 +490,14 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
+		53F1EEAE29AB9DA100C17723 /* Colours */ = {
+			isa = PBXGroup;
+			children = (
+				53F1EEAF29AB9DB500C17723 /* Colour.swift */,
+			);
+			path = Colours;
+			sourceTree = "<group>";
+		};
 		53F3BB2E299F55150054E08B /* Router */ = {
 			isa = PBXGroup;
 			children = (
@@ -529,7 +540,7 @@
 				5311864E29A88796004088DD /* OrderedCollections */,
 			);
 			productName = "CRM Project";
-			productReference = 53D2731E2977D20F001718BD /* CRM C.app */;
+			productReference = 53D2731E2977D20F001718BD /* Hotel Hub.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -663,6 +674,7 @@
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
 				53F3BB4329A1EF670054E08B /* SplashViewContract.swift in Sources */,
+				53F1EEB029AB9DB500C17723 /* Colour.swift in Sources */,
 				53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */,
 				537B60A72998B70100ACA883 /* EmailTableViewCell.swift in Sources */,
 				5396485E299B9EB600781CE4 /* RecordInfoPresenter.swift in Sources */,
@@ -817,13 +829,13 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "guhan.CRM-Project";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Hotel Hub";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -847,13 +859,13 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "guhan.CRM-Project";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Hotel Hub";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

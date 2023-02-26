@@ -27,6 +27,7 @@ class RecordsTableViewCell: UITableViewCell {
     private func configureRecordNameLabel() {
         contentView.addSubview(recordNameLabel)
         recordNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        recordNameLabel.font = .preferredFont(forTextStyle: .body)
         
         NSLayoutConstraint.activate([
             recordNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),

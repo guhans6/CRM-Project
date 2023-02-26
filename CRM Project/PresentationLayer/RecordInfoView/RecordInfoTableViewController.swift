@@ -28,6 +28,8 @@ class RecordInfoTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         configureTableView()
+        
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     override func viewWillAppear(_ animated: Bool) {

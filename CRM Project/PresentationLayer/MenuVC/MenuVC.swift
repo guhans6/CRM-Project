@@ -43,7 +43,8 @@ class MenuVC: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.separatorColor = UIColor(named: "tableViewSeperator")
+        tableView.backgroundColor = .systemGray6
+        tableView.separatorColor = .tableViewSeperator
         tableView.tableHeaderView = confiureTableHeaderView()
         
         NSLayoutConstraint.activate([
@@ -58,7 +59,7 @@ class MenuVC: UIViewController {
     private func confiureTableHeaderView() -> UIView {
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 90))
-        headerView.backgroundColor = UIColor(named: "TableSelect")
+        headerView.backgroundColor = .tableSelect
         
         nameLabel.textAlignment = .center
         nameLabel.font = .systemFont(ofSize: 20, weight: .semibold)
@@ -73,9 +74,10 @@ class MenuVC: UIViewController {
             
         ])
         
+        emailLabel.text = "guhan@gmail.com"
         emailLabel.textAlignment = .center
         emailLabel.font = .preferredFont(forTextStyle: .subheadline)
-        emailLabel.text = "guhan@gmail.com"
+        emailLabel.textColor = .label
         headerView.addSubview(emailLabel)
         
         emailLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -129,6 +131,9 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = menuOptions[indexPath.row]
+        cell.backgroundColor = .systemGray6
+        
+//        print(cell.textLabel?.font)
         return cell
     }
     
@@ -136,7 +141,7 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let text = tableView.cellForRow(at: indexPath)?.textLabel?.text
-//        print(text)
+
         delegate?.didSelectRow(contains: text!)
     }
 }

@@ -88,6 +88,7 @@ class BookingNetworkService {
 //            result?.data.forEach({ table in
 //                print(table.name, table.seatingCapacity, table.id)
 //            })
+            print(data)
             var tables = [Table]()
             let data = data["data"] as! [[String: Any]]
             data.forEach { d in

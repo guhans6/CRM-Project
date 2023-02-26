@@ -66,11 +66,7 @@ extension WebViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        do {
-            try NetworkController().generateAccessToken(from: webView.url)
-        } catch {
-            print(error)
-        }
+        NetworkController().generateAccessToken(from: webView.url)
     }
     
 }

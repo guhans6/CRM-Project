@@ -17,6 +17,7 @@ class ModulesTableViewController: UITableViewController {
         super.viewDidLoad()
         
         title = "Modules"
+        navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
         configureModuleTableView()
     }

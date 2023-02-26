@@ -58,7 +58,7 @@ class DropDownButton: UIView, dropDownProtocol {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorColor = UIColor(named: "TableSelect")
+        tableView.separatorColor = .tableSelect
         
         self.addSubview(tableView)
 //        tableView.isHidden = true
@@ -138,7 +138,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource  {
         tableView.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        tableView.separatorColor = UIColor(named: "TableSelect")
+        tableView.separatorColor = .tableSelect
     }
     
     required init?(coder aDecoder: NSCoder) {

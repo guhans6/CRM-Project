@@ -21,10 +21,7 @@ class HomeViewController: UIViewController {
     let requestButton = UIButton()
     let generateAuthTokenButton = UIButton()
     let darkModeSwitch = UISwitch()
-    
-    
-    
-    
+    lazy var textColour = UIColor(named: "TextColour")
     
     deinit {
         print("Login deinitialized")
@@ -37,7 +34,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = "Home"
         
-        navigationController?.navigationBar.backgroundColor = UIColor(named: "TableSelect")
+//        navigationController?.navigationBar.backgroundColor = UIColor(named: "TableSelect")
 
         presenter?.generateAuthToken()
         configureUI()
@@ -54,7 +51,9 @@ class HomeViewController: UIViewController {
         configureGenerateAuthTokenButton()
         configureWelcomeUserlabel()
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(menuButtonTapped))
+        let navigationLeftButton = UIImage(systemName: "list.dash")
+//        let navigationLeftButton = UIImage(systemName: "line.3.horizontal")
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: navigationLeftButton, style: .plain, target: self, action: #selector(menuButtonTapped))
     }
     
     @objc private func menuButtonTapped() {
@@ -67,7 +66,6 @@ class HomeViewController: UIViewController {
         
         welcomeUserLabel.text = "Welcome "
         welcomeUserLabel.textAlignment = .center
-        welcomeUserLabel.textColor = .white
         welcomeUserLabel.font = .systemFont(ofSize: 20, weight: .medium)
         
         NSLayoutConstraint.activate([
@@ -88,7 +86,7 @@ class HomeViewController: UIViewController {
 
         
         requestButton.setTitle("Make Request", for: .normal)
-        requestButton.setTitleColor(.white, for: .normal)
+        requestButton.setTitleColor(.label, for: .normal)
         requestButton.addTarget(self, action: #selector(makeRequestButtonTapped), for: .touchUpInside)
         requestButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         
@@ -109,7 +107,7 @@ class HomeViewController: UIViewController {
         generateAuthTokenButton.translatesAutoresizingMaskIntoConstraints = false
 
         generateAuthTokenButton.setTitle("Generate new Token", for: .normal)
-        generateAuthTokenButton.setTitleColor(.white, for: .normal)
+        generateAuthTokenButton.setTitleColor(.label, for: .normal)
         generateAuthTokenButton.addTarget(self, action: #selector(generateTokenButtonTapped), for: .touchUpInside)
         generateAuthTokenButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         
@@ -150,42 +148,4 @@ class HomeViewController: UIViewController {
 //            appDelegate?.overrideUserInterfaceStyle = .light
 //        }
 //    }
-}
-
-class CustomNavigationBar: UINavigationBar {
-    
-    private let navigationBarHeight: CGFloat = 70.0
-    
-    override func sizeThatFits(_ size: CGSize) -> CGSize {
-        let newSize = CGSize(width: UIScreen.main.bounds.width, height: navigationBarHeight)
-        return newSize
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        let y = (frame.height - navigationBarHeight) / 2.0
-        let titleViewWidth: CGFloat = 200.0
-        let titleViewHeight: CGFloat = 40.0
-        let titleViewX = (frame.width - titleViewWidth) / 2.0
-        let titleViewY = y + (navigationBarHeight - titleViewHeight) / 2.0
-        
-        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: titleViewWidth, height: titleViewHeight))
-        titleLabel.textAlignment = .center
-        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
-        titleLabel.textColor = .black
-        titleLabel.text = "My App Title"
-        
-        let titleView = UIView(frame: CGRect(x: titleViewX, y: titleViewY, width: titleViewWidth, height: titleViewHeight))
-        titleView.addSubview(titleLabel)
-        
-        for subview in self.subviews {
-            if NSStringFromClass(subview.classForCoder).contains("BarBackground") {
-                subview.removeFromSuperview()
-            }
-        }
-        
-        self.addSubview(titleView)
-    }
-    
 }

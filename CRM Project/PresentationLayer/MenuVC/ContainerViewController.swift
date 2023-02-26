@@ -32,12 +32,38 @@ class ContainerViewController: UIViewController {
 
     private func configureUI() {
         // Add Menu
+        
+        configureMenuView()
+        
+//      Home
+        configureHomeView()
+    }
+    
+    private func configureMenuView() {
         addChild(menuVC)
         menuVC.delegate = self
         view.addSubview(menuVC.view)
         menuVC.didMove(toParent: self)
+        menuVC.logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         
-        // Home
+        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(leftSwipped(_:)))
+        leftSwipeGesture.direction = .left
+        menuVC.view.addGestureRecognizer(leftSwipeGesture)
+    }
+    
+    @objc private func logoutButtonTapped() {
+           UserDefaultsManager.shared.setLogIn(equalTo: false)
+           dismiss(animated: true)
+   }
+    
+    @objc private func leftSwipped(_ sender: UISwipeGestureRecognizer) {
+        if isMenuClosed == false {
+            toogleMenu()
+        }
+    }
+    
+    private func configureHomeView() {
+        
         let navVC = UINavigationController(rootViewController: homeVC)
         homeVC.delegate = self
         addChild(navVC)
@@ -92,6 +118,10 @@ extension ContainerViewController: MenuViewDelegate {
             let moduleTableVC = ModulesTableViewController()
             let _ = UINavigationController(rootViewController: moduleTableVC)
             homeVC.navigationController?.pushViewController(moduleTableVC, animated: true)
+            
+        case "Table Booking":
+            let tableBookingVC = TableBookingViewController()
+            homeVC.navigationController?.pushViewController(tableBookingVC, animated: true)
         default :
             
             print("No Options Selected")

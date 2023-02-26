@@ -27,32 +27,18 @@ class TableBookingViewController: UIViewController {
         // add constraints for subviews
         view.backgroundColor = .systemBackground
         
-        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(datePickerValueChanged))
         
     }
-    
-//    private func configureDatePickerView() {
-//        view.addSubview(datePickerView)
-//        datePickerView.datePicker.datePickerMode = .date
-//        datePickerView.translatesAutoresizingMaskIntoConstraints = false
-////        datePickerView.datePicker.minimumDate = Date()
-//        datePickerView.okButton.addTarget(self, action: #selector(datePickerValueChanged), for: .touchUpInside)
-//
-//        NSLayoutConstraint.activate([
-//            datePickerView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-//            datePickerView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-//            datePickerView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-//            datePickerView.heightAnchor.constraint(equalToConstant: 40)
-//        ])
-//    }
-//
     @objc private func datePickerValueChanged() {
 
-//        bookingViewPresenter.getTablesIn(date: datePickerView.datePicker.date) { allTables in
-//            self.tables = allTables
-//            self.tableView.reloadData()
-//        }
         let myPickerVC = MyPickerViewController()
+        
+        bookingViewPresenter.getTablesIn(date: myPickerVC.datePicker.date) { allTables in
+            self.tables = allTables
+            self.tableView.reloadData()
+        }
+        
         myPickerVC.modalPresentationStyle = .pageSheet
         
         if let sheet = myPickerVC.sheetPresentationController {
@@ -72,8 +58,7 @@ class TableBookingViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorColor = UIColor(named: "tableViewSeperator")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(datePickerValueChanged))
+        tableView.separatorColor = .tableViewSeperator
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -154,6 +139,13 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             return noDataView
         }
         return nil
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        
     }
 }
 

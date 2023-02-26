@@ -28,7 +28,7 @@ class RecordInfoTableViewCell: UITableViewCell {
         contentView.addSubview(recordInfoNameLabel)
         recordInfoNameLabel.translatesAutoresizingMaskIntoConstraints = false
         recordInfoNameLabel.textAlignment = .center
-        recordInfoNameLabel.font = .systemFont(ofSize: 15)
+        recordInfoNameLabel.font = .preferredFont(forTextStyle: .body, compatibleWith: nil)
         
         NSLayoutConstraint.activate([
             recordInfoNameLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),

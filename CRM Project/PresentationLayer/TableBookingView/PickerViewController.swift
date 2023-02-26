@@ -112,7 +112,7 @@ class MyPickerViewController: UIViewController {
         
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorColor = UIColor(named: "tableViewSeperator")
+        tableView.separatorColor = .tableViewSeperator
         tableView.isHidden = true
         
         tableView.delegate = self

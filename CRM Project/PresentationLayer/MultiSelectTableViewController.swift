@@ -69,15 +69,18 @@ class MultiSelectTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier, for: indexPath) as! RecordsTableViewCell
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier,
+                                                 for: indexPath) as! RecordsTableViewCell
+        
         let pickListValue = pickListValues[indexPath.row]
         cell.configureRecordCell(recordName: pickListValue.displayValue, secondaryData: "")
         
+        cell.tintColor = .normalText
         
         // MARK: CUSTOM BGC FOR TAPPED CELL
-        let lightBlueColor = UIColor(named: "TableSelect")
         let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = lightBlueColor
+        selectedBackgroundView.backgroundColor = .tableSelect
         cell.selectedBackgroundView = selectedBackgroundView
 
         return cell
@@ -86,8 +89,8 @@ class MultiSelectTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if !isMultiSelect {
+            
             let pickListValue = pickListValues[indexPath.row]
-            let pickListId = pickListValue.id
             delegate?.getPickListValues(isMultiSelect: isMultiSelect, pickListValue: [pickListValue.displayValue])
             navigationController?.popViewController(animated: true)
         }
