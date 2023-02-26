@@ -9,7 +9,7 @@ import UIKit
 class ContainerViewController: UIViewController {
     
     private let menuVC = MenuVC()
-    private let homeVC = HomeVC()
+    private let homeVC = HomeViewController()
     
     private var navigationVC: UINavigationController?
     private var isMenuClosed = true
@@ -21,10 +21,19 @@ class ContainerViewController: UIViewController {
         configureUI()
     }
 
+    override func viewDidLayoutSubviews() {
+        if isMenuClosed {
+            isMenuClosed = false
+        } else  {
+            isMenuClosed = true
+        }
+        toogleMenu()
+    }
 
     private func configureUI() {
         // Add Menu
         addChild(menuVC)
+        menuVC.delegate = self
         view.addSubview(menuVC.view)
         menuVC.didMove(toParent: self)
         
@@ -35,6 +44,15 @@ class ContainerViewController: UIViewController {
         view.addSubview(navVC.view)
         navVC.didMove(toParent: self )
         self.navigationVC = navVC
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedInHomeView))
+        homeVC.view.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func tappedInHomeView() {
+        if isMenuClosed == false {
+            toogleMenu()
+        }
     }
 }
 
@@ -42,7 +60,7 @@ extension ContainerViewController: HomeViewDelegate {
     
     func didTapMenuButton() {
         
-       toogleMenu()
+        toogleMenu()
     }
     
     func toogleMenu() {
@@ -63,3 +81,21 @@ extension ContainerViewController: HomeViewDelegate {
     }
 }
 
+extension ContainerViewController: MenuViewDelegate {
+    
+    func didSelectRow(contains: String) {
+        
+        
+        switch contains {
+        case "Modules":
+            
+            let moduleTableVC = ModulesTableViewController()
+            let _ = UINavigationController(rootViewController: moduleTableVC)
+            homeVC.navigationController?.pushViewController(moduleTableVC, animated: true)
+        default :
+            
+            print("No Options Selected")
+        }
+        toogleMenu()
+    }
+}

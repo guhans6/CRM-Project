@@ -31,7 +31,7 @@
 		5356AF0B29A28BD800267943 /* UserInfoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0A29A28BD800267943 /* UserInfoDataManager.swift */; };
 		5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */; };
 		5356AF1029A332B800267943 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0F29A332B800267943 /* NetworkService.swift */; };
-		5356AF1229A3362C00267943 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1129A3362C00267943 /* KeychainService.swift */; };
+		5356AF1229A3362C00267943 /* KeychainController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1129A3362C00267943 /* KeychainController.swift */; };
 		5356AF1529A3382100267943 /* ModulesNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1429A3382100267943 /* ModulesNetworkService.swift */; };
 		5356AF1729A3393800267943 /* UserNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1629A3393800267943 /* UserNetworkService.swift */; };
 		5356AF1929A3397100267943 /* FieldsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1829A3397100267943 /* FieldsNetworkService.swift */; };
@@ -44,7 +44,6 @@
 		5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2829A3683600267943 /* CustomRecordField.swift */; };
 		5362F76429AA342300DA5F44 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76329AA342300DA5F44 /* ContainerViewController.swift */; };
 		5362F76729AA342C00DA5F44 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76529AA342C00DA5F44 /* MenuVC.swift */; };
-		5362F76829AA342C00DA5F44 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76629AA342C00DA5F44 /* HomeVC.swift */; };
 		536AD437299E21FA00801158 /* UserDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD436299E21FA00801158 /* UserDetailController.swift */; };
 		536AD439299E3EF400801158 /* RecordsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD438299E3EF400801158 /* RecordsController.swift */; };
 		536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD43D299E5BB100801158 /* UseCaseContact.swift */; };
@@ -89,6 +88,7 @@
 		53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */; };
 		53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */; };
 		53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0E29928D0B000B1FA1 /* Field.swift */; };
+		53F1EE8B29AB0BE900C17723 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EE8A29AB0BE900C17723 /* User.swift */; };
 		53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2A299F47CC0054E08B /* Assembler.swift */; };
 		53F3BB30299F55780054E08B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2F299F55780054E08B /* Router.swift */; };
 		53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB34299F60700054E08B /* ModuleViewContract.swift */; };
@@ -128,7 +128,7 @@
 		5356AF0A29A28BD800267943 /* UserInfoDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoDataManager.swift; sourceTree = "<group>"; };
 		5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsNetworkService.swift; sourceTree = "<group>"; };
 		5356AF0F29A332B800267943 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		5356AF1129A3362C00267943 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		5356AF1129A3362C00267943 /* KeychainController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainController.swift; sourceTree = "<group>"; };
 		5356AF1429A3382100267943 /* ModulesNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesNetworkService.swift; sourceTree = "<group>"; };
 		5356AF1629A3393800267943 /* UserNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserNetworkService.swift; sourceTree = "<group>"; };
 		5356AF1829A3397100267943 /* FieldsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldsNetworkService.swift; sourceTree = "<group>"; };
@@ -141,7 +141,6 @@
 		5356AF2829A3683600267943 /* CustomRecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecordField.swift; sourceTree = "<group>"; };
 		5362F76329AA342300DA5F44 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		5362F76529AA342C00DA5F44 /* MenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
-		5362F76629AA342C00DA5F44 /* HomeVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		536AD436299E21FA00801158 /* UserDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailController.swift; sourceTree = "<group>"; };
 		536AD438299E3EF400801158 /* RecordsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsController.swift; sourceTree = "<group>"; };
 		536AD43D299E5BB100801158 /* UseCaseContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseContact.swift; sourceTree = "<group>"; };
@@ -188,6 +187,7 @@
 		53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
 		53EF7B0B299251F9000B1FA1 /* FormPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormPresenter.swift; sourceTree = "<group>"; };
 		53EF7B0E29928D0B000B1FA1 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
+		53F1EE8A29AB0BE900C17723 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		53F3BB2A299F47CC0054E08B /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
 		53F3BB2F299F55780054E08B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		53F3BB34299F60700054E08B /* ModuleViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewContract.swift; sourceTree = "<group>"; };
@@ -311,7 +311,6 @@
 		5356AF1329A3365E00267943 /* KeychainService */ = {
 			isa = PBXGroup;
 			children = (
-				5356AF1129A3362C00267943 /* KeychainService.swift */,
 			);
 			path = KeychainService;
 			sourceTree = "<group>";
@@ -320,7 +319,6 @@
 			isa = PBXGroup;
 			children = (
 				5362F76329AA342300DA5F44 /* ContainerViewController.swift */,
-				5362F76629AA342C00DA5F44 /* HomeVC.swift */,
 				5362F76529AA342C00DA5F44 /* MenuVC.swift */,
 			);
 			path = MenuVC;
@@ -417,6 +415,7 @@
 				5356AF1A29A33A8100267943 /* FieldsController.swift */,
 				5356AF1E29A340D400267943 /* ModulesController.swift */,
 				5311864929A7BBE8004088DD /* BookingController.swift */,
+				5356AF1129A3362C00267943 /* KeychainController.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -483,6 +482,7 @@
 				5356AF2829A3683600267943 /* CustomRecordField.swift */,
 				5311863E29A794B1004088DD /* RelatedList.swift */,
 				5311864B29A884DF004088DD /* Table.swift */,
+				53F1EE8A29AB0BE900C17723 /* User.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -622,7 +622,6 @@
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
 				537B60A82998B70100ACA883 /* StringTableViewCell.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
-				5362F76829AA342C00DA5F44 /* HomeVC.swift in Sources */,
 				537B6082299635A000ACA883 /* ModulesPresenter.swift in Sources */,
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
 				5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */,
@@ -638,7 +637,7 @@
 				537B607E29962C3B00ACA883 /* ModulesTableViewController.swift in Sources */,
 				5356AF0929A28BC900267943 /* RecordsDataManager.swift in Sources */,
 				537B608B299669FD00ACA883 /* RecordsPresenter.swift in Sources */,
-				5356AF1229A3362C00267943 /* KeychainService.swift in Sources */,
+				5356AF1229A3362C00267943 /* KeychainController.swift in Sources */,
 				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,
 				5356AF0529A2886B00267943 /* DataManagerContract.swift in Sources */,
 				53E5B7BC29A953070079B567 /* PickerViewController.swift in Sources */,
@@ -656,6 +655,7 @@
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
 				53F3BB4529A1F61B0054E08B /* HomeViewPresenter.swift in Sources */,
 				5311864829A7A66A004088DD /* BookingNetworkService.swift in Sources */,
+				53F1EE8B29AB0BE900C17723 /* User.swift in Sources */,
 				5356AF1B29A33A8100267943 /* FieldsController.swift in Sources */,
 				5311865129A8C551004088DD /* TableViewExtension.swift in Sources */,
 				53F3BB4129A1EF0D0054E08B /* SplashViewPresenter.swift in Sources */,

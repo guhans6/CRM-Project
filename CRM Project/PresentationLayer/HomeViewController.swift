@@ -7,17 +7,22 @@
 
 import UIKit
 
+protocol HomeViewDelegate: AnyObject {
+    
+    func didTapMenuButton() -> Void
+}
+
 class HomeViewController: UIViewController {
     
     var presenter: HomeViewPresenterContract? = HomeViewPresenter()
+    weak var delegate: HomeViewDelegate?
     
     let welcomeUserLabel = UILabel()
-    let logoutButton = UIButton()
     let requestButton = UIButton()
     let generateAuthTokenButton = UIButton()
-    let modulesViewButton = UIButton()
     let darkModeSwitch = UISwitch()
-    let dropDownButton = DropDownButton()
+    
+    
     
     
     
@@ -27,26 +32,33 @@ class HomeViewController: UIViewController {
     
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-        view.backgroundColor = .systemMint
-//        presenter?.generateAuthToken()
+        view.backgroundColor = .systemBackground
+        title = "Home"
+        
+        navigationController?.navigationBar.backgroundColor = UIColor(named: "TableSelect")
+
+        presenter?.generateAuthToken()
         configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        presenter?.generateAuthToken()
+//        presenter?.generateAuthToken()
     }
     
     private func configureUI() {
-        configureLogoutButtion()
+        
         configureRequestButton()
         configureGenerateAuthTokenButton()
         configureWelcomeUserlabel()
-        configureFormViewButton()
-//        configureDarkModeSwitch()
-        configureDropDownButton()
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(menuButtonTapped))
+    }
     
+    @objc private func menuButtonTapped() {
+        delegate?.didTapMenuButton()
     }
     
     private func configureWelcomeUserlabel() {
@@ -60,24 +72,7 @@ class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             welcomeUserLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            welcomeUserLabel.centerYAnchor.constraint(equalTo: logoutButton.topAnchor, constant: -70),
-            
-        ])
-    }
-    
-    private func configureLogoutButtion() {
-        view.addSubview(logoutButton)
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
-
-        
-        logoutButton.setTitle("Logout", for: .normal)
-        logoutButton.setTitleColor(.white, for: .normal)
-        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
-        logoutButton.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
-        
-        NSLayoutConstraint.activate([
-            logoutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoutButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
+            welcomeUserLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -100),
             
         ])
     }
@@ -129,29 +124,6 @@ class HomeViewController: UIViewController {
         presenter?.generateAuthToken()
     }
     
-    private func configureFormViewButton() {
-        view.addSubview(modulesViewButton)
-        modulesViewButton.translatesAutoresizingMaskIntoConstraints = false
-
-        modulesViewButton.setTitle("View Modules", for: .normal)
-        modulesViewButton.setTitleColor(.white, for: .normal)
-        modulesViewButton.addTarget(self, action: #selector(formViewButtonTapped), for: .touchUpInside)
-        modulesViewButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
-        
-        NSLayoutConstraint.activate([
-            modulesViewButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            modulesViewButton.centerYAnchor.constraint(equalTo: generateAuthTokenButton.bottomAnchor, constant: 30),
-            
-        ])
-    }
-    
-    @objc private func formViewButtonTapped() {
-        let moduleTableVC = ModulesTableViewController()
-        let _ = UINavigationController(rootViewController: moduleTableVC)
-        navigationController?.pushViewController(moduleTableVC, animated: true)
-//        presenter?.navigateToModule()
-    }
-    
 //    private func configureDarkModeSwitch() {
 //
 //        view.addSubview(darkModeSwitch)
@@ -178,21 +150,42 @@ class HomeViewController: UIViewController {
 //            appDelegate?.overrideUserInterfaceStyle = .light
 //        }
 //    }
-    
-    func configureDropDownButton(){
-        view.addSubview(dropDownButton)
-        dropDownButton.translatesAutoresizingMaskIntoConstraints = false
+}
 
-        dropDownButton.button.setTitle("Drop Down", for: .normal)
-        dropDownButton.button.setTitleColor(.label , for: .normal)
-        dropDownButton.button.titleLabel?.font = .systemFont(ofSize: 20)
-        dropDownButton.setDropDownOptions(options: ["a", "bb", "cccccccccccccc"])
-        
-        NSLayoutConstraint.activate([
-            dropDownButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            dropDownButton.centerYAnchor.constraint(equalTo: modulesViewButton.bottomAnchor, constant: 15),
-            dropDownButton.widthAnchor.constraint(equalToConstant: 150),
-            
-        ])
+class CustomNavigationBar: UINavigationBar {
+    
+    private let navigationBarHeight: CGFloat = 70.0
+    
+    override func sizeThatFits(_ size: CGSize) -> CGSize {
+        let newSize = CGSize(width: UIScreen.main.bounds.width, height: navigationBarHeight)
+        return newSize
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let y = (frame.height - navigationBarHeight) / 2.0
+        let titleViewWidth: CGFloat = 200.0
+        let titleViewHeight: CGFloat = 40.0
+        let titleViewX = (frame.width - titleViewWidth) / 2.0
+        let titleViewY = y + (navigationBarHeight - titleViewHeight) / 2.0
+        
+        let titleLabel = UILabel(frame: CGRect(x: 0, y: 0, width: titleViewWidth, height: titleViewHeight))
+        titleLabel.textAlignment = .center
+        titleLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        titleLabel.textColor = .black
+        titleLabel.text = "My App Title"
+        
+        let titleView = UIView(frame: CGRect(x: titleViewX, y: titleViewY, width: titleViewWidth, height: titleViewHeight))
+        titleView.addSubview(titleLabel)
+        
+        for subview in self.subviews {
+            if NSStringFromClass(subview.classForCoder).contains("BarBackground") {
+                subview.removeFromSuperview()
+            }
+        }
+        
+        self.addSubview(titleView)
+    }
+    
 }

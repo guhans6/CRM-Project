@@ -18,7 +18,7 @@ protocol RecordsControllerContract {
 
 protocol UserDetailControllerContract {
     
-    func getUserDetails(completion: @escaping (String?) -> Void) -> Void
+    func getUserDetails(completion: @escaping (User?) -> Void) -> Void
 }
 
 protocol ModulesControllerContract {

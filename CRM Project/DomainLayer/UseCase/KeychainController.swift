@@ -7,7 +7,7 @@
 
 import Foundation
 
-class KeychainService {
+class KeychainController {
     
     private let refreshTokenService = "com.zoho.refresh.crm"
     private let accessTokenService = "com.zoho.access.crm"
@@ -34,12 +34,12 @@ class KeychainService {
         
     }
     
-//    func saveClientIdAndSecret() {
-//        guard let clientId = "1000.24VNMCSZ1JRK4QJUA6L60NZA91C1KG".data(using: .utf8) else { return }
-//        guard let clientSecret = "b95187fae4e55ecc33ed8634712dfc31d65dfc8981".data(using: .utf8) else { return }
-//        try? keychainManager.saveData(data: clientId, service: clientService, account: clientIdAccount)
-//        try? keychainManager.saveData(data: clientSecret, service: "www.api.crm.zoho.com", account: "clientSecret")
-//    }
+    func saveClientIdAndSecret() {
+        guard let clientId = "1000.24VNMCSZ1JRK4QJUA6L60NZA91C1KG".data(using: .utf8) else { return }
+        guard let clientSecret = "b95187fae4e55ecc33ed8634712dfc31d65dfc8981".data(using: .utf8) else { return }
+        try? keychainManager.saveData(data: clientId, service: clientService, account: clientIdAccount)
+        try? keychainManager.saveData(data: clientSecret, service: "www.api.crm.zoho.com", account: "clientSecret")
+    }
     
     func storeAccessToken(accessToken: String) {
         
@@ -57,13 +57,23 @@ class KeychainService {
     }
     
     func getClientId() -> String {
-        let clientId = try! keychainManager.retreiveFromKeyChain(service: clientService, account: clientIdAccount)
+        let clientId = try? keychainManager.retreiveFromKeyChain(service: clientService, account: clientIdAccount)
+        
+        if clientId == nil {
+            saveClientIdAndSecret()
+            return getClientId()
+        }
         return String(data: clientId!, encoding: .utf8)!
 
     }
     
     func getClientSecret() -> String {
-        let clientSecret = try! keychainManager.retreiveFromKeyChain(service: clientService, account: clientSecretAccount)
+        let clientSecret = try? keychainManager.retreiveFromKeyChain(service: clientService, account: clientSecretAccount)
+        
+        if clientSecret == nil {
+            saveClientIdAndSecret()
+            return getClientSecret()
+        }
         return String(data: clientSecret!, encoding: .utf8)!
 
     }

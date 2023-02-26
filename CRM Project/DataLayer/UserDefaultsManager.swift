@@ -13,10 +13,14 @@ class UserDefaultsManager {
     static let shared = UserDefaultsManager()
     private let userDefaults = UserDefaults.standard
     private let loggedInKey = "isLoggedIn"
+    private let firstTimeLoginKey = "firstTime"
     private let timeKey = "time"
     private var loggedIn = false
+    private var isFirstTime = true
     
     private init() { }
+    
+    
     
     
     func isUserLoggedIn() -> Bool {
@@ -31,6 +35,19 @@ class UserDefaultsManager {
     
     private func saveLoginBool() {
         userDefaults.set(loggedIn, forKey: loggedInKey)
+    }
+    
+    func isFirstTimeLogin() -> Bool {
+        return userDefaults.bool(forKey: firstTimeLoginKey)
+    }
+    
+    func setFirstTimeLogin(to value: Bool) {
+        isFirstTime = value
+        saveIsUserFirst()
+    }
+    
+    func saveIsUserFirst() {
+        userDefaults.set(isFirstTime, forKey: firstTimeLoginKey)
     }
     
     func saveTokenGeneratedTime() {

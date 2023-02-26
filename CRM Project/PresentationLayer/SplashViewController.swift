@@ -16,6 +16,11 @@ class SplashViewController: UIViewController {
             UserDefaultsManager.shared.isUserLoggedIn()
         }
     }
+    var isFirstUse: Bool  {
+        get {
+            UserDefaultsManager.shared.isFirstTimeLogin()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,10 +54,10 @@ class SplashViewController: UIViewController {
     func setUpViewController() {
         
         if UserDefaultsManager.shared.isUserLoggedIn() {
-            let loginVC = HomeViewController()
-            let navController = UINavigationController(rootViewController: loginVC)
-            navController.modalPresentationStyle = .fullScreen
-            self.present(navController, animated: true)
+            let loginVC = ContainerViewController()
+//            let navController = UINavigationController(rootViewController: loginVC)
+            loginVC.modalPresentationStyle = .fullScreen
+            self.present(loginVC, animated: true)
             
 //            splashViewPresenter?.navigateToCRM()
         } else {

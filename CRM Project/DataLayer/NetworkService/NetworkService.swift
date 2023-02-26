@@ -10,7 +10,7 @@ import Foundation
 class NetworkService {
     
     private let network: NetworkContract = Network.shared
-    private let keychainService = KeychainService()
+    private let keychainService = KeychainController()
     private let userDefaults = UserDefaultsManager.shared
     
     private let zohoURLString = "https://accounts.zoho.com/"

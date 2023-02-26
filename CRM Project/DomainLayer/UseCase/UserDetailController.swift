@@ -13,7 +13,7 @@ class UserDetailController: UserDetailControllerContract {
     let userDataManager = UserNetworkService()
     
 
-    func getUserDetails(completion: @escaping (String?) -> Void) -> Void {
+    func getUserDetails(completion: @escaping (User?) -> Void) -> Void {
 
         userDataManager.getUserDetails { data, error in
             completion(data)
