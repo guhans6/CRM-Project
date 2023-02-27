@@ -22,10 +22,9 @@ class RecordsPresenter {
 extension RecordsPresenter: RecordsPresenterContract {
     
     func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void {
-        networkController.getRecords(module: module, id: nil) { [weak self] records in
+        networkController.getRecords(module: module, id: nil) { records in
             
             var recordArray = [Record]()
-            
             records.forEach { record in
                 
                 let record = record as! [String: Any]
@@ -40,8 +39,6 @@ extension RecordsPresenter: RecordsPresenterContract {
             }
             
             completion(recordArray)
-//            print("working")
-//            self?.showAllRecords(records: recordArray)
         }
     }
     

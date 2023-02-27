@@ -14,7 +14,6 @@ struct Fields: Codable {
 // MARK: - Field
 struct Field: Codable {
     let id: String
-//    let currency: AutoNumber
     let pickListValues: [PickListValue]
     let customField: Bool
     let displayLabel: String
@@ -24,11 +23,11 @@ struct Field: Codable {
     let apiName: String
     let displayType: Int
     let jsonType: String
-//    let readOnly: Bool
     let fieldLabel: String
     let createdTime, modifiedTime: Date?
     let lookup: Lookup
     let dataType: String
+    let isSystemMandatory: Bool
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -46,6 +45,8 @@ struct Field: Codable {
         case modifiedTime = "modified_time"
         case lookup
         case dataType = "data_type"
+        case isSystemMandatory = "system_mandatory"
+        
     }
 }
 
@@ -66,7 +67,7 @@ struct PickListValue: Codable {
 
 struct Lookup: Codable {
     let displayLabel, apiName, id: String?
-    let module: Modul?
+    let module: FieldModule?
 
     enum CodingKeys: String, CodingKey {
         case displayLabel = "display_label"
@@ -75,7 +76,7 @@ struct Lookup: Codable {
     }
 }
 
-struct Modul: Codable {
+struct FieldModule: Codable {
     let id, apiName: String
 
     enum CodingKeys: String, CodingKey {

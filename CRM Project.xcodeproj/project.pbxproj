@@ -90,6 +90,7 @@
 		53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0E29928D0B000B1FA1 /* Field.swift */; };
 		53F1EE8B29AB0BE900C17723 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EE8A29AB0BE900C17723 /* User.swift */; };
 		53F1EEB029AB9DB500C17723 /* Colour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EEAF29AB9DB500C17723 /* Colour.swift */; };
+		53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */; };
 		53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2A299F47CC0054E08B /* Assembler.swift */; };
 		53F3BB30299F55780054E08B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2F299F55780054E08B /* Router.swift */; };
 		53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB34299F60700054E08B /* ModuleViewContract.swift */; };
@@ -190,6 +191,7 @@
 		53EF7B0E29928D0B000B1FA1 /* Field.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Field.swift; sourceTree = "<group>"; };
 		53F1EE8A29AB0BE900C17723 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		53F1EEAF29AB9DB500C17723 /* Colour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colour.swift; sourceTree = "<group>"; };
+		53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
 		53F3BB2A299F47CC0054E08B /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
 		53F3BB2F299F55780054E08B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		53F3BB34299F60700054E08B /* ModuleViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewContract.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 				53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */,
 				53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */,
 				53EEAEFD29A5EF4F00403541 /* TextAreaTableViewCell.swift */,
+				53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */,
 			);
 			path = FormView;
 			sourceTree = "<group>";
@@ -634,6 +637,7 @@
 				537B60A82998B70100ACA883 /* StringTableViewCell.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				537B6082299635A000ACA883 /* ModulesPresenter.swift in Sources */,
+				53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */,
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
 				5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */,
 				537B608029962C7E00ACA883 /* ModuleTableViewCell.swift in Sources */,

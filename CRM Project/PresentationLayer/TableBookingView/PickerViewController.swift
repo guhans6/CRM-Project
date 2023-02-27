@@ -24,11 +24,12 @@ class MyPickerViewController: UIViewController {
     override func viewDidLoad() {
         
         view.backgroundColor = .systemBackground
-        configureSegmentedControl()
+        
         configureDatePicker()
-        configureTableView()
         configureOkayButton()
-        getTimings()
+//        configureSegmentedControl()
+//        configureTableView()
+//        getTimings()
     }
     
     private func configureSegmentedControl() {
@@ -59,14 +60,12 @@ class MyPickerViewController: UIViewController {
             tableView.isHidden = true
             datePicker.isHidden = false
 //            configureDatePicker()
-            print("a")
         case 1:
-            print("a")
             datePicker.isHidden = true
             tableView.isHidden = false
 //            configureTableView()
         default :
-            print("this")
+            print("case Default")
         }
         
     }
@@ -76,14 +75,14 @@ class MyPickerViewController: UIViewController {
         view.addSubview(okayButton)
         okayButton.translatesAutoresizingMaskIntoConstraints = false
 //        okayButton.backgroundColor = .red
-        okayButton.setTitle("Ok", for: .normal)
+        okayButton.setTitle("Done", for: .normal)
         okayButton.setTitleColor(.systemBlue, for: .normal)
         okayButton.addTarget(self, action: #selector(okayButtonTapped), for: .touchUpInside)
-        
+
         NSLayoutConstraint.activate([
-            okayButton.leadingAnchor.constraint(equalTo: segmentedControl.trailingAnchor, constant: 15),
-            okayButton.centerYAnchor.constraint(equalTo: segmentedControl.centerYAnchor),
-            
+            okayButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
+            okayButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+
         ])
         
     }
@@ -102,9 +101,9 @@ class MyPickerViewController: UIViewController {
         datePicker.datePickerMode = .date
         
         NSLayoutConstraint.activate([
-            datePicker.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 30),
+            datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
+//            datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
         ])
     }
     
@@ -129,6 +128,7 @@ class MyPickerViewController: UIViewController {
     private func getTimings() {
         BookingController().getAllTimings { timings in
             self.timings = timings
+            print("timings")
             tableView.reloadData()
         }
     }

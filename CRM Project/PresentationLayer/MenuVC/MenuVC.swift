@@ -23,6 +23,7 @@ class MenuVC: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         getCurrentUser()
+    
     }
     
     required init?(coder: NSCoder) {

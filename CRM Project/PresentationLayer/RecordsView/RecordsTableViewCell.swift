@@ -33,8 +33,6 @@ class RecordsTableViewCell: UITableViewCell {
             recordNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
             recordNameLabel.centerYAnchor.constraint(lessThanOrEqualTo: contentView.centerYAnchor)
         ])
-        
-        
     }
     
     private func configureRecordEmailLabel() {

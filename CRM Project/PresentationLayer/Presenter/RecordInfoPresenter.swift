@@ -26,11 +26,11 @@ extension RecordInfoPresenter: RecordInfoPresenterContract {
             let record = recordForId[0] as! [String: Any]
             
             
-            
             var recordInfo = [(String, String)]()
              // This should be in usecase layer
             
             record.forEach { key, value in
+                
                 if !key.starts(with: "$") {
                     if let recordDictionary = value as? [String: Any] {
                         
@@ -54,14 +54,42 @@ extension RecordInfoPresenter: RecordInfoPresenterContract {
                         
                         recordInfo.append((key, String(intValue)))
                     } else {
-                        recordInfo.append((key, value as? String ?? ""))
+                        
+                        let date = self.isADate(date: value  as? String ?? "")
+                    
+                            
+                        recordInfo.append((key, date))
                     }
 //                    recordInfo.append((key, editedInfo))
                 }
             }
             completion(recordInfo)
-//            self.displayRecordInfo(record: recordInfo)
         }
+    }
+    
+    private func isADate(date: String) -> String {
+        
+        
+        
+        let regex = #"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$"# // your regex pattern
+
+        if let _ = date.range(of: regex, options: .regularExpression) {
+    
+//            print("Valid date string")
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            
+            if let date = dateFormatter.date(from: date) {
+                dateFormatter.dateFormat = "dd-MM-yyyy"
+                let formattedDate = dateFormatter.string(from: date)
+                print(formattedDate, "aaaaaa") // Output: "23 02 2023"
+                return formattedDate
+            } else {
+                // the string is invalid
+                print("Invalid date string")
+            }
+        }
+        return date
     }
     
     func displayRecordInfo(record: [(String, String)]) {

@@ -15,35 +15,30 @@ class TableBookingViewController: UIViewController {
     let label = UILabel()
     private let tableView = UITableView()
 //    private let datePickerView = DatePickerTableHeaderView()
+    lazy var myPickerVC = MyPickerViewController()
+    lazy var selectedDate: Date = Date()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        configureDatePickerView()
         configureTableView()
 //        configureNoDataView()
         
         // add constraints for subviews
         view.backgroundColor = .systemBackground
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapPickerButton))
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(datePickerValueChanged))
-        
+        getTablesFor(date: Date())
     }
-    @objc private func datePickerValueChanged() {
-
-        let myPickerVC = MyPickerViewController()
-        
-        bookingViewPresenter.getTablesIn(date: myPickerVC.datePicker.date) { allTables in
-            self.tables = allTables
-            self.tableView.reloadData()
-        }
+    @objc private func didTapPickerButton() {
         
         myPickerVC.modalPresentationStyle = .pageSheet
+        myPickerVC.delegate  = self
         
         if let sheet = myPickerVC.sheetPresentationController {
             sheet.prefersGrabberVisible = true
-            sheet.detents = [.medium()]
+            sheet.detents = [.medium(), .large()]
             sheet.prefersEdgeAttachedInCompactHeight = true
         }
         
@@ -85,6 +80,15 @@ class TableBookingViewController: UIViewController {
         
     }
     
+    private func getTablesFor(date: Date) {
+        
+        bookingViewPresenter.getTablesIn(date: date) { allTables in
+            self.selectedDate = date
+            self.tables = allTables
+            self.tableView.reloadData()
+        }
+    }
+    
 }
 
 extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -98,7 +102,6 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         
         let count = self.tables[section].count
         
-        print(count)
         if count == 0 {
             self.tableView.setEmptyView(title: "No Tables Available", message: "")
         } else {
@@ -145,7 +148,35 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         
         tableView.deselectRow(at: indexPath, animated: true)
         
+        if indexPath.section == 0 {
+            
+            let table = tables[0][indexPath.section]
+            
+            let formVC = FormTableViewController(module: "Reservations")
+            
+            let recordId = table.id
+            
+            var record = [(String, String)]()
+            
+            
+            
+            record.append(("id" ,table.id))
+            record.append(("Booking_Table", table.name))
+//            record.append(("Booking_Date", myPickerVC.datePicker.date))
+            
+            formVC.setUpCellsForEditing(recordid: recordId, recordData: record)
+            
+            navigationController?.pushViewController(formVC, animated: true)
+        }
         
     }
+}
+
+extension TableBookingViewController: PickerViewDelegate {
+    
+    func dateAndTime(date: Date, time: String) {
+        self.getTablesFor(date: date)
+    }
+
 }
 

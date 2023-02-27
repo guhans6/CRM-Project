@@ -68,7 +68,7 @@ class Network: NetworkContract {
         if let parameters = parameters {
             
             request.httpBody = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            print(String(data: request.httpBody!, encoding: .utf8)!)
+//            print(String(data: request.httpBody!, encoding: .utf8)!)
         } else if let urlComponents = urlComponents {
             request.httpBody = urlComponents.query?.data(using: .utf8)
         }

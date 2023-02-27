@@ -21,12 +21,6 @@ class BookingController {
         
         bookingService.getBookedTablesfor(date: formattedDate) { tables in
             
-//            tables.forEach { t in
-//                print("1")
-//                t.forEach { t in
-//                    print(t.name)
-//                }
-//            }
             completion(tables)
         }
     }

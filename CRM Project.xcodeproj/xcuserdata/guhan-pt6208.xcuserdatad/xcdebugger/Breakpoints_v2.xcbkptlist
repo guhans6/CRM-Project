@@ -462,8 +462,8 @@
             filePath = "CRM Project/PresentationLayer/FormView/LookupTableViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
+            startingLineNumber = "89"
+            endingLineNumber = "89"
             landmarkName = "getLookupRecordId(recordName:recordId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -478,8 +478,8 @@
             filePath = "CRM Project/PresentationLayer/FormView/LookupTableViewCell.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "getLookupRecordId(recordName:recordId:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -494,8 +494,8 @@
             filePath = "CRM Project/PresentationLayer/FormView/FormTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "getFields()"
             landmarkType = "7">
          </BreakpointContent>
@@ -510,8 +510,8 @@
             filePath = "CRM Project/PresentationLayer/FormView/FormTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "getFields()"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,8 +526,8 @@
             filePath = "CRM Project/PresentationLayer/FormView/FormTableViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "36"
-            endingLineNumber = "36"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -654,8 +654,8 @@
             filePath = "CRM Project/PresentationLayer/MenuVC/MenuVC.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
             landmarkName = "getCurrentUser()"
             landmarkType = "7">
          </BreakpointContent>
@@ -689,6 +689,277 @@
             startingLineNumber = "63"
             endingLineNumber = "63"
             landmarkName = "getClientId()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "ABAFEF93-B4A0-4BF9-9706-98D55AFD6372"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CRM Project/DataLayer/NetworkService/BookingNetworkService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
+            landmarkName = "getAllTables(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AA06CE60-1E72-46A5-AC86-C67B5E6BDF44"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CRM Project/DomainLayer/UseCase/BookingController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "getAvailableTablesFor(date:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AA06CE60-1E72-46A5-AC86-C67B5E6BDF44 - b44533cd40102698"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Hotel_Hub.BookingController.getAvailableTablesFor(date: Foundation.Date, completion: (Swift.Array&lt;Swift.Array&lt;Hotel_Hub.Table&gt;&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DomainLayer/UseCase/BookingController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "22"
+                  endingLineNumber = "22"
+                  offsetFromSymbolStart = "480">
+               </Location>
+               <Location
+                  uuid = "AA06CE60-1E72-46A5-AC86-C67B5E6BDF44 - 595374fd3fa09803"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;Swift.Array&lt;Hotel_Hub.Table&gt;&gt;) -&gt; () in Hotel_Hub.BookingController.getAvailableTablesFor(date: Foundation.Date, completion: (Swift.Array&lt;Swift.Array&lt;Hotel_Hub.Table&gt;&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DomainLayer/UseCase/BookingController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "52">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "74F903A2-AB09-43BB-9B34-45977C3958AB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CRM Project/DomainLayer/UseCase/BookingController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "getAllTimings(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "01F9DC62-F8B2-4E41-B4BE-13CD45223BE5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CRM Project/DomainLayer/UseCase/BookingController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "35"
+            endingLineNumber = "35"
+            landmarkName = "getAllTimings(completion:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3BC5B62C-9576-42C5-96EB-00755FDF5C2C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CRM Project/DataLayer/NetworkService/BookingNetworkService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "getBookedTablesfor(date:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3BC5B62C-9576-42C5-96EB-00755FDF5C2C - ce5d13cdb031708"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Hotel_Hub.BookingNetworkService.getBookedTablesfor(date: Swift.String, completion: (Swift.Array&lt;Swift.Array&lt;Hotel_Hub.Table&gt;&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DataLayer/NetworkService/BookingNetworkService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "918">
+               </Location>
+               <Location
+                  uuid = "3BC5B62C-9576-42C5-96EB-00755FDF5C2C - 2da7518d6f2cdd79"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; () in Hotel_Hub.BookingNetworkService.getBookedTablesfor(date: Swift.String, completion: (Swift.Array&lt;Swift.Array&lt;Hotel_Hub.Table&gt;&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DataLayer/NetworkService/BookingNetworkService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "77">
+               </Location>
+               <Location
+                  uuid = "3BC5B62C-9576-42C5-96EB-00755FDF5C2C - 1662b1d1c352f42a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #4 () -&gt; () in Hotel_Hub.BookingNetworkService.getBookedTablesfor(date: Swift.String, completion: (Swift.Array&lt;Swift.Array&lt;Hotel_Hub.Table&gt;&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DataLayer/NetworkService/BookingNetworkService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "23"
+                  endingLineNumber = "23"
+                  offsetFromSymbolStart = "84">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "84436127-D44B-4344-B3FE-F3FDFED64885"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CRM Project/DataLayer/NetworkService/BookingNetworkService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "getBookedTablesfor(date:completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "84436127-D44B-4344-B3FE-F3FDFED64885 - ce5d13cdb031632"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Hotel_Hub.BookingNetworkService.getBookedTablesfor(date: Swift.String, completion: (Swift.Array&lt;Swift.Array&lt;Hotel_Hub.Table&gt;&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DataLayer/NetworkService/BookingNetworkService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "29"
+                  endingLineNumber = "29"
+                  offsetFromSymbolStart = "1271">
+               </Location>
+               <Location
+                  uuid = "84436127-D44B-4344-B3FE-F3FDFED64885 - 8a8353d063437a27"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Array&lt;Hotel_Hub.Table&gt;) -&gt; () in Hotel_Hub.BookingNetworkService.getBookedTablesfor(date: Swift.String, completion: (Swift.Array&lt;Swift.Array&lt;Hotel_Hub.Table&gt;&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DataLayer/NetworkService/BookingNetworkService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "24"
+                  endingLineNumber = "24"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "7242BA68-F672-4313-BD90-A459E9301E03"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CRM Project/DataLayer/NetworkService/BookingNetworkService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "getAllTables(completion:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "7242BA68-F672-4313-BD90-A459E9301E03 - 744109df4001396a"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; () in Hotel_Hub.BookingNetworkService.getAllTables(completion: (Swift.Array&lt;Hotel_Hub.Table&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DataLayer/NetworkService/BookingNetworkService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "93"
+                  endingLineNumber = "93"
+                  offsetFromSymbolStart = "413">
+               </Location>
+               <Location
+                  uuid = "7242BA68-F672-4313-BD90-A459E9301E03 - beca1ab5e57352ce"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; () in closure #1 (Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; () in Hotel_Hub.BookingNetworkService.getAllTables(completion: (Swift.Array&lt;Hotel_Hub.Table&gt;) -&gt; ()) -&gt; ()"
+                  moduleName = "Hotel Hub"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/guhan-pt6208/Guhan/App/CRM%20Project/CRM%20Project/DataLayer/NetworkService/BookingNetworkService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "174">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "30AC0577-20B0-4F71-928C-8557835E1F05"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CRM Project/DataLayer/NetworkService/BookingNetworkService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "getBookedTablesfor(date:completion:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

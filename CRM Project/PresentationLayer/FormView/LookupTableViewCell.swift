@@ -30,8 +30,6 @@ class LookupTableViewCell: FormTableViewCell {
 
     override func setLookupName(lookupApiName: String) {
         self.lookupApiName = lookupApiName
-//        lookupVC = LookupTableViewController(module: lookupApiName)
-//        lookupVC.delegate = self
     }
 
 
@@ -81,7 +79,7 @@ class LookupTableViewCell: FormTableViewCell {
     }
     
     override func setRecordData(for data: String) {
-        self.textView.text = data
+        self.textField.text = data
     }
 }
 

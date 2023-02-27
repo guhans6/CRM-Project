@@ -32,10 +32,11 @@ class FormTableViewCell: UITableViewCell {
         
         contentView.addSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
-//            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
             label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
             label.trailingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: -10)
@@ -64,8 +65,23 @@ class FormTableViewCell: UITableViewCell {
         ])
     }
     
-    func setUpCellWith(fieldName: String) {
-        label.text = fieldName
+    func setUpCellWith(fieldName: String, isMandatory: Bool) {
+
+        if isMandatory {
+            let fieldNameString = fieldName
+            let starString = "*"
+
+            let fieldNameAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            let starAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
+
+            let attributedString = NSMutableAttributedString(string: fieldNameString, attributes: fieldNameAttributes)
+            attributedString.append(NSAttributedString(string: starString, attributes: starAttributes))
+
+            label.attributedText = attributedString
+        } else {
+            label.text = fieldName
+        }
+
     }
     
     func setLookupName(lookupApiName: String) { }

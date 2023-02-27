@@ -28,7 +28,6 @@ class BookingNetworkService {
         dispatchGroup.enter()
         getAllTables { tables in
             allTables = tables
-//            print(allTables)
             dispatchGroup.leave()
         }
         
@@ -61,8 +60,8 @@ class BookingNetworkService {
                     } else {
                         availabeTables.append(table)
                     }
+                    completion([availabeTables, bookedTables])
                 }
-                completion([availabeTables, bookedTables])
             }
         }
        
@@ -88,7 +87,7 @@ class BookingNetworkService {
 //            result?.data.forEach({ table in
 //                print(table.name, table.seatingCapacity, table.id)
 //            })
-            print(data)
+//            print(data)
             var tables = [Table]()
             let data = data["data"] as! [[String: Any]]
             data.forEach { d in

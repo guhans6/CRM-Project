@@ -19,6 +19,22 @@ class RecordsController: RecordsControllerContract {
     func getRecords(module: String, id: String?, completion: @escaping ([Any]) -> Void) -> Void {
         
         recordsDataManager.getRecords(module: module, id: id) { data in
+            
+//            var records = [Record]()
+//
+//            data.forEach { record in
+//
+//                let record = record as! [String: Any]
+//                var secondaryData = ""
+//
+//                if module == "Employee" {
+//                    secondaryData = record["Email"] as? String ?? ""
+//                }
+//                let recordName = record["Name"] as! String
+//                let recordId = record["id"] as! String
+//                records.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId, owner: nil ,createdTime: nil, modifiedBy: nil, modifiedTime: nil))
+//            }
+            
             completion(data)
         }
     }

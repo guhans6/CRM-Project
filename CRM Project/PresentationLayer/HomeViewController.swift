@@ -33,8 +33,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Home"
-        
-//        navigationController?.navigationBar.backgroundColor = UIColor(named: "TableSelect")
 
         presenter?.generateAuthToken()
         configureUI()
@@ -42,6 +40,7 @@ class HomeViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = false
 //        presenter?.generateAuthToken()
     }
     
