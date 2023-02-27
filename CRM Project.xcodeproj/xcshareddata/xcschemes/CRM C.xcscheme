@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "53D2731D2977D20F001718BD"
-               BuildableName = "CRM C.app"
+               BuildableName = "Hotel Hub.app"
                BlueprintName = "CRM C"
                ReferencedContainer = "container:CRM Project.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "53D2731D2977D20F001718BD"
-            BuildableName = "CRM C.app"
+            BuildableName = "Hotel Hub.app"
             BlueprintName = "CRM C"
             ReferencedContainer = "container:CRM Project.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "53D2731D2977D20F001718BD"
-            BuildableName = "CRM C.app"
+            BuildableName = "Hotel Hub.app"
             BlueprintName = "CRM C"
             ReferencedContainer = "container:CRM Project.xcodeproj">
          </BuildableReference>

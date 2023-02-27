@@ -67,7 +67,7 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier) as! RecordInfoTableViewCell
         let record = recordInfo[indexPath.row]
-        print(record.0, record.1)
+//        print(record.0, record.1)
         cell.setUpRecordInfoCell(recordName: record.0, recordData: record.1)
         
         

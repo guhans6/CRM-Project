@@ -27,10 +27,10 @@ class RecordsNetworkService {
         }
         
         let parameters = ["data": [data]]
-        
+        print(parameters)
         
         networService.performNetworkCall(url: urlRequestString, method: httpMethod, urlComponents: nil, parameters: parameters, headers: nil) { resultData in
-            print(resultData)
+//            print(resultData)
         } failure: { error in
             print(error)
         }
@@ -69,7 +69,7 @@ class RecordsNetworkService {
 //                let recordId = record["id"] as! String
 //                records.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId))
 //            }
-            print(recordsResult)
+//            print(recordsResult)
             completion(recordsResult)
         } failure: { error in
             print(error)
@@ -97,7 +97,7 @@ class RecordsNetworkService {
                     recordInfo.append(("Employee \(key)", value as! String))
                     
                 } else if let value = value as? Bool {
-                    print(value)
+//                    print(value)
                     recordInfo.append((key, value == true ? "true" : "false"))
                     
                 } else {
@@ -123,7 +123,7 @@ class RecordsNetworkService {
             let recordsResult = data["data"] as! [Any]
             recordsResult.forEach { record in
                 let data = record as! [String: Any]
-                print(data["status"] as! String)
+//                print(data["status"] as! String)
             }
         } failure: { error in
             print(error)

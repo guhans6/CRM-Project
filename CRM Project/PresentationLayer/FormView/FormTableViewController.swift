@@ -87,7 +87,7 @@ class FormTableViewController: UITableViewController {
             let indexPath = IndexPath(row: row, section: 0)
             let field = fields[row]
             let cell: FormTableViewCell?
-            //d
+//            print(field.apiName)
             if field.lookup.apiName != nil {
                 
                 cell = tableView.cellForRow(at: indexPath) as! LookupTableViewCell
@@ -122,70 +122,21 @@ class FormTableViewController: UITableViewController {
                 
             }
             let cellField = cell!.getFieldData(for: field.dataType)
-//            print(cellField)
             if cellField.1 != nil {
-                data[fields[row].apiName] = cellField.1
+                data[field.apiName] = cellField.1
+                
             }
         }
-        
-        if isRecordEditing {
+        data.forEach { key, value in
+            print(key, value)
+        }
+        if editingRecordId != nil {
 
             formPresenter.updateRecord(module: module, records: data, recordId: editingRecordId)
         } else {
             formPresenter.saveRecord(module: module, records: data)
         }
         navigationController?.popViewController(animated: true)
-    }
-    
-    @objc private func tapGesture(sender gestureRecognizer: UITapGestureRecognizer) {
-
-        let cell = gestureRecognizer.view as! FormTableViewCell
-        let location = gestureRecognizer.location(in: cell)
-        
-//        print(moduleName)
-        if location.x > cell.frame.width / 2 {
-
-            if let cell = cell as? LookupTableViewCell {
-                
-                let moduleName = cell.lookupApiName
-                let lookupTableVC = RecordsTableViewController(module: moduleName!, isLookUp: true)
-                lookupTableVC.delegate = cell.self
-                navigationController?.pushViewController(lookupTableVC, animated: true)
-                
-            } else if let cell = cell as? DateTableViewCell {
-                
-                let myPickerVC = MyPickerViewController()
-                
-                myPickerVC.modalPresentationStyle = .pageSheet
-                myPickerVC.delegate  = cell.self
-                
-                if let sheet = myPickerVC.sheetPresentationController {
-                    sheet.prefersGrabberVisible = true
-                    sheet.detents = [.medium(), .large()]
-                    sheet.prefersEdgeAttachedInCompactHeight = true
-                }
-                
-                present(myPickerVC, animated: true, completion: nil)
-            }
-        }
-        
-    }
-    
-    @objc private func pickListTapGesuture(sender gestureRecognizer: LookupTapGestureRecognizer) {
-        
-        let cell = gestureRecognizer.view as! PickListTableViewCell
-        let location = gestureRecognizer.location(in: cell)
-        let field = fields[gestureRecognizer.row!]
-        let pickList = field.pickListValues
-        let pickListName = field.fieldLabel
-        let dataType = field.dataType
-
-        if location.x > cell.frame.width / 2 {
-            
-            let lookupTableVC = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickList, isMultiSelect: dataType == "picklist" ? false : true)
-            lookupTableVC.delegate = cell.self
-            navigationController?.pushViewController(lookupTableVC, animated: true)
-        }
     }
     
 }
@@ -285,6 +236,60 @@ extension FormTableViewController {
     }
 }
 
+extension FormTableViewController {
+    
+    @objc private func tapGesture(sender gestureRecognizer: UITapGestureRecognizer) {
+
+        let cell = gestureRecognizer.view as! FormTableViewCell
+        let location = gestureRecognizer.location(in: cell)
+        
+//        print(moduleName)
+        if location.x > cell.frame.width / 2 {
+
+            if let cell = cell as? LookupTableViewCell {
+                
+                let moduleName = cell.lookupApiName
+                let lookupTableVC = RecordsTableViewController(module: moduleName!, isLookUp: true)
+                lookupTableVC.delegate = cell.self
+                navigationController?.pushViewController(lookupTableVC, animated: true)
+                
+            } else if let cell = cell as? DateTableViewCell {
+                
+                let myPickerVC = MyPickerViewController()
+                
+                myPickerVC.modalPresentationStyle = .pageSheet
+                myPickerVC.delegate  = cell.self
+                
+                if let sheet = myPickerVC.sheetPresentationController {
+                    sheet.prefersGrabberVisible = true
+                    sheet.detents = [.medium(), .large()]
+                    sheet.prefersEdgeAttachedInCompactHeight = true
+                }
+                
+                present(myPickerVC, animated: true, completion: nil)
+            }
+        }
+        
+    }
+    
+    @objc private func pickListTapGesuture(sender gestureRecognizer: LookupTapGestureRecognizer) {
+        
+        let cell = gestureRecognizer.view as! PickListTableViewCell
+        let location = gestureRecognizer.location(in: cell)
+        let field = fields[gestureRecognizer.row!]
+        let pickList = field.pickListValues
+        let pickListName = field.fieldLabel
+        let dataType = field.dataType
+
+        if location.x > cell.frame.width / 2 {
+            
+            let lookupTableVC = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickList, isMultiSelect: dataType == "picklist" ? false : true)
+            lookupTableVC.delegate = cell.self
+            navigationController?.pushViewController(lookupTableVC, animated: true)
+        }
+    }
+}
+
 
 extension FormTableViewController: FormViewContract {
     
@@ -298,7 +303,8 @@ extension FormTableViewController {
 
     // to make the form for edit view and fill up the fields
 
-    func setUpCellsForEditing(recordid: String, recordData: [(String, String)]) -> Void {
+    func setUpCellsForEditing(recordid: String?, recordData: [(String, String)]) -> Void {
+        
         self.isRecordEditing = true
         self.editableRecords = recordData
         self.editingRecordId = recordid

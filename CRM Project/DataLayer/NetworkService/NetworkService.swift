@@ -181,7 +181,7 @@ class NetworkService {
                 
                 self.performNetworkCall(url: url, method: method, urlComponents: urlComponents, parameters: parameters, headers: headers, success: success, failure: failure)
             } else {
-                
+                print(data)
                 DispatchQueue.main.async {
                     success(data)
                 }

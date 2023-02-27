@@ -14,12 +14,13 @@ protocol PickerViewDelegate {
 
 class MyPickerViewController: UIViewController {
 
-    let segmentedControl = UISegmentedControl()
-    let datePicker = UIDatePicker()
-    let tableView = UITableView()
-    let okayButton = UIButton()
+    private let segmentedControl = UISegmentedControl()
+    private let datePicker = UIDatePicker()
+    private let tableView = UITableView()
+    private let okayButton = UIButton()
     var delegate: PickerViewDelegate?
     var timings = [(String, String)]()
+    var lastPickedDate = Date()
     
     override func viewDidLoad() {
         
@@ -88,7 +89,9 @@ class MyPickerViewController: UIViewController {
     }
     
     @objc private func okayButtonTapped() {
-        delegate?.dateAndTime(date: self.datePicker.date, time: "Meal")
+        lastPickedDate = self.datePicker.date
+        
+        delegate?.dateAndTime(date: lastPickedDate, time: "Meal")
         dismiss(animated: true)
     }
     
@@ -128,9 +131,12 @@ class MyPickerViewController: UIViewController {
     private func getTimings() {
         BookingController().getAllTimings { timings in
             self.timings = timings
-            print("timings")
             tableView.reloadData()
         }
+    }
+    
+    func getLastPickedDate() -> Date {
+        return lastPickedDate
     }
 }
 

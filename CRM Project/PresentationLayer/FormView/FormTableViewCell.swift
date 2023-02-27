@@ -71,10 +71,10 @@ class FormTableViewCell: UITableViewCell {
             let fieldNameString = fieldName
             let starString = "*"
 
-            let fieldNameAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+            let fieldNameAttributes = [NSAttributedString.Key.foregroundColor: UIColor.normalText]
             let starAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
 
-            let attributedString = NSMutableAttributedString(string: fieldNameString, attributes: fieldNameAttributes)
+            let attributedString = NSMutableAttributedString(string: fieldNameString, attributes: fieldNameAttributes as [NSAttributedString.Key : Any])
             attributedString.append(NSAttributedString(string: starString, attributes: starAttributes))
 
             label.attributedText = attributedString

@@ -11,7 +11,9 @@ protocol RecordsControllerContract {
     
     func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) -> Void
     
-    func getRecords(module: String, id: String?, completion: @escaping ([Any]) -> Void) -> Void
+    func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void
+    
+    func getRecords(module: String, id: String?, completion: @escaping ([(String, String)]) -> Void) -> Void
     
     func deleteRecords(module: String, ids: [String], completion: @escaping ([Any]) -> Void) -> Void
 }

@@ -31,6 +31,12 @@ class TableBookingViewController: UIViewController {
         
         getTablesFor(date: Date())
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+//        getTablesFor(date: <#T##Date#>)
+    }
+    
+    
     @objc private func didTapPickerButton() {
         
         myPickerVC.modalPresentationStyle = .pageSheet
@@ -132,7 +138,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         if section == 0 && tables[section].isEmpty {
             
             let noDataView = NoDataView()
-            noDataView.setMessage("No Table Available")
+            noDataView.setMessage("All tables are booked for this day !")
             return noDataView
             
         } else if section == 1 && tables[section].isEmpty {
@@ -158,13 +164,16 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             
             var record = [(String, String)]()
             
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "dd-MM-yyyy"
             
+            let dateString = dateFormatter.string(from: myPickerVC.getLastPickedDate())
             
-            record.append(("id" ,table.id))
+//            record.append(("id" ,table.id))
             record.append(("Booking_Table", table.name))
-//            record.append(("Booking_Date", myPickerVC.datePicker.date))
+            record.append(("Booking_Date", dateString))
             
-            formVC.setUpCellsForEditing(recordid: recordId, recordData: record)
+            formVC.setUpCellsForEditing(recordid: nil, recordData: record)
             
             navigationController?.pushViewController(formVC, animated: true)
         }

@@ -30,6 +30,25 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
         textField.text = data
     }
     
+    override func getFieldData(for type: String) -> (String, Any?) {
+        
+        
+        // MARK: MUST CHANGE THIS LOGIC TO SOMEWHERE ELSE
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd-MM-yyyy"
+
+        if let date = dateFormatter.date(from: textField.text!) {
+            dateFormatter.dateFormat = "yyyy-MM-dd"
+            let formattedDate = dateFormatter.string(from: date)
+            print(formattedDate)
+            return (label.text!, formattedDate)
+        } else {
+            print("Invalid date string.")
+        }
+        
+        return (label.text!, textField.text)
+    }
     
 }
 
