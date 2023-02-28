@@ -35,8 +35,21 @@ class ContainerViewController: UIViewController {
         
         configureMenuView()
         
-//      Home
+        //      Home
         configureHomeView()
+        
+        let swipeGesture = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(handleSwipeGesture(_:)))
+        swipeGesture.edges = .left
+        
+        // Add the gesture recognizer to the view
+        view.addGestureRecognizer(swipeGesture)
+    }
+    
+    @objc private func handleSwipeGesture(_ gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
+       
+        if isMenuClosed {
+            toogleMenu()
+        }
     }
     
     private func configureMenuView() {

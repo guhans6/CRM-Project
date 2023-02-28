@@ -137,8 +137,8 @@ class FormTableViewController: UITableViewController {
             let cellField = cell!.getFieldData(for: field.dataType)
             if cellField.1 != nil {
                 
-                if isReadyToSaveOrUpdate(field: field, recordData: cellField.1) {
-                    
+                if isReadyToSaveOrUpdate(field: field, recordData: cellField.1) == false {
+                    print("no we are not")
                     return
                 }
                     
