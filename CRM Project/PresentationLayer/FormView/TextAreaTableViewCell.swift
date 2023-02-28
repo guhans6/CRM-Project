@@ -38,8 +38,8 @@ class TextAreaTableViewCell: FormTableViewCell {
         ])
     }
     
-    override func setRecordData(for data: String) {
-        self.textView.text = data
+    override func setRecordData(for data: Any) {
+        self.textView.text = data as? String
     }
     
     override func getFieldData(for type: String) -> (String, Any?) {

@@ -23,6 +23,10 @@ class PickListTableViewCell: LookupTableViewCell {
         }
     }
     
+    override func setRecordData(for data: Any) {
+        
+        self.textField.text = data as? String
+    }
     
 }
 

@@ -66,12 +66,12 @@
 		537B60A82998B70100ACA883 /* StringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B60A32998B70100ACA883 /* StringTableViewCell.swift */; };
 		537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B60A42998B70100ACA883 /* DoubleTableViewCell.swift */; };
 		53964859299B804000781CE4 /* RecordInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53964858299B804000781CE4 /* RecordInfoTableViewController.swift */; };
-		5396485C299B87A300781CE4 /* EditRecordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5396485B299B87A300781CE4 /* EditRecordTableViewController.swift */; };
 		5396485E299B9EB600781CE4 /* RecordInfoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5396485D299B9EB600781CE4 /* RecordInfoPresenter.swift */; };
 		53964860299BA76100781CE4 /* IndividualDataRespone.json in Resources */ = {isa = PBXBuildFile; fileRef = 5396485F299BA76100781CE4 /* IndividualDataRespone.json */; };
 		53964864299BEFB500781CE4 /* RecordInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53964863299BEFB500781CE4 /* RecordInfoTableViewCell.swift */; };
 		53A696DC297C6AD80029F92E /* KeyChain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A696DB297C6AD80029F92E /* KeyChain.swift */; };
 		53A696DE297C6D310029F92E /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53A696DD297C6D310029F92E /* Network.swift */; };
+		53CCE37829AE50A700245CF7 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 53CCE37729AE50A700245CF7 /* Storyboard.storyboard */; };
 		53D273222977D20F001718BD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273212977D20F001718BD /* AppDelegate.swift */; };
 		53D273242977D20F001718BD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D273232977D20F001718BD /* SceneDelegate.swift */; };
 		53D2732B2977D211001718BD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 53D2732A2977D211001718BD /* Assets.xcassets */; };
@@ -165,12 +165,12 @@
 		537B60A32998B70100ACA883 /* StringTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTableViewCell.swift; sourceTree = "<group>"; };
 		537B60A42998B70100ACA883 /* DoubleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoubleTableViewCell.swift; sourceTree = "<group>"; };
 		53964858299B804000781CE4 /* RecordInfoTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoTableViewController.swift; sourceTree = "<group>"; };
-		5396485B299B87A300781CE4 /* EditRecordTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRecordTableViewController.swift; sourceTree = "<group>"; };
 		5396485D299B9EB600781CE4 /* RecordInfoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoPresenter.swift; sourceTree = "<group>"; };
 		5396485F299BA76100781CE4 /* IndividualDataRespone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = IndividualDataRespone.json; sourceTree = "<group>"; };
 		53964863299BEFB500781CE4 /* RecordInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoTableViewCell.swift; sourceTree = "<group>"; };
 		53A696DB297C6AD80029F92E /* KeyChain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChain.swift; sourceTree = "<group>"; };
 		53A696DD297C6D310029F92E /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		53CCE37729AE50A700245CF7 /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		53D2731E2977D20F001718BD /* Hotel Hub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hotel Hub.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		53D273212977D20F001718BD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		53D273232977D20F001718BD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -266,7 +266,6 @@
 				537B607C2996216A00ACA883 /* ModulesView */,
 				537B60872996683800ACA883 /* RecordsView */,
 				53964857299B7F5E00781CE4 /* RecordInfoView */,
-				5396485A299B876700781CE4 /* EditRecordView */,
 				53EF7B0329921E27000B1FA1 /* FormView */,
 				53E749F9299A6348000EE176 /* LookupTableView */,
 				53EEAEF329A4A7A700403541 /* MultiSelectTableView */,
@@ -363,14 +362,6 @@
 			path = RecordInfoView;
 			sourceTree = "<group>";
 		};
-		5396485A299B876700781CE4 /* EditRecordView */ = {
-			isa = PBXGroup;
-			children = (
-				5396485B299B87A300781CE4 /* EditRecordTableViewController.swift */,
-			);
-			path = EditRecordView;
-			sourceTree = "<group>";
-		};
 		53D273152977D20F001718BD = {
 			isa = PBXGroup;
 			children = (
@@ -407,6 +398,7 @@
 				5396485F299BA76100781CE4 /* IndividualDataRespone.json */,
 				537B609629989ADA00ACA883 /* FieldsRespone.json */,
 				53E749FC299A7167000EE176 /* FieldRespone.json */,
+				53CCE37729AE50A700245CF7 /* Storyboard.storyboard */,
 			);
 			path = "CRM Project";
 			sourceTree = "<group>";
@@ -592,6 +584,7 @@
 				537B609729989ADA00ACA883 /* FieldsRespone.json in Resources */,
 				537B6084299637DA00ACA883 /* json.json in Resources */,
 				53E749FD299A7167000EE176 /* FieldRespone.json in Resources */,
+				53CCE37829AE50A700245CF7 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -646,7 +639,6 @@
 				531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */,
 				5356AF1529A3382100267943 /* ModulesNetworkService.swift in Sources */,
 				5356AF2329A348D500267943 /* WebViewPresenter.swift in Sources */,
-				5396485C299B87A300781CE4 /* EditRecordTableViewController.swift in Sources */,
 				537B60A52998B70100ACA883 /* BooleanTableViewCell.swift in Sources */,
 				5356AF1029A332B800267943 /* NetworkService.swift in Sources */,
 				537B607E29962C3B00ACA883 /* ModulesTableViewController.swift in Sources */,

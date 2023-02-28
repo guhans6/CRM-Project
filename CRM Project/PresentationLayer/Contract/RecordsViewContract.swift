@@ -17,7 +17,7 @@ protocol RecordsPresenterContract: AnyObject {
     func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void
     func showAllRecords(records: [Record]) -> Void
     func deleteRecords(for module: String, ids: [String]) -> Void
-    func showRecord(for module: String, recordId: String) -> Void
+//    func showRecord(for module: String, recordId: String) -> Void
 }
 
 protocol RecordsViewRouterContract: AnyObject {

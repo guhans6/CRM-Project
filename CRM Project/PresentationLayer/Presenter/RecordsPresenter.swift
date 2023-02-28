@@ -39,8 +39,8 @@ extension RecordsPresenter: RecordsPresenterContract {
         }
     }
     
-    func showRecord(for module: String, recordId: String) {
-        router?.showRecordInfo(module: module, recordId: recordId)
-    }
+//    func showRecord(for module: String, recordId: String) {
+//        router?.showRecordInfo(module: module, recordId: recordId)
+//    }
     
 }

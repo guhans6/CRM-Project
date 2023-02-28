@@ -51,7 +51,6 @@ class HomeViewController: UIViewController {
         configureWelcomeUserlabel()
         
         let navigationLeftButton = UIImage(systemName: "list.dash")
-//        let navigationLeftButton = UIImage(systemName: "line.3.horizontal")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: navigationLeftButton, style: .plain, target: self, action: #selector(menuButtonTapped))
     }
     

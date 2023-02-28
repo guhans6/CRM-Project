@@ -38,15 +38,15 @@ class RecordsController: RecordsControllerContract {
         }
     }
     
-    func getRecords(module: String, id: String?, completion: @escaping ([(String, String)]) -> Void) -> Void {
+    func getRecords(module: String, id: String?, completion: @escaping ([(String, Any)]) -> Void) -> Void {
         
         recordsDataManager.getRecords(module: module, id: id) { data in
             
-             let record = data[0] as! [String: Any]
+            let record = data[0] as! [String: Any]
             
             
-            var recordInfo = [(String, String)]()
-             // This should be in usecase layer
+            var recordInfo = [(String, Any)]()
+            // This should be in usecase layer
             
             record.forEach { key, value in
                 
@@ -54,12 +54,16 @@ class RecordsController: RecordsControllerContract {
                     if let recordDictionary = value as? [String: Any] {
                         
                         let name = recordDictionary["name"] as! String
-                        recordInfo.append((key, name))
+                        let id = recordDictionary["id"] as! String
+                        
+                        print(name, id)
+                        
+                        recordInfo.append((key, [id, name]))
                     }
-//                    else if key == name || key == owner {
-//
-//                        recordInfo.append(("\(module) \(key)", value as! String))
-//                    }
+                    //                    else if key == name || key == owner {
+                    //
+                    //                        recordInfo.append(("\(module) \(key)", value as! String))
+                    //                    }
                     else if let value = value as? Bool {
                         
                         recordInfo.append((key, value == true ? "true" : "false"))
@@ -68,14 +72,14 @@ class RecordsController: RecordsControllerContract {
                         recordInfo.append((key, recordArray.joined(separator: ",")))
                     } else if let doubleValue = value as? Double {
                         
-                        recordInfo.append((key, String(doubleValue)))
+                        recordInfo.append((key, doubleValue))
                     } else if let intValue = value as? Int {
                         
                         recordInfo.append((key, String(intValue)))
                     } else {
                         
                         let date = self.convert(date: value  as? String ?? "")
-                    
+                        
                         recordInfo.append((key, date))
                     }
                 }
@@ -90,10 +94,10 @@ class RecordsController: RecordsControllerContract {
         
         
         let regex = #"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$"# // your regex pattern
-
+        
         if let _ = date.range(of: regex, options: .regularExpression) {
-    
-//            print("Valid date string")
+            
+            //            print("Valid date string")
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             

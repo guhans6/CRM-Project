@@ -11,14 +11,24 @@ import UIKit
 class RecordsTableViewController: UITableViewController {
     
     private let recordsPresenter: RecordsPresenterContract = RecordsPresenter()
-    private var module: String
-    private var isLookUp = false
+    private var module: Module?
+    private var moduleName: String?
+    private var moduleApiName: String!
+    private var isLookUp: Bool
     var delegate: LookupTableViewDelegate?
     var records = [Record]()
     
-    init(module: String, isLookUp: Bool = false) {
+    // This init is for when module is availabe when called
+    init(module: Module, isLookUp: Bool) {
         self.module = module
         self.isLookUp = isLookUp
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    // in lookup 
+    init(module: String, isLookup: Bool) {
+        self.moduleName = module
+        self.isLookUp = isLookup
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -29,8 +39,16 @@ class RecordsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = module
+        if let module {
+            moduleApiName = module.apiName
+        } else if let moduleName {
+            moduleApiName = moduleName
+        }
+        
+        title = module?.modulePluralName ?? moduleApiName
         view.backgroundColor = .systemBackground
+        
+        tableView.separatorColor = .tableViewSeperator
         
         configureRecordsTableView()
         configureNavigationBar()
@@ -51,14 +69,21 @@ class RecordsTableViewController: UITableViewController {
     }
     
     private func getRecords() {
-        recordsPresenter.getAllRecordsFor(module: module) { [weak self] records in
+        
+        recordsPresenter.getAllRecordsFor(module: moduleApiName) { [weak self] records in
             self?.records = records
             self?.tableView.reloadData()
         }
     }
     
     @objc private func addNewRecordButtonTapped() {
-        let formViewController = FormTableViewController(module: module)
+        
+        var formViewController: FormTableViewController!
+        if let module {
+            formViewController = FormTableViewController(module: module)
+        } else if let moduleName {
+            formViewController = FormTableViewController(moduleApiName: moduleName)
+        }
         navigationController?.pushViewController(formViewController, animated: true)
     }
 }
@@ -82,12 +107,15 @@ extension RecordsTableViewController {
         
         if !isLookUp {
             
-            let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId)
-            let _ = UINavigationController(rootViewController: individualRecordVC)
-            navigationController?.pushViewController(individualRecordVC, animated: true)
+            if let module {
+                
+                let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId)
+                let _ = UINavigationController(rootViewController: individualRecordVC)
+                navigationController?.pushViewController(individualRecordVC, animated: true)
+            }
         } else {
             
-            delegate?.getLookupRecordId(recordName: record.recordName, recordId: record.recordId)
+            delegate?.setLookupRecordAndId(recordName: record.recordName, recordId: record.recordId)
             navigationController?.popViewController(animated: true)
         }
     }
@@ -102,7 +130,7 @@ extension RecordsTableViewController {
             let swipeConfiguration = UIContextualAction(style: .destructive, title: "Delete") { action, view, complete in
                 let record = self.records.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.recordsPresenter.deleteRecords(for: self.module, ids: [record.recordId])
+                self.recordsPresenter.deleteRecords(for: self.moduleApiName, ids: [record.recordId])
                 complete(true)
             }
             return UISwipeActionsConfiguration(actions: [swipeConfiguration])

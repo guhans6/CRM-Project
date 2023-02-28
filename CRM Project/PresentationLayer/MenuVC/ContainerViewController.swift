@@ -111,21 +111,23 @@ extension ContainerViewController: MenuViewDelegate {
     
     func didSelectRow(contains: String) {
         
-        
-        switch contains {
-        case "Modules":
+        if isMenuClosed == false {
             
-            let moduleTableVC = ModulesTableViewController()
-            let _ = UINavigationController(rootViewController: moduleTableVC)
-            homeVC.navigationController?.pushViewController(moduleTableVC, animated: true)
-            
-        case "Table Booking":
-            let tableBookingVC = TableBookingViewController()
-            homeVC.navigationController?.pushViewController(tableBookingVC, animated: true)
-        default :
-            
-            print("No Options Selected")
+            switch contains {
+            case "Modules":
+                
+                let moduleTableVC = ModulesTableViewController()
+                let _ = UINavigationController(rootViewController: moduleTableVC)
+                homeVC.navigationController?.pushViewController(moduleTableVC, animated: true)
+                
+            case "Table Booking":
+                let tableBookingVC = TableBookingViewController()
+                homeVC.navigationController?.pushViewController(tableBookingVC, animated: true)
+            default :
+                
+                print("No Options Selected")
+            }
+            toogleMenu()
         }
-        toogleMenu()
     }
 }

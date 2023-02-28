@@ -14,7 +14,7 @@ protocol RecordInfoViewContract: AnyObject {
 
 protocol RecordInfoPresenterContract: AnyObject {
     
-    func getRecordFor(id: String, module: String, completion: @escaping ([(String, String)]) -> Void ) -> Void
+    func getRecordFor(id: String, module: String, completion: @escaping ([(String, Any)]) -> Void ) -> Void
     func displayRecordInfo(record: [(String, String)]) -> Void
 }
 

@@ -15,6 +15,10 @@ class FormTableViewCell: UITableViewCell {
 //    lazy var textField = FormTextField()
     lazy var lookupLabel = UILabel()
     lazy var switchButton = UISwitch()
+    lazy var invalidLabel = UILabel()
+    var isMandatory: Bool = false
+    
+    var textFieldHeight: NSLayoutConstraint?
     var fieldType: String!
     
     
@@ -22,6 +26,7 @@ class FormTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureLabel()
+//        configureInvalidLabel()
     }
     
     required init?(coder: NSCoder) {
@@ -61,12 +66,42 @@ class FormTableViewCell: UITableViewCell {
             textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             textField.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
             textField.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+//            textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            
+//            textField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
+        textFieldHeight = textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        textFieldHeight?.isActive = true
+    }
+    
+    func configureInvalidLabel(with message: String?) {
+        contentView.addSubview(invalidLabel)
+        invalidLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        invalidLabel.textAlignment = .left
+        invalidLabel.text = message
+        invalidLabel.textColor = .red
+        invalidLabel.font = .systemFont(ofSize: 15)
+        
+        
+        NSLayoutConstraint.activate([
+//            invalidLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            invalidLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
+            invalidLabel.topAnchor.constraint(equalTo: textField.bottomAnchor),
+            invalidLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
+        
+        UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
+            
+            self?.textFieldHeight?.isActive = false
+            
+            self?.textField.heightAnchor.constraint(equalToConstant: (self?.contentView.frame.height)!).isActive = true
+        }
     }
     
     func setUpCellWith(fieldName: String, isMandatory: Bool) {
 
+        self.isMandatory = isMandatory
         if isMandatory {
             let fieldNameString = fieldName
             let starString = "*"
@@ -86,15 +121,16 @@ class FormTableViewCell: UITableViewCell {
     
     func setLookupName(lookupApiName: String) { }
     
-    func setRecordData(for data: String) {
-        textField.text = data
+    func setRecordData(for data: Any) {
+        textField.text = data as? String
 //        print(textField.text)
     }
     
     // MARK: THIS SHOULD BE OVERRIDED IN EVERY TYPE CELL AND THERE IS NO NEED FOR (for Type) PARAMETER
     func getFieldData(for type: String) -> (String, Any?) {
         
-        if textField.text! == "" {
+        if isMandatory && textField.text! == "" {
+            configureInvalidLabel(with: "This field is Required")
             return (label.text!, nil)
         }
         

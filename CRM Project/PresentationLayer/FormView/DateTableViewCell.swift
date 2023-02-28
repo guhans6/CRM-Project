@@ -26,8 +26,8 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
         textField.isUserInteractionEnabled = false
     }
     
-    override func setRecordData(for data: String) {
-        textField.text = data
+    override func setRecordData(for data: Any) {
+        textField.text = data as? String
     }
     
     override func getFieldData(for type: String) -> (String, Any?) {

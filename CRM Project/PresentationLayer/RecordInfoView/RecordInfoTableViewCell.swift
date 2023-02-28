@@ -48,9 +48,19 @@ class RecordInfoTableViewCell: UITableViewCell {
         ])
     }
     
-    func setUpRecordInfoCell(recordName: String, recordData: String) {
+    func setUpRecordInfoCell(recordName: String, recordData: Any) {
         self.recordInfoNameLabel.text = recordName
-        self.recordDataLabel.text = recordData
+        
+        
+            
+        if let recordData = recordData as? String {
+            self.recordDataLabel.text = recordData
+            
+        } else if let recordData = recordData as? [String] {
+            
+            self.recordDataLabel.text = recordData[1]
+        }
+            
     }
     
 }

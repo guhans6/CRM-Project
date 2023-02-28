@@ -18,8 +18,6 @@ class LookupTableViewCell: FormTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-//        configureLookupLabel()
-//        configureLookUpButton()
         configureTextField()
 //        configureTextView()
     }
@@ -56,19 +54,34 @@ class LookupTableViewCell: FormTableViewCell {
         ])
     }
 
-//    private func configureLookupLabel() {
+    func configureLookupLabel() {
+        
+        contentView.addSubview(lookupLabel)
+        lookupLabel.translatesAutoresizingMaskIntoConstraints = false
+        lookupLabel.numberOfLines = 0
+        lookupLabel.lineBreakMode = .byWordWrapping
+        
+        NSLayoutConstraint.activate([
+            lookupLabel.leadingAnchor.constraint(equalTo: label.trailingAnchor,constant: 20),
+            lookupLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
+            lookupLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
+            lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+        ])
 //        contentView.addSubview(lookupLabel)
 //        lookupLabel.translatesAutoresizingMaskIntoConstraints = false
+//        lookupLabel.backgroundColor = .lightText
+//        lookupLabel.numberOfLines = 0
 //
-//        lookupLabel.backgroundColor = .systemGray6
-//
+
 //        NSLayoutConstraint.activate([
-//            lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+////            lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
 //            lookupLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
 //            lookupLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
 //            lookupLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 //        ])
-//    }
+        
+
+    }
     
     override func getFieldData(for type: String) -> (String, Any?) {
         
@@ -78,24 +91,21 @@ class LookupTableViewCell: FormTableViewCell {
         return (label.text!, ["id": lookupId])
     }
     
-    override func setRecordData(for data: String) {
-        self.textField.text = data
+    override func setRecordData(for data: Any) {
+        
+        let lookUpData = data as! [String]
+        
+        self.lookupId = lookUpData[0]
+        self.textField.text = lookUpData[1]
+        
     }
 }
 
 extension LookupTableViewCell: LookupTableViewDelegate {
 
-    func getLookupRecordId(recordName: String, recordId: String) {
+    func setLookupRecordAndId(recordName: String, recordId: String) {
 
         self.textField.text = recordName
         self.lookupId = recordId
     }
 }
-
-//extension LookupTableViewCell: PickListDelegate {
-//    
-//    func getPickListValues(pickListId: String, pickListValue: [String]) {
-//        self.textField.text = pickListValue.joined(separator: ",")
-////        self.pic
-//    }
-//}

@@ -16,9 +16,6 @@ class ModulesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Modules"
-        navigationController?.navigationBar.prefersLargeTitles = true
-        view.backgroundColor = .systemBackground
         configureModuleTableView()
     }
     
@@ -28,6 +25,13 @@ class ModulesTableViewController: UITableViewController {
     }
     
     private func configureModuleTableView() {
+        
+        title = "Modules"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        view.backgroundColor = .systemBackground
+        
+        tableView.separatorColor = .tableViewSeperator
+        
         tableView.register(ModuleTableViewCell.self, forCellReuseIdentifier: ModuleTableViewCell.moduleTableViewCellIdentifier)
 
     }
@@ -58,7 +62,7 @@ extension ModulesTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let module = modules[indexPath.row]
-        let recordsTableVC = RecordsTableViewController(module: module.apiName)
+        let recordsTableVC = RecordsTableViewController(module: module, isLookUp: false)
         let _ = UINavigationController(rootViewController: recordsTableVC)
         navigationController?.pushViewController(recordsTableVC, animated: true)
     }

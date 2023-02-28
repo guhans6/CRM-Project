@@ -11,11 +11,11 @@ class RecordInfoTableViewController: UITableViewController {
 
 //    var record
     lazy var individualRecordPresenter: RecordInfoPresenterContract = RecordInfoPresenter()
-    let recordModule: String
+    let recordModule: Module
     let recordId: String
-    var recordInfo = [(String, String)]()
+    var recordInfo = [(String, Any)]()
     
-    init(recordModule: String, recordId: String) {
+    init(recordModule: Module, recordId: String) {
         self.recordModule = recordModule
         self.recordId = recordId
         super.init(nibName: nil, bundle: nil)
@@ -30,6 +30,7 @@ class RecordInfoTableViewController: UITableViewController {
         configureTableView()
         
         navigationItem.largeTitleDisplayMode = .never
+        tableView.separatorColor = .tableViewSeperator
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,7 +50,7 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     func getRecord() {
-        individualRecordPresenter.getRecordFor(id: recordId, module: recordModule) { [weak self] recordInfo in
+        individualRecordPresenter.getRecordFor(id: recordId, module: recordModule.apiName) { [weak self] recordInfo in
             self?.recordInfo = recordInfo
             self?.tableView.reloadData()
         }

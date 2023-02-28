@@ -156,21 +156,21 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         
         if indexPath.section == 0 {
             
-            let table = tables[0][indexPath.section]
+            let table = tables[0][indexPath.row]
             
-            let formVC = FormTableViewController(module: "Reservations")
+            let formVC = FormTableViewController(moduleApiName: "Reservations")
             
-            let recordId = table.id
+//            let recordId = table.id
             
-            var record = [(String, String)]()
+            var record = [(String, Any)]()
             
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd-MM-yyyy"
             
             let dateString = dateFormatter.string(from: myPickerVC.getLastPickedDate())
             
-//            record.append(("id" ,table.id))
-            record.append(("Booking_Table", table.name))
+//            let bookingTable = table.id.appending(",").appending(table.name) 
+            record.append(("Booking_Table", [table.id, table.name]))
             record.append(("Booking_Date", dateString))
             
             formVC.setUpCellsForEditing(recordid: nil, recordData: record)

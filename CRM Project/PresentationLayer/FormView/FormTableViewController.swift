@@ -11,14 +11,22 @@ class FormTableViewController: UITableViewController {
     
     private let formPresenter = FormPresenter()
     private var fields = [Field]()
-    private lazy var editableRecords = [(String, String)]()
-    private var module: String
+    private lazy var editableRecords = [(String, Any)]()
+    private var module: Module?
+    private var moduleName: String?
     private var isRecordEditing = false
     private var editingRecordId: String?
+    private var moduleApiName: String!
     private lazy var textAreaIndexes = [IndexPath]()
     
-    init(module: String) {
+    init(module: Module) {
         self.module = module
+//        self.isRecordEditing = isRecordEditing
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(moduleApiName: String) {
+        self.moduleName = moduleApiName
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -29,13 +37,11 @@ class FormTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
-        if isEditing {
-            
-            title = "Edit \(module)"
-        } else {
-            
-            title = "Add \(module)"
+        
+        if let module {
+            self.moduleApiName = module.apiName
+        } else if let moduleName {
+            self.moduleApiName = moduleName
         }
         
         configureTableView()
@@ -43,12 +49,24 @@ class FormTableViewController: UITableViewController {
         getFields()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+    
+        if isRecordEditing {
+            
+            title = "Edit ".appending(moduleApiName)
+        } else {
+            
+            title = "Add ".appending(moduleApiName)
+        }
+    }
+    
     private func configureNavigationBar() {
         
         let saveButton = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .done, target: self, action: #selector(doneButtonClicked))
         
         navigationItem.rightBarButtonItems = [saveButton]
-        
+        navigationItem.largeTitleDisplayMode = .always
+//        navigationController?.navigationBar.prefersLargeTitles = trues
     }
 
     private func configureTableView() {
@@ -72,7 +90,8 @@ class FormTableViewController: UITableViewController {
     }
     
     private func getFields() {
-        formPresenter.getFieldsfor(module: module) { fields in
+        
+        formPresenter.getFieldsfor(module: moduleApiName) { fields in
             self.fields = fields
             self.tableView.reloadData()
         }
@@ -97,22 +116,16 @@ class FormTableViewController: UITableViewController {
                 case "String":
                     cell = tableView.cellForRow(at: indexPath) as! StringTableViewCell
                     
-                case "phone":
+                case "phone", "integer":
                     
-                    fallthrough
-                case "integer":
                     cell = tableView.cellForRow(at: indexPath) as! IntegerTableViewCell
-                    
                 case "double":
                     
                     cell = tableView.cellForRow(at: indexPath) as! DoubleTableViewCell
                 case "boolean":
                     
                     cell = tableView.cellForRow(at: indexPath) as! BooleanTableViewCell
-                case "picklist":
-                    
-                    fallthrough
-                case "multiselectpicklist":
+                case "picklist", "multiselectpicklist":
                     
                     cell = tableView.cellForRow(at: indexPath) as! PickListTableViewCell
                 default:
@@ -123,20 +136,37 @@ class FormTableViewController: UITableViewController {
             }
             let cellField = cell!.getFieldData(for: field.dataType)
             if cellField.1 != nil {
-                data[field.apiName] = cellField.1
                 
+                if isReadyToSaveOrUpdate(field: field, recordData: cellField.1) {
+                    
+                    return
+                }
+                    
+                
+                data[field.apiName] = cellField.1
             }
         }
-        data.forEach { key, value in
-            print(key, value)
-        }
+//        data.forEach { key, value in
+//            print(key, value)
+//        }
         if editingRecordId != nil {
 
-            formPresenter.updateRecord(module: module, records: data, recordId: editingRecordId)
+            formPresenter.updateRecord(module: moduleApiName, records: data, recordId: editingRecordId)
         } else {
-            formPresenter.saveRecord(module: module, records: data)
+            formPresenter.saveRecord(module: moduleApiName, records: data)
         }
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func isReadyToSaveOrUpdate(field: Field, recordData: Any?) -> Bool {
+        
+        if (field.apiName == "Email" || field.isSystemMandatory) && recordData as! String == "" {
+            print("Its Working")
+            tableView.beginUpdates()
+            tableView.endUpdates()
+            return false
+        }
+        return true
     }
     
 }
@@ -151,7 +181,7 @@ extension FormTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let field = fields[indexPath.row]
-        var cell: FormTableViewCell? = nil
+        var cell: FormTableViewCell!
         let tapGesture = LookupTapGestureRecognizer(target: self, action: #selector(tapGesture(sender:)))
 //        print(field.lookUpApiName)
 //        print(field.dataType)
@@ -162,7 +192,6 @@ extension FormTableViewController {
             
             cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
             cell?.setLookupName(lookupApiName: field.lookup.module!.apiName)
-            
             cell?.addGestureRecognizer(tapGesture)
         case "email":
             
@@ -176,10 +205,10 @@ extension FormTableViewController {
             textAreaIndexes.append(indexPath)
             
         case "integer", "phone":
-            
+            print(field.fieldLabel, field.dataType)
             cell = tableView.dequeueReusableCell(withIdentifier: IntegerTableViewCell.integerCellIdentifier) as! IntegerTableViewCell
-        case "double":
-            
+        case "double", "currency":
+            print(field.fieldLabel, field.dataType)
             cell = tableView.dequeueReusableCell(withIdentifier: DoubleTableViewCell.doubleCellIdentifier) as! DoubleTableViewCell
         case "boolean":
             
@@ -208,16 +237,17 @@ extension FormTableViewController {
         
         if isRecordEditing  {
             for record in editableRecords {
-                
-//                print(record.0, record.1, separator: "    *    ")
+
+
                 if field.fieldLabel == record.0 || field.apiName == record.0 {
+                    
                     cell?.setRecordData(for: record.1)
                     break
                 }
             }
        }
         
-        return cell!
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -249,7 +279,7 @@ extension FormTableViewController {
             if let cell = cell as? LookupTableViewCell {
                 
                 let moduleName = cell.lookupApiName
-                let lookupTableVC = RecordsTableViewController(module: moduleName!, isLookUp: true)
+                let lookupTableVC = RecordsTableViewController(module: moduleName!, isLookup: true)
                 lookupTableVC.delegate = cell.self
                 navigationController?.pushViewController(lookupTableVC, animated: true)
                 
@@ -303,7 +333,7 @@ extension FormTableViewController {
 
     // to make the form for edit view and fill up the fields
 
-    func setUpCellsForEditing(recordid: String?, recordData: [(String, String)]) -> Void {
+    func setUpCellsForEditing(recordid: String?, recordData: [(String, Any)]) -> Void {
         
         self.isRecordEditing = true
         self.editableRecords = recordData
