@@ -13,7 +13,7 @@ protocol RecordsControllerContract {
     
     func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void
     
-    func getRecords(module: String, id: String?, completion: @escaping ([(String, Any)]) -> Void) -> Void
+    func getIndividualRecords(module: String, id: String?, completion: @escaping ([(String, Any)]) -> Void) -> Void
     
     func deleteRecords(module: String, ids: [String], completion: @escaping ([Any]) -> Void) -> Void
 }

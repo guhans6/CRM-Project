@@ -46,7 +46,7 @@ class ContainerViewController: UIViewController {
     }
     
     @objc private func handleSwipeGesture(_ gestureRecognizer: UIScreenEdgePanGestureRecognizer) {
-       
+
         if isMenuClosed {
             toogleMenu()
         }

@@ -15,7 +15,7 @@ class RecordsTableViewController: UITableViewController {
     private var moduleName: String?
     private var moduleApiName: String!
     private var isLookUp: Bool
-    var delegate: LookupTableViewDelegate?
+    var delegate: RecordTableViewDelegate?
     var records = [Record]()
     
     // This init is for when module is availabe when called

@@ -45,7 +45,7 @@ class RecordInfoTableViewController: UITableViewController {
     @objc private func editButtonTapped() {
         
         let formTableVC = FormTableViewController(module: recordModule)
-        formTableVC.setUpCellsForEditing(recordid: recordId, recordData: recordInfo)
+        formTableVC.setUpCellsForEditing(recordid: recordId, recordData: recordInfo, recordState: .edit)
         navigationController?.pushViewController(formTableVC, animated: true)
     }
     
@@ -53,6 +53,10 @@ class RecordInfoTableViewController: UITableViewController {
         individualRecordPresenter.getRecordFor(id: recordId, module: recordModule.apiName) { [weak self] recordInfo in
             self?.recordInfo = recordInfo
             self?.tableView.reloadData()
+            
+            recordInfo.forEach { key, value in
+                print(key, value, separator: "v^^^") 
+            }
         }
     }
     

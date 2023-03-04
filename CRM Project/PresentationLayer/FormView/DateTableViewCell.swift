@@ -23,11 +23,12 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
     
     override func configureTextField() {
         super.configureTextField()
-        textField.isUserInteractionEnabled = false
+        formTextField.isUserInteractionEnabled = false
     }
     
-    override func setRecordData(for data: Any) {
-        textField.text = data as? String
+    override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
+        formTextField.text = data as? String
+        self.isUserInteractionEnabled = isRecordEditing
     }
     
     override func getFieldData(for type: String) -> (String, Any?) {
@@ -38,7 +39,7 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
 
-        if let date = dateFormatter.date(from: textField.text!) {
+        if let date = dateFormatter.date(from: formTextField.text!) {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let formattedDate = dateFormatter.string(from: date)
             print(formattedDate)
@@ -47,7 +48,7 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
             print("Invalid date string.")
         }
         
-        return (label.text!, textField.text)
+        return (label.text!, formTextField.text)
     }
     
 }
@@ -61,7 +62,7 @@ extension DateTableViewCell: PickerViewDelegate {
         dateFormatter.dateFormat = "dd-MM-yyyy"
         let formattedDate = dateFormatter.string(from: date)
         
-        self.textField.text = formattedDate
+        self.formTextField.text = formattedDate
     }
     
 }

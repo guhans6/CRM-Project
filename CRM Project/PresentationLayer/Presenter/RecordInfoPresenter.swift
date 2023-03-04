@@ -21,7 +21,7 @@ class RecordInfoPresenter {
 extension RecordInfoPresenter: RecordInfoPresenterContract {
     
     func getRecordFor(id: String, module: String, completion: @escaping ([(String, Any)]) -> Void ) -> Void {
-        recordsController.getRecords(module: module, id: id) { recordForId in
+        recordsController.getIndividualRecords(module: module, id: id) { recordForId in
             
             completion(recordForId)
         }

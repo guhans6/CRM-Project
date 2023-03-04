@@ -17,7 +17,8 @@ class BookingController {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let formattedDate = dateFormatter.string(from: date)
+//        let formattedDate = dateFormatter.string(from: date)
+        let formattedDate = DateFormatter.formattedString(from: date, format: "yyyy-MM-dd")
         
         bookingService.getBookedTablesfor(date: formattedDate) { tables in
             
@@ -25,15 +26,35 @@ class BookingController {
         }
     }
     
-    func getAllTimings(completion: ([(String, String)]) -> Void ) -> Void {
+    func getAllTimings(completion: @escaping ([(String, String)]) -> Void ) -> Void {
         
         
-        fieldsController.getfields(module: "Reservations") { fields in
-            var values = [(String, String)]()
-            
-            fields[4].pickListValues.forEach { pickListValue in
-                values.append((pickListValue.displayValue, pickListValue.id))
-            }
-        }
+//        fieldsController.getfields(module: "Reservations") { fields in
+//
+//            var timings = [(String, String)]()
+//            
+//            for field in fields {
+//                if field.apiName == "Pick_List_1" {
+//                    field.pickListValues.forEach { pickListValue in
+//                        timings.append((pickListValue.displayValue, pickListValue.id))
+//                    }
+//                    completion(timings)
+//                    break
+//                }
+//            }
+//        }
+    }
+    
+    func sendMailToCustomer(info: [String: Any?]) {
+        
+        BookingNetworkService().sendConformationMail(recordInfo: info)
+    }
+}
+
+extension DateFormatter {
+    static func formattedString(from date: Date, format: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = format
+        return dateFormatter.string(from: date)
     }
 }

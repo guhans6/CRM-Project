@@ -24,6 +24,6 @@ class IntegerTableViewCell: FormTableViewCell {
     override func configureTextField() {
         
         super.configureTextField()
-        textField.keyboardType = .numberPad
+        formTextField.keyboardType = .numberPad
     }
 }

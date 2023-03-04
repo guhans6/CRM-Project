@@ -11,7 +11,8 @@ class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
     private var lookupId: String!
-    let textView = UILabel()
+    let textView = UITextView()
+    let discloseIndicatorMark = UIButton()
 
     var lookupApiName: String!
 
@@ -20,6 +21,7 @@ class LookupTableViewCell: FormTableViewCell {
 
         configureTextField()
 //        configureTextView()
+        configureDiscloseIndicator()
     }
 
     required init?(coder: NSCoder) {
@@ -28,59 +30,65 @@ class LookupTableViewCell: FormTableViewCell {
 
     override func setLookupName(lookupApiName: String) {
         self.lookupApiName = lookupApiName
+        
+        
+    }
+    
+    func configureDiscloseIndicator() {
+        
+        contentView.addSubview(discloseIndicatorMark)
+        discloseIndicatorMark.translatesAutoresizingMaskIntoConstraints = false
+        discloseIndicatorMark.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        discloseIndicatorMark.tintColor = .normalText
+        discloseIndicatorMark.backgroundColor = .systemBackground
+        
+        NSLayoutConstraint.activate([
+            discloseIndicatorMark.leadingAnchor.constraint(equalTo: formTextField.trailingAnchor),
+            discloseIndicatorMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            discloseIndicatorMark.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            discloseIndicatorMark.topAnchor.constraint(equalTo: contentView.topAnchor)
+        ])
     }
 
 
     override func configureTextField() {
         super.configureTextField()
-//        textField.backgroundColor = .systemGray6
-        textField.isUserInteractionEnabled = false
+        
+        
+        formTextField.isUserInteractionEnabled = false
+        
+        formTextField.removeConstraint(texFieldTrailing!)
+        texFieldTrailing?.isActive = false
+        texFieldTrailing =  formTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21)
+        texFieldTrailing?.isActive = true
         
     }
     
     func configureTextView() {
         contentView.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.isUserInteractionEnabled = false
         textView.backgroundColor = .systemGray6
-        textView.numberOfLines = 0
-
+        textView.font = .preferredFont(forTextStyle: .body)
+        textView.textContainerInset = UIEdgeInsets(top: 13, left: 7, bottom: 0, right: 0)
+        textView.isEditable = false
+//        textView.isScrollEnabled = true
         
-        NSLayoutConstraint.activate([
-            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            textView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
-            textView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
-    }
-
-    func configureLookupLabel() {
-        
-        contentView.addSubview(lookupLabel)
-        lookupLabel.translatesAutoresizingMaskIntoConstraints = false
-        lookupLabel.numberOfLines = 0
-        lookupLabel.lineBreakMode = .byWordWrapping
-        
-        NSLayoutConstraint.activate([
-            lookupLabel.leadingAnchor.constraint(equalTo: label.trailingAnchor,constant: 20),
-            lookupLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
-            lookupLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
-            lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
-        ])
-//        contentView.addSubview(lookupLabel)
-//        lookupLabel.translatesAutoresizingMaskIntoConstraints = false
-//        lookupLabel.backgroundColor = .lightText
-//        lookupLabel.numberOfLines = 0
-//
-
 //        NSLayoutConstraint.activate([
-////            lookupLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            lookupLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
-//            lookupLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            lookupLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+//            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+//            textView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
+//            textView.topAnchor.constraint(equalTo: contentView.topAnchor),
+//            textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
 //        ])
         
+        NSLayoutConstraint.activate([
+//            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
+            textView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
+            textView.topAnchor.constraint(equalTo: contentView.topAnchor),
 
+        ])
+        textFieldHeight = textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        textFieldHeight?.isActive = true
     }
     
     override func getFieldData(for type: String) -> (String, Any?) {
@@ -91,21 +99,26 @@ class LookupTableViewCell: FormTableViewCell {
         return (label.text!, ["id": lookupId])
     }
     
-    override func setRecordData(for data: Any) {
+    override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
         
-        let lookUpData = data as! [String]
-        
-        self.lookupId = lookUpData[0]
-        self.textField.text = lookUpData[1]
-        
+        print(data)
+        if let lookupData = data as? [String] {
+            
+            self.lookupId = lookupData[0]
+            self.textView.text = lookupData[1]
+        } else if let lookupData = data as? String {
+            self.textView.text = lookupData
+        }
+        self.isUserInteractionEnabled = isEditing
     }
 }
 
-extension LookupTableViewCell: LookupTableViewDelegate {
+extension LookupTableViewCell: RecordTableViewDelegate {
 
     func setLookupRecordAndId(recordName: String, recordId: String) {
 
-        self.textField.text = recordName
+        self.textView.text = recordName
+        print(textView.text!)
         self.lookupId = recordId
     }
 }

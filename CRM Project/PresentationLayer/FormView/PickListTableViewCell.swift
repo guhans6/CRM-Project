@@ -23,9 +23,10 @@ class PickListTableViewCell: LookupTableViewCell {
         }
     }
     
-    override func setRecordData(for data: Any) {
+    override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
         
-        self.textField.text = data as? String
+        self.textView.text = data as? String
+        self.isUserInteractionEnabled = isRecordEditing
     }
     
 }
@@ -33,7 +34,7 @@ class PickListTableViewCell: LookupTableViewCell {
 extension PickListTableViewCell: PickListDelegate {
     
     func getPickListValues(isMultiSelect: Bool, pickListValue: [String]) {
-        self.textField.text = pickListValue.joined(separator: ", ")
+        self.textView.text = pickListValue.joined(separator: ", ")
         pickListValues = pickListValue
         self.isMultiSelect = isMultiSelect
     }

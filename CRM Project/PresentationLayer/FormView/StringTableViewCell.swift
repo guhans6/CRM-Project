@@ -24,6 +24,6 @@ class StringTableViewCell: FormTableViewCell {
     override func configureTextField() {
         
         super.configureTextField()
-        textField.keyboardType = .default
+        formTextField.keyboardType = .default
     }
 }

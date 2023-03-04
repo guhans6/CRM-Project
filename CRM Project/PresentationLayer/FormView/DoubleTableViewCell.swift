@@ -23,7 +23,7 @@ class DoubleTableViewCell: FormTableViewCell {
     
     override func configureTextField() {
         super.configureTextField()
-        textField.returnKeyType = .done
-        textField.keyboardType = .decimalPad
+        formTextField.returnKeyType = .done
+        formTextField.keyboardType = .decimalPad
     }
 }

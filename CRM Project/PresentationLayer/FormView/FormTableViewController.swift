@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol FormTableViewDelegate {
+    
+    func sendFields(fields: [Field]) -> Void
+}
+
 class FormTableViewController: UITableViewController {
     
     private let formPresenter = FormPresenter()
@@ -15,19 +20,28 @@ class FormTableViewController: UITableViewController {
     private var module: Module?
     private var moduleName: String?
     private var isRecordEditing = false
+    private var recordState: RecordState = .add
     private var editingRecordId: String?
     private var moduleApiName: String!
     private lazy var textAreaIndexes = [IndexPath]()
     
+    var delegate: FormTableViewDelegate?
+    
     init(module: Module) {
         self.module = module
-//        self.isRecordEditing = isRecordEditing
+        //        self.isRecordEditing = isRecordEditing
         super.init(nibName: nil, bundle: nil)
+        
+        setUpController()
+        getFields()
     }
     
     init(moduleApiName: String) {
         self.moduleName = moduleApiName
         super.init(nibName: nil, bundle: nil)
+        
+        setUpController()
+        getFields()
     }
     
     required init?(coder: NSCoder) {
@@ -38,25 +52,35 @@ class FormTableViewController: UITableViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        if let module {
-            self.moduleApiName = module.apiName
-        } else if let moduleName {
-            self.moduleApiName = moduleName
-        }
-        
         configureTableView()
         configureNavigationBar()
-        getFields()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
-    
-        if isRecordEditing {
+        
+        if recordState == .edit {
             
             title = "Edit ".appending(moduleApiName)
         } else {
             
             title = "Add ".appending(moduleApiName)
+        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        navigationController?.navigationItem.largeTitleDisplayMode = .always
+        navigationController?.navigationBar.prefersLargeTitles = true
+    }
+    
+    private func setUpController() {
+        
+        if let module {
+            self.moduleApiName = module.apiName
+        } else if let moduleName {
+            self.moduleApiName = moduleName
         }
     }
     
@@ -66,12 +90,13 @@ class FormTableViewController: UITableViewController {
         
         navigationItem.rightBarButtonItems = [saveButton]
         navigationItem.largeTitleDisplayMode = .always
-//        navigationController?.navigationBar.prefersLargeTitles = trues
+        //        navigationController?.navigationBar.prefersLargeTitles = trues
     }
-
+    
     private func configureTableView() {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 50
+        tableView.separatorColor = .tableViewSeperator
         registerTableViewCells()
     }
     
@@ -94,6 +119,7 @@ class FormTableViewController: UITableViewController {
         formPresenter.getFieldsfor(module: moduleApiName) { fields in
             self.fields = fields
             self.tableView.reloadData()
+            self.delegate?.sendFields(fields: fields)
         }
     }
     
@@ -106,7 +132,7 @@ class FormTableViewController: UITableViewController {
             let indexPath = IndexPath(row: row, section: 0)
             let field = fields[row]
             let cell: FormTableViewCell?
-//            print(field.apiName)
+            //            print(field.apiName)
             if field.lookup.apiName != nil {
                 
                 cell = tableView.cellForRow(at: indexPath) as! LookupTableViewCell
@@ -141,16 +167,16 @@ class FormTableViewController: UITableViewController {
                     print("no we are not")
                     return
                 }
-                    
+                
                 
                 data[field.apiName] = cellField.1
             }
         }
-//        data.forEach { key, value in
-//            print(key, value)
-//        }
+        //        data.forEach { key, value in
+        //            print(key, value)
+        //        }
         if editingRecordId != nil {
-
+            
             formPresenter.updateRecord(module: moduleApiName, records: data, recordId: editingRecordId)
         } else {
             formPresenter.saveRecord(module: moduleApiName, records: data)
@@ -169,7 +195,12 @@ class FormTableViewController: UITableViewController {
         return true
     }
     
+    func getField() -> [Field] {
+        
+        return self.fields
+    }
 }
+
 
 extension FormTableViewController {
     
@@ -183,8 +214,8 @@ extension FormTableViewController {
         let field = fields[indexPath.row]
         var cell: FormTableViewCell!
         let tapGesture = LookupTapGestureRecognizer(target: self, action: #selector(tapGesture(sender:)))
-//        print(field.lookUpApiName)
-//        print(field.dataType)
+        //        print(field.lookUpApiName)
+        //        print(field.dataType)
         
         switch field.dataType {
             
@@ -212,6 +243,7 @@ extension FormTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: DoubleTableViewCell.doubleCellIdentifier) as! DoubleTableViewCell
         case "boolean":
             
+            print(field.apiName)
             cell = tableView.dequeueReusableCell(withIdentifier: BooleanTableViewCell.booleanCellIdentifier) as! BooleanTableViewCell
             
         case "multiselectpicklist", "picklist":
@@ -227,7 +259,7 @@ extension FormTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: DateTableViewCell.dateCellIdentifier) as! DateTableViewCell
             
             cell?.addGestureRecognizer(tapGesture)
-    
+            
         default:
             
             cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
@@ -235,18 +267,23 @@ extension FormTableViewController {
         
         cell?.setUpCellWith(fieldName: field.fieldLabel, isMandatory: field.isSystemMandatory)
         
-        if isRecordEditing  {
+        if recordState == .edit || recordState == .editAndUserInteractionDisabled {
             for record in editableRecords {
-
-
+                
+                
                 if field.fieldLabel == record.0 || field.apiName == record.0 {
                     
-                    cell?.setRecordData(for: record.1)
+                    var shouldEnableUserInteracion = true
+                    
+                    if recordState == .editAndUserInteractionDisabled {
+                        shouldEnableUserInteracion = false
+                    }
+                    cell?.setRecordData(for: record.1, isEditable: shouldEnableUserInteracion)
                     break
                 }
             }
-       }
-        
+        }
+        cell.backgroundColor = .secondarySystemFill
         return cell
     }
     
@@ -258,7 +295,7 @@ extension FormTableViewController {
         
         // If it is text area it should be bigger and it is scrollable so constant height
         if textAreaIndexes.contains(indexPath) {
-
+            
             return 65
         } else {
             return UITableView.automaticDimension
@@ -269,13 +306,13 @@ extension FormTableViewController {
 extension FormTableViewController {
     
     @objc private func tapGesture(sender gestureRecognizer: UITapGestureRecognizer) {
-
+        
         let cell = gestureRecognizer.view as! FormTableViewCell
         let location = gestureRecognizer.location(in: cell)
         
-//        print(moduleName)
+        //        print(moduleName)
         if location.x > cell.frame.width / 2 {
-
+            
             if let cell = cell as? LookupTableViewCell {
                 
                 let moduleName = cell.lookupApiName
@@ -310,7 +347,7 @@ extension FormTableViewController {
         let pickList = field.pickListValues
         let pickListName = field.fieldLabel
         let dataType = field.dataType
-
+        
         if location.x > cell.frame.width / 2 {
             
             let lookupTableVC = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickList, isMultiSelect: dataType == "picklist" ? false : true)
@@ -330,14 +367,22 @@ extension FormTableViewController: FormViewContract {
 }
 
 extension FormTableViewController {
-
+    
     // to make the form for edit view and fill up the fields
-
-    func setUpCellsForEditing(recordid: String?, recordData: [(String, Any)]) -> Void {
+    
+    func setUpCellsForEditing(recordid: String?, recordData: [(String, Any)], recordState: RecordState = .edit) -> Void {
         
-        self.isRecordEditing = true
+        //        self.isRecordEditing = true
         self.editableRecords = recordData
         self.editingRecordId = recordid
         self.tableView.reloadData()
     }
+}
+
+
+enum RecordState {
+    
+    case add
+    case edit
+    case editAndUserInteractionDisabled
 }

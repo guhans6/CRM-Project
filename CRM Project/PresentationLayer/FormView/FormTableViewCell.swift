@@ -11,7 +11,7 @@ class FormTableViewCell: UITableViewCell {
 
     static let cellIdentifier = "formCell"
     let label = UILabel()
-    lazy var textField = FormTextField()
+    lazy var formTextField = FormTextField()
 //    lazy var textField = FormTextField()
     lazy var lookupLabel = UILabel()
     lazy var switchButton = UISwitch()
@@ -19,18 +19,68 @@ class FormTableViewCell: UITableViewCell {
     var isMandatory: Bool = false
     
     var textFieldHeight: NSLayoutConstraint?
+    var texFieldTrailing: NSLayoutConstraint?
+    
     var fieldType: String!
+    
+    var activeTextField: UITextField?
+    var keyboardHeight: CGFloat = 0
+
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureLabel()
+        configureCell()
+        formTextField.delegate = self
 //        configureInvalidLabel()
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configureCell() {
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+    }
+    
+    @objc func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+              let activeTextField = activeTextField
+        else {
+            return
+        }
+
+        // Save the keyboard height and set the content inset to move the table view up
+        
+        // Keyboard Height
+        keyboardHeight = keyboardFrame.height
+        
+        // The below is to found bounds of activeTextFields Rect according to it's superview
+        let textFieldRect = activeTextField.convert(activeTextField.bounds, to: self.superview)
+        
+        // The below is to find the bottom position of textField in the rectangle
+        let textFieldBottom = textFieldRect.origin.y + textFieldRect.size.height
+        
+        // So if the bottom is greater than keyboard's height it will move the view up
+        // We are checking if it is Greater because y increase in the way down and x increases on right form (0, 0) on phone's top left
+        
+        if textFieldBottom > keyboardHeight {
+            
+            superview?.frame.origin.y -= keyboardHeight
+        }
+    }
+
+
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        // Move the view back down to its original position
+        superview?.frame.origin.y = 0
     }
     
     func configureLabel() {
@@ -39,6 +89,7 @@ class FormTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
+//        label.backgroundColor =
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
@@ -50,27 +101,29 @@ class FormTableViewCell: UITableViewCell {
     
     func configureTextField() {
         
-        contentView.addSubview(textField)
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.backgroundColor = .lightText
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        textField.returnKeyType = .done
+        contentView.addSubview(formTextField)
+        formTextField.translatesAutoresizingMaskIntoConstraints = false
+        formTextField.backgroundColor = .systemBackground
+        formTextField.autocorrectionType = .no
+        formTextField.autocapitalizationType = .none
+        formTextField.returnKeyType = .done
+        
+        
         
         // MARK: BELOW IS USED TO SET CUSTOM BORDER
 //        textField.layer.borderColor = UIColor.systemGray6.withAlphaComponent(0.5).cgColor
 //        textField.layer.borderWidth = 2.0
-        textField.backgroundColor = .systemGray6
+//        textField.backgroundColor = .systemGray6
         
         NSLayoutConstraint.activate([
-            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            textField.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
-            textField.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            formTextField.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
+            formTextField.topAnchor.constraint(equalTo: contentView.topAnchor)
             
-//            textField.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
-        textFieldHeight = textField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        texFieldTrailing = formTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        textFieldHeight = formTextField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        
+        texFieldTrailing?.isActive = true
         textFieldHeight?.isActive = true
     }
     
@@ -82,20 +135,25 @@ class FormTableViewCell: UITableViewCell {
         invalidLabel.text = message
         invalidLabel.textColor = .red
         invalidLabel.font = .systemFont(ofSize: 15)
+//        invalidLabel.backgroundColor = .
         
         
         NSLayoutConstraint.activate([
 //            invalidLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            invalidLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor),
-            invalidLabel.topAnchor.constraint(equalTo: textField.bottomAnchor),
-            invalidLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            invalidLabel.leadingAnchor.constraint(equalTo: formTextField.leadingAnchor),
+            invalidLabel.topAnchor.constraint(equalTo: formTextField.bottomAnchor),
+            invalidLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            invalidLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
         
         UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
             
             self?.textFieldHeight?.isActive = false
+            self?.formTextField.removeConstraint((self?.textFieldHeight)!)
             
-            self?.textField.heightAnchor.constraint(equalToConstant: (self?.contentView.frame.height)!).isActive = true
+            self?.textFieldHeight = self?.formTextField.heightAnchor.constraint(equalToConstant: (self?.contentView.frame.height)!)
+            
+            self?.textFieldHeight?.isActive = true
         }
     }
     
@@ -121,30 +179,45 @@ class FormTableViewCell: UITableViewCell {
     
     func setLookupName(lookupApiName: String) { }
     
-    func setRecordData(for data: Any) {
-        textField.text = data as? String
-//        print(textField.text)
+    func setRecordData(for data: Any, isEditable: Bool = true) {
+        
+        formTextField.text = data as? String
+        formTextField.isUserInteractionEnabled = isEditable
+        self.isUserInteractionEnabled = isEditable
     }
     
     // MARK: THIS SHOULD BE OVERRIDED IN EVERY TYPE CELL AND THERE IS NO NEED FOR (for Type) PARAMETER
     func getFieldData(for type: String) -> (String, Any?) {
         
-        if isMandatory && textField.text! == "" {
+        if isMandatory && formTextField.text! == "" {
             configureInvalidLabel(with: "This field is Required")
             return (label.text!, nil)
         }
         
         switch type {
         case "String":
-            return (label.text!, textField.text)
+            return (label.text!, formTextField.text)
         case "integer":
-            let value = Int(textField.text!)
+            let value = Int(formTextField.text!)
             return (label.text!, value)
         case "double":
-            let value = Double(textField.text!)
+            let value = Double(formTextField.text!)
             return (label.text!, value)
         default:
-            return (label.text!, textField.text)
+            return (label.text!, formTextField.text)
         }
     }
+}
+
+extension FormTableViewCell: UITextFieldDelegate {
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        
+        activeTextField = textField
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeTextField = nil
+    }
+
 }

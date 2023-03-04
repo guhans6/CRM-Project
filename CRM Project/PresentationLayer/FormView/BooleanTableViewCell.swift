@@ -23,7 +23,7 @@ class BooleanTableViewCell: FormTableViewCell {
     }
     
     private func configureSwitch() {
-        textField.removeFromSuperview()
+        formTextField.removeFromSuperview()
         contentView.addSubview(switchButton)
         switchButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -33,8 +33,9 @@ class BooleanTableViewCell: FormTableViewCell {
         ])
     }
     
-    override func setRecordData(for data: Any) {
+    override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
 
+        self.isUserInteractionEnabled = isRecordEditing
         if data as? String == "true" {
             switchButton.isOn = true
         } else {

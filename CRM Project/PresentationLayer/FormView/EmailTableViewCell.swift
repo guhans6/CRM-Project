@@ -24,20 +24,20 @@ class EmailTableViewCell: FormTableViewCell {
     override func configureTextField() {
         
         super.configureTextField()
-        textField.keyboardType = .emailAddress
+        formTextField.keyboardType = .emailAddress
         
-        textField.addTarget(self, action: #selector(editingBegins), for: .editingDidBegin)
+        formTextField.addTarget(self, action: #selector(editingBegins), for: .editingDidBegin)
     }
     
     @objc private func editingBegins() {
-        textField.placeholder = ""
+        formTextField.placeholder = ""
     }
     
     override func getFieldData(for type: String) -> (String, Any?) {
         
         let emailRegex = "^[\\+\\-\\p{L}\\p{M}\\p{N}_]([\\p{L}\\p{M}\\p{N}!#$%&'*+\\-\\/=?^_`{|}~.]*)@(?=.{4,256}$)(([\\p{L}\\p{N}\\p{M}]+)(([\\-_]*[\\p{L}\\p{M}\\p{N}])*)[.])+[\\p{L}\\p{M}]{2,22}$"
         
-        let email = textField.text
+        let email = formTextField.text
         if let _ = email?.range(of: emailRegex, options: .regularExpression) {
             
             self.invalidLabel.removeFromSuperview()

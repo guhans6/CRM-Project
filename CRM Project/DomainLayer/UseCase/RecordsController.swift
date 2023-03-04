@@ -11,79 +11,31 @@ class RecordsController: RecordsControllerContract {
     
     let recordsDataManager = RecordsNetworkService()
     
+    
     func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
         
         recordsDataManager.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId)
+        
+        switch module {
+        case "Reservations":
+            BookingController().sendMailToCustomer(info: recordData)
+        default:
+            print("other module network call")
+        }
     }
     
     func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void {
         
-        recordsDataManager.getRecords(module: module, id: nil) { data in
+        recordsDataManager.getRecords(module: module, id: nil) { records in
             
-            var recordArray = [Record]()
-            data.forEach { record in
-                
-                let record = record as! [String: Any]
-                var secondaryData = ""
-                
-                if module == "Employee" {
-                    secondaryData = record["Email"] as? String ?? ""
-                }
-                let recordName = record["Name"] as! String
-                let recordId = record["id"] as! String
-                recordArray.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId, owner: nil ,createdTime: nil, modifiedBy: nil, modifiedTime: nil ))
-            }
-            
-            completion(recordArray)
+            completion(records)
         }
     }
     
-    func getRecords(module: String, id: String?, completion: @escaping ([(String, Any)]) -> Void) -> Void {
+    func getIndividualRecords(module: String, id: String?, completion: @escaping ([(String, Any)]) -> Void) -> Void {
         
-        recordsDataManager.getRecords(module: module, id: id) { data in
-            
-            let record = data[0] as! [String: Any]
-            
-            
-            var recordInfo = [(String, Any)]()
-            // This should be in usecase layer
-            
-            record.forEach { key, value in
-                
-                if !key.starts(with: "$") {
-                    if let recordDictionary = value as? [String: Any] {
-                        
-                        let name = recordDictionary["name"] as! String
-                        let id = recordDictionary["id"] as! String
-                        
-                        print(name, id)
-                        
-                        recordInfo.append((key, [id, name]))
-                    }
-                    //                    else if key == name || key == owner {
-                    //
-                    //                        recordInfo.append(("\(module) \(key)", value as! String))
-                    //                    }
-                    else if let value = value as? Bool {
-                        
-                        recordInfo.append((key, value == true ? "true" : "false"))
-                    } else if let recordArray = value as? [String] {
-                        
-                        recordInfo.append((key, recordArray.joined(separator: ",")))
-                    } else if let doubleValue = value as? Double {
-                        
-                        recordInfo.append((key, doubleValue))
-                    } else if let intValue = value as? Int {
-                        
-                        recordInfo.append((key, String(intValue)))
-                    } else {
-                        
-                        let date = self.convert(date: value  as? String ?? "")
-                        
-                        recordInfo.append((key, date))
-                    }
-                }
-            }
+        recordsDataManager.getIndividualRecord(module: module, id: id) { recordInfo in
+
             
             completion(recordInfo)
         }

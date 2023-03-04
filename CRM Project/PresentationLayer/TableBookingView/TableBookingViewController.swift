@@ -6,38 +6,57 @@
 //
 
 import UIKit
-
 class TableBookingViewController: UIViewController {
     
     private let bookingViewPresenter = TableBookingViewPresenter()
+    private lazy var formVC = FormTableViewController(moduleApiName: "Reservations")
+    
     private var tables = [[Table]]()
+    
     private lazy var noDataView = UIView()
     let label = UILabel()
     private let tableView = UITableView()
-//    private let datePickerView = DatePickerTableHeaderView()
-    lazy var myPickerVC = MyPickerViewController()
+    
+    private let datePickerView = DatePickerTableHeaderView()
+    private let myPickerVC = MyPickerViewController()
     lazy var selectedDate: Date = Date()
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        formVC.delegate = myPickerVC.self
         configureTableView()
+        configureUI()
+        
 //        configureNoDataView()
         
-        // add constraints for subviews
-        view.backgroundColor = .systemBackground
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapPickerButton))
-        
-        getTablesFor(date: Date())
     }
     
     override func viewWillAppear(_ animated: Bool) {
-//        getTablesFor(date: <#T##Date#>)
+
     }
     
     
-    @objc private func didTapPickerButton() {
+    private func configureUI() {
+        
+        view.backgroundColor = .systemBackground
+        
+//        let rightBarButton = UIBarButtonItem(title: "Pick Date", style: .plain, target: self, action: #selector(showDatePicker))
+//        navigationItem.rightBarButtonItem = rightBarButton
+        getTablesFor(date: Date())
+        configurePickerView()
+    }
+    
+    private func configurePickerView() {
         
         myPickerVC.modalPresentationStyle = .pageSheet
         myPickerVC.delegate  = self
@@ -47,9 +66,33 @@ class TableBookingViewController: UIViewController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersEdgeAttachedInCompactHeight = true
         }
+    }
+    
+    @objc private func showDatePicker() {
+        
+        configurePickerView()
+        myPickerVC.showView(viewType: .dateView)
         
         present(myPickerVC, animated: true, completion: nil)
 
+    }
+    
+    @objc private func showTimePicker() {
+        
+        
+        configurePickerView()
+        myPickerVC.showView(viewType: .tableView)
+        
+        present(myPickerVC, animated: true, completion: nil)
+    }
+    
+    private func configureHeaderView() -> DatePickerTableHeaderView {
+        
+        datePickerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 100)
+        datePickerView.dateDisplayButton.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
+        datePickerView.timeDisplayButton.addTarget(self, action: #selector(showTimePicker), for: .touchUpInside)
+        
+        return datePickerView
     }
     
     private func configureTableView() {
@@ -60,6 +103,8 @@ class TableBookingViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorColor = .tableViewSeperator
+        
+        tableView.tableHeaderView = configureHeaderView()
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -79,7 +124,7 @@ class TableBookingViewController: UIViewController {
         
         titleLabel.centerYAnchor.constraint(equalTo: noDataView.centerYAnchor).isActive = true
         titleLabel.centerXAnchor.constraint(equalTo: noDataView.centerXAnchor).isActive = true
-        label.text = "No tables available"
+        label.text = "No tables available Add a new Table in Modules to continue"
         label.sizeToFit()
         self.tableView.backgroundView = noDataView
         self.tableView.separatorStyle = .none
@@ -158,34 +203,39 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             
             let table = tables[0][indexPath.row]
             
-            let formVC = FormTableViewController(moduleApiName: "Reservations")
-            
-//            let recordId = table.id
             
             var record = [(String, Any)]()
             
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd-MM-yyyy"
+            let dateFormat = "dd-MM-yyyy"
+            let lastPickedDate = myPickerVC.getPickedDate()
             
-            let dateString = dateFormatter.string(from: myPickerVC.getLastPickedDate())
+//            let dateString = dateFormatter.string(from: myPickerVC.getLastPickedDate())
+            let dateString = DateFormatter.formattedString(from: lastPickedDate, format: dateFormat)
+            
+            let pickedTime = myPickerVC.getPickedTime()
             
 //            let bookingTable = table.id.appending(",").appending(table.name) 
             record.append(("Booking_Table", [table.id, table.name]))
             record.append(("Booking_Date", dateString))
+            record.append(("Pick_List_1", pickedTime))
             
-            formVC.setUpCellsForEditing(recordid: nil, recordData: record)
+            formVC.setUpCellsForEditing(recordid: nil, recordData: record, recordState: .editAndUserInteractionDisabled)
             
             navigationController?.pushViewController(formVC, animated: true)
         }
-        
     }
+    
 }
 
 extension TableBookingViewController: PickerViewDelegate {
     
     func dateAndTime(date: Date, time: String) {
         self.getTablesFor(date: date)
+        
+        let dateString = DateFormatter.formattedString(from: date, format: "dd-MM-yyyy")
+        
+        self.datePickerView.dateDisplayButton.setTitle(dateString, for: .normal)
+        self.datePickerView.timeDisplayButton.setTitle(time, for: .normal)
     }
 
 }
-

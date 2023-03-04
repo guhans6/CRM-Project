@@ -10,6 +10,7 @@ import Foundation
 
 struct Module {
     
+    var id = "123"
     let apiName: String
     let modulePluralName: String
     let moduleSingularName: String

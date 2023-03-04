@@ -10,10 +10,9 @@ import UIKit
 class DatePickerTableHeaderView: UIView {
     
     private let selectDateLabel = UILabel()
+    let dateDisplayButton = UIButton()
     private let timeLabel = UILabel()
-    let okButton = UIButton()
-    let datePicker = UIDatePicker()
-    let dropDownButton = DropDownButton()
+    let timeDisplayButton = UIButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -29,73 +28,80 @@ class DatePickerTableHeaderView: UIView {
     private func configureUI() {
         
         configureLabel()
-        configureDatePicker()
-        configureDropDownButton()
-        configureButton()
+        configureDateDisplayButton()
+        configureTimeLabel()
+        configureTimeDisplayButton()
     }
     
     private func configureLabel() {
-        selectDateLabel.text = "Select date"
+        selectDateLabel.text = "Select date: "
         selectDateLabel.textAlignment = .left
         selectDateLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(selectDateLabel)
         
         // Layout constraints for the label
         NSLayoutConstraint.activate([
-            selectDateLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+//            selectDateLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
             selectDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
-//            selectDateLabel.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.5)
+            selectDateLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15)
         ])
     }
-    
-    private func configureDatePicker() {
-        
-//        self.addSubview(datePicker)
-//        datePicker.datePickerMode = .date
-//        datePicker.translatesAutoresizingMaskIntoConstraints = false
-//
-//
-////        Layout constraints for the date picker
-//        NSLayoutConstraint.activate([
-//            datePicker.leadingAnchor.constraint(equalTo: selectDateLabel.trailingAnchor, constant: 40),
-//            datePicker.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-//            //            datePicker.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.8),
-//            //            datePicker.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.3)
-//
-//        ])
-    }
-    
-    private func configureDropDownButton() {
-        
-        self.addSubview(dropDownButton)
-        self.superview?.bringSubviewToFront(self)
-        dropDownButton.translatesAutoresizingMaskIntoConstraints = false
-        
 
-        dropDownButton.button.setTitle("Pick Time", for: .normal)
-        dropDownButton.button.setTitleColor(.label , for: .normal)
-        dropDownButton.button.titleLabel?.font = .systemFont(ofSize: 20)
-        dropDownButton.setDropDownOptions(options: ["a", "bb", "cccccccccccccc"])
-        dropDownButton.button.backgroundColor = .red
+    private func configureDateDisplayButton() {
+        
+        self.addSubview(dateDisplayButton)
+        self.superview?.bringSubviewToFront(self)
+        dateDisplayButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        dateDisplayButton.setTitle("Select Date", for: .normal)
+        dateDisplayButton.setTitleColor(.normalText, for: .normal)
+        dateDisplayButton.layer.cornerRadius = 10
+        
+        dateDisplayButton.backgroundColor = .tableSelect
         
         NSLayoutConstraint.activate([
-            dropDownButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            dropDownButton.leadingAnchor.constraint(equalTo: selectDateLabel.trailingAnchor, constant: 10),
-//            dropDownButton.widthAnchor.constraint(equalToConstant: 150),
+            dateDisplayButton.centerYAnchor.constraint(equalTo: selectDateLabel.centerYAnchor),
+            dateDisplayButton.leadingAnchor.constraint(equalTo: selectDateLabel.trailingAnchor, constant: 30),
+            dateDisplayButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
+            dateDisplayButton.heightAnchor.constraint(equalToConstant: 30),
+//            dateDisplayButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
             
         ])
     }
     
-    
-    private func configureButton() {
+    private func configureTimeLabel() {
         
-//        self.addSubview(okButton)
-//        okButton.translatesAutoresizingMaskIntoConstraints = false
-//        okButton.setImage(UIImage(systemName: "checkmark"), for: .normal)
-//
-//        NSLayoutConstraint.activate([
-//            okButton.leadingAnchor.constraint(equalTo: dropDownButton.trailingAnchor, constant: 10),
-//            okButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-//        ])
+        timeLabel.text = "Select Time: "
+        timeLabel.textAlignment = .left
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        self.addSubview(timeLabel)
+        
+        // Layout constraints for the label
+        NSLayoutConstraint.activate([
+            timeLabel.topAnchor.constraint(equalTo: selectDateLabel.bottomAnchor, constant: 30),
+            timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+        ])
+    }
+    
+    private func configureTimeDisplayButton() {
+        
+        self.addSubview(timeDisplayButton)
+        self.superview?.bringSubviewToFront(self)
+        timeDisplayButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        timeDisplayButton.setTitle("Select Time", for: .normal)
+        timeDisplayButton.setTitleColor(.normalText, for: .normal)
+        timeDisplayButton.layer.cornerRadius = 10
+        
+        timeDisplayButton.backgroundColor = .tableSelect
+        
+        NSLayoutConstraint.activate([
+            timeDisplayButton.leadingAnchor.constraint(equalTo: dateDisplayButton.leadingAnchor),
+            timeDisplayButton.centerYAnchor.constraint(equalTo: timeLabel.centerYAnchor),
+            timeDisplayButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
+            timeDisplayButton.heightAnchor.constraint(equalToConstant: 30)
+            
+        ])
     }
 }

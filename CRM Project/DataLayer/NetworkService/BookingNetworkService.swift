@@ -18,6 +18,7 @@ class BookingNetworkService {
         
         let parameters = [
             "select_query" : "select  Booking_Table.id from Reservations where Booking_Date = '\(date)'"
+//            "select_query" : "select  Booking_Table.id from Reservations where Booking_Date = '\(date)' and Pick_List_1 = 'Breakfast '"
         ]
         
         var bookedTableIds = [String]()
@@ -109,5 +110,57 @@ class BookingNetworkService {
         } failure: { error in
             print(error, "aa")
         }
+    }
+    
+    func sendConformationMail(recordInfo: [String: Any?]) {
+        
+        
+        let urlRequestString = "crm/v3/Employee/5622594000000428318/actions/send_mail"
+        
+        guard let recieverEmail = recordInfo["Email"] as? String ,
+              let recieverName = recordInfo["Name"] as? String,
+              let tableBookingDate = recordInfo["Booking_Date"] as? String,
+              let bookingTime = recordInfo["Pick_List_1"] as? String else {
+            
+            print("Invalid table data to send mail")
+            return
+        }
+        print(recordInfo)
+        let fromAddress = [
+                "user_name": "Guhan",
+                "email": "guhan.saravanan@zohocorp.com"
+        ]
+
+        let toAddress = [
+            [
+                "user_name": recieverName,
+                "email": recieverEmail
+            ]
+        ]
+//
+        let subject = "Regarding Table  Booking"
+        //
+        let content = "Hi \(recieverName) \n Table Booked Succesfully for date \(tableBookingDate) and for Time \(bookingTime)"
+        
+        let parameters = [
+            "data": [
+                [
+                    "from" : fromAddress,
+                    "to": toAddress,
+                    "subject": subject,
+                    "content": content
+                ]
+            ]
+        ]
+        
+        let json = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        print(String(data: json!, encoding: .utf8) ?? "asfasdf", "aaaaaaaa")
+        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) { resultData in
+
+            print(resultData)
+        } failure: { error in
+            print(error, "aaa")
+        }
+
     }
 }

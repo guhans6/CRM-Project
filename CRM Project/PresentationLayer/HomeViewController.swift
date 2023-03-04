@@ -97,7 +97,8 @@ class HomeViewController: UIViewController {
     
     @objc private func makeRequestButtonTapped() {
         
-        self.navigationController?.pushViewController(TableBookingViewController(), animated: true)
+//        self.navigationController?.pushViewController(TableBookingViewController(), animated: true)
+        NetworkService().fromMailAddress()
     }
 
     private func configureGenerateAuthTokenButton() {
