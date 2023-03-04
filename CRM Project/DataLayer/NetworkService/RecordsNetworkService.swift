@@ -97,6 +97,32 @@ class RecordsNetworkService {
             let record = recordsResult[0] as! [String: Any]
             
             
+            let sortedKeys = record.keys.sorted()
+            let this = record.filter { key, value in
+                !key.contains("$")
+            }
+            
+            let that = this.sorted { ke, val in
+                if ke.key > val.key {
+                    return true
+                }
+                return false
+            }
+            
+            that.forEach { pair in
+                print(pair.key , pair.value)
+            }
+//            for key in sortedKeys {
+//
+//                if !key.starts(with: "$") {
+//                    let value = record[key]
+//                    print(key, value  ?? "a")
+//                }
+//
+//            }
+            
+            
+            
             var recordInfo = [(String, Any)]()
             // This should be in usecase layer
             
@@ -108,7 +134,7 @@ class RecordsNetworkService {
                         let name = recordDictionary["name"] as! String
                         let id = recordDictionary["id"] as! String
                         
-                        print(name, id)
+//                        print(name, id)
                         
                         recordInfo.append((key, [id, name]))
                     }

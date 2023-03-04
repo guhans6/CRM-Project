@@ -11,6 +11,14 @@ class ModulesNetworkService {
     
     private let networkService = NetworkService()
     
+    private let tableName = "Modules"
+    private let moduleId = "Module_id"
+    private let apiName = "api_name"
+    private let modulePluralName = "modulePluralName"
+    private let moduleSingularName = "moduleSingularName"
+    
+    let sqliteText = " TEXT"
+    
     func getModules(completion: @escaping ([Module]) -> Void) -> Void {
         
         let urlRequestString = "crm/v3/settings/modules"
@@ -20,7 +28,7 @@ class ModulesNetworkService {
             let modules = data["modules"] as! Array<Any>
             var customModules = [Module]()
             modules.forEach { module in
-                
+    
                 let module = module as! [String: Any]
                 if let generatedType = module["generated_type"] as? String, generatedType == "custom" {
                     let id = module["id"] as! String
@@ -42,19 +50,17 @@ class ModulesNetworkService {
     }
         
     
-    private func saveModulesInDataBase(modules: [Module]) {
+    func getAllModules() {
         
+        let result = Database.shared.select(tableName: tableName, addition: "ORDER BY \(moduleSingularName) DESC")
         
+        result?.forEach({ abc in
+            print(abc[moduleId])
+        })
     }
     
     func createModuleTable(modules: [Module]) {
-        let tableName = "Modules"
-        let moduleId = "Module_id"
-        let apiName = "api_name"
-        let modulePluralName = "modulePluralName"
-        let moduleSingularName = "moduleSingularName"
         
-        let sqliteText = " TEXT"
 //        let idColumn = "Module_id"
         let columns = [
             moduleId.appending(" INTEGER PRIMARY KEY"),

@@ -70,9 +70,19 @@ class RecordsTableViewController: UITableViewController {
     
     private func getRecords() {
         
+        tableView.showLoadingIndicator()
         recordsPresenter.getAllRecordsFor(module: moduleApiName) { [weak self] records in
             self?.records = records
-            self?.tableView.reloadData()
+//            self?.records = [Record]()
+            
+            if self?.records.count ?? 0 > 0 {
+                
+                self?.tableView.reloadData()
+            } else {
+                self?.tableView.hideLoadingIndicator()
+                let message = "No \(self?.module?.moduleSingularName ?? "") record found"
+                self?.tableView.setEmptyView(title: message, message: "Add a new record")
+            }
         }
     }
     
@@ -91,6 +101,10 @@ class RecordsTableViewController: UITableViewController {
 extension RecordsTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if records.count > 0 {
+            tableView.hideLoadingIndicator()
+        }
         return records.count
     }
     

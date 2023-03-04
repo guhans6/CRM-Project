@@ -112,10 +112,19 @@ class Database {
         return execute(query: deleteQuery, values: whereArgs ?? [Any]())
     }
     
-    func select(tableName: String, whereClause: String? = nil, args: [Any]? = nil, select: String = "*") -> [[String: Any]]? {
+    func select(tableName: String,
+                whereClause: String? = nil,
+                args: [Any]? = nil,
+                select: String = "*", addition: String = "") -> [[String: Any]]? {
+        
         var results: [[String: Any]]?
         
-        let query = "SELECT \(select) FROM \(tableName) \(whereClause != nil ? "WHERE \(whereClause!)" : "")"
+        let query = """
+            SELECT \(select)
+            FROM \(tableName)
+            \(whereClause != nil ? "WHERE \(whereClause!)" : "")
+            \(addition)
+            """
         var stmt: OpaquePointer?
         if sqlite3_prepare_v2(db, query, -1, &stmt, nil) == SQLITE_OK {
             if let args = args {

@@ -37,9 +37,22 @@ class ModulesTableViewController: UITableViewController {
     }
     
     private func getModules() {
+        tableView.showLoadingIndicator()
         modulePresenter.getModules { [weak self] modules in
             self?.modules = modules
-            self?.tableView.reloadData()
+            
+            // These below is to test if the activity indicator is working
+//            sleep(4)
+//            self?.modules = [Module]()
+            
+            if self?.modules.count ?? 0 > 0 {
+                
+                self?.tableView.reloadData()
+            } else {
+                self?.tableView.hideLoadingIndicator()
+                self?.tableView.setEmptyView(title: "No Modules Present", message: "")
+            }
+            
         }
     }
     
@@ -48,6 +61,10 @@ class ModulesTableViewController: UITableViewController {
 extension ModulesTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if modules.count > 0 {
+            tableView.hideLoadingIndicator()
+        }
         return modules.count
     }
     

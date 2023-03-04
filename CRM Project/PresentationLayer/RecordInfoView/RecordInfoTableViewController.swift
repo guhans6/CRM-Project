@@ -54,9 +54,9 @@ class RecordInfoTableViewController: UITableViewController {
             self?.recordInfo = recordInfo
             self?.tableView.reloadData()
             
-            recordInfo.forEach { key, value in
-                print(key, value, separator: "v^^^") 
-            }
+//            recordInfo.forEach { key, value in
+//                print(key, value, separator: "v^^^") 
+//            }
         }
     }
     
