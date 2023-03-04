@@ -106,6 +106,7 @@
 		53F3BB4729A1F6320054E08B /* HomeViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4629A1F6320054E08B /* HomeViewContract.swift */; };
 		53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */; };
 		53F43A6D299ADABB002528BE /* RecordTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */; };
+		53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -209,6 +210,7 @@
 		53F3BB4629A1F6320054E08B /* HomeViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewContract.swift; sourceTree = "<group>"; };
 		53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupTableViewCell.swift; sourceTree = "<group>"; };
 		53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTableViewDelegate.swift; sourceTree = "<group>"; };
+		53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,7 +252,6 @@
 				53E9093C29B11D9500452748 /* DataManager */,
 				5356AF0329A286CA00267943 /* DataContract */,
 				5356AF0C29A32D5C00267943 /* NetworkService */,
-				5356AF1329A3365E00267943 /* KeychainService */,
 				53A696DB297C6AD80029F92E /* KeyChain.swift */,
 				53A696DD297C6D310029F92E /* Network.swift */,
 				53E9093729B069B900452748 /* Database.swift */,
@@ -263,12 +264,12 @@
 		5318F5D3297A851000AF76DC /* PresentationLayer */ = {
 			isa = PBXGroup;
 			children = (
-				5362F76229AA33EE00DA5F44 /* MenuVC */,
 				53EC9A47298261430056C300 /* SplashViewController.swift */,
 				5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */,
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
 				531B11112980E558000FAF02 /* HomeViewController.swift */,
 				53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */,
+				5362F76229AA33EE00DA5F44 /* MenuVC */,
 				537B607C2996216A00ACA883 /* ModulesView */,
 				537B60872996683800ACA883 /* RecordsView */,
 				53964857299B7F5E00781CE4 /* RecordInfoView */,
@@ -302,13 +303,6 @@
 				5356AF0F29A332B800267943 /* NetworkService.swift */,
 			);
 			path = NetworkService;
-			sourceTree = "<group>";
-		};
-		5356AF1329A3365E00267943 /* KeychainService */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = KeychainService;
 			sourceTree = "<group>";
 		};
 		5362F76229AA33EE00DA5F44 /* MenuVC */ = {
@@ -385,6 +379,7 @@
 				5300C47529A8F51A00706150 /* DropDownButton.swift */,
 				5318F5D0297A84D900AF76DC /* DomainLayer */,
 				5318F5D2297A84F500AF76DC /* DataLayer */,
+				53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */,
 				53D2732A2977D211001718BD /* Assets.xcassets */,
 				53D2732F2977D211001718BD /* Info.plist */,
 				537B6083299637DA00ACA883 /* json.json */,
@@ -635,6 +630,7 @@
 				53E9094629B11DAF00452748 /* UserInfoDataManager.swift in Sources */,
 				5356AF1929A3397100267943 /* FieldsNetworkService.swift in Sources */,
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
+				53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */,
 				537B60A82998B70100ACA883 /* StringTableViewCell.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				537B6082299635A000ACA883 /* ModulesPresenter.swift in Sources */,

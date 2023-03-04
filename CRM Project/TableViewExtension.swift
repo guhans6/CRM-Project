@@ -10,6 +10,8 @@ import UIKit
 extension UITableView {
     
 
+    
+    /// This is used when there is no data in a table view with a custom message
     func setEmptyView(title: String, message: String) {
 
         let emptyView = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
@@ -21,9 +23,11 @@ extension UITableView {
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
 
         titleLabel.textColor = UIColor.black
-        titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+//        titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
+        titleLabel.font = .preferredFont(forTextStyle: .title1)
         messageLabel.textColor = UIColor.lightGray
-        messageLabel.font = UIFont(name: "HelveticaNeue-Regular", size: 17)
+//        messageLabel.font = UIFont(name: "HelveticaNeue-Regular", size: 17)
+        messageLabel.font = .preferredFont(forTextStyle: .body)
 
         emptyView.addSubview(titleLabel)
         emptyView.addSubview(messageLabel)

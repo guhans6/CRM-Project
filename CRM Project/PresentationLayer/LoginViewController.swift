@@ -51,9 +51,20 @@ class LoginViewController: UIViewController {
     
     @objc private func didTapOpenLinkButton() {
         
-        let navController = UINavigationController(rootViewController: WebViewController())
-        navController.modalPresentationStyle = .fullScreen
-        self.present(navController, animated: true)
-//        KeyChainController().saveClientIdAndSecret()
+        if NetworkMonitor.shared.isConnected {
+            let navController = UINavigationController(rootViewController: WebViewController())
+            navController.modalPresentationStyle = .fullScreen
+            self.present(navController, animated: true)
+        } else {
+            
+            let alertController = UIAlertController(title: "Network Connection Required", message: "Please connect to a network to continue", preferredStyle: .alert)
+
+            let okAction = UIAlertAction(title: "OK", style: .default)
+
+            alertController.addAction(okAction)
+
+            self.present(alertController, animated: true, completion:nil)
+
+        }
     }
 }

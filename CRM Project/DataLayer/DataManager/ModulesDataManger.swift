@@ -7,12 +7,12 @@
 
 import Foundation
 
-//class ModulesDataManager {
-//    
-//    let networkService = ModulesNetworkService()
-//    
-//    func getModules(modules: @escaping ([Module]) -> Void) -> Void {
-//        
-//        networkService.getModules(completion: modules)
-//    }
-//}
+class ModulesDataManager {
+    
+    let networkService = ModulesNetworkService()
+    
+    func getModules(modules: @escaping ([Module]) -> Void) -> Void {
+        
+        networkService.getModules(completion: modules)
+    }
+}
