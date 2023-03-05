@@ -418,9 +418,9 @@
 			isa = PBXGroup;
 			children = (
 				53E9093E29B11DAF00452748 /* ModulesDataManger.swift */,
+				53E9094229B11DAF00452748 /* RecordsDataManager.swift */,
 				53E9093F29B11DAF00452748 /* FieldsDataManager.swift */,
 				53E9094129B11DAF00452748 /* NetworkDataManager.swift */,
-				53E9094229B11DAF00452748 /* RecordsDataManager.swift */,
 				53E9093D29B11DAF00452748 /* UserDataManager.swift */,
 				53E9094029B11DAF00452748 /* UserInfoDataManager.swift */,
 			);

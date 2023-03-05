@@ -12,84 +12,36 @@ class ModulesNetworkService {
     private let networkService = NetworkService()
     
     private let tableName = "Modules"
-    private let moduleId = "Module_id"
-    private let apiName = "api_name"
-    private let modulePluralName = "modulePluralName"
-    private let moduleSingularName = "moduleSingularName"
     
-    let sqliteText = " TEXT"
-    
-    func getModules(completion: @escaping ([Module]) -> Void) -> Void {
+    func getModules(completion: @escaping ([[String: Any]]) -> Void) -> Void {
         
         let urlRequestString = "crm/v3/settings/modules"
 
         networkService.performNetworkCall(url: urlRequestString, method: .GET, urlComponents: nil, parameters: nil, headers: nil) { data in
             
-            let modules = data["modules"] as! Array<Any>
-            var customModules = [Module]()
-            modules.forEach { module in
-    
-                let module = module as! [String: Any]
-                if let generatedType = module["generated_type"] as? String, generatedType == "custom" {
-                    let id = module["id"] as! String
-                    let apiName = module["api_name"] as! String
-                    let pluralLabel = module["plural_label"] as! String
-                    let singularLabel = module["singular_label"] as! String
-
-                    customModules.append(Module(id: id,apiName: apiName, modulePluralName: pluralLabel, moduleSingularName: singularLabel))
-                } else {
-                    print("Can't Parse module")
-                }
-            }
             
-            completion(customModules)
-            self.createModuleTable(modules: customModules)
+            
+//            let modules = data["modules"] as! Array<Any>
+//
+            let modules = data["modules"] as! Array<Dictionary<String, Any>>
+
+            completion(modules)
         } failure: { error in
             print(error)
         }
     }
         
     
-    func getAllModules() {
+    func getAllModulesFromDataBase(completion: @escaping ([[String: Any]]) -> Void ) {
         
-        let result = Database.shared.select(tableName: tableName, addition: "ORDER BY \(moduleSingularName) DESC")
+        let result = Database.shared.select(tableName: tableName)
         
-        result?.forEach({ abc in
-            print(abc[moduleId])
-        })
-    }
-    
-    func createModuleTable(modules: [Module]) {
-        
-//        let idColumn = "Module_id"
-        let columns = [
-            moduleId.appending(" INTEGER PRIMARY KEY"),
-            apiName.appending(sqliteText),
-            modulePluralName.appending(sqliteText),
-            moduleSingularName.appending(sqliteText)
-        ]
-        
-        if Database.shared.createTable(tableName: tableName, columns: columns) {
-            print("Modules Table Created Successfully")
+//        print(result?.count)
+        if let result = result {
+            completion(result)
         } else {
-            print("Failed Modules")
+            print("result is nil")
         }
-        
-        for module in modules {
-            var moduleDictionary = [String: Any]()
-            
-            moduleDictionary[moduleId] = module.id
-            moduleDictionary[apiName] = module.apiName
-            moduleDictionary[modulePluralName] = module.modulePluralName
-            moduleDictionary[moduleSingularName] = module.moduleSingularName
-            
-            if Database.shared.insert(tableName: "Modules", values: moduleDictionary) {
-                print("Modules added to db")
-            } else {
-                print("errr")
-            }
-        }
-        
     }
 
 }

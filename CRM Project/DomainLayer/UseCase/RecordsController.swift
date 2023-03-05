@@ -9,12 +9,13 @@ import Foundation
 
 class RecordsController: RecordsControllerContract {
     
-    let recordsDataManager = RecordsNetworkService()
+    let recordsNetworkService = RecordsNetworkService()
+    let recordsDataManager = RecordsDataManager()
     
     
     func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
         
-        recordsDataManager.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId)
+        recordsNetworkService.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId)
         
         switch module {
         case "Reservations":
@@ -34,9 +35,12 @@ class RecordsController: RecordsControllerContract {
     
     func getIndividualRecords(module: String, id: String?, completion: @escaping ([(String, Any)]) -> Void) -> Void {
         
-        recordsDataManager.getIndividualRecord(module: module, id: id) { recordInfo in
-
-            
+//        recordsNetworkService.getIndividualRecord(module: module, id: id) { recordInfo in
+//
+//
+//            completion(recordInfo)
+//        }
+        recordsDataManager.getRecordById(module: module, id: id) { recordInfo in
             completion(recordInfo)
         }
     }
@@ -68,7 +72,7 @@ class RecordsController: RecordsControllerContract {
     
     func deleteRecords(module: String, ids: [String], completion: @escaping ([Any]) -> Void) -> Void {
         
-        recordsDataManager.deleteRecords(module: module, ids: ids) { data in
+        recordsNetworkService.deleteRecords(module: module, ids: ids) { data in
             completion(data)
         }
     }

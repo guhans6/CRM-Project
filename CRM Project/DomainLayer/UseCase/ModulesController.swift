@@ -10,10 +10,15 @@ import Foundation
 class ModulesController: ModulesControllerContract {
     
     let moduleNetworkService = ModulesNetworkService()
+    let modulesDataManager = ModulesDataManager()
     
     func getModules(completion: @escaping ([Module]) -> Void) -> Void {
-        moduleNetworkService.getModules { data in
-            completion(data)
+//        moduleNetworkService.getModules { data in
+//            completion(data)
+//        }
+        
+        modulesDataManager.getModules { modules in
+            completion(modules)
         }
     }
 }
