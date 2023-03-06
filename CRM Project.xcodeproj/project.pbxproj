@@ -24,6 +24,8 @@
 		5318F5D9297ABE0D00AF76DC /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */; };
 		531B11122980E558000FAF02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531B11112980E558000FAF02 /* HomeViewController.swift */; };
 		5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */; };
+		534DE57B29B5B02A00C229BD /* ModulesDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */; };
+		534DE57D29B5B09200C229BD /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE57C29B5B09200C229BD /* DatabaseService.swift */; };
 		5356AF0529A2886B00267943 /* DataManagerContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0429A2886B00267943 /* DataManagerContract.swift */; };
 		5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */; };
 		5356AF1029A332B800267943 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0F29A332B800267943 /* NetworkService.swift */; };
@@ -36,7 +38,6 @@
 		5356AF2329A348D500267943 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2229A348D500267943 /* WebViewPresenter.swift */; };
 		5356AF2529A35F2000267943 /* LookupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2429A35F2000267943 /* LookupTableViewController.swift */; };
 		5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2829A3683600267943 /* CustomRecordField.swift */; };
-		5362F76429AA342300DA5F44 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76329AA342300DA5F44 /* ContainerViewController.swift */; };
 		5362F76729AA342C00DA5F44 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76529AA342C00DA5F44 /* MenuVC.swift */; };
 		536AD437299E21FA00801158 /* UserDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD436299E21FA00801158 /* UserDetailController.swift */; };
 		536AD439299E3EF400801158 /* RecordsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD438299E3EF400801158 /* RecordsController.swift */; };
@@ -73,7 +74,6 @@
 		53E5B7BE29A955480079B567 /* PickerViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E5B7BD29A955480079B567 /* PickerViewPresenter.swift */; };
 		53E749FD299A7167000EE176 /* FieldRespone.json in Resources */ = {isa = PBXBuildFile; fileRef = 53E749FC299A7167000EE176 /* FieldRespone.json */; };
 		53E9093829B069B900452748 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093729B069B900452748 /* Database.swift */; };
-		53E9093A29B1133200452748 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093929B1133200452748 /* DataBaseService.swift */; };
 		53E9094329B11DAF00452748 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093D29B11DAF00452748 /* UserDataManager.swift */; };
 		53E9094429B11DAF00452748 /* ModulesDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093E29B11DAF00452748 /* ModulesDataManger.swift */; };
 		53E9094529B11DAF00452748 /* FieldsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093F29B11DAF00452748 /* FieldsDataManager.swift */; };
@@ -93,8 +93,6 @@
 		53F1EE8B29AB0BE900C17723 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EE8A29AB0BE900C17723 /* User.swift */; };
 		53F1EEB029AB9DB500C17723 /* Colour.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EEAF29AB9DB500C17723 /* Colour.swift */; };
 		53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */; };
-		53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2A299F47CC0054E08B /* Assembler.swift */; };
-		53F3BB30299F55780054E08B /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB2F299F55780054E08B /* Router.swift */; };
 		53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB34299F60700054E08B /* ModuleViewContract.swift */; };
 		53F3BB37299F61BD0054E08B /* RecordsViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB36299F61BD0054E08B /* RecordsViewContract.swift */; };
 		53F3BB39299F622E0054E08B /* RecordInfoViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB38299F622E0054E08B /* RecordInfoViewContract.swift */; };
@@ -102,8 +100,6 @@
 		53F3BB3F29A1EE420054E08B /* LoginViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB3E29A1EE420054E08B /* LoginViewPresenter.swift */; };
 		53F3BB4129A1EF0D0054E08B /* SplashViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4029A1EF0D0054E08B /* SplashViewPresenter.swift */; };
 		53F3BB4329A1EF670054E08B /* SplashViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4229A1EF670054E08B /* SplashViewContract.swift */; };
-		53F3BB4529A1F61B0054E08B /* HomeViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4429A1F61B0054E08B /* HomeViewPresenter.swift */; };
-		53F3BB4729A1F6320054E08B /* HomeViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3BB4629A1F6320054E08B /* HomeViewContract.swift */; };
 		53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */; };
 		53F43A6D299ADABB002528BE /* RecordTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */; };
 		53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */; };
@@ -126,6 +122,8 @@
 		5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseController.swift; sourceTree = "<group>"; };
 		531B11112980E558000FAF02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesDatabaseService.swift; sourceTree = "<group>"; };
+		534DE57C29B5B09200C229BD /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		5356AF0429A2886B00267943 /* DataManagerContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerContract.swift; sourceTree = "<group>"; };
 		5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsNetworkService.swift; sourceTree = "<group>"; };
 		5356AF0F29A332B800267943 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -138,7 +136,6 @@
 		5356AF2229A348D500267943 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		5356AF2429A35F2000267943 /* LookupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewController.swift; sourceTree = "<group>"; };
 		5356AF2829A3683600267943 /* CustomRecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecordField.swift; sourceTree = "<group>"; };
-		5362F76329AA342300DA5F44 /* ContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		5362F76529AA342C00DA5F44 /* MenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		536AD436299E21FA00801158 /* UserDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailController.swift; sourceTree = "<group>"; };
 		536AD438299E3EF400801158 /* RecordsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsController.swift; sourceTree = "<group>"; };
@@ -177,7 +174,6 @@
 		53E5B7BD29A955480079B567 /* PickerViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewPresenter.swift; sourceTree = "<group>"; };
 		53E749FC299A7167000EE176 /* FieldRespone.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FieldRespone.json; sourceTree = "<group>"; };
 		53E9093729B069B900452748 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
-		53E9093929B1133200452748 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
 		53E9093D29B11DAF00452748 /* UserDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		53E9093E29B11DAF00452748 /* ModulesDataManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModulesDataManger.swift; sourceTree = "<group>"; };
 		53E9093F29B11DAF00452748 /* FieldsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldsDataManager.swift; sourceTree = "<group>"; };
@@ -197,8 +193,6 @@
 		53F1EE8A29AB0BE900C17723 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		53F1EEAF29AB9DB500C17723 /* Colour.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colour.swift; sourceTree = "<group>"; };
 		53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
-		53F3BB2A299F47CC0054E08B /* Assembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assembler.swift; sourceTree = "<group>"; };
-		53F3BB2F299F55780054E08B /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		53F3BB34299F60700054E08B /* ModuleViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleViewContract.swift; sourceTree = "<group>"; };
 		53F3BB36299F61BD0054E08B /* RecordsViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsViewContract.swift; sourceTree = "<group>"; };
 		53F3BB38299F622E0054E08B /* RecordInfoViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoViewContract.swift; sourceTree = "<group>"; };
@@ -206,8 +200,6 @@
 		53F3BB3E29A1EE420054E08B /* LoginViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewPresenter.swift; sourceTree = "<group>"; };
 		53F3BB4029A1EF0D0054E08B /* SplashViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewPresenter.swift; sourceTree = "<group>"; };
 		53F3BB4229A1EF670054E08B /* SplashViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewContract.swift; sourceTree = "<group>"; };
-		53F3BB4429A1F61B0054E08B /* HomeViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewPresenter.swift; sourceTree = "<group>"; };
-		53F3BB4629A1F6320054E08B /* HomeViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewContract.swift; sourceTree = "<group>"; };
 		53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupTableViewCell.swift; sourceTree = "<group>"; };
 		53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTableViewDelegate.swift; sourceTree = "<group>"; };
 		53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
@@ -250,13 +242,13 @@
 			isa = PBXGroup;
 			children = (
 				53E9093C29B11D9500452748 /* DataManager */,
+				534DE57929B5B00100C229BD /* DataBaseService */,
 				5356AF0329A286CA00267943 /* DataContract */,
 				5356AF0C29A32D5C00267943 /* NetworkService */,
 				53A696DB297C6AD80029F92E /* KeyChain.swift */,
 				53A696DD297C6D310029F92E /* Network.swift */,
 				53E9093729B069B900452748 /* Database.swift */,
 				5375155B2980436A004B00E7 /* UserDefaultsManager.swift */,
-				53E9093929B1133200452748 /* DataBaseService.swift */,
 			);
 			path = DataLayer;
 			sourceTree = "<group>";
@@ -267,9 +259,8 @@
 				53EC9A47298261430056C300 /* SplashViewController.swift */,
 				5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */,
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
-				531B11112980E558000FAF02 /* HomeViewController.swift */,
 				53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */,
-				5362F76229AA33EE00DA5F44 /* MenuVC */,
+				5362F76229AA33EE00DA5F44 /* HomeView */,
 				537B607C2996216A00ACA883 /* ModulesView */,
 				537B60872996683800ACA883 /* RecordsView */,
 				53964857299B7F5E00781CE4 /* RecordInfoView */,
@@ -281,6 +272,15 @@
 				53F3BB33299F60260054E08B /* Contract */,
 			);
 			path = PresentationLayer;
+			sourceTree = "<group>";
+		};
+		534DE57929B5B00100C229BD /* DataBaseService */ = {
+			isa = PBXGroup;
+			children = (
+				534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */,
+				534DE57C29B5B09200C229BD /* DatabaseService.swift */,
+			);
+			path = DataBaseService;
 			sourceTree = "<group>";
 		};
 		5356AF0329A286CA00267943 /* DataContract */ = {
@@ -305,13 +305,13 @@
 			path = NetworkService;
 			sourceTree = "<group>";
 		};
-		5362F76229AA33EE00DA5F44 /* MenuVC */ = {
+		5362F76229AA33EE00DA5F44 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
-				5362F76329AA342300DA5F44 /* ContainerViewController.swift */,
+				531B11112980E558000FAF02 /* HomeViewController.swift */,
 				5362F76529AA342C00DA5F44 /* MenuVC.swift */,
 			);
-			path = MenuVC;
+			path = HomeView;
 			sourceTree = "<group>";
 		};
 		536AD43C299E58F300801158 /* UseCaseContract */ = {
@@ -371,8 +371,6 @@
 				53F1EEAE29AB9DA100C17723 /* Colours */,
 				53D273212977D20F001718BD /* AppDelegate.swift */,
 				53D273232977D20F001718BD /* SceneDelegate.swift */,
-				53F3BB2A299F47CC0054E08B /* Assembler.swift */,
-				53F3BB2E299F55150054E08B /* Router */,
 				5318F5D3297A851000AF76DC /* PresentationLayer */,
 				5311865029A8C551004088DD /* TableViewExtension.swift */,
 				5300C47329A8DEA700706150 /* NoDataView.swift */,
@@ -457,7 +455,6 @@
 		53EF7B0A299251E0000B1FA1 /* Presenter */ = {
 			isa = PBXGroup;
 			children = (
-				53F3BB4429A1F61B0054E08B /* HomeViewPresenter.swift */,
 				53F3BB4029A1EF0D0054E08B /* SplashViewPresenter.swift */,
 				53F3BB3E29A1EE420054E08B /* LoginViewPresenter.swift */,
 				537B6081299635A000ACA883 /* ModulesPresenter.swift */,
@@ -494,14 +491,6 @@
 			path = Colours;
 			sourceTree = "<group>";
 		};
-		53F3BB2E299F55150054E08B /* Router */ = {
-			isa = PBXGroup;
-			children = (
-				53F3BB2F299F55780054E08B /* Router.swift */,
-			);
-			path = Router;
-			sourceTree = "<group>";
-		};
 		53F3BB33299F60260054E08B /* Contract */ = {
 			isa = PBXGroup;
 			children = (
@@ -511,7 +500,6 @@
 				53F3BB36299F61BD0054E08B /* RecordsViewContract.swift */,
 				53F3BB38299F622E0054E08B /* RecordInfoViewContract.swift */,
 				53F3BB3A299FC85A0054E08B /* LookupViewContract.swift */,
-				53F3BB4629A1F6320054E08B /* HomeViewContract.swift */,
 			);
 			path = Contract;
 			sourceTree = "<group>";
@@ -611,7 +599,6 @@
 				53A696DE297C6D310029F92E /* Network.swift in Sources */,
 				536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
-				53E9093A29B1133200452748 /* DataBaseService.swift in Sources */,
 				53E5B7BE29A955480079B567 /* PickerViewPresenter.swift in Sources */,
 				5311864A29A7BBE8004088DD /* BookingController.swift in Sources */,
 				53F3BB39299F622E0054E08B /* RecordInfoViewContract.swift in Sources */,
@@ -619,7 +606,6 @@
 				53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */,
 				5356AF1729A3393800267943 /* UserNetworkService.swift in Sources */,
 				53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */,
-				5362F76429AA342300DA5F44 /* ContainerViewController.swift in Sources */,
 				53E9094429B11DAF00452748 /* ModulesDataManger.swift in Sources */,
 				5311864C29A884DF004088DD /* Table.swift in Sources */,
 				5356AF1F29A340D400267943 /* ModulesController.swift in Sources */,
@@ -632,6 +618,7 @@
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
 				53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */,
 				537B60A82998B70100ACA883 /* StringTableViewCell.swift in Sources */,
+				534DE57B29B5B02A00C229BD /* ModulesDatabaseService.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				537B6082299635A000ACA883 /* ModulesPresenter.swift in Sources */,
 				53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */,
@@ -639,7 +626,6 @@
 				5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */,
 				537B608029962C7E00ACA883 /* ModuleTableViewCell.swift in Sources */,
 				5300C47629A8F51A00706150 /* DropDownButton.swift in Sources */,
-				53F3BB2B299F47CC0054E08B /* Assembler.swift in Sources */,
 				531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */,
 				53E9094329B11DAF00452748 /* UserDataManager.swift in Sources */,
 				5356AF1529A3382100267943 /* ModulesNetworkService.swift in Sources */,
@@ -654,17 +640,14 @@
 				5356AF0529A2886B00267943 /* DataManagerContract.swift in Sources */,
 				53E5B7BC29A953070079B567 /* PickerViewController.swift in Sources */,
 				53A696DC297C6AD80029F92E /* KeyChain.swift in Sources */,
-				53F3BB30299F55780054E08B /* Router.swift in Sources */,
 				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
 				5311864629A7A56D004088DD /* TableBookingViewPresenter.swift in Sources */,
-				53F3BB4729A1F6320054E08B /* HomeViewContract.swift in Sources */,
 				5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */,
 				53F3BB3F29A1EE420054E08B /* LoginViewPresenter.swift in Sources */,
 				536AD440299E600200801158 /* FormViewContract.swift in Sources */,
 				5362F76729AA342C00DA5F44 /* MenuVC.swift in Sources */,
 				5311864429A796F1004088DD /* TableBookingViewController.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
-				53F3BB4529A1F61B0054E08B /* HomeViewPresenter.swift in Sources */,
 				5311864829A7A66A004088DD /* BookingNetworkService.swift in Sources */,
 				53F1EE8B29AB0BE900C17723 /* User.swift in Sources */,
 				5356AF1B29A33A8100267943 /* FieldsController.swift in Sources */,
@@ -676,6 +659,7 @@
 				53F3BB4329A1EF670054E08B /* SplashViewContract.swift in Sources */,
 				53F1EEB029AB9DB500C17723 /* Colour.swift in Sources */,
 				53F3BB35299F60700054E08B /* ModuleViewContract.swift in Sources */,
+				534DE57D29B5B09200C229BD /* DatabaseService.swift in Sources */,
 				537B60A72998B70100ACA883 /* EmailTableViewCell.swift in Sources */,
 				5396485E299B9EB600781CE4 /* RecordInfoPresenter.swift in Sources */,
 				53F43A6D299ADABB002528BE /* RecordTableViewDelegate.swift in Sources */,

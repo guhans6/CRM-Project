@@ -10,14 +10,16 @@ import UIKit
 class RecordInfoTableViewController: UITableViewController {
 
 //    var record
-    lazy var individualRecordPresenter: RecordInfoPresenterContract = RecordInfoPresenter()
-    let recordModule: Module
-    let recordId: String
-    var recordInfo = [(String, Any)]()
+    private lazy var individualRecordPresenter = RecordInfoPresenter()
+    private var formVc: FormTableViewController
+    private let recordModule: Module
+    private let recordId: String
+    private var recordInfo = [(String, Any)]()
     
     init(recordModule: Module, recordId: String) {
         self.recordModule = recordModule
         self.recordId = recordId
+        self.formVc = FormTableViewController(module: recordModule)
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -27,6 +29,8 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
+        
+//        formVc.delegate = self
         configureTableView()
         
         navigationItem.largeTitleDisplayMode = .never
@@ -44,16 +48,17 @@ class RecordInfoTableViewController: UITableViewController {
     
     @objc private func editButtonTapped() {
         
-        let formTableVC = FormTableViewController(module: recordModule)
-        formTableVC.setUpCellsForEditing(recordid: recordId, recordData: recordInfo, recordState: .edit)
-        navigationController?.pushViewController(formTableVC, animated: true)
+        formVc.setUpCellsForEditing(recordid: recordId, recordData: recordInfo, recordState: .edit)
+//        let formTableVC = FormTableViewController(module: recordModule)
+//        formTableVC.setUpCellsForEditing(recordid: recordId, recordData: recordInfo, recordState: .edit)
+        navigationController?.pushViewController(formVc, animated: true)
     }
     
     func getRecord() {
         individualRecordPresenter.getRecordFor(id: recordId, module: recordModule.apiName) { [weak self] recordInfo in
             self?.recordInfo = recordInfo
             self?.tableView.reloadData()
-            
+
 //            recordInfo.forEach { key, value in
 //                print(key, value, separator: "v^^^") 
 //            }
@@ -87,13 +92,4 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
         tableView.deselectRow(at: indexPath, animated: true)
         
     }
-}
-
-extension RecordInfoTableViewController: RecordInfoViewContract {
-    
-    func displayRecordInfo(of record: [(String, String)]) {
-        self.recordInfo = record
-        self.tableView.reloadData()
-    }
-    
 }

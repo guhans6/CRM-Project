@@ -11,7 +11,6 @@ class RecordsPresenter {
     
     private let recordsController = RecordsController()
     private weak var recordViewController: RecordsViewContract?
-    private weak var router: Router?
     
 //    init(recordViewController: RecordsTableViewController? = nil) {
 //        self.recordViewController = recordViewController

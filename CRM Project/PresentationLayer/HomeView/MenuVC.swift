@@ -6,24 +6,20 @@
 
 import UIKit
 
-protocol MenuViewDelegate: AnyObject {
-    
-    func didSelectRow(contains: String)
-}
-
 class MenuVC: UIViewController {
     
     let tableView = UITableView()
-    weak var delegate: MenuViewDelegate?
-    lazy var menuOptions = ["Table Booking", "Employee Management", "Modules"]
+    lazy var menuOptions = ["Table Booking", "Employee Management", "Modules", "Generate Auth Token"]
     lazy var nameLabel = UILabel()
     lazy var emailLabel = UILabel()
+    
+    let darkModeSwitch = UISwitch()
     lazy var logoutButton = UIButton()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         getCurrentUser()
-    
+        
     }
     
     required init?(coder: NSCoder) {
@@ -33,6 +29,9 @@ class MenuVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Menu"
+        view.backgroundColor = .systemBackground
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         configureTableView()
         configureLogoutButton()
@@ -93,24 +92,24 @@ class MenuVC: UIViewController {
     
     private func configureLogoutButton() {
         
-//        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
-//        footerView.backgroundColor = .orange
+        //        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        //        footerView.backgroundColor = .orange
         
         
         logoutButton.setTitle("Logout", for: .normal)
         logoutButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         logoutButton.setTitleColor(.label, for: .normal)
-//        logoutButton.setImage(UIImage(systemName: "power"), for: .normal)
-
+        //        logoutButton.setImage(UIImage(systemName: "power"), for: .normal)
+        
         view.addSubview(logoutButton)
         view.bringSubviewToFront(logoutButton)
         logoutButton.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
             logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
         ])
-    
+        
     }
     
     private func getCurrentUser() {
@@ -119,6 +118,34 @@ class MenuVC: UIViewController {
             self.nameLabel.text = currentUser?.fullName
             self.emailLabel.text = currentUser?.email
             self.tableView.reloadData()
+        }
+    }
+    
+    private func configureDarkModeSwitch() {
+        
+        view.addSubview(darkModeSwitch)
+        darkModeSwitch.translatesAutoresizingMaskIntoConstraints = false
+        
+        darkModeSwitch.addTarget(self, action: #selector(darkModeButtonTapped), for: .touchUpInside)
+        
+        NSLayoutConstraint.activate([
+            darkModeSwitch.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+        ])
+    }
+    
+    @objc private func darkModeButtonTapped() {
+        
+        
+        if #available(iOS 13.0, *) {
+            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                let window = UIWindow(windowScene: windowScene)
+                if darkModeSwitch.isOn {
+                    window.overrideUserInterfaceStyle = .dark
+                } else {
+                    window.overrideUserInterfaceStyle = .light
+                }
+            }
         }
     }
 }
@@ -134,7 +161,7 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = menuOptions[indexPath.row]
         cell.backgroundColor = .systemGray6
         
-//        print(cell.textLabel?.font)
+        //        print(cell.textLabel?.font)
         return cell
     }
     
@@ -142,7 +169,29 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let text = tableView.cellForRow(at: indexPath)?.textLabel?.text
+        
 
-        delegate?.didSelectRow(contains: text!)
+        switch text {
+        case "Modules":
+        
+            let moduleTableVC = ModulesTableViewController()
+            let _ = UINavigationController(rootViewController: moduleTableVC)
+            
+            moduleTableVC.modalPresentationStyle = .fullScreen
+            
+            navigationController?.pushViewController(moduleTableVC, animated: true)
+            
+        case "Table Booking":
+            
+            let tableBookingVC = TableBookingViewController()
+            navigationController?.pushViewController(tableBookingVC, animated: true)
+        case "Generate Auth Token":
+            
+            NetworkController().generateAuthToken()
+        default :
+            
+            print("No Options Selected")
+        }
+        
     }
 }

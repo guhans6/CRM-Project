@@ -27,6 +27,8 @@ class ModulesTableViewController: UITableViewController {
     private func configureModuleTableView() {
         
         title = "Modules"
+        
+        navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .edit)
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
         

@@ -73,8 +73,8 @@ class RecordsTableViewController: UITableViewController {
         tableView.showLoadingIndicator()
         recordsPresenter.getAllRecordsFor(module: moduleApiName) { [weak self] records in
             self?.records = records
-//            self?.records = [Record]()
             
+            print(records.count)
             if self?.records.count ?? 0 > 0 {
                 
                 self?.tableView.reloadData()

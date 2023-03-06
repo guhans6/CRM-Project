@@ -10,7 +10,8 @@ import UIKit
 class SplashViewController: UIViewController {
     
     let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
-    var splashViewPresenter: SplashViewPresenterContract?
+    private lazy var splitvc = UISplitViewController(style: .doubleColumn)
+    
     var isUserLoggedIn: Bool {
         get {
             UserDefaultsManager.shared.isUserLoggedIn()
@@ -54,12 +55,11 @@ class SplashViewController: UIViewController {
     func setUpViewController() {
         
         if UserDefaultsManager.shared.isUserLoggedIn() {
-            let loginVC = ContainerViewController()
-//            let navController = UINavigationController(rootViewController: loginVC)
-            loginVC.modalPresentationStyle = .fullScreen
-            self.present(loginVC, animated: true)
-            
-//            splashViewPresenter?.navigateToCRM()
+//            let loginVC = ContainerViewController()
+//            let navController = UINavigationController(rootViewController: HomeViewController())
+//            navController.modalPresentationStyle = .fullScreen
+//            self.present(navController, animated: true)
+            presentSplitView()
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let loginVC = LoginViewController()
@@ -70,6 +70,39 @@ class SplashViewController: UIViewController {
         }
     }
     
-}
+    private func presentSplitView() {
 
-//let size = topLabel.sizeThatFits(CGSize(width: view.bounds.size.width, height: CGFLOAT_MAX))
+        let menuViewController = MenuVC()
+        let homeViewController = HomeViewController()
+        
+        let navigationVC = UINavigationController(rootViewController: menuViewController)
+        
+        splitvc.modalPresentationStyle = .fullScreen
+
+        menuViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapCloseButton))
+        
+        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(didTapCloseButton))
+        leftSwipeGesture.direction = .left
+        menuViewController.view.addGestureRecognizer(leftSwipeGesture)
+        
+        let navigationLeftButton = UIImage(systemName: "list.dash")
+        homeViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: navigationLeftButton, style: .plain, target: self, action: #selector(menuButtonTapped))
+        
+        splitvc.setViewController(navigationVC, for: .primary)
+        splitvc.setViewController(homeViewController, for: .secondary)
+        
+        present(splitvc, animated: true)
+    }
+    
+    @objc private func menuButtonTapped() {
+        
+        splitvc.show(.primary)
+    }
+    
+    @objc private func didTapCloseButton() {
+        
+        splitvc.show(.secondary)
+    }
+    
+    
+}

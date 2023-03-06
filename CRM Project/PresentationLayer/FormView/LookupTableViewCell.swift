@@ -22,6 +22,7 @@ class LookupTableViewCell: FormTableViewCell {
         configureTextField()
 //        configureTextView()
         configureDiscloseIndicator()
+        
     }
 
     required init?(coder: NSCoder) {
@@ -59,9 +60,9 @@ class LookupTableViewCell: FormTableViewCell {
         
         formTextField.removeConstraint(texFieldTrailing!)
         texFieldTrailing?.isActive = false
+        
         texFieldTrailing =  formTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21)
         texFieldTrailing?.isActive = true
-        
     }
     
     func configureTextView() {
@@ -71,7 +72,6 @@ class LookupTableViewCell: FormTableViewCell {
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textContainerInset = UIEdgeInsets(top: 13, left: 7, bottom: 0, right: 0)
         textView.isEditable = false
-//        textView.isScrollEnabled = true
         
 //        NSLayoutConstraint.activate([
 //            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -99,17 +99,17 @@ class LookupTableViewCell: FormTableViewCell {
         return (label.text!, ["id": lookupId])
     }
     
-    override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
+    override func setRecordData(for data: Any, isEditable isRecordEditing: Bool) {
         
-        print(data)
         if let lookupData = data as? [String] {
             
             self.lookupId = lookupData[0]
-            self.textView.text = lookupData[1]
+            self.formTextField.text = lookupData[1]
         } else if let lookupData = data as? String {
-            self.textView.text = lookupData
+            self.formTextField.text = lookupData
         }
-        self.isUserInteractionEnabled = isEditing
+        self.isUserInteractionEnabled = isRecordEditing 
+        
     }
 }
 
@@ -117,8 +117,8 @@ extension LookupTableViewCell: RecordTableViewDelegate {
 
     func setLookupRecordAndId(recordName: String, recordId: String) {
 
-        self.textView.text = recordName
-        print(textView.text!)
+        self.formTextField.text = recordName
+//        print(textView.text!)
         self.lookupId = recordId
     }
 }

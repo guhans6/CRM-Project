@@ -38,10 +38,10 @@ class RecordsDataManager {
                     recordsArray.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId, owner: nil ,createdTime: nil, modifiedBy: nil, modifiedTime: nil ))
                 }
                 completion(recordsArray)
-                self?.saveAllRecordsInDatabase(records: recordsArray)
+                self?.saveAllRecordsInDatabase(records: recordsArray, module: module)
             }
         } else {
-            recordsNetworkService.getAllRecordsFromDataBase { [weak self] recordResult in
+            recordsNetworkService.getAllRecordsFromDataBase(module: module) { [weak self] recordResult in
                 
                 print("Records form db")
                 recordResult.forEach { record in
@@ -73,6 +73,7 @@ class RecordsDataManager {
                        completion: @escaping ([(String, Any)]) -> Void) -> Void {
         
         recordsNetworkService.getIndividualRecord(module: module, id: id) { record in
+            
             
             var recordInfo = [(String, Any)]()
             // This should be in usecase layer
@@ -146,33 +147,20 @@ class RecordsDataManager {
         return date
     }
     
-    func saveAllRecordsInDatabase(records: [Record]) {
+    func saveAllRecordsInDatabase(records: [Record], module: String) {
         
-        
-        let sqliteText = " TEXT"
-//        let idColumn = "Module_id"
-        let columns = [
-            recordIdColumn.appending("\(sqliteText) PRIMARY KEY"),
-            recordNameColumn.appending(sqliteText),
-            secondaryDataColumn.appending(sqliteText)
-            
-        ]
-        
-        if Database.shared.createTable(tableName: tableName, columns: columns) {
-            print("Records Table Created Successfully")
-        } else {
-            print("Failed Records")
-        }
         
         for record in records {
+            
             var recordDictionary = [String: Any]()
             
             recordDictionary[recordIdColumn] = record.recordId
             recordDictionary[recordNameColumn] = record.recordName
             recordDictionary[secondaryDataColumn] = record.secondaryRecordData
+            recordDictionary["module"] = module
             
             if Database.shared.insert(tableName: "Records", values: recordDictionary) {
-                print("Records added to db")
+//                print("Records added to db")
             } else {
                 print("errr inseting records")
             }

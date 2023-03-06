@@ -24,7 +24,7 @@ class TextAreaTableViewCell: FormTableViewCell {
     func configureTextView() {
         contentView.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .systemGray6
+        textView.backgroundColor = .systemBackground
         textView.font = .systemFont(ofSize: 15)
         textView.autocorrectionType = .no
 

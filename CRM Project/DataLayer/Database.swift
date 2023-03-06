@@ -11,10 +11,24 @@ import SQLite3
 class Database {
     
     static let shared = Database()
-    private var db: OpaquePointer?
-    let fileURL = try! FileManager.default
+    private var dbPointer: OpaquePointer?
+    
+    private let fileURL = try! FileManager.default
         .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         .appendingPathComponent("crm.sqlite")
+    
+    /// Get the recent error mesasg
+    var errorMsg: String {
+        get {
+        
+            if let error = sqlite3_errmsg(dbPointer) {
+                let errorMsg = String(cString: error)
+                return errorMsg
+            } else {
+                return "No error message recieved"
+            }
+        }
+    }
     
     private init() {
         openDatabase()
@@ -22,8 +36,7 @@ class Database {
     
     private func openDatabase() {
         
-    
-        if sqlite3_open(fileURL.path, &db) != SQLITE_OK {
+        if sqlite3_open(fileURL.path, &dbPointer) != SQLITE_OK {
             print("error opening database")
         } else {
             print("opened succesfully \(fileURL.absoluteURL)")
@@ -55,6 +68,9 @@ class Database {
                         sqlite3_bind_double(statement, parameterIndex, doubleValue)
                     } else if let dataValue = value as? Data {
                         sqlite3_bind_blob(statement, parameterIndex, (dataValue as NSData).bytes, Int32(dataValue.count), nil)
+                    } else if let boolValue = value as? Bool {
+                        let boolIntValue = boolValue ? 1 : 0
+                        sqlite3_bind_int(statement, parameterIndex, Int32(boolIntValue))
                     } else {
                         // Unsupported data type
                         print("unspported data type")
@@ -84,16 +100,21 @@ class Database {
     func createTable(tableName: String, columns: [String]) -> Bool {
         let columnsStr = columns.joined(separator: ", ")
         let createQuery = "CREATE TABLE IF NOT EXISTS \(tableName) (\(columnsStr));"
-        print(createQuery)
+//        print(createQuery)
         return execute(query: createQuery)
     }
     
     func insert(tableName: String, values: [String: Any]) -> Bool {
-        let columns = values.keys.joined(separator: ", ")
-        let placeholders = Array(repeating: "?", count: values.count).joined(separator: ", ")
-        let valuesArr = Array(values.values)
-        let insertQuery = "INSERT INTO \(tableName) (\(columns)) VALUES (\(placeholders))"
-        return execute(query: insertQuery, values: valuesArr)
+        
+        if !values.isEmpty {
+            let columns = values.keys.joined(separator: ", ")
+            let placeholders = Array(repeating: "?", count: values.count).joined(separator: ", ")
+            let valuesArr = Array(values.values)
+            let insertQuery = "INSERT OR REPLACE INTO \(tableName) (\(columns)) VALUES (\(placeholders))"
+            return execute(query: insertQuery, values: valuesArr)
+        }
+        print("Empty values can't be inserted")
+        return false
     }
     
     func update(tableName: String, values: [String: Any], whereClause: String, whereArgs: [Any]?) -> Bool {
@@ -126,7 +147,7 @@ class Database {
             \(addition)
             """
         var stmt: OpaquePointer?
-        if sqlite3_prepare_v2(db, query, -1, &stmt, nil) == SQLITE_OK {
+        if sqlite3_prepare_v2(dbPointer, query, -1, &stmt, nil) == SQLITE_OK {
             if let args = args {
                 // Bind the parameters to the statement
                 for i in 0..<args.count {

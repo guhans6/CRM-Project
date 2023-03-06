@@ -20,6 +20,7 @@ class FormTableViewCell: UITableViewCell {
     
     var textFieldHeight: NSLayoutConstraint?
     var texFieldTrailing: NSLayoutConstraint?
+    var isWariningLabelShown = false
     
     var fieldType: String!
     
@@ -128,32 +129,36 @@ class FormTableViewCell: UITableViewCell {
     }
     
     func configureInvalidLabel(with message: String?) {
-        contentView.addSubview(invalidLabel)
-        invalidLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        invalidLabel.textAlignment = .left
-        invalidLabel.text = message
-        invalidLabel.textColor = .red
-        invalidLabel.font = .systemFont(ofSize: 15)
-//        invalidLabel.backgroundColor = .
-        
-        
-        NSLayoutConstraint.activate([
-//            invalidLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-            invalidLabel.leadingAnchor.constraint(equalTo: formTextField.leadingAnchor),
-            invalidLabel.topAnchor.constraint(equalTo: formTextField.bottomAnchor),
-            invalidLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            invalidLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-        
-        UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
+        if isWariningLabelShown == false {
+            isWariningLabelShown = true
+            contentView.addSubview(invalidLabel)
+            invalidLabel.translatesAutoresizingMaskIntoConstraints = false
             
-            self?.textFieldHeight?.isActive = false
-            self?.formTextField.removeConstraint((self?.textFieldHeight)!)
+            invalidLabel.textAlignment = .left
+            invalidLabel.text = message
+            invalidLabel.textColor = .red
+            invalidLabel.font = .systemFont(ofSize: 15)
+            //        invalidLabel.backgroundColor = .
             
-            self?.textFieldHeight = self?.formTextField.heightAnchor.constraint(equalToConstant: (self?.contentView.frame.height)!)
             
-            self?.textFieldHeight?.isActive = true
+            NSLayoutConstraint.activate([
+                //            invalidLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+                invalidLabel.leadingAnchor.constraint(equalTo: formTextField.leadingAnchor),
+                invalidLabel.topAnchor.constraint(equalTo: formTextField.bottomAnchor),
+                invalidLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+                invalidLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            ])
+            
+            UIView.animate(withDuration: 0.5, delay: 0) { [weak self] in
+                
+                self?.textFieldHeight?.isActive = false
+                self?.formTextField.removeConstraint((self?.textFieldHeight)!)
+                
+                self?.textFieldHeight = self?.formTextField.heightAnchor.constraint(equalToConstant: (self?.contentView.frame.height)!)
+                
+                self?.textFieldHeight?.isActive = true
+            }
         }
     }
     
@@ -184,14 +189,16 @@ class FormTableViewCell: UITableViewCell {
         formTextField.text = data as? String
         formTextField.isUserInteractionEnabled = isEditable
         self.isUserInteractionEnabled = isEditable
+        print(isUserInteractionEnabled)
     }
     
     // MARK: THIS SHOULD BE OVERRIDED IN EVERY TYPE CELL AND THERE IS NO NEED FOR (for Type) PARAMETER
     func getFieldData(for type: String) -> (String, Any?) {
         
-        if isMandatory && formTextField.text! == "" {
+//        print(label.text)
+        if isMandatory && formTextField.text == "" {
             configureInvalidLabel(with: "This field is Required")
-            return (label.text!, nil)
+            return (label.text!, "")
         }
         
         switch type {

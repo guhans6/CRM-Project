@@ -45,7 +45,9 @@ class EmailTableViewCell: FormTableViewCell {
         } else {
             
             configureInvalidLabel(with: "Invalid Email")
+            return (label.text! ,"")
         }
-        return (label.text! ,"")
     }
+    
+    
 }

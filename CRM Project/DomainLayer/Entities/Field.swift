@@ -21,10 +21,8 @@ struct Field: Codable {
     let displayField: Bool
     let multiselectlookup: Lookup
     let apiName: String
-    let displayType: Int
     let jsonType: String
     let fieldLabel: String
-    let createdTime, modifiedTime: Date?
     let lookup: Lookup
     let dataType: String
     let isSystemMandatory: Bool
@@ -38,20 +36,13 @@ struct Field: Codable {
         case displayField = "display_field"
         case multiselectlookup
         case apiName = "api_name"
-        case displayType = "display_type"
         case jsonType = "json_type"
         case fieldLabel = "field_label"
-        case createdTime = "created_time"
-        case modifiedTime = "modified_time"
         case lookup
         case dataType = "data_type"
         case isSystemMandatory = "system_mandatory"
         
     }
-}
-
-// MARK: - AutoNumber
-struct AutoNumber: Codable {
 }
 
 struct PickListValue: Codable {
@@ -66,13 +57,13 @@ struct PickListValue: Codable {
 }
 
 struct Lookup: Codable {
-    let displayLabel, apiName, id: String?
+//    let displayLabel, apiName, id: String?
     let module: FieldModule?
 
     enum CodingKeys: String, CodingKey {
-        case displayLabel = "display_label"
-        case apiName = "api_name"
-        case id, module
+//        case displayLabel = "display_label"
+//        case apiName = "api_name"
+        case module
     }
 }
 

@@ -9,9 +9,6 @@ import Foundation
 
 class LoginViewPresenter {
     
-    private weak var router: Router?
     
-    func showModules() {
-        router?.showModules()
-    }
+    
 }

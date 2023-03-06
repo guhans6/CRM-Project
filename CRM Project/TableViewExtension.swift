@@ -10,7 +10,7 @@ import UIKit
 extension UITableView {
     
     func showLoadingIndicator() {
-        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        let activityIndicator = UIActivityIndicatorView(style: .large)
         activityIndicator.startAnimating()
         self.backgroundView = activityIndicator
         self.separatorStyle = .none

@@ -11,6 +11,8 @@ class RecordsNetworkService {
     
     let networService = NetworkService()
     
+    static let cache = NSCache<NSString, NSDictionary>()
+    
     private let tableName = "Records"
     
     func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
@@ -59,13 +61,20 @@ class RecordsNetworkService {
             completion(recordsResult)
 //            self.saveAllRecordsInDatabase(records: recordsArray)
         } failure: { error in
+//            let error = error as NSError
+//            if error.code == 3840 {
+//                completion([[String : Any]]())
+//            } else {
+//                print(error)
+//            }
             print(error)
+            
         }
     }
     
-    func getAllRecordsFromDataBase(completion: @escaping ([[String: Any]]) -> Void) -> Void {
+    func getAllRecordsFromDataBase(module: String, completion: @escaping ([[String: Any]]) -> Void) -> Void {
         
-        let result = Database.shared.select(tableName: tableName)
+        let result = Database.shared.select(tableName: tableName, whereClause: "module = '\(module)'")
         
         guard let result = result else {
             print("No records in database")
@@ -87,33 +96,28 @@ class RecordsNetworkService {
         urlRequestString.append("/")
         urlRequestString.append(id)
         
-        networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data in
+        if let cachedRecord = RecordsNetworkService.cache.object(forKey: urlRequestString as NSString),
+           let cachedRecord = cachedRecord as? [String: Any]  {
             
-            
-            // MARK: REPETION CHECK ABOVE FUNCTIONS
-            let recordsResult = data["data"] as! [Any]
-            let record = recordsResult[0] as! [String: Any]
-            
-            
-//            let sortedKeys = record.keys.sorted()
-//            let this = record.filter { key, value in
-//                !key.contains("$")
-//            }
-//
-//            let that = this.sorted { ke, val in
-//                if ke.key > val.key {
-//                    return true
-//                }
-//                return false
-//            }
-//
-//            that.forEach { pair in
-//                print(pair.key , pair.value)
-//            }
-            
-            completion(record)
-        } failure: { error in
-            print(error.localizedDescription)
+            print("from cache") 
+            completion(cachedRecord)
+        } else {
+            networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data in
+                
+                
+                // MARK: REPETION CHECK ABOVE FUNCTIONS
+                let recordsResult = data["data"] as! [Any]
+                let record = recordsResult[0] as! [String: Any]
+                
+                
+                recordsResult.forEach { anything in
+                    //                let tis = anything as! [Any]
+                }
+                RecordsNetworkService.cache.setObject(record as NSDictionary, forKey: urlRequestString as NSString)
+                completion(record)
+            } failure: { error in
+                print(error.localizedDescription)
+            }
         }
     }
     
@@ -138,5 +142,9 @@ class RecordsNetworkService {
         } failure: { error in
             print(error)
         }
+    }
+    
+    deinit {
+        
     }
 }

@@ -19,8 +19,17 @@ class FormTableViewController: UITableViewController {
     private lazy var editableRecords = [(String, Any)]()
     private var module: Module?
     private var moduleName: String?
-    private var isRecordEditing = false
+    
     private var recordState: RecordState = .add
+    
+    enum RecordState {
+        
+        case add
+        case edit
+        case editAndUserInteractionDisabled
+    }
+
+    
     private var editingRecordId: String?
     private var moduleApiName: String!
     private lazy var textAreaIndexes = [IndexPath]()
@@ -61,10 +70,10 @@ class FormTableViewController: UITableViewController {
         
         if recordState == .edit {
             
-            title = "Edit ".appending(moduleApiName)
+            title = "Edit ".appending(module?.moduleSingularName ?? moduleApiName)
         } else {
             
-            title = "Add ".appending(moduleApiName)
+            title = "Add ".appending(module?.moduleSingularName ?? moduleApiName)
         }
     }
     
@@ -127,13 +136,16 @@ class FormTableViewController: UITableViewController {
         // SAVE DATA
         var data = [String: Any]()
         let rows = tableView.numberOfRows(inSection: 0)
+        
+        var shouldCancel = false
+        
         for row in 0..<rows {
             
             let indexPath = IndexPath(row: row, section: 0)
             let field = fields[row]
             let cell: FormTableViewCell?
             //            print(field.apiName)
-            if field.lookup.apiName != nil {
+            if field.lookup.module != nil {
                 
                 cell = tableView.cellForRow(at: indexPath) as! LookupTableViewCell
             } else {
@@ -161,11 +173,12 @@ class FormTableViewController: UITableViewController {
                 
             }
             let cellField = cell!.getFieldData(for: field.dataType)
+            
             if cellField.1 != nil {
                 
                 if isReadyToSaveOrUpdate(field: field, recordData: cellField.1) == false {
                     print("no we are not")
-                    return
+                    shouldCancel = true
                 }
                 
                 
@@ -175,6 +188,8 @@ class FormTableViewController: UITableViewController {
         //        data.forEach { key, value in
         //            print(key, value)
         //        }
+        
+        if shouldCancel { return }
         if editingRecordId != nil {
             
             formPresenter.updateRecord(module: moduleApiName, records: data, recordId: editingRecordId)
@@ -186,12 +201,16 @@ class FormTableViewController: UITableViewController {
     
     private func isReadyToSaveOrUpdate(field: Field, recordData: Any?) -> Bool {
         
-        if (field.apiName == "Email" || field.isSystemMandatory) && recordData as! String == "" {
+        let recordData = recordData as! String
+        if (field.isSystemMandatory && recordData == "") ||
+            (field.apiName == "Email" && recordData == "") {
+            
             print("Its Working")
             tableView.beginUpdates()
             tableView.endUpdates()
             return false
         }
+        
         return true
     }
     
@@ -214,8 +233,6 @@ extension FormTableViewController {
         let field = fields[indexPath.row]
         var cell: FormTableViewCell!
         let tapGesture = LookupTapGestureRecognizer(target: self, action: #selector(tapGesture(sender:)))
-        //        print(field.lookUpApiName)
-        //        print(field.dataType)
         
         switch field.dataType {
             
@@ -224,6 +241,7 @@ extension FormTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
             cell?.setLookupName(lookupApiName: field.lookup.module!.apiName)
             cell?.addGestureRecognizer(tapGesture)
+//            print("lookup")
         case "email":
             
             cell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.emailCellIdentifier) as! EmailTableViewCell
@@ -236,14 +254,14 @@ extension FormTableViewController {
             textAreaIndexes.append(indexPath)
             
         case "integer", "phone":
-            print(field.fieldLabel, field.dataType)
+            
             cell = tableView.dequeueReusableCell(withIdentifier: IntegerTableViewCell.integerCellIdentifier) as! IntegerTableViewCell
         case "double", "currency":
-            print(field.fieldLabel, field.dataType)
+            
             cell = tableView.dequeueReusableCell(withIdentifier: DoubleTableViewCell.doubleCellIdentifier) as! DoubleTableViewCell
         case "boolean":
             
-            print(field.apiName)
+            
             cell = tableView.dequeueReusableCell(withIdentifier: BooleanTableViewCell.booleanCellIdentifier) as! BooleanTableViewCell
             
         case "multiselectpicklist", "picklist":
@@ -264,12 +282,12 @@ extension FormTableViewController {
             
             cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
         }
-        
+
         cell?.setUpCellWith(fieldName: field.fieldLabel, isMandatory: field.isSystemMandatory)
         
         if recordState == .edit || recordState == .editAndUserInteractionDisabled {
+            
             for record in editableRecords {
-                
                 
                 if field.fieldLabel == record.0 || field.apiName == record.0 {
                     
@@ -277,6 +295,11 @@ extension FormTableViewController {
                     
                     if recordState == .editAndUserInteractionDisabled {
                         shouldEnableUserInteracion = false
+                    }
+                    
+                    if field.dataType == "lookup" {
+                        
+                        print("should neable", shouldEnableUserInteracion)
                     }
                     cell?.setRecordData(for: record.1, isEditable: shouldEnableUserInteracion)
                     break
@@ -372,17 +395,9 @@ extension FormTableViewController {
     
     func setUpCellsForEditing(recordid: String?, recordData: [(String, Any)], recordState: RecordState = .edit) -> Void {
         
-        //        self.isRecordEditing = true
+        self.recordState = recordState
         self.editableRecords = recordData
         self.editingRecordId = recordid
         self.tableView.reloadData()
     }
-}
-
-
-enum RecordState {
-    
-    case add
-    case edit
-    case editAndUserInteractionDisabled
 }

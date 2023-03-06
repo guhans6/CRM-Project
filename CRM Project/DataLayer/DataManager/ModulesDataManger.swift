@@ -89,18 +89,6 @@ class ModulesDataManager {
     func createModuleTable(modules: [Module]) {
         
 //        let idColumn = "Module_id"
-        let columns = [
-            moduleId.appending("\(sqliteText) PRIMARY KEY"),
-            moduleApiName.appending(sqliteText),
-            modulePluralName.appending(sqliteText),
-            moduleSingularName.appending(sqliteText)
-        ]
-        
-        if Database.shared.createTable(tableName: tableName, columns: columns) {
-            print("Modules Table Created Successfully")
-        } else {
-            print("Failed Modules")
-        }
         
         for module in modules {
             var moduleDictionary = [String: Any]()

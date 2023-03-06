@@ -18,7 +18,6 @@ class FormPresenter {
     private let recordsController = RecordsController()
     private let fieldsContorller = FieldsController()
     private weak var formViewController: FormViewContract?
-    private weak var router: Router?
     
 }
 
