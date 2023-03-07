@@ -53,7 +53,7 @@ class Network: NetworkContract {
         task.resume()
     }
     
-    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?, success: @escaping ([String: Any]?) -> Void, failure: @escaping (Error) -> Void)
+    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?, success: @escaping (([String: Any]?, Error?) -> Void))
     {
         
         guard let headers = headers else {
@@ -102,11 +102,12 @@ class Network: NetworkContract {
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String:Any]
-//                print(json)
-                success(json)
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+//                print(json, "aaa")
+                success(json, nil)
             } catch {
-                failure(error)
+//                print(error , "abc")
+                success(nil, error)
             }
         }
         task.resume()

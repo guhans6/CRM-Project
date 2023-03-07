@@ -35,10 +35,10 @@ class RecordsNetworkService {
         let parameters = ["data": [data]]
         print(parameters)
         
-        networService.performNetworkCall(url: urlRequestString, method: httpMethod, urlComponents: nil, parameters: parameters, headers: nil) { resultData in
+        networService.performNetworkCall(url: urlRequestString, method: httpMethod, urlComponents: nil, parameters: parameters, headers: nil) { resultData, error in
+            
+            
 //            print(resultData)
-        } failure: { error in
-            print(error)
         }
     }
     
@@ -54,21 +54,15 @@ class RecordsNetworkService {
             urlRequestString.append("?fields=Name,Email")
         }
         
-        networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data in
+        networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in
             
-            let recordsResult = data["data"] as! [[String: Any]]
+            guard let data = data, let recordsResult = data["data"] as? [[String: Any]] else {
+                print("get Records Data Error")
+                return
+            }
 
             completion(recordsResult)
 //            self.saveAllRecordsInDatabase(records: recordsArray)
-        } failure: { error in
-//            let error = error as NSError
-//            if error.code == 3840 {
-//                completion([[String : Any]]())
-//            } else {
-//                print(error)
-//            }
-            print(error)
-            
         }
     }
     
@@ -102,21 +96,22 @@ class RecordsNetworkService {
             print("from cache") 
             completion(cachedRecord)
         } else {
-            networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data in
+            networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in
                 
+                if let error = error {
+                    print(error.localizedDescription)
+                    print("Individual get data Error")
+                    return
+                }
                 
                 // MARK: REPETION CHECK ABOVE FUNCTIONS
-                let recordsResult = data["data"] as! [Any]
-                let record = recordsResult[0] as! [String: Any]
-                
-                
-                recordsResult.forEach { anything in
-                    //                let tis = anything as! [Any]
+                guard let data = data, let recordsResult = data["data"] as? [Any], let record = recordsResult[0] as? [String: Any] else {
+                    print("Individual get data Error")
+                    return
                 }
+                
                 RecordsNetworkService.cache.setObject(record as NSDictionary, forKey: urlRequestString as NSString)
                 completion(record)
-            } failure: { error in
-                print(error.localizedDescription)
             }
         }
     }
@@ -131,20 +126,26 @@ class RecordsNetworkService {
             urlRequestString.append(",")
         }
         
-        networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.DELETE, urlComponents: nil, parameters: nil, headers: nil) { data in
+        networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.DELETE, urlComponents: nil, parameters: nil, headers: nil) { data, error in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                print("Individual get data Error")
+                return
+            }
             
             // MARK: SHOULD DO SOMETHING ABOUT SUCCESSFUL DELETION
-            let recordsResult = data["data"] as! [Any]
+            
+            guard let data = data,
+                  let recordsResult = data["data"] as? [Any] else {
+                print("Record deletion data error")
+                return
+            }
+            
             recordsResult.forEach { record in
                 let data = record as! [String: Any]
                 print(data["status"] as! String)
             }
-        } failure: { error in
-            print(error)
         }
-    }
-    
-    deinit {
-        
     }
 }

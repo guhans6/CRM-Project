@@ -18,7 +18,6 @@ class BookingNetworkService {
         
         let parameters = [
             "select_query" : "select  Booking_Table.id from Reservations where Booking_Date = '\(date)'"
-//            "select_query" : "select  Booking_Table.id from Reservations where Booking_Date = '\(date)' and Pick_List_1 = 'Breakfast '"
         ]
         
         var bookedTableIds = [String]()
@@ -33,21 +32,41 @@ class BookingNetworkService {
         }
         
         dispatchGroup.enter()
-        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) {data in
+        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) {data, error in
             
-            let data = data["data"] as! [[String: Any]]
+            if let error = error as? NetworkError {
+                
+                if error == .emptyDataError {
+                    dispatchGroup.leave()
+                } else {
+                    print(error)
+                }
+            }
+            
+            
+            guard let data = data,
+                  let data = data["data"] as? [[String: Any]]
+            else {
+                return
+            }
             
             data.forEach { table in
-                bookedTableIds.append(table["Booking_Table.id"] as! String)
+                
+                guard let bookingTableId = table["Booking_Table.id"] as? String else {
+                    
+                    print("Booking_Table.id not present")
+                    return
+                }
+                bookedTableIds.append(bookingTableId)
             }
-            dispatchGroup.leave()
-        } failure: { error in
-            print(error)
             dispatchGroup.leave()
         }
         
+        
+        // Wait for both data to arrive
         dispatchGroup.notify(queue: .main) {
             
+            print(bookedTables)
             if bookedTableIds.isEmpty {
                 
                 completion([allTables, [Table]()])
@@ -76,21 +95,22 @@ class BookingNetworkService {
             "select_query" : "select Name, Seating_Capacity, Table_Location from Table_Reservations where Name is not null"
         ]
         
-        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) { data in
+        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) { data, error in
           
-//            let json = try! JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
-//
-//            let decoder = JSONDecoder()
-//            decoder.dateDecodingStrategy = .iso8601
-//
-//            let result = try? decoder.decode(TableData.self, from: json)
-//
-//            result?.data.forEach({ table in
-//                print(table.name, table.seatingCapacity, table.id)
-//            })
-//            print(data)
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
             var tables = [Table]()
-            let data = data["data"] as! [[String: Any]]
+            
+            guard let data = data,
+                  let data = data["data"] as? [[String: Any]]
+            else {
+                
+                print("All table data is nil")
+                return
+            }
             data.forEach { d in
                 
                 guard let id = d["id"] as? String,
@@ -107,8 +127,6 @@ class BookingNetworkService {
 //
             completion(tables)
             
-        } failure: { error in
-            print(error, "aa")
         }
     }
     
@@ -153,13 +171,14 @@ class BookingNetworkService {
             ]
         ]
         
-        let json = try? JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-        print(String(data: json!, encoding: .utf8) ?? "asfasdf", "aaaaaaaa")
-        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) { resultData in
+        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) { resultData, error in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
 
-            print(resultData)
-        } failure: { error in
-            print(error, "aaa")
+            print(resultData!)
         }
 
     }

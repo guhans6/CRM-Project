@@ -7,6 +7,22 @@
 
 import Foundation
 
+/// This is for the type of error in network
+enum NetworkError: Error, Equatable {
+    case invalidURLError(String)
+    case incorrectDataError(String)
+    case invalidOauthTokenError(String)
+    case emptyDataError
+    
+//    var description = {
+//        get {
+//            switch NetworkError {
+//            
+//            }
+//        }
+//    }
+}
+
 class NetworkService {
     
     private let network: NetworkContract = Network.shared
@@ -49,7 +65,7 @@ class NetworkService {
             return
         }
         
-//        let headers = ["application/x-www-form-urlencoded": "Content-Type"]
+        //        let headers = ["application/x-www-form-urlencoded": "Content-Type"]
         
         var requestBodyComponents = URLComponents()
         requestBodyComponents.queryItems = [
@@ -64,30 +80,35 @@ class NetworkService {
         
         //MARK: Try making all in one method for all requests
         network.getAuthToken(url: zohoURL, method: HTTPMethod.POST.rawValue, components: requestBodyComponents) { data, error in
-
+            
             if let error = error {
                 print("Error: \(error)")
                 return
             }
-
+            
             guard let data = data else {
                 print("No data received")
                 return
             }
-
-
+            
+            
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-
-                let refreshToken = json["refresh_token"] as! String
-                let accessToken = json["access_token"] as! String
+                
+                guard let refreshToken = json["refresh_token"] as? String,
+                      let accessToken = json["access_token"] as? String
+                else {
+                    print("error converting access or refresh token")
+                    return
+                }
+                
                 self.keychainService.storeRefreshToken(token: refreshToken)
                 self.keychainService.storeAccessToken(accessToken: accessToken)
                 self.token = accessToken
-
+                
                 UserDefaultsManager.shared.setLogIn(equalTo: true)
                 print("Login Success")
-
+                
             } catch let jsonError {
                 print("Error decoding JSON: \(jsonError)")
             }
@@ -141,7 +162,7 @@ class NetworkService {
         }
     }
     
-    func performNetworkCall(url: String, method: HTTPMethod, urlComponents: [String: String]?, parameters: [String: Any]?, headers: [String: String]?, success: @escaping ([String: Any]) -> Void, failure: @escaping (Error) -> Void) -> Void {
+    func performNetworkCall(url: String, method: HTTPMethod, urlComponents: [String: String]?, parameters: [String: Any]?, headers: [String: String]?, success: @escaping ([String: Any]?, Error?) -> Void) -> Void {
         
         var authHeader: [String: String] = ["Zoho-oauthtoken \(accessToken)": "Authorization"]
         let requestURLString = zohoApiURLString.appending(url)
@@ -170,26 +191,31 @@ class NetworkService {
             }
         }
         
-        network.performDataTask(url: requestURL, method: method.rawValue, urlComponents: requestBodyComponents, parameters: parameters, headers: authHeader) { data in
-        
+        network.performDataTask(url: requestURL, method: method.rawValue, urlComponents: requestBodyComponents, parameters: parameters, headers: authHeader) { data, error  in
+            
+            //            if let error = error {
+            //                print(error.localizedDescription)
+            //                return
+            //            }
+            
+            
             guard let data = data else {
-                print("No data received")
+                success(nil, NetworkError.emptyDataError)
+//                print("No data received , aaaa")
                 return
             }
             
             if self.isInvalidTokenResponse(data: data) {
                 
-                self.performNetworkCall(url: url, method: method, urlComponents: urlComponents, parameters: parameters, headers: headers, success: success, failure: failure)
+                self.performNetworkCall(url: url, method: method, urlComponents: urlComponents, parameters: parameters, headers: headers, success: success)
             } else {
-//                print(data)
+                
                 DispatchQueue.main.async {
-                    success(data)
+                    success(data, nil)
                 }
             }
-        } failure: { error in
-            failure(error)
         }
-
+        
     }
     
     private func isInvalidTokenResponse(data: [String: Any]) -> Bool {
@@ -226,15 +252,18 @@ class NetworkService {
         ]
         
         
-        network.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data in
+        network.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
             
             guard let data = data else {
                 print("No data received")
                 return
             }
             print(data)
-            
-        } failure: { error in
             
         }
         
@@ -244,14 +273,14 @@ class NetworkService {
         
         switch userType {
             
-            case .activeUsers:
-                return "ActiveUsers"
-            case .allUsers:
-                return "AllUsers"
-            case .currentuser:
-                return "CurrentUser"
-            case .deactiveUsers:
-                return "DeactiveUsers"
+        case .activeUsers:
+            return "ActiveUsers"
+        case .allUsers:
+            return "AllUsers"
+        case .currentuser:
+            return "CurrentUser"
+        case .deactiveUsers:
+            return "DeactiveUsers"
         }
     }
     

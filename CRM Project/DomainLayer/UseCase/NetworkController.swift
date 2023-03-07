@@ -7,12 +7,6 @@
 
 import Foundation
 
-enum NetworkError: Error {          /// This is for the type of error in network
-    case invalidURLError(String)
-    case incorrectDataError(String)
-    case invalidOauthTokenError(String)
-}
-
 enum HTTPMethod: String {
     
     case GET = "GET"

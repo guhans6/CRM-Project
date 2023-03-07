@@ -55,10 +55,7 @@ class SplashViewController: UIViewController {
     func setUpViewController() {
         
         if UserDefaultsManager.shared.isUserLoggedIn() {
-//            let loginVC = ContainerViewController()
-//            let navController = UINavigationController(rootViewController: HomeViewController())
-//            navController.modalPresentationStyle = .fullScreen
-//            self.present(navController, animated: true)
+            
             presentSplitView()
         } else {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -78,15 +75,20 @@ class SplashViewController: UIViewController {
         let navigationVC = UINavigationController(rootViewController: menuViewController)
         
         splitvc.modalPresentationStyle = .fullScreen
-
-        menuViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapCloseButton))
         
         let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(didTapCloseButton))
         leftSwipeGesture.direction = .left
-        menuViewController.view.addGestureRecognizer(leftSwipeGesture)
         
-        let navigationLeftButton = UIImage(systemName: "list.dash")
-        homeViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: navigationLeftButton, style: .plain, target: self, action: #selector(menuButtonTapped))
+        menuViewController.view.addGestureRecognizer(leftSwipeGesture)
+//        menuViewController.navigationController?.navigationBar.addGestureRecognizer(leftSwipeGesture)
+        
+        if self.traitCollection.userInterfaceIdiom == .phone {
+            
+            menuViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapCloseButton))
+            
+            let navigationLeftButton = UIImage(systemName: "list.dash")
+            homeViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: navigationLeftButton, style: .plain, target: self, action: #selector(menuButtonTapped))
+        }
         
         splitvc.setViewController(navigationVC, for: .primary)
         splitvc.setViewController(homeViewController, for: .secondary)

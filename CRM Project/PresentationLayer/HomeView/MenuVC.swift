@@ -92,14 +92,13 @@ class MenuVC: UIViewController {
     
     private func configureLogoutButton() {
         
-        //        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
-        //        footerView.backgroundColor = .orange
         
         
         logoutButton.setTitle("Logout", for: .normal)
         logoutButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         logoutButton.setTitleColor(.label, for: .normal)
-        //        logoutButton.setImage(UIImage(systemName: "power"), for: .normal)
+        
+        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         
         view.addSubview(logoutButton)
         view.bringSubviewToFront(logoutButton)
@@ -112,6 +111,11 @@ class MenuVC: UIViewController {
         
     }
     
+    
+    @objc private func logoutButtonTapped() {
+        UserDefaultsManager.shared.setLogIn(equalTo: false)
+        dismiss(animated: true)
+    }
     private func getCurrentUser() {
         
         UserDetailController().getUserDetails { currentUser in

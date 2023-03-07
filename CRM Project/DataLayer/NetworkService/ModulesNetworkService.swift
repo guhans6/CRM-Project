@@ -17,17 +17,21 @@ class ModulesNetworkService {
         
         let urlRequestString = "crm/v3/settings/modules"
 
-        networkService.performNetworkCall(url: urlRequestString, method: .GET, urlComponents: nil, parameters: nil, headers: nil) { data in
+        networkService.performNetworkCall(url: urlRequestString, method: .GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in
             
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
             
-            
-//            let modules = data["modules"] as! Array<Any>
-//
-            let modules = data["modules"] as! Array<Dictionary<String, Any>>
+
+            guard let data = data,
+                  let modules = data["modules"] as? Array<Dictionary<String, Any>> else {
+                print("Invalid modules data")
+                return
+            }
 
             completion(modules)
-        } failure: { error in
-            print(error)
         }
     }
         

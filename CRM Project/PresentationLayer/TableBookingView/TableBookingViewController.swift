@@ -50,8 +50,6 @@ class TableBookingViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-//        let rightBarButton = UIBarButtonItem(title: "Pick Date", style: .plain, target: self, action: #selector(showDatePicker))
-//        navigationItem.rightBarButtonItem = rightBarButton
         getTablesFor(date: Date())
         configurePickerView()
     }

@@ -49,19 +49,25 @@ class RecordInfoTableViewController: UITableViewController {
     @objc private func editButtonTapped() {
         
         formVc.setUpCellsForEditing(recordid: recordId, recordData: recordInfo, recordState: .edit)
-//        let formTableVC = FormTableViewController(module: recordModule)
-//        formTableVC.setUpCellsForEditing(recordid: recordId, recordData: recordInfo, recordState: .edit)
         navigationController?.pushViewController(formVc, animated: true)
     }
     
     func getRecord() {
+        
+        tableView.showLoadingIndicator()
         individualRecordPresenter.getRecordFor(id: recordId, module: recordModule.apiName) { [weak self] recordInfo in
             self?.recordInfo = recordInfo
-            self?.tableView.reloadData()
+            
+            if self?.recordInfo.count ?? 0 > 0 {
+                
+                self?.tableView.hideLoadingIndicator()
+                self?.tableView.reloadData()
+            } else {
+                
+                self?.tableView.hideLoadingIndicator()
+                self?.tableView.setEmptyView(title: "Empty Record Data", message: "")
+            }
 
-//            recordInfo.forEach { key, value in
-//                print(key, value, separator: "v^^^") 
-//            }
         }
     }
     

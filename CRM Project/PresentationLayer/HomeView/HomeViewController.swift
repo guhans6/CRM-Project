@@ -10,15 +10,13 @@ import UIKit
 class HomeViewController: UIViewController {
     
     
-    let welcomeUserLabel = UILabel()
-    let requestButton = UIButton()
-    let generateAuthTokenButton = UIButton()
+    private let welcomeUserLabel = UILabel()
     
     private let datePicker = UIDatePicker()
     
-    lazy var textColour = UIColor(named: "TextColour")
+    private let bookedTablesView = UITableView()
     
-    let bookedTables = UITableView()
+    private var tables = [Table]()
     
     deinit {
         print("Login deinitialized")
@@ -34,16 +32,18 @@ class HomeViewController: UIViewController {
         configureUI()
     }
     
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
-//        presenter?.generateAuthToken()
     }
     
     private func configureUI() {
         
+        getBookedTablesFor()
         configureDatePicker()
-        
+        configureBookedTablesView()
+        getBookedTablesFor()
     }
     
     
@@ -55,6 +55,7 @@ class HomeViewController: UIViewController {
         datePicker.preferredDatePickerStyle = .wheels
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         
         NSLayoutConstraint.activate([
             datePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -63,59 +64,67 @@ class HomeViewController: UIViewController {
         ])
     }
     
+    @objc private func datePickerValueChanged() {
+        
+        getBookedTablesFor(date: datePicker.date)
+    }
+    
     private func configureBookedTablesView() {
         
-        view.addSubview(bookedTables)
+        view.addSubview(bookedTablesView)
         
-        bookedTables.delegate = self
+        bookedTablesView.translatesAutoresizingMaskIntoConstraints = false
+        
+        bookedTablesView.delegate = self
+        bookedTablesView.dataSource = self
         
         NSLayoutConstraint.activate([
-            bookedTables.topAnchor.constraint(equalTo: datePicker.topAnchor),
-            bookedTables.widthAnchor.constraint(equalTo: view.widthAnchor),
+            bookedTablesView.topAnchor.constraint(equalTo: datePicker.bottomAnchor),
+            bookedTablesView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            bookedTablesView.heightAnchor.constraint(equalToConstant: view.frame.height / 2)
+//            bookedTablesView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
-    @objc private func logoutButtonTapped() {
-        UserDefaultsManager.shared.setLogIn(equalTo: false)
-        dismiss(animated: true)
-    }
-    
-    private func configureRequestButton() {
-        view.addSubview(requestButton)
-        requestButton.translatesAutoresizingMaskIntoConstraints = false
+}
 
+extension HomeViewController {
+    
+    private func getBookedTablesFor(date: Date = Date()) {
         
-        requestButton.setTitle("Make Request", for: .normal)
-        requestButton.setTitleColor(.label, for: .normal)
-        requestButton.addTarget(self, action: #selector(makeRequestButtonTapped), for: .touchUpInside)
-        requestButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         
-        NSLayoutConstraint.activate([
-            requestButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            requestButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 100),
+        BookingController().getAvailableTablesFor(date: date) { [weak self] tables in
             
-        ])
+            self?.bookedTablesView.showLoadingIndicator()
+            self?.tables = tables[0]
+            if self?.tables.count ?? 0 > 0 {
+                
+                self?.bookedTablesView.hideLoadingIndicator()
+                self?.bookedTablesView.reloadData()
+            }
+        }
     }
-    
-    @objc private func makeRequestButtonTapped() {
-        
-//        self.navigationController?.pushViewController(TableBookingViewController(), animated: true)
-//        ModulesNetworkService().getAllModules()
-    }
-    
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Booked Tables"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        
+//        print(tables.count)
+        return tables.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = UITableViewCell()
         
-        cell.textLabel?.text = "Table"
+        let table = tables[indexPath.row]
+        
+        cell.textLabel?.text = table.name
         
         return cell
     }

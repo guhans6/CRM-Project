@@ -15,7 +15,17 @@ class RelatedListNetworkService {
         
         let urlRequestString = "crm/v3/settings/related_lists?module=\(module)"
         
-        networkService.performNetworkCall(url: urlRequestString, method: .GET, urlComponents: nil, parameters: nil, headers: nil) { data in
+        networkService.performNetworkCall(url: urlRequestString, method: .GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard let data = data else {
+                print("RelatedList is nil")
+                return
+            }
             
             let json = try! JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
             
@@ -36,8 +46,6 @@ class RelatedListNetworkService {
                 print(error)
             }
             
-        } failure: { error in
-            print(error)
         }
     }
 }

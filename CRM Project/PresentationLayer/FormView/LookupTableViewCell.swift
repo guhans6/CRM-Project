@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol LookupTableViewCellDelegate {
+    
+    
+}
+
 class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
@@ -19,8 +24,8 @@ class LookupTableViewCell: FormTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        configureTextField()
-//        configureTextView()
+//        configureTextField()
+        configureTextView()
         configureDiscloseIndicator()
         
     }
@@ -44,7 +49,8 @@ class LookupTableViewCell: FormTableViewCell {
         discloseIndicatorMark.backgroundColor = .systemBackground
         
         NSLayoutConstraint.activate([
-            discloseIndicatorMark.leadingAnchor.constraint(equalTo: formTextField.trailingAnchor),
+//            discloseIndicatorMark.leadingAnchor.constraint(equalTo: formTextField.trailingAnchor),
+            discloseIndicatorMark.leadingAnchor.constraint(equalTo: textView.trailingAnchor),
             discloseIndicatorMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             discloseIndicatorMark.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             discloseIndicatorMark.topAnchor.constraint(equalTo: contentView.topAnchor)
@@ -66,9 +72,10 @@ class LookupTableViewCell: FormTableViewCell {
     }
     
     func configureTextView() {
+        
         contentView.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .systemGray6
+        textView.backgroundColor = .systemBackground
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textContainerInset = UIEdgeInsets(top: 13, left: 7, bottom: 0, right: 0)
         textView.isEditable = false
@@ -89,7 +96,14 @@ class LookupTableViewCell: FormTableViewCell {
         ])
         textFieldHeight = textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         textFieldHeight?.isActive = true
+        
+//        let gets = UITapGestureRecognizer(target: self, action: #selector(this))
+//        textView.addGestureRecognizer(gets)
     }
+    
+//    @objc func this() {
+//        print("tapped")
+//    }
     
     override func getFieldData(for type: String) -> (String, Any?) {
         
@@ -106,7 +120,7 @@ class LookupTableViewCell: FormTableViewCell {
             self.lookupId = lookupData[0]
             self.formTextField.text = lookupData[1]
         } else if let lookupData = data as? String {
-            self.formTextField.text = lookupData
+            self.textView.text = lookupData
         }
         self.isUserInteractionEnabled = isRecordEditing 
         
