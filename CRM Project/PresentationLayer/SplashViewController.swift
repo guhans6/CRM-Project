@@ -9,7 +9,7 @@ import UIKit
 
 class SplashViewController: UIViewController {
     
-    let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
+    let logoImageView = UIImageView(image: UIImage(named: "LaunchScreen"))
     private lazy var splitvc = UISplitViewController(style: .doubleColumn)
     
     var isUserLoggedIn: Bool {

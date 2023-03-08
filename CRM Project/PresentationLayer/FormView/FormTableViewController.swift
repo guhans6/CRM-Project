@@ -201,7 +201,8 @@ class FormTableViewController: UITableViewController {
     
     private func isReadyToSaveOrUpdate(field: Field, recordData: Any?) -> Bool {
         
-        let recordData = recordData as! String
+//        print(recordData)
+        let recordData = recordData as? String
         if (field.isSystemMandatory && recordData == "") ||
             (field.apiName == "Email" && recordData == "") {
             
@@ -297,10 +298,6 @@ extension FormTableViewController {
                         shouldEnableUserInteracion = false
                     }
                     
-                    if field.dataType == "lookup" {
-                        
-                        print("should neable", shouldEnableUserInteracion)
-                    }
                     cell?.setRecordData(for: record.1, isEditable: shouldEnableUserInteracion)
                     break
                 }

@@ -13,8 +13,6 @@ extension UITableView {
         
         let activityIndicator = UIActivityIndicatorView(style: .large)
         
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        activityIndicator.center = self.center
         activityIndicator.startAnimating()
         self.backgroundView = activityIndicator
         self.separatorStyle = .none

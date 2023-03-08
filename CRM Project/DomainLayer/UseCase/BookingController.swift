@@ -13,14 +13,13 @@ class BookingController {
     let networkService = NetworkService()
     lazy var fieldsController = FieldsController()
     
-    func getAvailableTablesFor(date: Date, completion: @escaping ([[Table]]) -> Void) {
+    func getAvailableTablesFor(date: Date, time: String?, completion: @escaping ([[Table]]) -> Void) {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-//        let formattedDate = dateFormatter.string(from: date)
         let formattedDate = DateFormatter.formattedString(from: date, format: "yyyy-MM-dd")
         
-        bookingService.getBookedTablesfor(date: formattedDate) { tables in
+        bookingService.getBookedTablesfor(date: formattedDate, time: time) { tables in
             
             completion(tables)
         }

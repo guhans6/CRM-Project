@@ -15,6 +15,7 @@ class RecordInfoTableViewController: UITableViewController {
     private let recordModule: Module
     private let recordId: String
     private var recordInfo = [(String, Any)]()
+    private var fields = [Field]()
     
     init(recordModule: Module, recordId: String) {
         self.recordModule = recordModule
@@ -33,8 +34,10 @@ class RecordInfoTableViewController: UITableViewController {
 //        formVc.delegate = self
         configureTableView()
         
-        navigationItem.largeTitleDisplayMode = .never
-        tableView.separatorColor = .tableViewSeperator
+        title = recordModule.moduleSingularName.appending(" Information")
+//        navigationItem.largeTitleDisplayMode = .never
+        tableView.separatorStyle = .none
+//        tableView.separatorColor = .clear
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +45,11 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
+        
+        tableView = UITableView(frame: .zero, style: .insetGrouped)
+        
         tableView.register(RecordInfoTableViewCell.self, forCellReuseIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier)
     }
     
@@ -52,10 +59,13 @@ class RecordInfoTableViewController: UITableViewController {
         navigationController?.pushViewController(formVc, animated: true)
     }
     
-    func getRecord() {
+    private func getRecord() {
         
         tableView.showLoadingIndicator()
-        individualRecordPresenter.getRecordFor(id: recordId, module: recordModule.apiName) { [weak self] recordInfo in
+        individualRecordPresenter.getRecordFor(id: recordId,
+                                               module: recordModule.apiName)
+        { [weak self] recordInfo in
+            
             self?.recordInfo = recordInfo
             
             if self?.recordInfo.count ?? 0 > 0 {
@@ -67,7 +77,11 @@ class RecordInfoTableViewController: UITableViewController {
                 self?.tableView.hideLoadingIndicator()
                 self?.tableView.setEmptyView(title: "Empty Record Data", message: "")
             }
-
+        }
+        
+        FieldsController().getfields(module: recordModule.apiName) { fields in
+            self.fields = fields
+            self.tableView.reloadData()
         }
     }
     
@@ -76,22 +90,48 @@ class RecordInfoTableViewController: UITableViewController {
 extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recordInfo.count
+//        return recordInfo.count
+        return fields.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier) as! RecordInfoTableViewCell
-        let record = recordInfo[indexPath.row]
-//        print(record.0, record.1)
-        cell.setUpRecordInfoCell(recordName: record.0, recordData: record.1)
+//        let record = recordInfo[indexPath.row]
+//
+//        cell.setUpRecordInfoCell(recordName: record.0, recordData: record.1)
         
+        let field = fields[indexPath.row]
+        var recordData = ""
+        
+        recordInfo.forEach { key, value in
+            
+            
+            if field.fieldLabel == key || field.apiName == key {
+                
+                if let value =  value as? String {
+                    recordData = value
+                    
+                } else if let value = value as? [String] {
+                    recordData = value[1]
+                    
+                } else if let value = value as? Double {
+                    recordData = String(value)
+                    
+                } else if let value = value as? Int {
+                    
+                    recordData = String(value)
+                }
+            }
+        }
+        
+        cell.setUpRecordInfoCell(recordName: field.fieldLabel, recordData: recordData)
         
         return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 30
+        return 50
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

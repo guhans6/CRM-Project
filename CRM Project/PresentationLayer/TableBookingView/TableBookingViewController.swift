@@ -6,18 +6,19 @@
 //
 
 import UIKit
+
 class TableBookingViewController: UIViewController {
     
-    private let bookingViewPresenter = TableBookingViewPresenter()
+    private let bookingViewController = BookingController()
     private lazy var formVC = FormTableViewController(moduleApiName: "Reservations")
     
     private var tables = [[Table]]()
     
     private lazy var noDataView = UIView()
     let label = UILabel()
-    private let tableView = UITableView()
+    private lazy var tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0) , style: .insetGrouped)
     
-    private let datePickerView = DatePickerTableHeaderView()
+    private let datePickerView = DateAndTimeHeaderView()
     private let myPickerVC = MyPickerViewController()
     lazy var selectedDate: Date = Date()
     
@@ -33,11 +34,11 @@ class TableBookingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "Book Table"
         formVC.delegate = myPickerVC.self
         configureTableView()
         configureUI()
         
-//        configureNoDataView()
         
     }
     
@@ -50,7 +51,7 @@ class TableBookingViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        getTablesFor(date: Date())
+        getTablesFor(date: Date(), time: myPickerVC.getPickedTime())
         configurePickerView()
     }
     
@@ -58,6 +59,7 @@ class TableBookingViewController: UIViewController {
         
         myPickerVC.modalPresentationStyle = .pageSheet
         myPickerVC.delegate  = self
+        
         
         if let sheet = myPickerVC.sheetPresentationController {
             sheet.prefersGrabberVisible = true
@@ -84,7 +86,7 @@ class TableBookingViewController: UIViewController {
         present(myPickerVC, animated: true, completion: nil)
     }
     
-    private func configureHeaderView() -> DatePickerTableHeaderView {
+    private func configureHeaderView() -> DateAndTimeHeaderView {
         
         datePickerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 100)
         datePickerView.dateDisplayButton.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
@@ -129,9 +131,15 @@ class TableBookingViewController: UIViewController {
         
     }
     
-    private func getTablesFor(date: Date) {
+    private func getTablesFor(date: Date, time: String) {
         
-        bookingViewPresenter.getTablesIn(date: date) { allTables in
+//        bookingViewPresenter.getTablesIn(date: date) { allTables in
+//            self.selectedDate = date
+//            self.tables = allTables
+//            self.tableView.reloadData()
+//        }
+//
+        bookingViewController.getAvailableTablesFor(date: date, time: "") { allTables in
             self.selectedDate = date
             self.tables = allTables
             self.tableView.reloadData()
@@ -228,7 +236,8 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
 extension TableBookingViewController: PickerViewDelegate {
     
     func dateAndTime(date: Date, time: String) {
-        self.getTablesFor(date: date)
+        
+        self.getTablesFor(date: date, time: myPickerVC.getPickedTime())
         
         let dateString = DateFormatter.formattedString(from: date, format: "dd-MM-yyyy")
         

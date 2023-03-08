@@ -7,11 +7,6 @@
 
 import UIKit
 
-protocol LookupTableViewCellDelegate {
-    
-    
-}
-
 class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
@@ -24,8 +19,8 @@ class LookupTableViewCell: FormTableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-//        configureTextField()
-        configureTextView()
+        configureTextField()
+//        configureTextView()
         configureDiscloseIndicator()
         
     }
@@ -50,7 +45,7 @@ class LookupTableViewCell: FormTableViewCell {
         
         NSLayoutConstraint.activate([
 //            discloseIndicatorMark.leadingAnchor.constraint(equalTo: formTextField.trailingAnchor),
-            discloseIndicatorMark.leadingAnchor.constraint(equalTo: textView.trailingAnchor),
+            discloseIndicatorMark.leadingAnchor.constraint(equalTo: formTextField.trailingAnchor),
             discloseIndicatorMark.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             discloseIndicatorMark.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             discloseIndicatorMark.topAnchor.constraint(equalTo: contentView.topAnchor)
@@ -80,13 +75,6 @@ class LookupTableViewCell: FormTableViewCell {
         textView.textContainerInset = UIEdgeInsets(top: 13, left: 7, bottom: 0, right: 0)
         textView.isEditable = false
         
-//        NSLayoutConstraint.activate([
-//            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-//            textView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
-//            textView.topAnchor.constraint(equalTo: contentView.topAnchor),
-//            textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-//        ])
-        
         NSLayoutConstraint.activate([
 //            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
@@ -97,13 +85,7 @@ class LookupTableViewCell: FormTableViewCell {
         textFieldHeight = textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         textFieldHeight?.isActive = true
         
-//        let gets = UITapGestureRecognizer(target: self, action: #selector(this))
-//        textView.addGestureRecognizer(gets)
     }
-    
-//    @objc func this() {
-//        print("tapped")
-//    }
     
     override func getFieldData(for type: String) -> (String, Any?) {
         
@@ -115,14 +97,17 @@ class LookupTableViewCell: FormTableViewCell {
     
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool) {
         
+        print(data)
         if let lookupData = data as? [String] {
             
             self.lookupId = lookupData[0]
+//            self.textView.text = lookupData[1]
             self.formTextField.text = lookupData[1]
         } else if let lookupData = data as? String {
-            self.textView.text = lookupData
+            self.formTextField.text = lookupData
         }
-        self.isUserInteractionEnabled = isRecordEditing 
+//        self.textView.isEditable = isRecordEditing
+        self.isUserInteractionEnabled = isRecordEditing
         
     }
 }
@@ -132,7 +117,6 @@ extension LookupTableViewCell: RecordTableViewDelegate {
     func setLookupRecordAndId(recordName: String, recordId: String) {
 
         self.formTextField.text = recordName
-//        print(textView.text!)
         self.lookupId = recordId
     }
 }

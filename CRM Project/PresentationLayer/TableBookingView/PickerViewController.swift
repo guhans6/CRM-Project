@@ -16,7 +16,7 @@ class MyPickerViewController: UIViewController {
 
     private let segmentedControl = UISegmentedControl()
     private let datePicker = UIDatePicker()
-    private let tableView = UITableView(frame: CGRectZero, style: .grouped)
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private let okayButton = UIButton()
     var delegate: PickerViewDelegate?
     private var timings = [String]()
@@ -49,43 +49,6 @@ class MyPickerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
     }
-    
-//    private func configureSegmentedControl() {
-//
-//        view.addSubview(segmentedControl)
-//
-//        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-//        segmentedControl.insertSegment(withTitle: "Pick Date", at: 0, animated: true)
-//        segmentedControl.insertSegment(withTitle: "Pick time", at: 1, animated: true)
-//        segmentedControl.selectedSegmentIndex = 0
-//
-//        segmentedControl.addTarget(self, action: #selector(segmentValueChanged(_:)), for: .valueChanged)
-//
-//        NSLayoutConstraint.activate([
-//            segmentedControl.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-//            segmentedControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            segmentedControl.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
-//            segmentedControl.heightAnchor.constraint(equalToConstant: 30)
-//
-//        ])
-//    }
-//
-//    @objc private func segmentValueChanged(_ segmentedControl: UISegmentedControl) {
-//
-//        switch segmentedControl.selectedSegmentIndex {
-//        case 0:
-//            tableView.isHidden = true
-//            datePicker.isHidden = false
-////            configureDatePicker()
-//        case 1:
-//            datePicker.isHidden = true
-//            tableView.isHidden = false
-////            configureTableView()
-//        default :
-//            print("case Default")
-//        }
-//
-//    }
     
     func showView(viewType: ViewType) {
         
@@ -130,7 +93,14 @@ class MyPickerViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.datePickerMode = .date
-//        datePicker.isHidden = true
+        
+        let today = Date()
+        datePicker.minimumDate = today
+        
+        let calendar = Calendar.current
+        let nextWeek = calendar.date(byAdding: .day, value: 30, to: today)!
+
+        datePicker.maximumDate = nextWeek
         
         NSLayoutConstraint.activate([
             datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),

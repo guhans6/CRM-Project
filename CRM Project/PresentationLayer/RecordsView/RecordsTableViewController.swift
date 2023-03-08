@@ -10,7 +10,7 @@ import UIKit
 
 class RecordsTableViewController: UITableViewController {
     
-    private let recordsPresenter: RecordsPresenterContract = RecordsPresenter()
+    private let recordsController = RecordsController()
     private var module: Module?
     private var moduleName: String?
     private var moduleApiName: String!
@@ -65,16 +65,16 @@ class RecordsTableViewController: UITableViewController {
     }
     
     private func configureRecordsTableView() {
+        
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
     }
     
     private func getRecords() {
         
         tableView.showLoadingIndicator()
-        recordsPresenter.getAllRecordsFor(module: moduleApiName) { [weak self] records in
+        RecordsController().getAllRecordsFor(module: moduleApiName) { [weak self] records in
             self?.records = records
             
-//            print(records.count)
             if self?.records.count ?? 0 > 0 {
                 
                 self?.tableView.hideLoadingIndicator()
@@ -107,13 +107,16 @@ extension RecordsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier) as! RecordsTableViewCell
         let record = records[indexPath.row]
         cell.configureRecordCell(recordName: record.recordName, secondaryData: record.secondaryRecordData)
+        
         return cell
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
         let record = records[indexPath.row]
         
@@ -139,10 +142,15 @@ extension RecordsTableViewController {
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         if isLookUp == false {
+            
             let swipeConfiguration = UIContextualAction(style: .destructive, title: "Delete") { action, view, complete in
+                
                 let record = self.records.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.recordsPresenter.deleteRecords(for: self.moduleApiName, ids: [record.recordId])
+                
+                self.recordsController.deleteRecords(module: self.moduleApiName, ids: [record.recordId]) { result in
+                    
+                }
                 complete(true)
             }
             return UISwipeActionsConfiguration(actions: [swipeConfiguration])
@@ -152,18 +160,10 @@ extension RecordsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        
         if isLookUp {
             return .delete
         }
         return .none
     }
-}
-
-extension RecordsTableViewController: RecordsViewContract {
-    
-    func displayRecords(records: [Record]) {
-        self.records = records
-        self.tableView.reloadData()
-    }
-    
 }

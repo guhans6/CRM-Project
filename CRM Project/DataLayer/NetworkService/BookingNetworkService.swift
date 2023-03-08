@@ -11,13 +11,19 @@ class BookingNetworkService {
     
     let networkService = NetworkService()
     
-    func getBookedTablesfor(date: String, completion: @escaping ([[Table]]) -> Void) -> Void {
+    func getBookedTablesfor(date: String, time: String?, completion: @escaping ([[Table]]) -> Void) -> Void {
         
         let urlRequestString = "crm/v3/coql"
         let dispatchGroup = DispatchGroup()
         
+        var query = "select  Booking_Table.id from Reservations where Booking_Date = '\(date)'"
+        
+        if let time = time {
+            query.append("and Pick_List_1 ='\(time)'")
+        }
+        
         let parameters = [
-            "select_query" : "select  Booking_Table.id from Reservations where Booking_Date = '\(date)'"
+            "select_query" : query
         ]
         
         var bookedTableIds = [String]()
@@ -32,44 +38,38 @@ class BookingNetworkService {
         }
         
         dispatchGroup.enter()
-        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) {data, error in
+        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) { data, error in
             
             if let error = error as? NetworkError {
-                
-                if error == .emptyDataError {
-                    dispatchGroup.leave()
-                } else {
-                    print(error)
-                }
+                print(error)
             }
             
-            
-            guard let data = data,
-                  let data = data["data"] as? [[String: Any]]
+            if let data = data,
+               let data = data["data"] as? [[String: Any]] {
+                
+                data.forEach { table in
+                    guard let bookingTableId = table["Booking_Table.id"] as? String else {
+                        
+                        print("Booking_Table.id not present")
+                        return
+                    }
+                    bookedTableIds.append(bookingTableId)
+                }
+                dispatchGroup.leave()
+            }
             else {
-                return
+                dispatchGroup.leave()
             }
-            
-            data.forEach { table in
-                
-                guard let bookingTableId = table["Booking_Table.id"] as? String else {
-                    
-                    print("Booking_Table.id not present")
-                    return
-                }
-                bookedTableIds.append(bookingTableId)
-            }
-            dispatchGroup.leave()
         }
-        
         
         // Wait for both data to arrive
         dispatchGroup.notify(queue: .main) {
             
-            print(bookedTables)
             if bookedTableIds.isEmpty {
                 
                 completion([allTables, [Table]()])
+                
+                
                 
             } else {
                 
@@ -84,7 +84,6 @@ class BookingNetworkService {
                 }
             }
         }
-       
     }
     
     private func getAllTables(completion: @escaping ([Table]) -> Void) -> Void {
@@ -98,7 +97,7 @@ class BookingNetworkService {
         networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) { data, error in
           
             if let error = error {
-                print(error.localizedDescription)
+                print(error.localizedDescription, "in AllTables")
                 return
             }
             
@@ -111,23 +110,36 @@ class BookingNetworkService {
                 print("All table data is nil")
                 return
             }
-            data.forEach { d in
+            
+            
+            data.forEach { datum in
                 
-                guard let id = d["id"] as? String,
-                      let name = d["Name"] as? String,
-                      let seatingCapacity = d["Seating_Capacity"] as? String,
-                      let tableLocation = d["Table_Location"] as? String else {
-                    
-                    print("Table can't be parsed")
+                // self check
+                guard let table = self.convertTables(data: datum) else {
+
+                    print("Can't convert tableDictionary")
                     return
                 }
                 
-                tables.append(Table(id: id, name: name, seatingCapacity: seatingCapacity, tableLocation: tableLocation))
+                tables.append(table)
             }
-//
             completion(tables)
             
         }
+    }
+    
+    private func convertTables(data: [String: Any]) -> Table? {
+        
+        guard let id = data["id"] as? String,
+              let name = data["Name"] as? String,
+              let seatingCapacity = data["Seating_Capacity"] as? String,
+              let tableLocation = data["Table_Location"] as? String else {
+            
+            print("Table can't be parsed")
+            return nil
+        }
+        let convertedTable = Table(id: id, name: name, seatingCapacity: seatingCapacity, tableLocation: tableLocation)
+        return convertedTable
     }
     
     func sendConformationMail(recordInfo: [String: Any?]) {

@@ -27,11 +27,11 @@ class RecordInfoTableViewCell: UITableViewCell {
     private func configureRecordNameLabel() {
         contentView.addSubview(recordInfoNameLabel)
         recordInfoNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        recordInfoNameLabel.textAlignment = .center
+        recordInfoNameLabel.textAlignment = .left
         recordInfoNameLabel.font = .preferredFont(forTextStyle: .body, compatibleWith: nil)
         
         NSLayoutConstraint.activate([
-            recordInfoNameLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor),
+            recordInfoNameLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             recordInfoNameLabel.centerYAnchor.constraint(lessThanOrEqualTo: contentView.centerYAnchor),
             recordInfoNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5)
         ])
@@ -43,8 +43,11 @@ class RecordInfoTableViewCell: UITableViewCell {
         recordDataLabel.font = .systemFont(ofSize: 15)
         
         NSLayoutConstraint.activate([
-            recordDataLabel.leadingAnchor.constraint(equalTo: recordInfoNameLabel.trailingAnchor,constant: 10),
-            recordDataLabel.centerYAnchor.constraint(lessThanOrEqualTo: contentView.centerYAnchor)
+            recordDataLabel
+                .leadingAnchor.constraint(equalTo: recordInfoNameLabel.trailingAnchor,constant: 20),
+
+            recordDataLabel
+                .centerYAnchor.constraint(lessThanOrEqualTo: contentView.centerYAnchor)
         ])
     }
     

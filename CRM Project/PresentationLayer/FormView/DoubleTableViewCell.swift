@@ -26,4 +26,11 @@ class DoubleTableViewCell: FormTableViewCell {
         formTextField.returnKeyType = .done
         formTextField.keyboardType = .decimalPad
     }
+    
+    override func getFieldData(for type: String) -> (String, Any?) {
+        
+        let _ = super.getFieldData(for: type)
+        let value = Double(formTextField.text!)
+        return (label.text!, value)
+    }
 }

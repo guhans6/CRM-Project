@@ -25,7 +25,7 @@ class PickListTableViewCell: LookupTableViewCell {
     
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
         
-        self.textView.text = data as? String
+        self.formTextField.text = data as? String
         self.isUserInteractionEnabled = isRecordEditing
     }
     

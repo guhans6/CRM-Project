@@ -9,9 +9,8 @@ import UIKit
 
 class ModulesTableViewController: UITableViewController {
     
-    var modulePresenter: ModulesPresenterContract = ModulesPresenter()
+    var modulesController = ModulesController()
     private var modules = [Module]()
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +19,7 @@ class ModulesTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         getModules()
     }
@@ -39,8 +39,9 @@ class ModulesTableViewController: UITableViewController {
     }
     
     private func getModules() {
+        
         tableView.showLoadingIndicator()
-        modulePresenter.getModules { [weak self] modules in
+        modulesController.getModules { [weak self] modules in
             self?.modules = modules
             
             // These below is to test if the activity indicator is working
@@ -51,6 +52,7 @@ class ModulesTableViewController: UITableViewController {
                 
                 self?.tableView.reloadData()
             } else {
+                
                 self?.tableView.hideLoadingIndicator()
                 self?.tableView.setEmptyView(title: "No Modules Present", message: "")
             }
@@ -84,13 +86,5 @@ extension ModulesTableViewController {
         let recordsTableVC = RecordsTableViewController(module: module, isLookUp: false)
         let _ = UINavigationController(rootViewController: recordsTableVC)
         navigationController?.pushViewController(recordsTableVC, animated: true)
-    }
-}
-
-extension ModulesTableViewController: ModuleViewContract {
-    
-    func showModules(modules: [Module]) {
-        self.modules = modules
-        self.tableView.reloadData()
     }
 }

@@ -75,6 +75,10 @@ class FormTableViewCell: UITableViewCell {
         if textFieldBottom > keyboardHeight {
             
             superview?.frame.origin.y -= keyboardHeight
+            if let parentVC = self.next?.next as? UIViewController {
+                
+                parentVC.navigationController?.navigationBar.isHidden = true
+            }
         }
     }
 
@@ -82,6 +86,10 @@ class FormTableViewCell: UITableViewCell {
     @objc private func keyboardWillHide(_ notification: Notification) {
         // Move the view back down to its original position
         superview?.frame.origin.y = 0
+        if let parentVC = self.next?.next as? UIViewController {
+            
+            parentVC.navigationController?.navigationBar.isHidden = false
+        }
     }
     
     func configureLabel() {
@@ -189,28 +197,33 @@ class FormTableViewCell: UITableViewCell {
         formTextField.text = data as? String
         formTextField.isUserInteractionEnabled = isEditable
         self.isUserInteractionEnabled = isEditable
-        print(isUserInteractionEnabled)
+        
     }
+    
     
     // MARK: THIS SHOULD BE OVERRIDED IN EVERY TYPE CELL AND THERE IS NO NEED FOR (for Type) PARAMETER
     func getFieldData(for type: String) -> (String, Any?) {
         
-//        print(label.text)
         if isMandatory && formTextField.text == "" {
             configureInvalidLabel(with: "This field is Required")
             return (label.text!, "")
         }
         
         switch type {
+            
         case "String":
+            
             return (label.text!, formTextField.text)
         case "integer":
+            
             let value = Int(formTextField.text!)
             return (label.text!, value)
         case "double":
+            
             let value = Double(formTextField.text!)
             return (label.text!, value)
         default:
+            
             return (label.text!, formTextField.text)
         }
     }
