@@ -9,7 +9,7 @@ import UIKit
 
 class SplashViewController: UIViewController {
     
-    let logoImageView = UIImageView(image: UIImage(named: "LaunchScreen"))
+    let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
     private lazy var splitvc = UISplitViewController(style: .doubleColumn)
     
     var isUserLoggedIn: Bool {
@@ -58,11 +58,11 @@ class SplashViewController: UIViewController {
             
             presentSplitView()
         } else {
+            
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 let loginVC = LoginViewController()
                 loginVC.modalPresentationStyle = .fullScreen
                 self.present(loginVC, animated: true)
-//                self.splashViewPresenter?.naviagteToLogin()
             }
         }
     }

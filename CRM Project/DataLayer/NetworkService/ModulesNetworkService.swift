@@ -34,18 +34,4 @@ class ModulesNetworkService {
             completion(modules)
         }
     }
-        
-    
-    func getAllModulesFromDataBase(completion: @escaping ([[String: Any]]) -> Void ) {
-        
-        let result = Database.shared.select(tableName: tableName)
-        
-//        print(result?.count)
-        if let result = result {
-            completion(result)
-        } else {
-            print("result is nil")
-        }
-    }
-
 }

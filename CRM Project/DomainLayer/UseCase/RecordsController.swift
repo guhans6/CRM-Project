@@ -7,19 +7,28 @@
 
 import Foundation
 
-class RecordsController: RecordsControllerContract {
+class RecordsController {
     
     let recordsNetworkService = RecordsNetworkService()
     let recordsDataManager = RecordsDataManager()
     
     
-    func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
+    func addRecord(module: String,
+                   recordData: [String: Any?],
+                   isAUpdate: Bool,
+                   recordId: String?,
+                   isRecordSaved: @escaping (Bool) -> Void) {
         
-        recordsNetworkService.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId)
+        recordsNetworkService.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId) { result in
+            
+            isRecordSaved(result)
+        }
         
         switch module {
         case "Reservations":
-            BookingController().sendMailToCustomer(info: recordData)
+            
+            let bookingController = BookingController()
+            bookingController.sendMailToCustomer(info: recordData)
         default:
             print("other module network call")
         }

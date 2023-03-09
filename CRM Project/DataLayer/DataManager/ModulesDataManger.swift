@@ -9,7 +9,8 @@ import Foundation
 
 class ModulesDataManager {
     
-    let networkService = ModulesNetworkService()
+    private let networkService = ModulesNetworkService()
+    private let databaseService = ModulesDatabaseService()
     
     private let tableName = "Modules"
     private let moduleId = "id"
@@ -17,56 +18,53 @@ class ModulesDataManager {
     private let modulePluralName = "plural_label"
     private let moduleSingularName = "singular_label"
     
-    let sqliteText = " TEXT"
-    
     func getModules(completion: @escaping ([Module]) -> Void) -> Void {
         
-        var customModules = [Module]()
-        print(NetworkMonitor.shared.isConnected)
-        if NetworkMonitor.shared.isConnected {
+        
+        databaseService.getAllModulesFromDataBase { [weak self] modules in
+            var customModules = [Module]()
             
-            networkService.getModules { [weak self] modules in
+            print("from Database")
+            
+            modules.forEach { module in
                 
-                
-//                let modules = data["modules"] as! Array<Dictionary<String, Any>>
-                
-                modules.forEach { module in
-                    
-                    
-                    guard let generatedType = module["generated_type"] as? String else {
-                        print("Can't Parse module")
-                        return
-                    }
-                    
-                    // Only need custom modules
-                    if generatedType == "custom" {
-                        
-                        guard let convertedModule = self?.convertToModule(module: module) else {
-                            print("Error in converting module to struct")
-                            return
-                        }
-                        customModules.append(convertedModule)
-                    }
+                guard let convertedModule = self?.convertToModule(module: module) else {
+                    print("Error in converting module to struct")
+                    return
                 }
-                
-                completion(customModules)
-                self?.createModuleTable(modules: customModules)
+                customModules.append(convertedModule)
             }
             
-        } else {
-            
-            networkService.getAllModulesFromDataBase { [weak self] modules in
-                
-                print("from Database")
+            DispatchQueue.main.async {
+                completion(customModules)
+            }
+        }
         
-                modules.forEach { module in
+        networkService.getModules { [weak self] modules in
+            
+            var customModules = [Module]()
+            
+            modules.forEach { module in
                 
+                guard let generatedType = module["generated_type"] as? String else {
+                    print("Can't Parse module")
+                    return
+                }
+                
+                // Only need custom modules
+                if generatedType == "custom" {
+                    
                     guard let convertedModule = self?.convertToModule(module: module) else {
                         print("Error in converting module to struct")
                         return
                     }
+                    
                     customModules.append(convertedModule)
+                    self?.databaseService.insertModuleInTable(module: convertedModule)
                 }
+            }
+            
+            DispatchQueue.main.async {
                 completion(customModules)
             }
         }
@@ -83,27 +81,6 @@ class ModulesDataManager {
         }
         
         return Module(id: id,apiName: apiName, modulePluralName: pluralLabel, moduleSingularName: singularLabel)
-        
-    }
-    
-    func createModuleTable(modules: [Module]) {
-        
-//        let idColumn = "Module_id"
-        
-        for module in modules {
-            var moduleDictionary = [String: Any]()
-            
-            moduleDictionary[moduleId] = module.id
-            moduleDictionary[moduleApiName] = module.apiName
-            moduleDictionary[modulePluralName] = module.modulePluralName
-            moduleDictionary[moduleSingularName] = module.moduleSingularName
-            
-            if Database.shared.insert(tableName: "Modules", values: moduleDictionary) {
-                print("Modules added to db")
-            } else {
-                print("errr")
-            }
-        }
         
     }
 }

@@ -11,7 +11,7 @@ class UserNetworkService {
     
     let networkService = NetworkService()
 
-    func getUserDetails(completion: @escaping (User, Error?) -> Void) -> Void {
+    func getCurrentUser(completion: @escaping ([String: Any]?, Error?) -> Void) -> Void {
 
         let requestURLString = "crm/v3/users?type=CurrentUser"
         let method = HTTPMethod.GET
@@ -20,20 +20,10 @@ class UserNetworkService {
             
             if let error = error {
                 print(error.localizedDescription)
+                completion(nil, error)
                 return
             }
-
-            guard let resultData = resultData,
-                  let users = resultData["users"] as? [[String: Any]],
-                  let fullName = users[0]["full_name"] as? String,
-                  let email = users[0]["email"] as? String
-            else {
-                
-                print("User Detail Data Error")
-                return
-            }
-            
-            completion(User(fullName: fullName, email: email), nil)
+            completion(resultData, nil)
         }
         
     }

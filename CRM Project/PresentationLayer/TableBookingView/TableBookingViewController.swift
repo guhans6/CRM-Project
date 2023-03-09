@@ -10,16 +10,20 @@ import UIKit
 class TableBookingViewController: UIViewController {
     
     private let bookingViewController = BookingController()
-    private lazy var formVC = FormTableViewController(moduleApiName: "Reservations")
+    private let module = "Reservations"
+    private lazy var formVC = FormTableViewController(moduleApiName: module)
     
     private var tables = [[Table]]()
+    private var reservationIds = [String]()
     
     private lazy var noDataView = UIView()
     let label = UILabel()
-    private lazy var tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 0, height: 0) , style: .insetGrouped)
+    private lazy var tableView = UITableView(frame: .zero , style: .insetGrouped)
     
     private let datePickerView = DateAndTimeHeaderView()
-    private let myPickerVC = MyPickerViewController()
+    private let myPickerVC = PickerViewController()
+    
+    // MARK: MAKE IT A COMPUTED PROPERTY
     lazy var selectedDate: Date = Date()
     
     init() {
@@ -38,14 +42,7 @@ class TableBookingViewController: UIViewController {
         formVC.delegate = myPickerVC.self
         configureTableView()
         configureUI()
-        
-        
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-
-    }
-    
     
     private func configureUI() {
         
@@ -74,7 +71,7 @@ class TableBookingViewController: UIViewController {
         myPickerVC.showView(viewType: .dateView)
         
         present(myPickerVC, animated: true, completion: nil)
-
+        
     }
     
     @objc private func showTimePicker() {
@@ -98,14 +95,15 @@ class TableBookingViewController: UIViewController {
     private func configureTableView() {
         
         view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorColor = .tableViewSeperator
-        
         tableView.tableHeaderView = configureHeaderView()
-
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
+        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -114,36 +112,16 @@ class TableBookingViewController: UIViewController {
         ])
     }
     
-    private func configureNoDataView() {
-        
-        noDataView.frame = CGRect(x: self.tableView.center.x, y: self.tableView.center.y, width: self.tableView.bounds.size.width, height: self.tableView.bounds.size.height)
-        let titleLabel = UILabel()
-        titleLabel.textColor = UIColor.black
-        titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
-        noDataView.addSubview(label)
-        
-        titleLabel.centerYAnchor.constraint(equalTo: noDataView.centerYAnchor).isActive = true
-        titleLabel.centerXAnchor.constraint(equalTo: noDataView.centerXAnchor).isActive = true
-        label.text = "No tables available Add a new Table in Modules to continue"
-        label.sizeToFit()
-        self.tableView.backgroundView = noDataView
-        self.tableView.separatorStyle = .none
-        
-    }
-    
     private func getTablesFor(date: Date, time: String) {
         
-//        bookingViewPresenter.getTablesIn(date: date) { allTables in
-//            self.selectedDate = date
-//            self.tables = allTables
-//            self.tableView.reloadData()
-//        }
-//
-        bookingViewController.getAvailableTablesFor(date: date, time: "") { allTables in
-            self.selectedDate = date
-            self.tables = allTables
-            self.tableView.reloadData()
-        }
+        bookingViewController
+            .getAvailableTablesFor(date: date, time: time) { allTables, reservationIds in
+                
+                self.selectedDate = date
+                self.tables = allTables
+                self.reservationIds = reservationIds
+                self.tableView.reloadData()
+            }
     }
     
 }
@@ -155,7 +133,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        self.tables[section].count
+        //        self.tables[section].count
         
         let count = self.tables[section].count
         
@@ -168,15 +146,24 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         return count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-        cell.textLabel?.text = tables[indexPath.section][indexPath.row].name
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier, for: indexPath) as! LabelTableViewCell
+        
+        
+        let labelText = tables[indexPath.section][indexPath.row].name
+        cell.configureCellWith(text: labelText)
+        
+        if indexPath.section == 1 {
+            cell.accessoryType = .detailButton
+        }
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-      
+        
         if section == 0 {
             return "Available Tables"
         } else {
@@ -193,7 +180,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             return noDataView
             
         } else if section == 1 && tables[section].isEmpty {
-  
+            
             let noDataView = NoDataView()
             noDataView.setMessage("No Table is Booked Till Now")
             return noDataView
@@ -204,23 +191,19 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        let table = tables[0][indexPath.row]
         
         if indexPath.section == 0 {
-            
-            let table = tables[0][indexPath.row]
-            
             
             var record = [(String, Any)]()
             
             let dateFormat = "dd-MM-yyyy"
             let lastPickedDate = myPickerVC.getPickedDate()
             
-//            let dateString = dateFormatter.string(from: myPickerVC.getLastPickedDate())
             let dateString = DateFormatter.formattedString(from: lastPickedDate, format: dateFormat)
             
             let pickedTime = myPickerVC.getPickedTime()
             
-//            let bookingTable = table.id.appending(",").appending(table.name) 
             record.append(("Booking_Table", [table.id, table.name]))
             record.append(("Booking_Date", dateString))
             record.append(("Pick_List_1", pickedTime))
@@ -228,6 +211,19 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             formVC.setUpCellsForEditing(recordid: nil, recordData: record, recordState: .editAndUserInteractionDisabled)
             
             navigationController?.pushViewController(formVC, animated: true)
+            
+        } else if indexPath.section == 1 {
+
+            let reservationId = reservationIds[indexPath.row]
+            let recordInfoVC = RecordInfoTableViewController(recordModule: "Reservations",
+                                                             recordId: reservationId)
+            recordInfoVC.title = "Booking Details"
+            if let formSheet = recordInfoVC.sheetPresentationController {
+                formSheet.detents = [.medium(), .large()]
+//                formSheet.prefersGrabberVisible = true
+            }
+            
+            present(recordInfoVC, animated: true)
         }
     }
     
@@ -244,5 +240,6 @@ extension TableBookingViewController: PickerViewDelegate {
         self.datePickerView.dateDisplayButton.setTitle(dateString, for: .normal)
         self.datePickerView.timeDisplayButton.setTitle(time, for: .normal)
     }
-
+    
 }
+

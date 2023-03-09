@@ -57,7 +57,10 @@ class WebViewController: UIViewController {
     }
     
     @objc private func didPressXmarkButton() {
-        dismiss(animated: true)
+        
+        DispatchQueue.main.async {
+            self.dismiss(animated: true)
+        }
     }
     
 }

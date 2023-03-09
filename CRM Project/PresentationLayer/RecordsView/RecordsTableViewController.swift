@@ -20,16 +20,20 @@ class RecordsTableViewController: UITableViewController {
     
     // This init is for when module is availabe when called
     init(module: Module, isLookUp: Bool) {
+        
         self.module = module
         self.isLookUp = isLookUp
         super.init(nibName: nil, bundle: nil)
+        getRecords()
     }
     
     // in lookup 
     init(module: String, isLookup: Bool) {
+        
         self.moduleName = module
         self.isLookUp = isLookup
         super.init(nibName: nil, bundle: nil)
+        getRecords()
     }
     
     required init?(coder: NSCoder) {
@@ -56,7 +60,6 @@ class RecordsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getRecords()
     }
     
     private func configureNavigationBar() {
@@ -73,28 +76,31 @@ class RecordsTableViewController: UITableViewController {
         
         tableView.showLoadingIndicator()
         RecordsController().getAllRecordsFor(module: moduleApiName) { [weak self] records in
+            
             self?.records = records
             
-            if self?.records.count ?? 0 > 0 {
+            if records.count == 0 {
                 
-                self?.tableView.hideLoadingIndicator()
-                self?.tableView.reloadData()
-            } else {
-                self?.tableView.hideLoadingIndicator()
                 let title = "No \(self?.module?.moduleSingularName ?? "") record found"
                 self?.tableView.setEmptyView(title: title, message: "Add a new record")
+            } else {
+                
+                self?.tableView.reloadData()
             }
+            self?.tableView.hideLoadingIndicator()
         }
     }
     
     @objc private func addNewRecordButtonTapped() {
         
         var formViewController: FormTableViewController!
+        
         if let module {
             formViewController = FormTableViewController(module: module)
         } else if let moduleName {
             formViewController = FormTableViewController(moduleApiName: moduleName)
         }
+        
         navigationController?.pushViewController(formViewController, animated: true)
     }
 }

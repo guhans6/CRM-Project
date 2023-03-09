@@ -16,46 +16,87 @@ class RecordsDataManager {
     
     let recordsNetworkService = RecordsNetworkService()
     
-    func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
-        recordsNetworkService.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId)
+    func addRecord(module: String,
+                   recordData: [String: Any?],
+                   isAUpdate: Bool,
+                   recordId: String?,
+                   isRecordSaved: @escaping (Bool) -> Void ) -> Void {
+        
+        recordsNetworkService.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId) { isASuccess in
+            
+            DispatchQueue.main.async {
+                isRecordSaved(isASuccess)
+            }
+        }
     }
     
-    func getRecords(module: String, id: String?, completion: @escaping ([Record]) -> Void) -> Void {
-        var recordsArray = [Record]()
+    func getRecords(module: String,
+                    id: String?,
+                    completion: @escaping ([Record]) -> Void) -> Void {
         
-        if NetworkMonitor.shared.isConnected {
+        let databaseService = RecordsDatabaseService()
+        
+        databaseService.getAllRecordsFromDataBase(module: module) { [weak self] recordResult in
             
-            recordsNetworkService.getRecords(module: module, id: id) {[weak self] recordsResult in
+            var recordsArray = [Record]()
+            print("Records form db")
+            recordResult.forEach { record in
                 
-                
-                
-                recordsResult.forEach { record in
-                    
-                    let secondaryData = record["Email"] as? String ?? record["Owner"] as? String ?? ""
-                    
-                    let recordName = record["Name"] as! String
-                    let recordId = record["id"] as! String
-                    recordsArray.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId, owner: nil ,createdTime: nil, modifiedBy: nil, modifiedTime: nil ))
+                print(record)
+                guard let convertedRecord = self?.convertRecord(record: record) else {
+                    print("Error in converting record")
+                    return
                 }
-                completion(recordsArray)
-                self?.saveAllRecordsInDatabase(records: recordsArray, module: module)
-            }
-        } else {
-            recordsNetworkService.getAllRecordsFromDataBase(module: module) { [weak self] recordResult in
                 
-                print("Records form db")
-                recordResult.forEach { record in
+                recordsArray.append(convertedRecord)
+            }
+            
+            DispatchQueue.main.async {
+                completion(recordsArray)
+            }
+        }
+        
+        recordsNetworkService.getRecords(module: module, id: id) { recordsResult, error in
+            
+            var recordsArray = [Record]()
+            
+            if let error = error {
+                
+                if let networkError = error as? NetworkError, networkError == .emptyDataError {
                     
-                    print(record)
-                    guard let convertedRecord = self?.convertRecord(record: record) else {
-                        print("Error in converting record")
-                        return
+                    DispatchQueue.main.async {
+                        completion(recordsArray)
                     }
-                    
-                    recordsArray.append(convertedRecord)
+                } else {
+                    print(error.localizedDescription)
                 }
+                return
+            }
+            
+            guard let recordsResult = recordsResult else {
+                return
+            }
+            
+            recordsResult.forEach { record in
+                
+                let secondaryData = record["Email"] as? String ?? record["Owner"] as? String ?? ""
+                
+                guard let recordName = record["Name"] as? String,
+                      let recordId = record["id"] as? String
+                else {
+                    print("Invalid Record Info")
+                    return
+                }
+                
+                recordsArray.append(Record(recordName: recordName, secondaryRecordData: secondaryData, recordId: recordId, owner: nil ,createdTime: nil, modifiedBy: nil, modifiedTime: nil ))
+            }
+            
+            databaseService.saveAllRecordsInDatabase(records: recordsArray, moduleApiName: module)
+            
+            DispatchQueue.main.async {
                 completion(recordsArray)
             }
+            
         }
     }
     
@@ -108,7 +149,10 @@ class RecordsDataManager {
                     }
                 }
             }
-            completion(recordInfo)
+            
+            DispatchQueue.main.async {
+                completion(recordInfo)
+            }
         }
         
     }
@@ -125,16 +169,12 @@ class RecordsDataManager {
         /// Regex pattern to identify date
         let dateRegex = #"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$"#
         
-        
         if let _ = date.range(of: dateRegex, options: .regularExpression) {
             
-            //            print("Valid date string")
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             
             if let date = dateFormatter.date(from: date) {
-//                dateFormatter.dateFormat = "dd-MM-yyyy"
-//                let formattedDate = dateFormatter.string(from: date)
                 
                 let formattedDate = DateFormatter.formattedString(from: date, format: "dd-MM-yyyy")
                 
@@ -145,25 +185,5 @@ class RecordsDataManager {
             }
         }
         return date
-    }
-    
-    func saveAllRecordsInDatabase(records: [Record], module: String) {
-        
-        
-        for record in records {
-            
-            var recordDictionary = [String: Any]()
-            
-            recordDictionary[recordIdColumn] = record.recordId
-            recordDictionary[recordNameColumn] = record.recordName
-            recordDictionary[secondaryDataColumn] = record.secondaryRecordData
-            recordDictionary["module"] = module
-            
-            if Database.shared.insert(tableName: "Records", values: recordDictionary) {
-//                print("Records added to db")
-            } else {
-                print("errr inseting records")
-            }
-        }
     }
 }

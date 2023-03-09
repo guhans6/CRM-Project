@@ -21,7 +21,7 @@ class FormPresenter {
     
 }
 
-extension FormPresenter: FormPresenterContract {
+extension FormPresenter {
     
     func getFieldsfor(module: String, completion: @escaping ([Field]) -> Void) -> Void {
         fieldsContorller.getfields(module: module) { [weak self] fields in
@@ -40,13 +40,13 @@ extension FormPresenter: FormPresenterContract {
 //        }
     }
     
-    func saveRecord(module: String, records: [String: Any]) {
-        recordsController.addRecord(module: module, recordData: records, isAUpdate: false, recordId: nil)
-    }
-    
-    func updateRecord(module: String, records: [String: Any], recordId: String?) {
-        recordsController.addRecord(module: module, recordData: records, isAUpdate: true, recordId: recordId)
-    }
+//    func saveRecord(module: String, records: [String: Any]) {
+//        recordsController.addRecord(module: module, recordData: records, isAUpdate: false, recordId: nil)
+//    }
+//    
+//    func updateRecord(module: String, records: [String: Any], recordId: String?) {
+//        recordsController.addRecord(module: module, recordData: records, isAUpdate: true, recordId: recordId)
+//    }
     
     func showLookupRecord(module: String) {
         

@@ -28,9 +28,11 @@ class RecordInfoTableViewCell: UITableViewCell {
         contentView.addSubview(recordInfoNameLabel)
         recordInfoNameLabel.translatesAutoresizingMaskIntoConstraints = false
         recordInfoNameLabel.textAlignment = .left
-        recordInfoNameLabel.font = .preferredFont(forTextStyle: .body, compatibleWith: nil)
+        recordInfoNameLabel.font = .preferredFont(forTextStyle: .body)
+        recordInfoNameLabel.numberOfLines = 0
         
         NSLayoutConstraint.activate([
+            
             recordInfoNameLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             recordInfoNameLabel.centerYAnchor.constraint(lessThanOrEqualTo: contentView.centerYAnchor),
             recordInfoNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5)
@@ -40,21 +42,24 @@ class RecordInfoTableViewCell: UITableViewCell {
     private func configureRecordDataLabel() {
         contentView.addSubview(recordDataLabel)
         recordDataLabel.translatesAutoresizingMaskIntoConstraints = false
-        recordDataLabel.font = .systemFont(ofSize: 15)
+        recordDataLabel.font = .systemFont(ofSize: 17)
+        recordDataLabel.numberOfLines = 0
         
         NSLayoutConstraint.activate([
-            recordDataLabel
-                .leadingAnchor.constraint(equalTo: recordInfoNameLabel.trailingAnchor,constant: 20),
+//            recordDataLabel
+//                .leadingAnchor.constraint(equalTo: recordInfoNameLabel.trailingAnchor,constant: 20),
 
+            recordDataLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
             recordDataLabel
-                .centerYAnchor.constraint(lessThanOrEqualTo: contentView.centerYAnchor)
+                .centerYAnchor.constraint(lessThanOrEqualTo: contentView.centerYAnchor),
+            
+            recordDataLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
     
     func setUpRecordInfoCell(recordName: String, recordData: Any) {
+        
         self.recordInfoNameLabel.text = recordName
-        
-        
             
         if let recordData = recordData as? String {
             self.recordDataLabel.text = recordData

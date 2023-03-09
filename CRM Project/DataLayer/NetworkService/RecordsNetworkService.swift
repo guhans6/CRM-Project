@@ -15,7 +15,7 @@ class RecordsNetworkService {
     
     private let tableName = "Records"
     
-    func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?) {
+    func addRecord(module: String, recordData: [String: Any?], isAUpdate: Bool, recordId: String?, isSaved: @escaping(Bool) -> Void) -> Void {
         
         let urlRequestString = "crm/v3/\(module)"
         
@@ -37,12 +37,16 @@ class RecordsNetworkService {
         
         networService.performNetworkCall(url: urlRequestString, method: httpMethod, urlComponents: nil, parameters: parameters, headers: nil) { resultData, error in
             
+            if let _ = error {
+                isSaved(false)
+                return
+            }
             
-//            print(resultData)
+            isSaved(true)
         }
     }
     
-    func getRecords(module: String, id: String?, completion: @escaping ([[String: Any]]) -> Void) -> Void {
+    func getRecords(module: String, id: String?, completion: @escaping ([[String: Any]]?, Error?) -> Void) -> Void {
         
         var urlRequestString = "crm/v3/\(module)"
         
@@ -56,25 +60,20 @@ class RecordsNetworkService {
         
         networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in
             
+            if let error = error {
+                
+                completion(nil, error)
+                return
+            }
+            
             guard let data = data, let recordsResult = data["data"] as? [[String: Any]] else {
+                
                 print("get Records Data Error")
                 return
             }
 
-            completion(recordsResult)
-//            self.saveAllRecordsInDatabase(records: recordsArray)
+            completion(recordsResult, nil)
         }
-    }
-    
-    func getAllRecordsFromDataBase(module: String, completion: @escaping ([[String: Any]]) -> Void) -> Void {
-        
-        let result = Database.shared.select(tableName: tableName, whereClause: "module = '\(module)'")
-        
-        guard let result = result else {
-            print("No records in database")
-            return
-        }
-        completion(result)
     }
     
     func getIndividualRecord(module: String, id: String?,
@@ -99,8 +98,7 @@ class RecordsNetworkService {
             networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in
                 
                 if let error = error {
-                    print(error.localizedDescription)
-                    print("Individual get data Error")
+                    print(error.localizedDescription, "Individual get data Error")
                     return
                 }
                 

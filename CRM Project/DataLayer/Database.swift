@@ -100,7 +100,7 @@ class Database {
     func createTable(tableName: String, columns: [String]) -> Bool {
         let columnsStr = columns.joined(separator: ", ")
         let createQuery = "CREATE TABLE IF NOT EXISTS \(tableName) (\(columnsStr));"
-//        print(createQuery)
+        print(createQuery)
         return execute(query: createQuery)
     }
     
@@ -113,7 +113,7 @@ class Database {
             let insertQuery = "INSERT OR REPLACE INTO \(tableName) (\(columns)) VALUES (\(placeholders))"
             return execute(query: insertQuery, values: valuesArr)
         }
-        print("Empty values can't be inserted")
+//        print("Empty values can't be inserted")
         return false
     }
     
@@ -136,71 +136,76 @@ class Database {
     func select(tableName: String,
                 whereClause: String? = nil,
                 args: [Any]? = nil,
-                select: String = "*", addition: String = "") -> [[String: Any]]? {
+                select: String = "*",
+                addition: String = "",
+                completion: @escaping ([[String: Any]]?) -> Void ) -> Void {
         
-        var results: [[String: Any]]?
-        
-        let query = """
+        DispatchQueue.main.async { [weak self] in
+            var results: [[String: Any]]?
+            
+            let query = """
             SELECT \(select)
             FROM \(tableName)
             \(whereClause != nil ? "WHERE \(whereClause!)" : "")
             \(addition)
             """
-        var stmt: OpaquePointer?
-        if sqlite3_prepare_v2(dbPointer, query, -1, &stmt, nil) == SQLITE_OK {
-            if let args = args {
-                // Bind the parameters to the statement
-                for i in 0..<args.count {
-                    if let value = args[i] as? String {
-                        sqlite3_bind_text(stmt, Int32(i + 1), value, -1, nil)
-                    } else if let value = args[i] as? Int {
-                        sqlite3_bind_int(stmt, Int32(i + 1), Int32(value))
-                    } else if let value = args[i] as? Double {
-                        sqlite3_bind_double(stmt, Int32(i + 1), value)
-                    } else if args[i] is NSNull {
-                        sqlite3_bind_null(stmt, Int32(i + 1))
-                    } else {
-                        // Unsupported type
-                        sqlite3_finalize(stmt)
-                        return nil
+            var stmt: OpaquePointer?
+            if sqlite3_prepare_v2(self?.dbPointer, query, -1, &stmt, nil) == SQLITE_OK {
+                if let args = args {
+                    // Bind the parameters to the statement
+                    for i in 0..<args.count {
+                        if let value = args[i] as? String {
+                            sqlite3_bind_text(stmt, Int32(i + 1), value, -1, nil)
+                        } else if let value = args[i] as? Int {
+                            sqlite3_bind_int(stmt, Int32(i + 1), Int32(value))
+                        } else if let value = args[i] as? Double {
+                            sqlite3_bind_double(stmt, Int32(i + 1), value)
+                        } else if args[i] is NSNull {
+                            sqlite3_bind_null(stmt, Int32(i + 1))
+                        } else {
+                            // Unsupported type
+                            sqlite3_finalize(stmt)
+                            return
+                        }
                     }
                 }
+                
+                var rows = [[String: Any]]()
+                while sqlite3_step(stmt) == SQLITE_ROW {
+                    var row = [String: Any]()
+                    for i in 0..<sqlite3_column_count(stmt) {
+                        let name = String(cString: sqlite3_column_name(stmt, i))
+                        let type = sqlite3_column_type(stmt, i)
+                        let value: Any?
+                        switch type {
+                        case SQLITE_INTEGER:
+                            value = Int(sqlite3_column_int(stmt, i))
+                        case SQLITE_FLOAT:
+                            value = Double(sqlite3_column_double(stmt, i))
+                        case SQLITE_TEXT:
+                            let cString = sqlite3_column_text(stmt, i)
+                            value = String(cString: cString!)
+                        case SQLITE_BLOB:
+                            let data = sqlite3_column_blob(stmt, i)
+                            let size = Int(sqlite3_column_bytes(stmt, i))
+                            value = Data(bytes: data!, count: size)
+                        case SQLITE_NULL:
+                            value = nil
+                        default:
+                            // Unsupported type
+                            sqlite3_finalize(stmt)
+                            return
+                        }
+                        row[name] = value
+                    }
+                    rows.append(row)
+                }
+                results = rows
             }
             
-            var rows = [[String: Any]]()
-            while sqlite3_step(stmt) == SQLITE_ROW {
-                var row = [String: Any]()
-                for i in 0..<sqlite3_column_count(stmt) {
-                    let name = String(cString: sqlite3_column_name(stmt, i))
-                    let type = sqlite3_column_type(stmt, i)
-                    let value: Any?
-                    switch type {
-                    case SQLITE_INTEGER:
-                        value = Int(sqlite3_column_int(stmt, i))
-                    case SQLITE_FLOAT:
-                        value = Double(sqlite3_column_double(stmt, i))
-                    case SQLITE_TEXT:
-                        let cString = sqlite3_column_text(stmt, i)
-                        value = String(cString: cString!)
-                    case SQLITE_BLOB:
-                        let data = sqlite3_column_blob(stmt, i)
-                        let size = Int(sqlite3_column_bytes(stmt, i))
-                        value = Data(bytes: data!, count: size)
-                    case SQLITE_NULL:
-                        value = nil
-                    default:
-                        // Unsupported type
-                        sqlite3_finalize(stmt)
-                        return nil
-                    }
-                    row[name] = value
-                }
-                rows.append(row)
-            }
-            results = rows
+            sqlite3_finalize(stmt)
+            completion(results)
         }
-        
-        sqlite3_finalize(stmt)
-        return results
+//        return results
     }
 }

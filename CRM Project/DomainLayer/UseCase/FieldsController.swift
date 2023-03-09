@@ -13,7 +13,11 @@ class FieldsController {
     
     func getfields(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
         
-        fieldsDataManager.getfieldMetaData(module: module) { fields in
+//        fieldsDataManager.getfieldMetaData(module: module) { fields in
+//            completion(fields)
+//        }
+        
+        FieldsDataManager().getfieldMetaData(module: module) { fields in
             completion(fields)
         }
     }

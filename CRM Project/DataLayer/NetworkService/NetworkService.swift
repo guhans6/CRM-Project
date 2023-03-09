@@ -9,18 +9,12 @@ import Foundation
 
 /// This is for the type of error in network
 enum NetworkError: Error, Equatable {
+    
     case invalidURLError(String)
     case incorrectDataError(String)
     case invalidOauthTokenError(String)
     case emptyDataError
-    
-//    var description = {
-//        get {
-//            switch NetworkError {
-//            
-//            }
-//        }
-//    }
+
 }
 
 class NetworkService {
@@ -30,7 +24,7 @@ class NetworkService {
     private let userDefaults = UserDefaultsManager.shared
     
     private let zohoURLString = "https://accounts.zoho.com/"
-    private let zohoApiURLString = "https://www.zohoapis.com/"       //MARK: URL Components
+    private let zohoApiURLString = "https://www.zohoapis.com/"       //MARK: ALSO ADD CRM V3
     private let tokenRequestURLString = "oauth/v2/token"
     private let redirectURL = "https://guhans6.github.io/logIn-20611/"
     private let crmV3 = "crm/v3"
@@ -47,7 +41,7 @@ class NetworkService {
         keychainService.getClientSecret()
     }
     
-    func generateAccessToken(from url: URL?) throws {
+    func generateAccessToken(from url: URL?, completion: @escaping (Bool) -> Void) throws {
         
         let grantType = "authorization_code"
         
@@ -108,9 +102,11 @@ class NetworkService {
                 
                 UserDefaultsManager.shared.setLogIn(equalTo: true)
                 print("Login Success")
+                completion(true)
                 
             } catch let jsonError {
                 print("Error decoding JSON: \(jsonError)")
+                completion(false)
             }
         }
     }
@@ -193,15 +189,22 @@ class NetworkService {
         
         network.performDataTask(url: requestURL, method: method.rawValue, urlComponents: requestBodyComponents, parameters: parameters, headers: authHeader) { data, error  in
             
-            //            if let error = error {
-            //                print(error.localizedDescription)
-            //                return
-            //            }
-            
+            if let error = error {
+                
+                let nsError = error as NSError
+                
+                if nsError.userInfo["NSDebugDescription"] as! String == "Unable to parse empty data." {
+                    success(nil, NetworkError.emptyDataError)
+                    return
+                }
+                
+                success(nil, error)
+                return
+            }
             
             guard let data = data else {
+            
                 success(nil, NetworkError.emptyDataError)
-//                print("No data received , aaaa")
                 return
             }
             
@@ -210,9 +213,7 @@ class NetworkService {
                 self.performNetworkCall(url: url, method: method, urlComponents: urlComponents, parameters: parameters, headers: headers, success: success)
             } else {
                 
-                DispatchQueue.main.async {
-                    success(data, nil)
-                }
+                success(data, nil)
             }
         }
         

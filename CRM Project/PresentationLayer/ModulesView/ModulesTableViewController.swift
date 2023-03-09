@@ -34,7 +34,7 @@ class ModulesTableViewController: UITableViewController {
         
         tableView.separatorColor = .tableViewSeperator
         
-        tableView.register(ModuleTableViewCell.self, forCellReuseIdentifier: ModuleTableViewCell.moduleTableViewCellIdentifier)
+        tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
 
     }
     
@@ -73,9 +73,9 @@ extension ModulesTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ModuleTableViewCell.moduleTableViewCellIdentifier) as! ModuleTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
         let module = modules[indexPath.row]
-        cell.setUpModule(moduleName: module.modulePluralName)
+        cell.configureCellWith(text: module.modulePluralName)
         return cell
     }
     

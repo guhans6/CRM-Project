@@ -10,14 +10,13 @@ import Foundation
 
 class UserDetailController: UserDetailControllerContract {
 
-    let userDataManager = UserNetworkService()
+    let userDataManager = UserDataManager()
     
 
     func getUserDetails(completion: @escaping (User?) -> Void) -> Void {
-
-        userDataManager.getUserDetails { data, error in
-            completion(data)
-            // MARK: HANDLE ERROR
+        
+        userDataManager.getCurrentUserDetails { user in
+            completion(user)
         }
     }
 }

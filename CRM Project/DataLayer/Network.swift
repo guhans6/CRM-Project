@@ -78,23 +78,6 @@ class Network: NetworkContract {
         }
         
         let task = session.dataTask(with: request) { data, response, error in
-            
-//            guard let response = response as? HTTPURLResponse else {
-//                print("Error in response")
-//                //                print(response?.url)
-//                return
-//            }
-//
-//            guard (200 ... 299).contains(response.statusCode) else {
-//                print("Status Code: \(response.statusCode)")
-//                return
-//            }
-//
-//            if let error = error {
-//                print("\(error) ERROR")
-//                completion(nil, error)
-//                return
-//            }
 
             guard let data = data else {
                 print("Error in data")

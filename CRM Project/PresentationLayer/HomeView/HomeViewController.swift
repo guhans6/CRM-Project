@@ -41,6 +41,7 @@ class HomeViewController: UIViewController {
         getBookedTablesFor(date: Date())
         configureDatePicker()
         configureBookedTablesView()
+        NetworkController().generateAuthToken()
     }
     
     
@@ -99,11 +100,12 @@ extension HomeViewController {
     
     private func getBookedTablesFor(date: Date) {
         
-        BookingController().getAvailableTablesFor(date: date, time: nil) { [weak self] tables in
+        BookingController()
+            .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
             
             self?.bookedTablesView.showLoadingIndicator()
             self?.tables = tables[1]
-//            print(tables, self?.datePicker.date)
+
             if self?.tables.count ?? 0 > 0 {
                 
                 self?.bookedTablesView.hideLoadingIndicator()

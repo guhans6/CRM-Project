@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5300C47429A8DEA700706150 /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300C47329A8DEA700706150 /* NoDataView.swift */; };
-		5300C47629A8F51A00706150 /* DropDownButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300C47529A8F51A00706150 /* DropDownButton.swift */; };
 		531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531131BF29A79452006124AA /* RelatedListNetworkService.swift */; };
 		5311863F29A794B1004088DD /* RelatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311863E29A794B1004088DD /* RelatedList.swift */; };
 		5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */; };
@@ -16,15 +15,16 @@
 		5311864829A7A66A004088DD /* BookingNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864729A7A66A004088DD /* BookingNetworkService.swift */; };
 		5311864A29A7BBE8004088DD /* BookingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864929A7BBE8004088DD /* BookingController.swift */; };
 		5311864C29A884DF004088DD /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864B29A884DF004088DD /* Table.swift */; };
-		5311864F29A88796004088DD /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 5311864E29A88796004088DD /* OrderedCollections */; };
 		5311865129A8C551004088DD /* TableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311865029A8C551004088DD /* TableViewExtension.swift */; };
 		5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5CE29796B4900AF76DC /* WebViewController.swift */; };
 		5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D6297AB81E00AF76DC /* NetworkController.swift */; };
-		5318F5D9297ABE0D00AF76DC /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */; };
 		531B11122980E558000FAF02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531B11112980E558000FAF02 /* HomeViewController.swift */; };
 		5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */; };
 		534DE57B29B5B02A00C229BD /* ModulesDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */; };
 		534DE57D29B5B09200C229BD /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE57C29B5B09200C229BD /* DatabaseService.swift */; };
+		534DE58729B9B2DB00C229BD /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */; };
+		534DE59329BA57CC00C229BD /* RecordsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE59229BA57CC00C229BD /* RecordsDatabaseService.swift */; };
+		534DE59529BA59B700C229BD /* UserDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE59429BA59B700C229BD /* UserDatabaseService.swift */; };
 		5356AF0529A2886B00267943 /* DataManagerContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0429A2886B00267943 /* DataManagerContract.swift */; };
 		5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */; };
 		5356AF1029A332B800267943 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0F29A332B800267943 /* NetworkService.swift */; };
@@ -35,7 +35,6 @@
 		5356AF1B29A33A8100267943 /* FieldsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1A29A33A8100267943 /* FieldsController.swift */; };
 		5356AF1F29A340D400267943 /* ModulesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1E29A340D400267943 /* ModulesController.swift */; };
 		5356AF2329A348D500267943 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2229A348D500267943 /* WebViewPresenter.swift */; };
-		5356AF2529A35F2000267943 /* LookupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2429A35F2000267943 /* LookupTableViewController.swift */; };
 		5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2829A3683600267943 /* CustomRecordField.swift */; };
 		5362F76729AA342C00DA5F44 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76529AA342C00DA5F44 /* MenuVC.swift */; };
 		536AD437299E21FA00801158 /* UserDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD436299E21FA00801158 /* UserDetailController.swift */; };
@@ -44,7 +43,7 @@
 		536AD440299E600200801158 /* FormViewContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD43F299E600200801158 /* FormViewContract.swift */; };
 		5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5375155B2980436A004B00E7 /* UserDefaultsManager.swift */; };
 		537B607E29962C3B00ACA883 /* ModulesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B607D29962C3B00ACA883 /* ModulesTableViewController.swift */; };
-		537B608029962C7E00ACA883 /* ModuleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B607F29962C7E00ACA883 /* ModuleTableViewCell.swift */; };
+		537B608029962C7E00ACA883 /* LabelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B607F29962C7E00ACA883 /* LabelTableViewCell.swift */; };
 		537B6084299637DA00ACA883 /* json.json in Resources */ = {isa = PBXBuildFile; fileRef = 537B6083299637DA00ACA883 /* json.json */; };
 		537B608629963F8200ACA883 /* Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B608529963F8200ACA883 /* Module.swift */; };
 		537B60892996694700ACA883 /* RecordsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537B60882996694700ACA883 /* RecordsTableViewController.swift */; };
@@ -73,8 +72,6 @@
 		53E9094329B11DAF00452748 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093D29B11DAF00452748 /* UserDataManager.swift */; };
 		53E9094429B11DAF00452748 /* ModulesDataManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093E29B11DAF00452748 /* ModulesDataManger.swift */; };
 		53E9094529B11DAF00452748 /* FieldsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093F29B11DAF00452748 /* FieldsDataManager.swift */; };
-		53E9094629B11DAF00452748 /* UserInfoDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9094029B11DAF00452748 /* UserInfoDataManager.swift */; };
-		53E9094729B11DAF00452748 /* NetworkDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9094129B11DAF00452748 /* NetworkDataManager.swift */; };
 		53E9094829B11DAF00452748 /* RecordsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9094229B11DAF00452748 /* RecordsDataManager.swift */; };
 		53EC9A48298261430056C300 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9A47298261430056C300 /* SplashViewController.swift */; };
 		53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */; };
@@ -99,7 +96,6 @@
 
 /* Begin PBXFileReference section */
 		5300C47329A8DEA700706150 /* NoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
-		5300C47529A8F51A00706150 /* DropDownButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownButton.swift; sourceTree = "<group>"; };
 		531131BF29A79452006124AA /* RelatedListNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedListNetworkService.swift; sourceTree = "<group>"; };
 		5311863E29A794B1004088DD /* RelatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedList.swift; sourceTree = "<group>"; };
 		5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimeHeaderView.swift; sourceTree = "<group>"; };
@@ -110,11 +106,13 @@
 		5311865029A8C551004088DD /* TableViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewExtension.swift; sourceTree = "<group>"; };
 		5318F5CE29796B4900AF76DC /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		5318F5D6297AB81E00AF76DC /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
-		5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseController.swift; sourceTree = "<group>"; };
 		531B11112980E558000FAF02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesDatabaseService.swift; sourceTree = "<group>"; };
 		534DE57C29B5B09200C229BD /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
+		534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
+		534DE59229BA57CC00C229BD /* RecordsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsDatabaseService.swift; sourceTree = "<group>"; };
+		534DE59429BA59B700C229BD /* UserDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabaseService.swift; sourceTree = "<group>"; };
 		5356AF0429A2886B00267943 /* DataManagerContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerContract.swift; sourceTree = "<group>"; };
 		5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsNetworkService.swift; sourceTree = "<group>"; };
 		5356AF0F29A332B800267943 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -125,7 +123,6 @@
 		5356AF1A29A33A8100267943 /* FieldsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldsController.swift; sourceTree = "<group>"; };
 		5356AF1E29A340D400267943 /* ModulesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesController.swift; sourceTree = "<group>"; };
 		5356AF2229A348D500267943 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
-		5356AF2429A35F2000267943 /* LookupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupTableViewController.swift; sourceTree = "<group>"; };
 		5356AF2829A3683600267943 /* CustomRecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecordField.swift; sourceTree = "<group>"; };
 		5362F76529AA342C00DA5F44 /* MenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
 		536AD436299E21FA00801158 /* UserDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailController.swift; sourceTree = "<group>"; };
@@ -134,7 +131,7 @@
 		536AD43F299E600200801158 /* FormViewContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewContract.swift; sourceTree = "<group>"; };
 		5375155B2980436A004B00E7 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		537B607D29962C3B00ACA883 /* ModulesTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesTableViewController.swift; sourceTree = "<group>"; };
-		537B607F29962C7E00ACA883 /* ModuleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleTableViewCell.swift; sourceTree = "<group>"; };
+		537B607F29962C7E00ACA883 /* LabelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelTableViewCell.swift; sourceTree = "<group>"; };
 		537B6083299637DA00ACA883 /* json.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = json.json; sourceTree = "<group>"; };
 		537B608529963F8200ACA883 /* Module.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Module.swift; sourceTree = "<group>"; };
 		537B60882996694700ACA883 /* RecordsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsTableViewController.swift; sourceTree = "<group>"; };
@@ -165,8 +162,6 @@
 		53E9093D29B11DAF00452748 /* UserDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		53E9093E29B11DAF00452748 /* ModulesDataManger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModulesDataManger.swift; sourceTree = "<group>"; };
 		53E9093F29B11DAF00452748 /* FieldsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldsDataManager.swift; sourceTree = "<group>"; };
-		53E9094029B11DAF00452748 /* UserInfoDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfoDataManager.swift; sourceTree = "<group>"; };
-		53E9094129B11DAF00452748 /* NetworkDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkDataManager.swift; sourceTree = "<group>"; };
 		53E9094229B11DAF00452748 /* RecordsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordsDataManager.swift; sourceTree = "<group>"; };
 		53EC9A47298261430056C300 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiSelectTableViewController.swift; path = "CRM Project/PresentationLayer/MultiSelectTableViewController.swift"; sourceTree = SOURCE_ROOT; };
@@ -194,7 +189,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5311864F29A88796004088DD /* OrderedCollections in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,7 +211,6 @@
 				536AD43C299E58F300801158 /* UseCaseContract */,
 				53E749F8299A0326000EE176 /* UseCase */,
 				53EF7B0D29928CFD000B1FA1 /* Entities */,
-				5318F5D8297ABE0D00AF76DC /* DatabaseController.swift */,
 			);
 			path = DomainLayer;
 			sourceTree = "<group>";
@@ -261,8 +254,10 @@
 		534DE57929B5B00100C229BD /* DataBaseService */ = {
 			isa = PBXGroup;
 			children = (
-				534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */,
 				534DE57C29B5B09200C229BD /* DatabaseService.swift */,
+				534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */,
+				534DE59429BA59B700C229BD /* UserDatabaseService.swift */,
+				534DE59229BA57CC00C229BD /* RecordsDatabaseService.swift */,
 			);
 			path = DataBaseService;
 			sourceTree = "<group>";
@@ -310,7 +305,7 @@
 			isa = PBXGroup;
 			children = (
 				537B607D29962C3B00ACA883 /* ModulesTableViewController.swift */,
-				537B607F29962C7E00ACA883 /* ModuleTableViewCell.swift */,
+				537B607F29962C7E00ACA883 /* LabelTableViewCell.swift */,
 			);
 			path = ModulesView;
 			sourceTree = "<group>";
@@ -357,8 +352,8 @@
 				53D273232977D20F001718BD /* SceneDelegate.swift */,
 				5318F5D3297A851000AF76DC /* PresentationLayer */,
 				5311865029A8C551004088DD /* TableViewExtension.swift */,
+				534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */,
 				5300C47329A8DEA700706150 /* NoDataView.swift */,
-				5300C47529A8F51A00706150 /* DropDownButton.swift */,
 				5318F5D0297A84D900AF76DC /* DomainLayer */,
 				5318F5D2297A84F500AF76DC /* DataLayer */,
 				53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */,
@@ -390,7 +385,6 @@
 		53E749F9299A6348000EE176 /* LookupTableView */ = {
 			isa = PBXGroup;
 			children = (
-				5356AF2429A35F2000267943 /* LookupTableViewController.swift */,
 				53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */,
 			);
 			path = LookupTableView;
@@ -402,9 +396,7 @@
 				53E9093E29B11DAF00452748 /* ModulesDataManger.swift */,
 				53E9094229B11DAF00452748 /* RecordsDataManager.swift */,
 				53E9093F29B11DAF00452748 /* FieldsDataManager.swift */,
-				53E9094129B11DAF00452748 /* NetworkDataManager.swift */,
 				53E9093D29B11DAF00452748 /* UserDataManager.swift */,
-				53E9094029B11DAF00452748 /* UserInfoDataManager.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -497,7 +489,6 @@
 			);
 			name = "CRM C";
 			packageProductDependencies = (
-				5311864E29A88796004088DD /* OrderedCollections */,
 			);
 			productName = "CRM Project";
 			productReference = 53D2731E2977D20F001718BD /* Hotel Hub.app */;
@@ -562,20 +553,20 @@
 			files = (
 				537B60892996694700ACA883 /* RecordsTableViewController.swift in Sources */,
 				53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */,
+				534DE58729B9B2DB00C229BD /* DateFormatterExtension.swift in Sources */,
 				53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */,
 				53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */,
 				53EEAEFC29A5402D00403541 /* PickListTableViewCell.swift in Sources */,
 				53F3BB3B299FC85A0054E08B /* LookupViewContract.swift in Sources */,
-				5356AF2529A35F2000267943 /* LookupTableViewController.swift in Sources */,
 				537B60932997933A00ACA883 /* UserType.swift in Sources */,
 				531B11122980E558000FAF02 /* HomeViewController.swift in Sources */,
 				5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */,
 				53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */,
-				53E9094729B11DAF00452748 /* NetworkDataManager.swift in Sources */,
 				53A696DE297C6D310029F92E /* Network.swift in Sources */,
 				536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
 				5311864A29A7BBE8004088DD /* BookingController.swift in Sources */,
+				534DE59329BA57CC00C229BD /* RecordsDatabaseService.swift in Sources */,
 				53F3BB39299F622E0054E08B /* RecordInfoViewContract.swift in Sources */,
 				537B608629963F8200ACA883 /* Module.swift in Sources */,
 				53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */,
@@ -588,7 +579,6 @@
 				536AD439299E3EF400801158 /* RecordsController.swift in Sources */,
 				53964859299B804000781CE4 /* RecordInfoTableViewController.swift in Sources */,
 				537B608F29969BDE00ACA883 /* Record.swift in Sources */,
-				53E9094629B11DAF00452748 /* UserInfoDataManager.swift in Sources */,
 				5356AF1929A3397100267943 /* FieldsNetworkService.swift in Sources */,
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
 				53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */,
@@ -598,8 +588,7 @@
 				53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */,
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
 				5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */,
-				537B608029962C7E00ACA883 /* ModuleTableViewCell.swift in Sources */,
-				5300C47629A8F51A00706150 /* DropDownButton.swift in Sources */,
+				537B608029962C7E00ACA883 /* LabelTableViewCell.swift in Sources */,
 				531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */,
 				53E9094329B11DAF00452748 /* UserDataManager.swift in Sources */,
 				5356AF1529A3382100267943 /* ModulesNetworkService.swift in Sources */,
@@ -633,9 +622,9 @@
 				53F43A6D299ADABB002528BE /* RecordTableViewDelegate.swift in Sources */,
 				53D273242977D20F001718BD /* SceneDelegate.swift in Sources */,
 				5300C47429A8DEA700706150 /* NoDataView.swift in Sources */,
-				5318F5D9297ABE0D00AF76DC /* DatabaseController.swift in Sources */,
 				536AD437299E21FA00801158 /* UserDetailController.swift in Sources */,
 				5311863F29A794B1004088DD /* RelatedList.swift in Sources */,
+				534DE59529BA59B700C229BD /* UserDatabaseService.swift in Sources */,
 				53964864299BEFB500781CE4 /* RecordInfoTableViewCell.swift in Sources */,
 				53EF7B0C299251F9000B1FA1 /* FormPresenter.swift in Sources */,
 				53E9093829B069B900452748 /* Database.swift in Sources */,
@@ -771,6 +760,7 @@
 				DEVELOPMENT_TEAM = TPP3HP6WJ6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CRM Project/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -801,6 +791,7 @@
 				DEVELOPMENT_TEAM = TPP3HP6WJ6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CRM Project/Info.plist";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -854,14 +845,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		5311864E29A88796004088DD /* OrderedCollections */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5311864D29A88796004088DD /* XCRemoteSwiftPackageReference "swift-collections" */;
-			productName = OrderedCollections;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 53D273162977D20F001718BD /* Project object */;
 }

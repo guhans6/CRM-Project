@@ -27,6 +27,14 @@ class DoubleTableViewCell: FormTableViewCell {
         formTextField.keyboardType = .decimalPad
     }
     
+    override func setRecordData(for data: Any, isEditable: Bool = true) {
+        
+        if let data = data as? Double {
+            self.formTextField.text = String(data)
+        }
+        formTextField.isUserInteractionEnabled = isEditable
+    }
+    
     override func getFieldData(for type: String) -> (String, Any?) {
         
         let _ = super.getFieldData(for: type)

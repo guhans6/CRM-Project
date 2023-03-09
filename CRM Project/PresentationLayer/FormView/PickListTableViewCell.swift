@@ -15,6 +15,7 @@ class PickListTableViewCell: LookupTableViewCell {
     private var pickListValues = [String]()
     
     override func getFieldData(for type: String) -> (String, Any?) {
+        
         if !isMultiSelect {
             
             return ("", pickListValues.first)
@@ -26,8 +27,11 @@ class PickListTableViewCell: LookupTableViewCell {
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
         
         self.formTextField.text = data as? String
+        self.pickListValues = [self.formTextField.text!]
         self.isUserInteractionEnabled = isRecordEditing
     }
+    
+    
     
 }
 

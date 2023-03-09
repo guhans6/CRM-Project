@@ -11,7 +11,7 @@ class BookingNetworkService {
     
     let networkService = NetworkService()
     
-    func getBookedTablesfor(date: String, time: String?, completion: @escaping ([[Table]]) -> Void) -> Void {
+    func getBookedTablesfor(date: String, time: String?, completion: @escaping ([[Table]], [String]) -> Void) -> Void {
         
         let urlRequestString = "crm/v3/coql"
         let dispatchGroup = DispatchGroup()
@@ -27,6 +27,7 @@ class BookingNetworkService {
         ]
         
         var bookedTableIds = [String]()
+        var reservationIds = [String]()
         var allTables = [Table]()
         var bookedTables = [Table]()
         var availabeTables = [Table]()
@@ -48,12 +49,14 @@ class BookingNetworkService {
                let data = data["data"] as? [[String: Any]] {
                 
                 data.forEach { table in
-                    guard let bookingTableId = table["Booking_Table.id"] as? String else {
+                    guard let bookingTableId = table["Booking_Table.id"] as? String,
+                          let reservationId = table["id"] as? String else {
                         
                         print("Booking_Table.id not present")
                         return
                     }
                     bookedTableIds.append(bookingTableId)
+                    reservationIds.append(reservationId)
                 }
                 dispatchGroup.leave()
             }
@@ -67,7 +70,7 @@ class BookingNetworkService {
             
             if bookedTableIds.isEmpty {
                 
-                completion([allTables, [Table]()])
+                completion([allTables, bookedTables], reservationIds)
                 
                 
                 
@@ -80,8 +83,8 @@ class BookingNetworkService {
                     } else {
                         availabeTables.append(table)
                     }
-                    completion([availabeTables, bookedTables])
                 }
+                completion([availabeTables, bookedTables], reservationIds)
             }
         }
     }

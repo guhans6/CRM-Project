@@ -12,14 +12,15 @@ protocol PickerViewDelegate {
     func dateAndTime(date: Date, time: String)
 }
 
-class MyPickerViewController: UIViewController {
+class PickerViewController: UIViewController {
 
-    private let segmentedControl = UISegmentedControl()
     private let datePicker = UIDatePicker()
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
-    private let okayButton = UIButton()
+    private let doneButton = UIButton()
     var delegate: PickerViewDelegate?
-    private var timings = [String]()
+    
+    private var tableViewData = [String]()
+    
     private var lastPickedDate = Date()
     private var lastPickedTime = "Breakfast"
     
@@ -29,6 +30,7 @@ class MyPickerViewController: UIViewController {
     }
     
     init() {
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -42,7 +44,7 @@ class MyPickerViewController: UIViewController {
         
 //        configureSegmentedControl()
 //        configureDatePicker()
-        configureOkayButton()
+        configureDoneButton()
 //        configureTableView()
     }
     
@@ -62,18 +64,17 @@ class MyPickerViewController: UIViewController {
         print(viewType)
     }
     
-    private func configureOkayButton() {
+    private func configureDoneButton() {
         
-        view.addSubview(okayButton)
-        okayButton.translatesAutoresizingMaskIntoConstraints = false
-//        okayButton.backgroundColor = .red
-        okayButton.setTitle("Done", for: .normal)
-        okayButton.setTitleColor(.systemBlue, for: .normal)
-        okayButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
+        view.addSubview(doneButton)
+        doneButton.translatesAutoresizingMaskIntoConstraints = false
+        doneButton.setTitle("Done", for: .normal)
+        doneButton.setTitleColor(.systemBlue, for: .normal)
+        doneButton.addTarget(self, action: #selector(doneButtonTapped), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
-            okayButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
-            okayButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            doneButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
+            doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
 
         ])
         
@@ -95,7 +96,7 @@ class MyPickerViewController: UIViewController {
         datePicker.datePickerMode = .date
         
         let today = Date()
-        datePicker.minimumDate = today
+//        datePicker.minimumDate = today
         
         let calendar = Calendar.current
         let nextWeek = calendar.date(byAdding: .day, value: 30, to: today)!
@@ -137,16 +138,16 @@ class MyPickerViewController: UIViewController {
     }
 }
 
-extension MyPickerViewController: UITableViewDelegate, UITableViewDataSource {
+extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        timings.count
+        tableViewData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        let timing = timings[indexPath.row]
+        let timing = tableViewData[indexPath.row]
         
         cell.textLabel?.text = timing
         let selectedView = UIView()
@@ -158,14 +159,14 @@ extension MyPickerViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let timing = timings[indexPath.row]
+        let timing = tableViewData[indexPath.row]
         
         self.lastPickedTime = timing
         doneButtonTapped()
     }
 }
 
-extension MyPickerViewController: FormTableViewDelegate {
+extension PickerViewController: FormTableViewDelegate {
     
     func sendFields(fields: [Field]) {
         
@@ -174,7 +175,7 @@ extension MyPickerViewController: FormTableViewDelegate {
                 
                 for index in 1 ..< field.pickListValues.count {
                     let pickListValue = field.pickListValues[index]
-                    timings.append((pickListValue.displayValue))
+                    tableViewData.append((pickListValue.displayValue))
                 }
                 tableView.reloadData()
                 break

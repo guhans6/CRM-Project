@@ -27,7 +27,10 @@ class NetworkController {
     func generateAccessToken(from url: URL?) {
         
         do {
-            try networkService.generateAccessToken(from: url)
+            try networkService.generateAccessToken(from: url, completion: { isASuccess in
+                
+                
+            })
         } catch {
             print(error)
         }

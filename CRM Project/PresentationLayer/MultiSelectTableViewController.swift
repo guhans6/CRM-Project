@@ -57,6 +57,7 @@ class MultiSelectTableViewController: UITableViewController {
             let pickListValue = pickListValues[indexPath.row]
             values.append(pickListValue.displayValue)
         }
+        
         delegate?.getPickListValues(isMultiSelect: isMultiSelect, pickListValue: values)
         navigationController?.popViewController(animated: true)
     }

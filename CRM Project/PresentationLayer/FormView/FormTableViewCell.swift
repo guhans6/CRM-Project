@@ -12,7 +12,6 @@ class FormTableViewCell: UITableViewCell {
     static let cellIdentifier = "formCell"
     let label = UILabel()
     lazy var formTextField = FormTextField()
-//    lazy var textField = FormTextField()
     lazy var lookupLabel = UILabel()
     lazy var switchButton = UISwitch()
     lazy var invalidLabel = UILabel()
@@ -26,8 +25,6 @@ class FormTableViewCell: UITableViewCell {
     
     var activeTextField: UITextField?
     var keyboardHeight: CGFloat = 0
-
-    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -35,8 +32,6 @@ class FormTableViewCell: UITableViewCell {
         configureLabel()
         configureCell()
         formTextField.delegate = self
-//        configureInvalidLabel()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -51,6 +46,7 @@ class FormTableViewCell: UITableViewCell {
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
+    
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
               let activeTextField = activeTextField
@@ -62,8 +58,9 @@ class FormTableViewCell: UITableViewCell {
         
         // Keyboard Height
         keyboardHeight = keyboardFrame.height
+        let keyboardTopY = keyboardFrame.origin.y - keyboardHeight
         
-        // The below is to found bounds of activeTextFields Rect according to it's superview
+        // The below is to find bounds of activeTextFields Rect according to it's superview
         let textFieldRect = activeTextField.convert(activeTextField.bounds, to: self.superview)
         
         // The below is to find the bottom position of textField in the rectangle
@@ -72,7 +69,7 @@ class FormTableViewCell: UITableViewCell {
         // So if the bottom is greater than keyboard's height it will move the view up
         // We are checking if it is Greater because y increase in the way down and x increases on right form (0, 0) on phone's top left
         
-        if textFieldBottom > keyboardHeight {
+        if textFieldBottom > keyboardTopY && superview?.frame.origin.y == 0 {
             
             superview?.frame.origin.y -= keyboardHeight
             if let parentVC = self.next?.next as? UIViewController {
@@ -146,9 +143,7 @@ class FormTableViewCell: UITableViewCell {
             invalidLabel.textAlignment = .left
             invalidLabel.text = message
             invalidLabel.textColor = .red
-            invalidLabel.font = .systemFont(ofSize: 15)
-            //        invalidLabel.backgroundColor = .
-            
+            invalidLabel.font = .systemFont(ofSize: 15)            
             
             NSLayoutConstraint.activate([
                 //            invalidLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor),
@@ -200,7 +195,6 @@ class FormTableViewCell: UITableViewCell {
         
     }
     
-    
     // MARK: THIS SHOULD BE OVERRIDED IN EVERY TYPE CELL AND THERE IS NO NEED FOR (for Type) PARAMETER
     func getFieldData(for type: String) -> (String, Any?) {
         
@@ -214,14 +208,6 @@ class FormTableViewCell: UITableViewCell {
         case "String":
             
             return (label.text!, formTextField.text)
-        case "integer":
-            
-            let value = Int(formTextField.text!)
-            return (label.text!, value)
-        case "double":
-            
-            let value = Double(formTextField.text!)
-            return (label.text!, value)
         default:
             
             return (label.text!, formTextField.text)

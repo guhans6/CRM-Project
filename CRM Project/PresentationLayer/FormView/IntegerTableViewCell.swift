@@ -26,4 +26,20 @@ class IntegerTableViewCell: FormTableViewCell {
         super.configureTextField()
         formTextField.keyboardType = .numberPad
     }
+    
+    override func setRecordData(for data: Any, isEditable: Bool = true) {
+        
+        if let data = data as? Int {
+            self.formTextField.text = String(data)
+        }
+        
+        formTextField.isUserInteractionEnabled = isEditable
+    }
+    
+    override func getFieldData(for type: String) -> (String, Any?) {
+        
+        let _ = super.getFieldData(for: type)
+        let value = Int(formTextField.text!)
+        return (label.text!, value)
+    }
 }

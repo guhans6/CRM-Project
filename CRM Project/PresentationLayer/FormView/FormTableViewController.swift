@@ -15,6 +15,7 @@ protocol FormTableViewDelegate {
 class FormTableViewController: UITableViewController {
     
     private let formPresenter = FormPresenter()
+    private let recordsController = RecordsController()
     private var fields = [Field]()
     private lazy var editableRecords = [(String, Any)]()
     private var module: Module?
@@ -38,7 +39,6 @@ class FormTableViewController: UITableViewController {
     
     init(module: Module) {
         self.module = module
-        //        self.isRecordEditing = isRecordEditing
         super.init(nibName: nil, bundle: nil)
         
         setUpController()
@@ -192,9 +192,17 @@ class FormTableViewController: UITableViewController {
         if shouldCancel { return }
         if editingRecordId != nil {
             
-            formPresenter.updateRecord(module: moduleApiName, records: data, recordId: editingRecordId)
+//            formPresenter.updateRecord(module: moduleApiName, records: data, recordId: editingRecordId)
+            
+            RecordsController().addRecord(module: moduleApiName, recordData: data, isAUpdate: true, recordId: editingRecordId) { result in
+                print("Result is \(result)")
+            }
         } else {
-            formPresenter.saveRecord(module: moduleApiName, records: data)
+//            formPresenter.saveRecord(module: moduleApiName, records: data)
+            
+            RecordsController().addRecord(module: moduleApiName, recordData: data, isAUpdate: false, recordId: nil) { result in
+                print("Result is \(result)")
+            }
         }
         navigationController?.popViewController(animated: true)
     }
@@ -342,8 +350,9 @@ extension FormTableViewController {
                 
             } else if let cell = cell as? DateTableViewCell {
                 
-                let myPickerVC = MyPickerViewController()
+                let myPickerVC = PickerViewController()
                 
+                myPickerVC.showView(viewType: .dateView)
                 myPickerVC.modalPresentationStyle = .pageSheet
                 myPickerVC.delegate  = cell.self
                 
@@ -363,6 +372,7 @@ extension FormTableViewController {
         
         let cell = gestureRecognizer.view as! PickListTableViewCell
         let location = gestureRecognizer.location(in: cell)
+        
         let field = fields[gestureRecognizer.row!]
         let pickList = field.pickListValues
         let pickListName = field.fieldLabel
@@ -372,25 +382,17 @@ extension FormTableViewController {
             
             let lookupTableVC = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickList, isMultiSelect: dataType == "picklist" ? false : true)
             lookupTableVC.delegate = cell.self
+            
             navigationController?.pushViewController(lookupTableVC, animated: true)
         }
-    }
-}
-
-
-extension FormTableViewController: FormViewContract {
-    
-    func displayFormWith(fields: [Field]) {
-        self.fields = fields
-        self.tableView.reloadData()
     }
 }
 
 extension FormTableViewController {
     
     // to make the form for edit view and fill up the fields
-    
-    func setUpCellsForEditing(recordid: String?, recordData: [(String, Any)], recordState: RecordState = .edit) -> Void {
+    func setUpCellsForEditing(recordid: String?, recordData: [(String, Any)],
+                              recordState: RecordState = .edit) -> Void {
         
         self.recordState = recordState
         self.editableRecords = recordData

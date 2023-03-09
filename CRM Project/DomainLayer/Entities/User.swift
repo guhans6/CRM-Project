@@ -9,10 +9,12 @@ import Foundation
 
 struct User {
     
+    let id: String
     let fullName: String
     let email: String
     
-    init(fullName: String, email: String) {
+    init(id: String, fullName: String, email: String) {
+        self.id = id
         self.fullName = fullName
         self.email = email
     }
