@@ -36,7 +36,7 @@ class RecordsController {
     
     func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void {
         
-        recordsDataManager.getRecords(module: module, id: nil) { records in
+        recordsDataManager.getRecords(module: module) { records in
             
             completion(records)
         }
@@ -44,11 +44,7 @@ class RecordsController {
     
     func getIndividualRecords(module: String, id: String?, completion: @escaping ([(String, Any)]) -> Void) -> Void {
         
-//        recordsNetworkService.getIndividualRecord(module: module, id: id) { recordInfo in
-//
-//
-//            completion(recordInfo)
-//        }
+
         recordsDataManager.getRecordById(module: module, id: id) { recordInfo in
             completion(recordInfo)
         }
@@ -81,7 +77,7 @@ class RecordsController {
     
     func deleteRecords(module: String, ids: [String], completion: @escaping ([Any]) -> Void) -> Void {
         
-        recordsNetworkService.deleteRecords(module: module, ids: ids) { data in
+        recordsDataManager.deleteRecords(module: module, ids: ids) { data in
             completion(data)
         }
     }

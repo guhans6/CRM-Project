@@ -36,7 +36,11 @@ class Database {
     
     private func openDatabase() {
         
-        if sqlite3_open(fileURL.path, &dbPointer) != SQLITE_OK {
+//        if sqlite3_open(fileURL.path, &dbPointer) != SQLITE_OK {
+        if (sqlite3_open_v2(fileURL.path(),
+                            &dbPointer,
+                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX,
+                            nil) != SQLITE_OK) {
             print("error opening database")
         } else {
             print("opened succesfully \(fileURL.absoluteURL)")
@@ -45,62 +49,67 @@ class Database {
     
     func execute(query: String, values: [Any] = []) -> Bool {
         var success = false
-        var db: OpaquePointer?
+            
+        var statement: OpaquePointer?
         
-        // Open the database
-        if sqlite3_open(fileURL.path, &db) == SQLITE_OK {
+        // Prepare the statement
+        if sqlite3_prepare_v2(dbPointer, query, -1, &statement, nil) == SQLITE_OK {
             
-            var statement: OpaquePointer?
-            
-            // Prepare the statement
-            if sqlite3_prepare_v2(db, query, -1, &statement, nil) == SQLITE_OK {
+            // Bind the values to the statement
+            for (index, value) in values.enumerated() {
+                let parameterIndex = Int32(index + 1)
                 
-                // Bind the values to the statement
-                for (index, value) in values.enumerated() {
-                    let parameterIndex = Int32(index + 1)
+                if let stringValue = value as? String {
                     
-                    if let stringValue = value as? String {
-//                        print(stringValue)
-                        sqlite3_bind_text(statement, parameterIndex, NSString(string: stringValue).utf8String, -1, nil)
-                    } else if let intValue = value as? Int {
-                        sqlite3_bind_int(statement, parameterIndex, Int32(intValue))
-                    } else if let doubleValue = value as? Double {
-                        sqlite3_bind_double(statement, parameterIndex, doubleValue)
-                    } else if let dataValue = value as? Data {
-                        sqlite3_bind_blob(statement, parameterIndex, (dataValue as NSData).bytes, Int32(dataValue.count), nil)
-                    } else if let boolValue = value as? Bool {
-                        let boolIntValue = boolValue ? 1 : 0
-                        sqlite3_bind_int(statement, parameterIndex, Int32(boolIntValue))
-                    } else {
-                        // Unsupported data type
-                        print("unspported data type")
-                        break
-                    }
+                    sqlite3_bind_text(statement, parameterIndex, NSString(string: stringValue).utf8String, -1, nil)
+                } else if let intValue = value as? Int {
+                    
+                    sqlite3_bind_int(statement, parameterIndex, Int32(intValue))
+                } else if let doubleValue = value as? Double {
+                    
+                    sqlite3_bind_double(statement, parameterIndex, doubleValue)
+                } else if let dataValue = value as? Data {
+                    
+                    sqlite3_bind_blob(statement, parameterIndex, (dataValue as NSData).bytes, Int32(dataValue.count), nil)
+                } else if let boolValue = value as? Bool {
+                    
+                    let boolIntValue = boolValue ? 1 : 0
+                    sqlite3_bind_int(statement, parameterIndex, Int32(boolIntValue))
+                } else {
+                    // Unsupported data type
+                    print("unspported data type")
+                    break
                 }
-                
-                // Execute the statement
-                if sqlite3_step(statement) == SQLITE_DONE {
-                    success = true
-                }
-            } else {
-                print(sqlite3_errmsg(db)!)
             }
             
-            // Finalize the statement
-            sqlite3_finalize(statement)
+            // Execute the statement
+            if sqlite3_step(statement) == SQLITE_DONE {
+                success = true
+            }
+        } else {
+            print(errorMsg)
+            
+            // Print the SQL statement
+            if let sqlStatement = sqlite3_expanded_sql(statement) {
+                print("SQL statement: \(String(cString: sqlStatement))")
+                sqlite3_free(sqlStatement)
+            }
         }
         
+        // Finalize the statement
+        sqlite3_finalize(statement)
+        
         // Close the database
-//        sqlite3_close(db)
+        //        sqlite3_close(db)
         
         return success
     }
 
     
     func createTable(tableName: String, columns: [String]) -> Bool {
+        
         let columnsStr = columns.joined(separator: ", ")
         let createQuery = "CREATE TABLE IF NOT EXISTS \(tableName) (\(columnsStr));"
-        print(createQuery)
         return execute(query: createQuery)
     }
     
@@ -113,7 +122,6 @@ class Database {
             let insertQuery = "INSERT OR REPLACE INTO \(tableName) (\(columns)) VALUES (\(placeholders))"
             return execute(query: insertQuery, values: valuesArr)
         }
-//        print("Empty values can't be inserted")
         return false
     }
     
@@ -124,12 +132,12 @@ class Database {
         if let whereArgs = whereArgs {
             valuesArr.append(contentsOf: whereArgs)
         }
-//        print(updateQuery)
         return execute(query: updateQuery, values: valuesArr)
     }
     
     func delete(tableName: String, whereClause: String, whereArgs: [Any]?) -> Bool {
         let deleteQuery = "DELETE FROM \(tableName) WHERE \(whereClause)"
+        
         return execute(query: deleteQuery, values: whereArgs ?? [Any]())
     }
     
@@ -137,15 +145,17 @@ class Database {
                 whereClause: String? = nil,
                 args: [Any]? = nil,
                 select: String = "*",
+                joins: String = "",
                 addition: String = "",
                 completion: @escaping ([[String: Any]]?) -> Void ) -> Void {
         
-        DispatchQueue.main.async { [weak self] in
+        DispatchQueue.global().async { [weak self] in
             var results: [[String: Any]]?
             
             let query = """
             SELECT \(select)
             FROM \(tableName)
+            \(joins)
             \(whereClause != nil ? "WHERE \(whereClause!)" : "")
             \(addition)
             """

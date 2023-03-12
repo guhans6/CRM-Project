@@ -33,22 +33,19 @@ class RecordsDatabaseService {
         }
     }
     
-    func saveAllRecordsInDatabase(records: [Record], moduleApiName: String) {
+    func saveRecordsInDatabase(record: Record, moduleApiName: String) {
         
-        for record in records {
+        
+        var recordDictionary = [String: Any]()
+        
+        recordDictionary[recordIdColumn] = record.recordId
+        recordDictionary[recordNameColumn] = record.recordName
+        recordDictionary[secondaryDataColumn] = record.secondaryRecordData
+        recordDictionary[recordModule] = moduleApiName
+        
+        if !database.insert(tableName: recordsTableName, values: recordDictionary) {
             
-            var recordDictionary = [String: Any]()
-            
-            recordDictionary[recordIdColumn] = record.recordId
-            recordDictionary[recordNameColumn] = record.recordName
-            recordDictionary[secondaryDataColumn] = record.secondaryRecordData
-            recordDictionary[recordModule] = moduleApiName
-            
-            if Database.shared.insert(tableName: "Records", values: recordDictionary) {
-                print("Records added to db")
-            } else {
-                print(Database.shared.errorMsg)
-            }
+            print(Database.shared.errorMsg)
         }
     }
     
@@ -56,14 +53,38 @@ class RecordsDatabaseService {
                                    completion: @escaping ([[String: Any]]) -> Void) -> Void
     {
         
-        Database.shared.select(tableName: recordsTableName,
-                               whereClause: "\(recordModule) = '\(module)'") { result in
+        database.select(tableName: recordsTableName,
+                               whereClause: "\(recordModule) = '\(module)'") {[weak self] result in
             
             guard let result = result else {
-                print("No records in database")
+                let errMsg = self?.database.errorMsg
+                print("Record DB fetch error \(errMsg ?? "")")
                 return
             }
             completion(result)
+        }
+    }
+    
+    func deleteRecordInDatabase(module: String, ids: [String]) {
+        
+        let whereClause = "\(recordIdColumn) = ? AND \(recordModule) = ?"
+        
+        ids.forEach { id in
+            let whereArgs = [id, module]
+            
+            if !database.delete(tableName: recordsTableName,
+                                       whereClause: whereClause, whereArgs: whereArgs) {
+                print(Database.shared.errorMsg)
+            }
+        }
+        
+    }
+    
+    func createIndividualRecordTable(tableName: String, columns: [String]) {
+        
+        if database.createTable(tableName: tableName, columns: columns) == false {
+
+            print(database.errorMsg)
         }
     }
 }

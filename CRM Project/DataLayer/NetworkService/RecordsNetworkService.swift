@@ -71,7 +71,7 @@ class RecordsNetworkService {
                 print("get Records Data Error")
                 return
             }
-
+            
             completion(recordsResult, nil)
         }
     }
@@ -89,29 +89,22 @@ class RecordsNetworkService {
         urlRequestString.append("/")
         urlRequestString.append(id)
         
-        if let cachedRecord = RecordsNetworkService.cache.object(forKey: urlRequestString as NSString),
-           let cachedRecord = cachedRecord as? [String: Any]  {
+        networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in
             
-            print("from cache") 
-            completion(cachedRecord)
-        } else {
-            networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in
-                
-                if let error = error {
-                    print(error.localizedDescription, "Individual get data Error")
-                    return
-                }
-                
-                // MARK: REPETION CHECK ABOVE FUNCTIONS
-                guard let data = data, let recordsResult = data["data"] as? [Any], let record = recordsResult[0] as? [String: Any] else {
-                    print("Individual get data Error")
-                    return
-                }
-                
-                RecordsNetworkService.cache.setObject(record as NSDictionary, forKey: urlRequestString as NSString)
-                completion(record)
+            if let error = error {
+                print(error.localizedDescription, "Individual get data Error")
+                return
             }
+            
+            // MARK: REPETION CHECK ABOVE FUNCTIONS
+            guard let data = data, let recordsResult = data["data"] as? [Any], let record = recordsResult[0] as? [String: Any] else {
+                print("Individual get data Error")
+                return
+            }
+            
+            completion(record)
         }
+        
     }
     
     
@@ -119,7 +112,7 @@ class RecordsNetworkService {
         var urlRequestString = "crm/v3/\(module)?ids="
         
         ids.forEach { id in
-//            urlRequestString = urlRequestString + id + ","
+            //            urlRequestString = urlRequestString + id + ","
             urlRequestString.append(id)
             urlRequestString.append(",")
         }

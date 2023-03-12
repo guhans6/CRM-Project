@@ -15,6 +15,7 @@ class ModulesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.showLoadingIndicator()
         configureModuleTableView()
     }
     
@@ -28,7 +29,6 @@ class ModulesTableViewController: UITableViewController {
         
         title = "Modules"
         
-        navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .edit)
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
         
@@ -40,21 +40,17 @@ class ModulesTableViewController: UITableViewController {
     
     private func getModules() {
         
-        tableView.showLoadingIndicator()
         modulesController.getModules { [weak self] modules in
             self?.modules = modules
+            self?.tableView.reloadData()
             
-            // These below is to test if the activity indicator is working
-//            sleep(4)
-//            self?.modules = [Module]()
-            
-            if self?.modules.count ?? 0 > 0 {
-                
-                self?.tableView.reloadData()
-            } else {
+            if modules.count == 0 {
                 
                 self?.tableView.hideLoadingIndicator()
                 self?.tableView.setEmptyView(title: "No Modules Present", message: "")
+            } else {
+                
+                self?.tableView.restore()
             }
             
         }

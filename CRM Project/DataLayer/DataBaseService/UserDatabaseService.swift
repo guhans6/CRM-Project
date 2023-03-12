@@ -43,4 +43,33 @@ class UserDatabaseService {
             print(Database.shared.errorMsg)
         }
     }
+    
+    func getUser(completion: @escaping (User) -> Void) {
+        
+        database.select(tableName: usersTableName) { [weak self] result in
+            
+            if let result = result,
+               result.count > 0 {
+                
+                if let user = self?.convertToUser(data: result[0]) {
+                    completion(user)
+                }
+            }
+        }
+    }
+    
+    func convertToUser(data: [String: Any]) -> User? {
+        
+        guard let userId = data[userdIdColumn] as? String,
+              let userFullName = data[userFullName] as? String,
+              let userEmail = data[userEmail] as? String  else
+        {
+            
+            print("Error in User parsing")
+            return nil
+        }
+        
+        let user = User(id: userId, fullName: userFullName, email: userEmail)
+        return user
+    }
 }

@@ -23,7 +23,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        window?.rootViewController = SplashViewController()
+        let splitVc  = SplashViewController()
+        let navVc = UINavigationController(rootViewController: splitVc)
+        window?.rootViewController = navVc
         window?.makeKeyAndVisible()
     }
     

@@ -31,6 +31,8 @@ class IntegerTableViewCell: FormTableViewCell {
         
         if let data = data as? Int {
             self.formTextField.text = String(data)
+        } else {
+            self.formTextField.text = data as? String
         }
         
         formTextField.isUserInteractionEnabled = isEditable

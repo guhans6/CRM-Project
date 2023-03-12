@@ -9,8 +9,14 @@ import UIKit
 
 class SplashViewController: UIViewController {
     
-    let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
+    private let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
     private lazy var splitvc = UISplitViewController(style: .doubleColumn)
+    
+    private lazy var menuViewController = MenuViewController()
+    private lazy var homeViewController = HomeViewController()
+    private lazy var loginViewController = LoginViewController()
+    
+    private var isMenuOpen = false
     
     var isUserLoggedIn: Bool {
         get {
@@ -29,6 +35,14 @@ class SplashViewController: UIViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if isMenuOpen {
+            menuButtonTapped()
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setUpViewController()
@@ -37,13 +51,14 @@ class SplashViewController: UIViewController {
     func configureUI() {
         view.backgroundColor = .systemBackground
         configureLogoView()
+        menuViewController.delegate = self
     }
     
     func configureLogoView() {
         view.addSubview(logoImageView)
+        
         logoImageView.translatesAutoresizingMaskIntoConstraints = false
         logoImageView.contentMode = .scaleAspectFit
-        //        logoImageView.image.rat
         
         NSLayoutConstraint.activate([
             logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -60,19 +75,17 @@ class SplashViewController: UIViewController {
         } else {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                let loginVC = LoginViewController()
-                loginVC.modalPresentationStyle = .fullScreen
-                self.present(loginVC, animated: true)
+
+                self.loginViewController.modalPresentationStyle = .fullScreen
+                self.present(self.loginViewController, animated: true)
             }
         }
     }
     
     private func presentSplitView() {
-
-        let menuViewController = MenuVC()
-        let homeViewController = HomeViewController()
         
         let navigationVC = UINavigationController(rootViewController: menuViewController)
+        let homeNavigationVC = UINavigationController(rootViewController: homeViewController)
         
         splitvc.modalPresentationStyle = .fullScreen
         
@@ -80,7 +93,6 @@ class SplashViewController: UIViewController {
         leftSwipeGesture.direction = .left
         
         menuViewController.view.addGestureRecognizer(leftSwipeGesture)
-//        menuViewController.navigationController?.navigationBar.addGestureRecognizer(leftSwipeGesture)
         
         if self.traitCollection.userInterfaceIdiom == .phone {
             
@@ -91,7 +103,7 @@ class SplashViewController: UIViewController {
         }
         
         splitvc.setViewController(navigationVC, for: .primary)
-        splitvc.setViewController(homeViewController, for: .secondary)
+        splitvc.setViewController(homeNavigationVC, for: .secondary)
         
         present(splitvc, animated: true)
     }
@@ -104,7 +116,41 @@ class SplashViewController: UIViewController {
     @objc private func didTapCloseButton() {
         
         splitvc.show(.secondary)
+        isMenuOpen = false
     }
     
     
+}
+
+extension SplashViewController: MenuViewDelegate {
+    
+    
+    func didSelectRow(row: Int, title: String) {
+        
+        isMenuOpen = true
+        
+        switch title {
+        case "Modules":
+            
+            let moduleTableVC = ModulesTableViewController()
+            
+            moduleTableVC.modalPresentationStyle = .fullScreen
+            
+            homeViewController.navigationController?.pushViewController(moduleTableVC, animated: true)
+            didTapCloseButton()
+            
+        case "Table Booking":
+            
+            let tableBookingVC = TableBookingViewController()
+            
+            homeViewController.navigationController?.pushViewController(tableBookingVC, animated: true)
+            didTapCloseButton()
+        case "Generate Auth Token":
+            
+            NetworkController().generateAuthToken()
+        default :
+            
+            print("No Options Selected")
+        }
+    }
 }

@@ -20,11 +20,25 @@ class ModulesDataManager {
     
     func getModules(completion: @escaping ([Module]) -> Void) -> Void {
         
+        getModulesFromDatabase { modules in
+            
+            DispatchQueue.main.async {
+                completion(modules)
+            }
+        }
+        
+        getModulesFromNetwork { modules in
+            
+            DispatchQueue.main.async {
+                completion(modules)
+            }
+        }
+    }
+    
+    private func getModulesFromDatabase(completion: @escaping ([Module]) -> Void ) {
         
         databaseService.getAllModulesFromDataBase { [weak self] modules in
             var customModules = [Module]()
-            
-            print("from Database")
             
             modules.forEach { module in
                 
@@ -35,14 +49,14 @@ class ModulesDataManager {
                 customModules.append(convertedModule)
             }
             
-            DispatchQueue.main.async {
-                completion(customModules)
-            }
+            completion(customModules)
         }
+    }
+    
+    private func getModulesFromNetwork(completion: @escaping ([Module]) -> Void) -> Void {
         
+        var customModules = [Module]()
         networkService.getModules { [weak self] modules in
-            
-            var customModules = [Module]()
             
             modules.forEach { module in
                 
@@ -64,9 +78,7 @@ class ModulesDataManager {
                 }
             }
             
-            DispatchQueue.main.async {
-                completion(customModules)
-            }
+            completion(customModules)
         }
     }
     

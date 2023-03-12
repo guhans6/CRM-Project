@@ -25,6 +25,8 @@
 		534DE58729B9B2DB00C229BD /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */; };
 		534DE59329BA57CC00C229BD /* RecordsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE59229BA57CC00C229BD /* RecordsDatabaseService.swift */; };
 		534DE59529BA59B700C229BD /* UserDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE59429BA59B700C229BD /* UserDatabaseService.swift */; };
+		534DE59B29BAF8D200C229BD /* FieldsDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE59A29BAF8D200C229BD /* FieldsDatabaseService.swift */; };
+		534DE59D29BC6D0600C229BD /* TableBookingDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE59C29BC6D0600C229BD /* TableBookingDataManager.swift */; };
 		5356AF0529A2886B00267943 /* DataManagerContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0429A2886B00267943 /* DataManagerContract.swift */; };
 		5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */; };
 		5356AF1029A332B800267943 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF0F29A332B800267943 /* NetworkService.swift */; };
@@ -36,7 +38,7 @@
 		5356AF1F29A340D400267943 /* ModulesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF1E29A340D400267943 /* ModulesController.swift */; };
 		5356AF2329A348D500267943 /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2229A348D500267943 /* WebViewPresenter.swift */; };
 		5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5356AF2829A3683600267943 /* CustomRecordField.swift */; };
-		5362F76729AA342C00DA5F44 /* MenuVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76529AA342C00DA5F44 /* MenuVC.swift */; };
+		5362F76729AA342C00DA5F44 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5362F76529AA342C00DA5F44 /* MenuViewController.swift */; };
 		536AD437299E21FA00801158 /* UserDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD436299E21FA00801158 /* UserDetailController.swift */; };
 		536AD439299E3EF400801158 /* RecordsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD438299E3EF400801158 /* RecordsController.swift */; };
 		536AD43E299E5BB100801158 /* UseCaseContact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536AD43D299E5BB100801158 /* UseCaseContact.swift */; };
@@ -113,6 +115,8 @@
 		534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		534DE59229BA57CC00C229BD /* RecordsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsDatabaseService.swift; sourceTree = "<group>"; };
 		534DE59429BA59B700C229BD /* UserDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDatabaseService.swift; sourceTree = "<group>"; };
+		534DE59A29BAF8D200C229BD /* FieldsDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldsDatabaseService.swift; sourceTree = "<group>"; };
+		534DE59C29BC6D0600C229BD /* TableBookingDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableBookingDataManager.swift; sourceTree = "<group>"; };
 		5356AF0429A2886B00267943 /* DataManagerContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagerContract.swift; sourceTree = "<group>"; };
 		5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsNetworkService.swift; sourceTree = "<group>"; };
 		5356AF0F29A332B800267943 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -124,7 +128,7 @@
 		5356AF1E29A340D400267943 /* ModulesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesController.swift; sourceTree = "<group>"; };
 		5356AF2229A348D500267943 /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		5356AF2829A3683600267943 /* CustomRecordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRecordField.swift; sourceTree = "<group>"; };
-		5362F76529AA342C00DA5F44 /* MenuVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuVC.swift; sourceTree = "<group>"; };
+		5362F76529AA342C00DA5F44 /* MenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		536AD436299E21FA00801158 /* UserDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailController.swift; sourceTree = "<group>"; };
 		536AD438299E3EF400801158 /* RecordsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsController.swift; sourceTree = "<group>"; };
 		536AD43D299E5BB100801158 /* UseCaseContact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseCaseContact.swift; sourceTree = "<group>"; };
@@ -256,6 +260,7 @@
 			children = (
 				534DE57C29B5B09200C229BD /* DatabaseService.swift */,
 				534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */,
+				534DE59A29BAF8D200C229BD /* FieldsDatabaseService.swift */,
 				534DE59429BA59B700C229BD /* UserDatabaseService.swift */,
 				534DE59229BA57CC00C229BD /* RecordsDatabaseService.swift */,
 			);
@@ -288,7 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				531B11112980E558000FAF02 /* HomeViewController.swift */,
-				5362F76529AA342C00DA5F44 /* MenuVC.swift */,
+				5362F76529AA342C00DA5F44 /* MenuViewController.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -397,6 +402,7 @@
 				53E9094229B11DAF00452748 /* RecordsDataManager.swift */,
 				53E9093F29B11DAF00452748 /* FieldsDataManager.swift */,
 				53E9093D29B11DAF00452748 /* UserDataManager.swift */,
+				534DE59C29BC6D0600C229BD /* TableBookingDataManager.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -567,6 +573,7 @@
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
 				5311864A29A7BBE8004088DD /* BookingController.swift in Sources */,
 				534DE59329BA57CC00C229BD /* RecordsDatabaseService.swift in Sources */,
+				534DE59D29BC6D0600C229BD /* TableBookingDataManager.swift in Sources */,
 				53F3BB39299F622E0054E08B /* RecordInfoViewContract.swift in Sources */,
 				537B608629963F8200ACA883 /* Module.swift in Sources */,
 				53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */,
@@ -586,6 +593,7 @@
 				534DE57B29B5B02A00C229BD /* ModulesDatabaseService.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */,
+				534DE59B29BAF8D200C229BD /* FieldsDatabaseService.swift in Sources */,
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
 				5356AF2929A3683600267943 /* CustomRecordField.swift in Sources */,
 				537B608029962C7E00ACA883 /* LabelTableViewCell.swift in Sources */,
@@ -605,7 +613,7 @@
 				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
 				5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */,
 				536AD440299E600200801158 /* FormViewContract.swift in Sources */,
-				5362F76729AA342C00DA5F44 /* MenuVC.swift in Sources */,
+				5362F76729AA342C00DA5F44 /* MenuViewController.swift in Sources */,
 				5311864429A796F1004088DD /* TableBookingViewController.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
 				5311864829A7A66A004088DD /* BookingNetworkService.swift in Sources */,

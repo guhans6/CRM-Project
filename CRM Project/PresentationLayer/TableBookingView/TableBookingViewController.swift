@@ -176,13 +176,13 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         if section == 0 && tables[section].isEmpty {
             
             let noDataView = NoDataView()
-            noDataView.setMessage("All tables are booked for this day !")
+            noDataView.setMessage("All tables are booked for the day !")
             return noDataView
             
         } else if section == 1 && tables[section].isEmpty {
             
             let noDataView = NoDataView()
-            noDataView.setMessage("No Table is Booked Till Now")
+            noDataView.setMessage("No Table is Booked for the Day")
             return noDataView
         }
         return nil
@@ -220,7 +220,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             recordInfoVC.title = "Booking Details"
             if let formSheet = recordInfoVC.sheetPresentationController {
                 formSheet.detents = [.medium(), .large()]
-//                formSheet.prefersGrabberVisible = true
+                formSheet.prefersGrabberVisible = true
             }
             
             present(recordInfoVC, animated: true)

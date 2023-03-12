@@ -40,12 +40,9 @@ class PickerViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray6
         
-//        configureSegmentedControl()
-//        configureDatePicker()
         configureDoneButton()
-//        configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +91,10 @@ class PickerViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.preferredDatePickerStyle = .wheels
         datePicker.datePickerMode = .date
+        datePicker.backgroundColor = .background
+        
+        datePicker.layer.cornerRadius = 20
+        datePicker.clipsToBounds = true
         
         let today = Date()
 //        datePicker.minimumDate = today
@@ -104,9 +105,9 @@ class PickerViewController: UIViewController {
         datePicker.maximumDate = nextWeek
         
         NSLayoutConstraint.activate([
-            datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
+            datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.7),
+            datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9)
         ])
     }
     
@@ -115,14 +116,16 @@ class PickerViewController: UIViewController {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorColor = .tableViewSeperator
-        tableView.backgroundColor = .systemBackground
-//        tableView.isHidden = true
+        tableView.backgroundColor = .systemGray6
+        tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
+        
+        view.bringSubviewToFront(doneButton)
         
         tableView.delegate = self
         tableView.dataSource = self
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor ,constant: 70),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -146,11 +149,14 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
+        
         let timing = tableViewData[indexPath.row]
         
-        cell.textLabel?.text = timing
+        cell.label.text = timing
         let selectedView = UIView()
+        
         selectedView.backgroundColor = .tableSelect
         cell.selectedBackgroundView = selectedView
         
@@ -164,6 +170,11 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
         self.lastPickedTime = timing
         doneButtonTapped()
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return "Pick a Time"
+    }
 }
 
 extension PickerViewController: FormTableViewDelegate {
@@ -171,15 +182,15 @@ extension PickerViewController: FormTableViewDelegate {
     func sendFields(fields: [Field]) {
         
         for field in fields {
-            if field.apiName == "Pick_List_1" {
+            if field.apiName == "Pick_List_1" && field.pickListValues.count > 0 {
                 
                 for index in 1 ..< field.pickListValues.count {
                     let pickListValue = field.pickListValues[index]
                     tableViewData.append((pickListValue.displayValue))
                 }
-                tableView.reloadData()
                 break
             }
         }
+        tableView.reloadData()
     }
 }

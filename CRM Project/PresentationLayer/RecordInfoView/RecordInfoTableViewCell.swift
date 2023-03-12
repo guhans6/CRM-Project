@@ -25,6 +25,7 @@ class RecordInfoTableViewCell: UITableViewCell {
     }
     
     private func configureRecordNameLabel() {
+        
         contentView.addSubview(recordInfoNameLabel)
         recordInfoNameLabel.translatesAutoresizingMaskIntoConstraints = false
         recordInfoNameLabel.textAlignment = .left
@@ -34,8 +35,8 @@ class RecordInfoTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             
             recordInfoNameLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            recordInfoNameLabel.centerYAnchor.constraint(lessThanOrEqualTo: contentView.centerYAnchor),
-            recordInfoNameLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.5)
+            recordInfoNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            recordInfoNameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
     }
     
@@ -46,8 +47,6 @@ class RecordInfoTableViewCell: UITableViewCell {
         recordDataLabel.numberOfLines = 0
         
         NSLayoutConstraint.activate([
-//            recordDataLabel
-//                .leadingAnchor.constraint(equalTo: recordInfoNameLabel.trailingAnchor,constant: 20),
 
             recordDataLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
             recordDataLabel
@@ -67,6 +66,12 @@ class RecordInfoTableViewCell: UITableViewCell {
         } else if let recordData = recordData as? [String] {
             
             self.recordDataLabel.text = recordData[1]
+        } else if let recordData = recordData as? Int {
+            
+            self.recordDataLabel.text = String(recordData)
+        } else if let recordData = recordData as? Double {
+            
+            self.recordDataLabel.text = String(recordData)
         }
             
     }

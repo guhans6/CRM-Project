@@ -10,14 +10,11 @@ import Foundation
 class BookingController {
     
     let bookingService = BookingNetworkService()
-    let networkService = NetworkService()
     lazy var fieldsController = FieldsController()
     
     func getAvailableTablesFor(date: Date, time: String?,
                                completion: @escaping ([[Table]], [String]) -> Void) {
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
         let formattedDate = DateFormatter.formattedString(from: date, format: "yyyy-MM-dd")
         
         bookingService.getBookedTablesfor(date: formattedDate,
@@ -29,6 +26,6 @@ class BookingController {
     
     func sendMailToCustomer(info: [String: Any?]) {
         
-        BookingNetworkService().sendConformationMail(recordInfo: info)
+        bookingService.sendConformationMail(recordInfo: info)
     }
 }

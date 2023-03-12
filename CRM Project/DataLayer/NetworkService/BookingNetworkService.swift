@@ -55,6 +55,7 @@ class BookingNetworkService {
                         print("Booking_Table.id not present")
                         return
                     }
+                    
                     bookedTableIds.append(bookingTableId)
                     reservationIds.append(reservationId)
                 }
@@ -117,7 +118,6 @@ class BookingNetworkService {
             
             data.forEach { datum in
                 
-                // self check
                 guard let table = self.convertTables(data: datum) else {
 
                     print("Can't convert tableDictionary")

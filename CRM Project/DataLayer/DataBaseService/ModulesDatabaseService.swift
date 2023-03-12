@@ -47,7 +47,6 @@ class ModulesDatabaseService {
     
     func insertModuleInTable(module: Module) {
         
-        
         var moduleDictionary = [String: Any]()
         
         moduleDictionary[moduleId] = module.id
@@ -55,10 +54,8 @@ class ModulesDatabaseService {
         moduleDictionary[modulePluralName] = module.modulePluralName
         moduleDictionary[moduleSingularName] = module.moduleSingularName
         
-        if Database.shared.insert(tableName: "Modules", values: moduleDictionary) {
-            print("Modules added to db")
-        } else {
-            print("Module can't be added")
+        if Database.shared.insert(tableName: "Modules", values: moduleDictionary) == false {
+            print(Database.shared.errorMsg)
         }
         
     }

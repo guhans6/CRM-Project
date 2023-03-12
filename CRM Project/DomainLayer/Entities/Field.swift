@@ -18,7 +18,6 @@ struct Field: Codable {
     let customField: Bool
     let displayLabel: String
     let multiModuleLookup: Lookup
-    let displayField: Bool
     let multiselectlookup: Lookup
     let apiName: String
     let jsonType: String
@@ -33,7 +32,6 @@ struct Field: Codable {
         case customField = "custom_field"
         case displayLabel = "display_label"
         case multiModuleLookup = "multi_module_lookup"
-        case displayField = "display_field"
         case multiselectlookup
         case apiName = "api_name"
         case jsonType = "json_type"
@@ -57,18 +55,18 @@ struct PickListValue: Codable {
 }
 
 struct Lookup: Codable {
-//    let displayLabel, apiName, id: String?
+    
     let module: FieldModule?
 
     enum CodingKeys: String, CodingKey {
-//        case displayLabel = "display_label"
-//        case apiName = "api_name"
         case module
     }
 }
 
 struct FieldModule: Codable {
-    let id, apiName: String
+    
+    let id: String
+    let apiName: String
 
     enum CodingKeys: String, CodingKey {
         case id

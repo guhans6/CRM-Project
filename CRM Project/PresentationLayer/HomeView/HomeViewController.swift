@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     private let cellIdentifier = "cell"
     
     private var tables = [Table]()
+    private let bookingController = BookingController()
     
     deinit {
         print("Login deinitialized")
@@ -32,6 +33,7 @@ class HomeViewController: UIViewController {
     
     
     override func viewWillAppear(_ animated: Bool) {
+        
         super.viewWillAppear(animated)
         navigationController?.navigationBar.prefersLargeTitles = true
     }
@@ -80,6 +82,7 @@ class HomeViewController: UIViewController {
         bookedTablesView.delegate = self
         bookedTablesView.dataSource = self
         bookedTablesView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
         bookedTablesView.backgroundColor = .background
         bookedTablesView.layer.cornerRadius = 10
@@ -100,7 +103,7 @@ extension HomeViewController {
     
     private func getBookedTablesFor(date: Date) {
         
-        BookingController()
+        bookingController
             .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
             
             self?.bookedTablesView.showLoadingIndicator()
@@ -137,14 +140,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)!
+        let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
         
         let table = tables[indexPath.row]
         
-        cell.textLabel?.text = table.name
+        cell.label.text = table.name
         return cell
     }
-    
-    
-    
 }

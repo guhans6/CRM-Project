@@ -114,13 +114,6 @@ class FormTableViewCell: UITableViewCell {
         formTextField.autocapitalizationType = .none
         formTextField.returnKeyType = .done
         
-        
-        
-        // MARK: BELOW IS USED TO SET CUSTOM BORDER
-//        textField.layer.borderColor = UIColor.systemGray6.withAlphaComponent(0.5).cgColor
-//        textField.layer.borderWidth = 2.0
-//        textField.backgroundColor = .systemGray6
-        
         NSLayoutConstraint.activate([
             formTextField.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
             formTextField.topAnchor.constraint(equalTo: contentView.topAnchor)

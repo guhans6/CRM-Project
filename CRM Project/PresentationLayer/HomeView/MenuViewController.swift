@@ -6,15 +6,23 @@
 
 import UIKit
 
-class MenuVC: UIViewController {
+protocol MenuViewDelegate: AnyObject {
     
-    let tableView = UITableView()
-    lazy var menuOptions = ["Table Booking", "Employee Management", "Modules", "Generate Auth Token"]
-    lazy var nameLabel = UILabel()
-    lazy var emailLabel = UILabel()
+    func didSelectRow(row: Int, title: String) -> Void
+}
+
+class MenuViewController: UIViewController {
     
-    let darkModeSwitch = UISwitch()
-    lazy var logoutButton = UIButton()
+    private let headerView = UIView()
+    private let tableView = UITableView()
+    private let userController = UserDetailController()
+    private lazy var menuOptions = ["Table Booking", "Employee Management", "Modules", "Generate Auth Token"]
+    private lazy var nameLabel = UILabel()
+    private lazy var emailLabel = UILabel()
+    weak var delegate: MenuViewDelegate?
+    
+    private let darkModeSwitch = UISwitch()
+    private lazy var logoutButton = UIButton()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -33,6 +41,7 @@ class MenuVC: UIViewController {
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        confiureTableHeaderView()
         configureTableView()
         configureLogoutButton()
     }
@@ -45,21 +54,29 @@ class MenuVC: UIViewController {
         tableView.dataSource = self
         tableView.backgroundColor = .systemGray6
         tableView.separatorColor = .tableViewSeperator
-        tableView.tableHeaderView = confiureTableHeaderView()
         
         NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             
         ])
     }
     
-    private func confiureTableHeaderView() -> UIView {
+    private func confiureTableHeaderView() {
         
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 90))
         headerView.backgroundColor = .tableSelect
+        view.addSubview(headerView)
+        
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+
+        NSLayoutConstraint.activate([
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 90),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        ])
         
         nameLabel.textAlignment = .center
         nameLabel.font = .systemFont(ofSize: 20, weight: .semibold)
@@ -70,7 +87,7 @@ class MenuVC: UIViewController {
         
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(greaterThanOrEqualTo: headerView.leadingAnchor, constant: 30),
+            nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 30),
             
         ])
         
@@ -86,8 +103,6 @@ class MenuVC: UIViewController {
             emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             emailLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
         ])
-        
-        return headerView
     }
     
     private func configureLogoutButton() {
@@ -113,12 +128,14 @@ class MenuVC: UIViewController {
     
     
     @objc private func logoutButtonTapped() {
+        
         UserDefaultsManager.shared.setLogIn(equalTo: false)
         dismiss(animated: true)
     }
+    
     private func getCurrentUser() {
         
-        UserDetailController().getUserDetails { currentUser in
+        userController.getUserDetails { currentUser in
             self.nameLabel.text = currentUser?.fullName
             self.emailLabel.text = currentUser?.email
             self.tableView.reloadData()
@@ -154,7 +171,7 @@ class MenuVC: UIViewController {
     }
 }
 
-extension MenuVC: UITableViewDelegate, UITableViewDataSource {
+extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menuOptions.count
@@ -173,29 +190,7 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let text = tableView.cellForRow(at: indexPath)?.textLabel?.text
-        
-
-        switch text {
-        case "Modules":
-        
-            let moduleTableVC = ModulesTableViewController()
-            let _ = UINavigationController(rootViewController: moduleTableVC)
-            
-            moduleTableVC.modalPresentationStyle = .fullScreen
-            
-            navigationController?.pushViewController(moduleTableVC, animated: true)
-            
-        case "Table Booking":
-            
-            let tableBookingVC = TableBookingViewController()
-            navigationController?.pushViewController(tableBookingVC, animated: true)
-        case "Generate Auth Token":
-            
-            NetworkController().generateAuthToken()
-        default :
-            
-            print("No Options Selected")
-        }
+        delegate?.didSelectRow(row: indexPath.row, title: text!)
         
     }
 }

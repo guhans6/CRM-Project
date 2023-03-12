@@ -87,8 +87,10 @@ class FormTableViewController: UITableViewController {
     private func setUpController() {
         
         if let module {
+            
             self.moduleApiName = module.apiName
         } else if let moduleName {
+            
             self.moduleApiName = moduleName
         }
     }
@@ -185,22 +187,17 @@ class FormTableViewController: UITableViewController {
                 data[field.apiName] = cellField.1
             }
         }
-        //        data.forEach { key, value in
-        //            print(key, value)
-        //        }
         
         if shouldCancel { return }
+        
         if editingRecordId != nil {
             
-//            formPresenter.updateRecord(module: moduleApiName, records: data, recordId: editingRecordId)
-            
-            RecordsController().addRecord(module: moduleApiName, recordData: data, isAUpdate: true, recordId: editingRecordId) { result in
+            recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: true, recordId: editingRecordId) { result in
                 print("Result is \(result)")
             }
         } else {
-//            formPresenter.saveRecord(module: moduleApiName, records: data)
             
-            RecordsController().addRecord(module: moduleApiName, recordData: data, isAUpdate: false, recordId: nil) { result in
+            recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: false, recordId: nil) { result in
                 print("Result is \(result)")
             }
         }
@@ -222,11 +219,6 @@ class FormTableViewController: UITableViewController {
         
         return true
     }
-    
-    func getField() -> [Field] {
-        
-        return self.fields
-    }
 }
 
 
@@ -240,6 +232,7 @@ extension FormTableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let field = fields[indexPath.row]
+        
         var cell: FormTableViewCell!
         let tapGesture = LookupTapGestureRecognizer(target: self, action: #selector(tapGesture(sender:)))
         
@@ -250,7 +243,7 @@ extension FormTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: LookupTableViewCell.lookupCellIdentifier) as! LookupTableViewCell
             cell?.setLookupName(lookupApiName: field.lookup.module!.apiName)
             cell?.addGestureRecognizer(tapGesture)
-//            print("lookup")
+
         case "email":
             
             cell = tableView.dequeueReusableCell(withIdentifier: EmailTableViewCell.emailCellIdentifier) as! EmailTableViewCell
@@ -291,8 +284,8 @@ extension FormTableViewController {
             
             cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
         }
-
-        cell?.setUpCellWith(fieldName: field.fieldLabel, isMandatory: field.isSystemMandatory)
+        
+        cell?.setUpCellWith(fieldName: field.displayLabel, isMandatory: field.isSystemMandatory)
         
         if recordState == .edit || recordState == .editAndUserInteractionDisabled {
             

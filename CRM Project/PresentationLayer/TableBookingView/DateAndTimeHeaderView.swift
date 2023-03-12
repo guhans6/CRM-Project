@@ -44,7 +44,7 @@ class DateAndTimeHeaderView: UIView {
         // Layout constraints for the label
         NSLayoutConstraint.activate([
 //            selectDateLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            selectDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            selectDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
             selectDateLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15)
         ])
     }
@@ -60,7 +60,7 @@ class DateAndTimeHeaderView: UIView {
         
         dateDisplayButton.setTitle(todayDate, for: .normal)
         dateDisplayButton.setTitleColor(.normalText, for: .normal)
-        dateDisplayButton.layer.cornerRadius = 10
+        dateDisplayButton.layer.cornerRadius = 7
         
         dateDisplayButton.backgroundColor = .tableSelect
         
@@ -68,7 +68,7 @@ class DateAndTimeHeaderView: UIView {
             dateDisplayButton.centerYAnchor.constraint(equalTo: selectDateLabel.centerYAnchor),
             dateDisplayButton.leadingAnchor.constraint(equalTo: selectDateLabel.trailingAnchor, constant: 30),
             dateDisplayButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
-            dateDisplayButton.heightAnchor.constraint(equalToConstant: 30),
+            dateDisplayButton.heightAnchor.constraint(equalToConstant: 40),
 //            dateDisplayButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
             
         ])
@@ -85,7 +85,7 @@ class DateAndTimeHeaderView: UIView {
         // Layout constraints for the label
         NSLayoutConstraint.activate([
             timeLabel.topAnchor.constraint(equalTo: selectDateLabel.bottomAnchor, constant: 30),
-            timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
+            timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
         ])
     }
     
@@ -97,7 +97,7 @@ class DateAndTimeHeaderView: UIView {
         
         timeDisplayButton.setTitle("Breakfast", for: .normal)
         timeDisplayButton.setTitleColor(.normalText, for: .normal)
-        timeDisplayButton.layer.cornerRadius = 10
+        timeDisplayButton.layer.cornerRadius = 7
         
         timeDisplayButton.backgroundColor = .tableSelect
         
@@ -105,7 +105,7 @@ class DateAndTimeHeaderView: UIView {
             timeDisplayButton.leadingAnchor.constraint(equalTo: dateDisplayButton.leadingAnchor),
             timeDisplayButton.centerYAnchor.constraint(equalTo: timeLabel.centerYAnchor),
             timeDisplayButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
-            timeDisplayButton.heightAnchor.constraint(equalToConstant: 30)
+            timeDisplayButton.heightAnchor.constraint(equalToConstant: 40)
             
         ])
     }

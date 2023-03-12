@@ -10,14 +10,19 @@ import Foundation
 class UserDataManager {
     
     private let userNetworkService = UserNetworkService()
+    private let databaseService = UserDatabaseService()
     
     func getCurrentUserDetails(completion: @escaping (User) -> Void) -> Void {
         
-        // Can't use weak self don't know exact reason
-        let databaseService = UserDatabaseService()
-        
-        userNetworkService.getCurrentUser { resultData, error in
+        databaseService.getUser { user in
+            
+            DispatchQueue.main.async {
                 
+                completion(user)
+            }
+        }
+        userNetworkService.getCurrentUser { [weak self] resultData, error in
+            
             guard let resultData = resultData,
                   let users = resultData["users"] as? [[String: Any]],
                   let id = users[0]["id"] as? String,
@@ -33,7 +38,8 @@ class UserDataManager {
             DispatchQueue.main.async {
                 completion(user)
             }
-            databaseService.saveUser(user: user)
+            self?.databaseService.saveUser(user: user)
         }
     }
+
 }

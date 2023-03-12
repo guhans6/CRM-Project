@@ -24,7 +24,6 @@ class RecordsTableViewController: UITableViewController {
         self.module = module
         self.isLookUp = isLookUp
         super.init(nibName: nil, bundle: nil)
-        getRecords()
     }
     
     // in lookup 
@@ -33,7 +32,6 @@ class RecordsTableViewController: UITableViewController {
         self.moduleName = module
         self.isLookUp = isLookup
         super.init(nibName: nil, bundle: nil)
-        getRecords()
     }
     
     required init?(coder: NSCoder) {
@@ -52,14 +50,14 @@ class RecordsTableViewController: UITableViewController {
         title = module?.modulePluralName ?? moduleApiName
         view.backgroundColor = .systemBackground
         
-        tableView.separatorColor = .tableViewSeperator
-        
         configureRecordsTableView()
         configureNavigationBar()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getRecords()
     }
     
     private func configureNavigationBar() {
@@ -69,25 +67,26 @@ class RecordsTableViewController: UITableViewController {
     
     private func configureRecordsTableView() {
         
+        tableView.separatorColor = .tableViewSeperator
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
     }
     
     private func getRecords() {
         
         tableView.showLoadingIndicator()
-        RecordsController().getAllRecordsFor(module: moduleApiName) { [weak self] records in
+        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
             
             self?.records = records
+            self?.tableView.reloadData()
             
             if records.count == 0 {
                 
+                self?.tableView.hideLoadingIndicator()
                 let title = "No \(self?.module?.moduleSingularName ?? "") record found"
                 self?.tableView.setEmptyView(title: title, message: "Add a new record")
             } else {
-                
-                self?.tableView.reloadData()
+                self?.tableView.restore()
             }
-            self?.tableView.hideLoadingIndicator()
         }
     }
     
@@ -126,6 +125,8 @@ extension RecordsTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         let record = records[indexPath.row]
         
+        // Checking if it is a lookup, if it is call the delegate method to fill up lookup record
+        // Otherwise present the info the record
         if !isLookUp {
             
             if let module {
@@ -145,6 +146,8 @@ extension RecordsTableViewController {
         return 50
     }
     
+    
+    // To delete a record
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         if isLookUp == false {

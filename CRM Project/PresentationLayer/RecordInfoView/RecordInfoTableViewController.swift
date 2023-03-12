@@ -11,6 +11,7 @@ class RecordInfoTableViewController: UITableViewController {
 
 //    var record
     private lazy var individualRecordPresenter = RecordInfoPresenter()
+    private let fieldsController = FieldsController()
     private var formVc: FormTableViewController?
     
     private let recordModule: Module?
@@ -26,7 +27,6 @@ class RecordInfoTableViewController: UITableViewController {
         self.recordId = recordId
         self.formVc = FormTableViewController(module: recordModule)
         super.init(nibName: nil, bundle: nil)
-        getRecord()
         
     }
     
@@ -42,6 +42,10 @@ class RecordInfoTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getRecord()
+    }
+    
     override func viewDidLoad() {
         
         configureTableView()
@@ -49,12 +53,6 @@ class RecordInfoTableViewController: UITableViewController {
         if title != nil {
             title = recordModule?.moduleSingularName.appending(" Information")
         }
-        
-        getRecord()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        
     }
     
     func setTitle(title: String) {
@@ -68,9 +66,8 @@ class RecordInfoTableViewController: UITableViewController {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
         }
         
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height), style: .insetGrouped)
+        tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.separatorStyle = .none
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         
         
         tableView.register(RecordInfoTableViewCell.self, forCellReuseIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier)
@@ -116,11 +113,6 @@ class RecordInfoTableViewController: UITableViewController {
                 self?.tableView.setEmptyView(title: "Empty Record Data", message: "")
             }
         }
-        
-        FieldsController().getfields(module: module) { fields in
-            self.fields = fields
-            self.tableView.reloadData()
-        }
     }
     
 }
@@ -130,38 +122,16 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         // MARK: THIS IS NOT GOOD SHOULD BE DYNAMIC
-        return fields.count - 1
+        return recordInfo.count - 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier) as! RecordInfoTableViewCell
         
-        let field = fields[indexPath.row]
-        var recordData = ""
+        let record = recordInfo[indexPath.row]
+        cell.setUpRecordInfoCell(recordName: record.0, recordData: record.1)
         
-        recordInfo.forEach { key, value in
-            
-            if field.fieldLabel == key || field.apiName == key {
-                
-                if let value =  value as? String {
-                    recordData = value
-                    
-                } else if let value = value as? [String] {
-                    recordData = value[1]
-                    
-                } else if let value = value as? Double {
-                    recordData = String(value)
-                    
-                } else if let value = value as? Int {
-                    
-                    recordData = String(value)
-                }
-            }
-            return
-        }
-        
-        cell.setUpRecordInfoCell(recordName: field.fieldLabel, recordData: recordData)
         
         return cell
     }
