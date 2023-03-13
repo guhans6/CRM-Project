@@ -87,17 +87,16 @@ class LookupTableViewCell: FormTableViewCell {
         
     }
     
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
         
         if lookupId == nil {
-            return (label.text!, nil)
+            return (nil, false)
         }
-        return (label.text!, ["id": lookupId])
+        return (["id": lookupId], true)
     }
     
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool) {
         
-        print(data)
         if let lookupData = data as? [String] {
             
             self.lookupId = lookupData[0]

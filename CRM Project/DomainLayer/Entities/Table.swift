@@ -14,4 +14,11 @@ struct Table {
     let name: String
     let seatingCapacity: String
     let tableLocation: String
+    
+    init(id: String, name: String, seatingCapacity: String, tableLocation: String) {
+        self.id = id
+        self.name = name
+        self.seatingCapacity = seatingCapacity
+        self.tableLocation = tableLocation
+    }
 }

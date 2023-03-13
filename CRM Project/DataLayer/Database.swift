@@ -17,10 +17,10 @@ class Database {
         .url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         .appendingPathComponent("crm.sqlite")
     
-    /// Get the recent error mesasg
+    /// Get the recent error message from database
     var errorMsg: String {
         get {
-        
+            
             if let error = sqlite3_errmsg(dbPointer) {
                 let errorMsg = String(cString: error)
                 return errorMsg
@@ -31,15 +31,15 @@ class Database {
     }
     
     private init() {
-        openDatabase()
+        
     }
     
-    private func openDatabase() {
+    func openDatabase() {
         
-//        if sqlite3_open(fileURL.path, &dbPointer) != SQLITE_OK {
+        //        if sqlite3_open(fileURL.path, &dbPointer) != SQLITE_OK {
         if (sqlite3_open_v2(fileURL.path(),
                             &dbPointer,
-                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX,
+                            SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE,
                             nil) != SQLITE_OK) {
             print("error opening database")
         } else {
@@ -49,7 +49,7 @@ class Database {
     
     func execute(query: String, values: [Any] = []) -> Bool {
         var success = false
-            
+        
         var statement: OpaquePointer?
         
         // Prepare the statement
@@ -96,15 +96,11 @@ class Database {
             }
         }
         
-        // Finalize the statement
         sqlite3_finalize(statement)
-        
-        // Close the database
-        //        sqlite3_close(db)
         
         return success
     }
-
+    
     
     func createTable(tableName: String, columns: [String]) -> Bool {
         
@@ -147,75 +143,100 @@ class Database {
                 select: String = "*",
                 joins: String = "",
                 addition: String = "",
-                completion: @escaping ([[String: Any]]?) -> Void ) -> Void {
+                completion: @escaping ([[String: Any]]?) -> Void) -> Void {
         
-        DispatchQueue.global().async { [weak self] in
-            var results: [[String: Any]]?
-            
-            let query = """
+        var results: [[String: Any]]?
+        
+        let query = """
             SELECT \(select)
             FROM \(tableName)
             \(joins)
             \(whereClause != nil ? "WHERE \(whereClause!)" : "")
             \(addition)
             """
-            var stmt: OpaquePointer?
-            if sqlite3_prepare_v2(self?.dbPointer, query, -1, &stmt, nil) == SQLITE_OK {
-                if let args = args {
-                    // Bind the parameters to the statement
-                    for i in 0..<args.count {
-                        if let value = args[i] as? String {
-                            sqlite3_bind_text(stmt, Int32(i + 1), value, -1, nil)
-                        } else if let value = args[i] as? Int {
-                            sqlite3_bind_int(stmt, Int32(i + 1), Int32(value))
-                        } else if let value = args[i] as? Double {
-                            sqlite3_bind_double(stmt, Int32(i + 1), value)
-                        } else if args[i] is NSNull {
-                            sqlite3_bind_null(stmt, Int32(i + 1))
-                        } else {
-                            // Unsupported type
-                            sqlite3_finalize(stmt)
-                            return
-                        }
-                    }
-                }
+        var statement: OpaquePointer?
+        if sqlite3_prepare_v2(dbPointer, query, -1, &statement, nil) == SQLITE_OK {
+            if let args = args {
                 
-                var rows = [[String: Any]]()
-                while sqlite3_step(stmt) == SQLITE_ROW {
-                    var row = [String: Any]()
-                    for i in 0..<sqlite3_column_count(stmt) {
-                        let name = String(cString: sqlite3_column_name(stmt, i))
-                        let type = sqlite3_column_type(stmt, i)
-                        let value: Any?
-                        switch type {
-                        case SQLITE_INTEGER:
-                            value = Int(sqlite3_column_int(stmt, i))
-                        case SQLITE_FLOAT:
-                            value = Double(sqlite3_column_double(stmt, i))
-                        case SQLITE_TEXT:
-                            let cString = sqlite3_column_text(stmt, i)
-                            value = String(cString: cString!)
-                        case SQLITE_BLOB:
-                            let data = sqlite3_column_blob(stmt, i)
-                            let size = Int(sqlite3_column_bytes(stmt, i))
-                            value = Data(bytes: data!, count: size)
-                        case SQLITE_NULL:
-                            value = nil
-                        default:
-                            // Unsupported type
-                            sqlite3_finalize(stmt)
-                            return
-                        }
-                        row[name] = value
+                // Bind the parameters to the statement
+                for i in 0..<args.count {
+                    
+                    if let value = args[i] as? String {
+                        
+                        sqlite3_bind_text(statement, Int32(i + 1), value, -1, nil)
+                    } else if let value = args[i] as? Int {
+                        
+                        sqlite3_bind_int(statement, Int32(i + 1), Int32(value))
+                    } else if let value = args[i] as? Double {
+                        
+                        sqlite3_bind_double(statement, Int32(i + 1), value)
+                    } else if let value = args[i] as? Bool {
+                        
+                        sqlite3_bind_int(statement, Int32(i + 1), Int32(value == true ? 1 : 0))
+                    } else if args[i] is NSNull {
+                        
+                        sqlite3_bind_null(statement, Int32(i + 1))
+                    } else {
+                        // Unsupported type
+                        sqlite3_finalize(statement)
+                        return
                     }
-                    rows.append(row)
                 }
-                results = rows
             }
             
-            sqlite3_finalize(stmt)
-            completion(results)
+            var rows = [[String: Any]]()
+            while sqlite3_step(statement) == SQLITE_ROW {
+                
+                var row = [String: Any]()
+                for i in 0..<sqlite3_column_count(statement) {
+                    
+                    let name = String(cString: sqlite3_column_name(statement, i))
+                    let type = sqlite3_column_type(statement, i)
+                    let value: Any?
+                    
+                    switch type {
+                        
+                    case SQLITE_INTEGER:
+                        
+                        value = Int(sqlite3_column_int(statement, i))
+                    case SQLITE_FLOAT:
+                        
+                        value = Double(sqlite3_column_double(statement, i))
+                    case SQLITE_TEXT:
+                        
+                        let cString = sqlite3_column_text(statement, i)
+                        
+                        value = String(cString: cString!)
+                    case SQLITE_BLOB:
+                        
+                        let data = sqlite3_column_blob(statement, i)
+                        let size = Int(sqlite3_column_bytes(statement, i))
+                        
+                        value = Data(bytes: data!, count: size)
+                    case SQLITE_NULL:
+                        
+                        value = nil
+                    default:
+                        
+                        // Unsupported type
+                        sqlite3_finalize(statement)
+                        return
+                    }
+                    row[name] = value
+                }
+                rows.append(row)
+            }
+            results = rows
         }
-//        return results
+        
+        sqlite3_finalize(statement)
+        completion(results)
+    }
+    
+    func closeDatabase() {
+        
+        if sqlite3_close(dbPointer) != SQLITE_OK {
+            print("Error closing database")
+        }
     }
 }

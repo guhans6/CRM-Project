@@ -31,14 +31,17 @@ class DoubleTableViewCell: FormTableViewCell {
         
         if let data = data as? Double {
             self.formTextField.text = String(data)
+        } else {
+            
+            self.formTextField.text = data as? String
         }
         formTextField.isUserInteractionEnabled = isEditable
     }
     
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
         
-        let _ = super.getFieldData(for: type)
         let value = Double(formTextField.text!)
-        return (label.text!, value)
+        
+        return (value, true)
     }
 }

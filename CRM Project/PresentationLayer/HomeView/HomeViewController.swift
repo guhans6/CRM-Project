@@ -15,7 +15,9 @@ class HomeViewController: UIViewController {
     private let cellIdentifier = "cell"
     
     private var tables = [Table]()
+    private var events = [Event]()
     private let bookingController = BookingController()
+    private let eventBookingController = EventBookingController()
     
     deinit {
         print("Login deinitialized")
@@ -81,7 +83,10 @@ class HomeViewController: UIViewController {
         
         bookedTablesView.delegate = self
         bookedTablesView.dataSource = self
-        bookedTablesView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        
+//        bookedTablesView.backgroundColor = .systemGray6
+        bookedTablesView.rowHeight = UITableView.automaticDimension
+        bookedTablesView.estimatedRowHeight = 44
         bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
         bookedTablesView.backgroundColor = .background
@@ -103,21 +108,26 @@ extension HomeViewController {
     
     private func getBookedTablesFor(date: Date) {
         
-        bookingController
-            .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
+        bookingController.getAvailableTablesFor(date: date,
+                                                time: nil)
+        { [weak self] tables, reservationIds in
             
-            self?.bookedTablesView.showLoadingIndicator()
+//            self?.bookedTablesView.showLoadingIndicator()
             self?.tables = tables[1]
 
             if self?.tables.count ?? 0 > 0 {
                 
-                self?.bookedTablesView.hideLoadingIndicator()
+//                self?.bookedTablesView.hideLoadingIndicator()
                 
-            } else {
-                
-                self?.bookedTablesView.setEmptyView(title: "No Tables Booked For Today", message: "")
             }
+
             self?.bookedTablesView.reloadData()
+        }
+        
+        eventBookingController.getEventsFor(date: date) { events in
+            
+            self.events = events
+            self.bookedTablesView.reloadData()
         }
     }
 }
@@ -125,26 +135,76 @@ extension HomeViewController {
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if tables.count > 0 {
+        if section == 0 && tables.count > 0 {
             return "Booked Tables"
+        } else if section == 1 && events.count > 0 {
+            
+            return "Events Happening"
         }
         return nil
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        
+        return 2
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return tables.count
+        if tables.isEmpty && events.isEmpty {
+            
+            self.bookedTablesView.setEmptyView(title: "No Activities for Today", message: "")
+            return 0
+        } else {
+            
+            self.bookedTablesView.restore()
+            if section == 0 {
+                
+                return tables.count == 0 ? 1 : tables.count
+            } else {
+                
+                return events.count == 0 ? 1 : events.count
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
         
-        let table = tables[indexPath.row]
-        
-        cell.label.text = table.name
+        if indexPath.section == 0 {
+            
+            if !tables.isEmpty {
+                
+                cell.label.text = tables[indexPath.row].name
+
+            } else {
+                
+                cell.label.text = "No table Booked for this Day"
+            }
+        } else {
+            
+            if !events.isEmpty {
+                
+                cell.label.text = events[indexPath.row].name
+            } else {
+                
+                cell.label.text = "No Events for this Day"
+            }
+        }
+        cell.backgroundColor = .systemGray6
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -12,10 +12,9 @@ class WebViewController: UIViewController {
     
     private var webView: WKWebView?
     private var networkController = NetworkController()
-    private let webViewPresenter = WebViewPresenter()
     
     private var registerURLString: String {
-        webViewPresenter.getRegistrationURL()
+        networkController.getRegistrationURL()
     }
     
     override func viewDidLoad() {

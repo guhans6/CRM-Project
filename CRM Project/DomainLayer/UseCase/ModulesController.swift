@@ -7,18 +7,19 @@
 
 import Foundation
 
-class ModulesController: ModulesControllerContract {
+class ModulesController {
     
-    let moduleNetworkService = ModulesNetworkService()
-    let modulesDataManager = ModulesDataManager()
+    private let modulesDataManager = ModulesDataManager()
     
     func getModules(completion: @escaping ([Module]) -> Void) -> Void {
-//        moduleNetworkService.getModules { data in
-//            completion(data)
-//        }
         
-        modulesDataManager.getModules { modules in
-            completion(modules)
+        DispatchQueue.global().async {
+            self.modulesDataManager.getModules { modules in
+                
+                DispatchQueue.main.async {
+                    completion(modules)
+                }
+            }
         }
     }
 }

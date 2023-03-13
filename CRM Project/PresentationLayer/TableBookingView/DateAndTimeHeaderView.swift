@@ -9,9 +9,9 @@ import UIKit
 
 class DateAndTimeHeaderView: UIView {
     
-    private let selectDateLabel = UILabel()
+    let selectDateLabel = UILabel()
     let dateDisplayButton = UIButton()
-    private let timeLabel = UILabel()
+    let timeLabel = UILabel()
     let timeDisplayButton = UIButton()
     
     override init(frame: CGRect) {

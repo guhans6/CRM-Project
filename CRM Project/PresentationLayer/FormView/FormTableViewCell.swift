@@ -69,7 +69,7 @@ class FormTableViewCell: UITableViewCell {
         // So if the bottom is greater than keyboard's height it will move the view up
         // We are checking if it is Greater because y increase in the way down and x increases on right form (0, 0) on phone's top left
         
-        if textFieldBottom > keyboardTopY && superview?.frame.origin.y == 0 {
+        if textFieldBottom > keyboardHeight && superview?.frame.origin.y == 0 {
             
             superview?.frame.origin.y -= keyboardHeight
             if let parentVC = self.next?.next as? UIViewController {
@@ -81,6 +81,7 @@ class FormTableViewCell: UITableViewCell {
 
 
     @objc private func keyboardWillHide(_ notification: Notification) {
+        
         // Move the view back down to its original position
         superview?.frame.origin.y = 0
         if let parentVC = self.next?.next as? UIViewController {
@@ -189,21 +190,22 @@ class FormTableViewCell: UITableViewCell {
     }
     
     // MARK: THIS SHOULD BE OVERRIDED IN EVERY TYPE CELL AND THERE IS NO NEED FOR (for Type) PARAMETER
-    func getFieldData(for type: String) -> (String, Any?) {
+    func getFieldData(for type: String) -> (Any?, Bool) {
+        
         
         if isMandatory && formTextField.text == "" {
             configureInvalidLabel(with: "This field is Required")
-            return (label.text!, "")
+            return ("" , false)
         }
         
         switch type {
             
         case "String":
             
-            return (label.text!, formTextField.text)
+            return (formTextField.text , true)
         default:
             
-            return (label.text!, formTextField.text)
+            return (formTextField.text, true)
         }
     }
 }

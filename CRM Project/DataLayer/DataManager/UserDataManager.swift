@@ -15,11 +15,8 @@ class UserDataManager {
     func getCurrentUserDetails(completion: @escaping (User) -> Void) -> Void {
         
         databaseService.getUser { user in
-            
-            DispatchQueue.main.async {
                 
-                completion(user)
-            }
+            completion(user)
         }
         userNetworkService.getCurrentUser { [weak self] resultData, error in
             
@@ -35,9 +32,8 @@ class UserDataManager {
             }
             
             let user = User(id: id,fullName: fullName, email: email)
-            DispatchQueue.main.async {
-                completion(user)
-            }
+                
+            completion(user)
             self?.databaseService.saveUser(user: user)
         }
     }

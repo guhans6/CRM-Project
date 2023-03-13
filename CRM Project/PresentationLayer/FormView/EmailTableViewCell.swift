@@ -33,21 +33,35 @@ class EmailTableViewCell: FormTableViewCell {
         formTextField.placeholder = ""
     }
     
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
         
         let emailRegex = "^[\\+\\-\\p{L}\\p{M}\\p{N}_]([\\p{L}\\p{M}\\p{N}!#$%&'*+\\-\\/=?^_`{|}~.]*)@(?=.{4,256}$)(([\\p{L}\\p{N}\\p{M}]+)(([\\-_]*[\\p{L}\\p{M}\\p{N}])*)[.])+[\\p{L}\\p{M}]{2,22}$"
         
         let email = formTextField.text
         
-        if let _ = email?.range(of: emailRegex, options: .regularExpression) {
+        if email == "" {
             
-            self.invalidLabel.removeFromSuperview()
-            return (label.text! , email)
+            if isMandatory {
+                invalidLabel.removeFromSuperview()
+                configureInvalidLabel(with: "Mandatory Field")
+                return ("" , false)
+            } else {
+                return (email, true)
+            }
         } else {
-            
-            configureInvalidLabel(with: "Invalid Email")
-            return (label.text! ,"")
+        
+            if email?.count ?? 0 > 0,
+               let _ = email?.range(of: emailRegex, options: .regularExpression) {
+                
+                return (email, true)
+            } else {
+                
+                invalidLabel.removeFromSuperview()
+                configureInvalidLabel(with: "Invalid Email")
+                return ("" , false)
+            }
         }
+        
     }
     
     

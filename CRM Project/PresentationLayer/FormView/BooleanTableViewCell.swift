@@ -44,13 +44,14 @@ class BooleanTableViewCell: FormTableViewCell {
     }
     
     // MARK: Can also override the get field
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
+        
         var value = false
         if switchButton.isOn {
             value = true
         }
-//        print(value)
-        return (label.text!, value)
+
+        return (value, true)
     }
 }
 

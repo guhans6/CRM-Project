@@ -40,7 +40,7 @@ class UserDatabaseService {
         userDictionary[userEmail] = user.email
         
         if Database.shared.insert(tableName: usersTableName, values: userDictionary) == false {
-            print(Database.shared.errorMsg)
+//            print(Database.shared.errorMsg)
         }
     }
     

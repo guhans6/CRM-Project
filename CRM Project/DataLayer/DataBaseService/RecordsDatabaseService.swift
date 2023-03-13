@@ -43,9 +43,9 @@ class RecordsDatabaseService {
         recordDictionary[secondaryDataColumn] = record.secondaryRecordData
         recordDictionary[recordModule] = moduleApiName
         
-        if !database.insert(tableName: recordsTableName, values: recordDictionary) {
+        if database.insert(tableName: recordsTableName, values: recordDictionary) == false {
             
-            print(Database.shared.errorMsg)
+//            print(Database.shared.errorMsg)
         }
     }
     
@@ -72,19 +72,11 @@ class RecordsDatabaseService {
         ids.forEach { id in
             let whereArgs = [id, module]
             
-            if !database.delete(tableName: recordsTableName,
-                                       whereClause: whereClause, whereArgs: whereArgs) {
-                print(Database.shared.errorMsg)
+            if database.delete(tableName: recordsTableName,
+                                       whereClause: whereClause, whereArgs: whereArgs) == false {
+//                print(Database.shared.errorMsg)
             }
         }
         
-    }
-    
-    func createIndividualRecordTable(tableName: String, columns: [String]) {
-        
-        if database.createTable(tableName: tableName, columns: columns) == false {
-
-            print(database.errorMsg)
-        }
     }
 }

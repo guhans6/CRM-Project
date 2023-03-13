@@ -9,9 +9,9 @@ import Foundation
 
 class RecordsNetworkService {
     
-    let networService = NetworkService()
+    private let networService = NetworkService()
     
-    static let cache = NSCache<NSString, NSDictionary>()
+    private static let cache = NSCache<NSString, NSDictionary>()
     
     private let tableName = "Records"
     
@@ -33,7 +33,6 @@ class RecordsNetworkService {
         }
         
         let parameters = ["data": [data]]
-        print(parameters)
         
         networService.performNetworkCall(url: urlRequestString, method: httpMethod, urlComponents: nil, parameters: parameters, headers: nil) { resultData, error in
             
@@ -42,7 +41,17 @@ class RecordsNetworkService {
                 return
             }
             
-            isSaved(true)
+            if let resultData = resultData,
+                  let data = resultData["data"] as? [[String: Any]],
+               data[0]["code"] as? String == "SUCCESS"{
+                
+                isSaved(true)
+                return
+            } else {
+                
+                isSaved(false)
+                return
+            }
         }
     }
     
@@ -76,15 +85,10 @@ class RecordsNetworkService {
         }
     }
     
-    func getIndividualRecord(module: String, id: String?,
+    func getIndividualRecord(module: String, id: String,
                              completion: @escaping ([String: Any]) -> Void) -> Void {
         
         var urlRequestString = "crm/v3/\(module)"
-        
-        guard let id = id else {
-            print("Id not present to fetch record.")
-            return
-        }
         
         urlRequestString.append("/")
         urlRequestString.append(id)
@@ -97,7 +101,9 @@ class RecordsNetworkService {
             }
             
             // MARK: REPETION CHECK ABOVE FUNCTIONS
-            guard let data = data, let recordsResult = data["data"] as? [Any], let record = recordsResult[0] as? [String: Any] else {
+            guard let data = data,
+                  let recordsResult = data["data"] as? [Any],
+                  let record = recordsResult[0] as? [String: Any] else {
                 print("Individual get data Error")
                 return
             }
@@ -108,7 +114,7 @@ class RecordsNetworkService {
     }
     
     
-    func deleteRecords(module: String, ids: [String], completion: @escaping ([Any]) -> Void) -> Void {
+    func deleteRecords(module: String, ids: [String], completion: @escaping (Bool) -> Void) -> Void {
         var urlRequestString = "crm/v3/\(module)?ids="
         
         ids.forEach { id in
@@ -126,17 +132,21 @@ class RecordsNetworkService {
             }
             
             // MARK: SHOULD DO SOMETHING ABOUT SUCCESSFUL DELETION
-            
             guard let data = data,
                   let recordsResult = data["data"] as? [Any] else {
                 print("Record deletion data error")
                 return
             }
             
-            recordsResult.forEach { record in
-                let data = record as! [String: Any]
-                print(data["status"] as! String)
+            if let status = recordsResult.first as? [String: Any],
+               let statusCode = status["code"] as? String,
+               statusCode == "SUCCESS" {
+                
+                completion(true)
+            } else {
+                completion(false)
             }
+            
         }
     }
 }

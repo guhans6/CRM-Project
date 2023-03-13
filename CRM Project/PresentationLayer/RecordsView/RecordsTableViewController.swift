@@ -11,17 +11,18 @@ import UIKit
 class RecordsTableViewController: UITableViewController {
     
     private let recordsController = RecordsController()
+    private var formViewController: FormTableViewController!
     private var module: Module?
-    private var moduleName: String?
-    private var moduleApiName: String!
+    private var moduleApiName: String
     private var isLookUp: Bool
+    private var records = [Record]()
     var delegate: RecordTableViewDelegate?
-    var records = [Record]()
     
     // This init is for when module is availabe when called
     init(module: Module, isLookUp: Bool) {
         
         self.module = module
+        self.moduleApiName = module.apiName
         self.isLookUp = isLookUp
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,7 +30,7 @@ class RecordsTableViewController: UITableViewController {
     // in lookup 
     init(module: String, isLookup: Bool) {
         
-        self.moduleName = module
+        self.moduleApiName = module
         self.isLookUp = isLookup
         super.init(nibName: nil, bundle: nil)
     }
@@ -40,12 +41,6 @@ class RecordsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let module {
-            moduleApiName = module.apiName
-        } else if let moduleName {
-            moduleApiName = moduleName
-        }
         
         title = module?.modulePluralName ?? moduleApiName
         view.backgroundColor = .systemBackground
@@ -61,7 +56,9 @@ class RecordsTableViewController: UITableViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addNewRecordButtonTapped))
+        
+        let barButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewRecordButtonTapped))
+        navigationItem.rightBarButtonItem = barButton
         
     }
     
@@ -92,14 +89,12 @@ class RecordsTableViewController: UITableViewController {
     
     @objc private func addNewRecordButtonTapped() {
         
-        var formViewController: FormTableViewController!
-        
         if let module {
             formViewController = FormTableViewController(module: module)
-        } else if let moduleName {
-            formViewController = FormTableViewController(moduleApiName: moduleName)
+        } else {
+            formViewController = FormTableViewController(moduleApiName: moduleApiName)
         }
-        
+
         navigationController?.pushViewController(formViewController, animated: true)
     }
 }
@@ -146,33 +141,4 @@ extension RecordsTableViewController {
         return 50
     }
     
-    
-    // To delete a record
-    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        if isLookUp == false {
-            
-            let swipeConfiguration = UIContextualAction(style: .destructive, title: "Delete") { action, view, complete in
-                
-                let record = self.records.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
-                
-                self.recordsController.deleteRecords(module: self.moduleApiName, ids: [record.recordId]) { result in
-                    
-                }
-                complete(true)
-            }
-            return UISwipeActionsConfiguration(actions: [swipeConfiguration])
-        } else {
-            return nil
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-        
-        if isLookUp {
-            return .delete
-        }
-        return .none
-    }
 }

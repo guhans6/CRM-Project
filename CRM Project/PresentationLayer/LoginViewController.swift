@@ -28,9 +28,9 @@ class LoginViewController: UIViewController {
         }
     }
     
-    
     private func configureUI() {
-        view.backgroundColor = .systemPink
+        
+        view.backgroundColor = .systemBackground
         
         configureOpenLinkButton()
     }
@@ -38,14 +38,16 @@ class LoginViewController: UIViewController {
     private func configureOpenLinkButton() {
         view.addSubview(openLinkButton)
         openLinkButton.translatesAutoresizingMaskIntoConstraints = false
-        openLinkButton.setTitle("Open Website", for: .normal)
-        openLinkButton.setTitleColor(.white, for: .normal)
+
+        openLinkButton.backgroundColor = .systemBlue
+        openLinkButton.setTitle("Login", for: .normal)
+//        openLinkButton.setTitleColor(.white, for: .normal)
         openLinkButton.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
         openLinkButton.addTarget(self, action: #selector(didTapOpenLinkButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             openLinkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            openLinkButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            openLinkButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
         ])
     }
     

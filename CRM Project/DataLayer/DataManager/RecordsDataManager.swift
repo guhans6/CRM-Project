@@ -14,9 +14,11 @@ class RecordsDataManager {
     private let recordNameColumn = "record_name"
     private let secondaryDataColumn = "secondary_data"
     
-    let recordsNetworkService = RecordsNetworkService()
-    let databaseService = RecordsDatabaseService()
-    let fieldsDataManager = FieldsDataManager()
+    private let recordsNetworkService = RecordsNetworkService()
+    private let recordsDatabaseService = RecordsDatabaseService()
+    private let recordInfoDatabaseService = RecordInfoDatabaseService()
+    private let fieldsDataManager = FieldsDataManager()
+    private let queue = DispatchQueue(label: "recordQueue")
     
     func addRecord(module: String,
                    recordData: [String: Any?],
@@ -30,6 +32,7 @@ class RecordsDataManager {
                 isRecordSaved(isASuccess)
             }
         }
+        
     }
     
     func getRecords(module: String,
@@ -37,22 +40,18 @@ class RecordsDataManager {
         
         self.getRecordsFromDatabase(module: module) { records in
             
-            DispatchQueue.main.async {
-                completion(records)
-            }
+            completion(records)
         }
         
         self.getRecordsFromNetwork(module: module) { records in
-            DispatchQueue.main.async {
-                completion(records)
-            }
+            completion(records)
         }
     }
     
     private func getRecordsFromDatabase(module: String,
                                         completion: @escaping ([Record]) -> Void) -> Void {
         
-        databaseService.getAllRecordsFromDataBase(module: module) {  recordResult in
+        recordsDatabaseService.getAllRecordsFromDataBase(module: module) {  recordResult in
             
             var recordsArray = [Record]()
             recordResult.forEach { record in
@@ -107,7 +106,7 @@ class RecordsDataManager {
                                     modifiedBy: nil, modifiedTime: nil)
                 
                 recordsArray.append(record)
-                self?.databaseService.saveRecordsInDatabase(record: record,
+                self?.recordsDatabaseService.saveRecordsInDatabase(record: record,
                                                             moduleApiName: module)
             }
             
@@ -127,80 +126,126 @@ class RecordsDataManager {
     }
     
     func getRecordById(module: String,
-                       id: String?,
+                       id: String,
+                       fields: [Field],
                        completion: @escaping ([(String, Any)]) -> Void) -> Void {
         
-        var fields = [Field]()
-        
-        
-        fieldsDataManager.getfieldMetaData(module: module) { result in
-            
-            fields = result
-        }
-        
-        self.recordsNetworkService.getIndividualRecord(module: module, id: id) { [weak self] record in
-            
-            
-            var recordInfo = [(String, Any)]()
-            var columns = [String]()
-
-            for field in fields {
+            self.recordInfoDatabaseService.getrecordById(recordId: id, module: module) { recordData in
                 
+                var recordInfo = [(String, Any)]()
                 
-                record.forEach { key, value in
+                for field in fields {
                     
-                    if field.fieldLabel == key || field.apiName == key {
+                    for (key, value) in recordData {
                         
-                        if !key.starts(with: "$") {
-                            if let recordDictionary = value as? [String: Any] {
-                                
-                                let name = recordDictionary["name"] as! String
-                                let id = recordDictionary["id"] as! String
-                                
-                                recordInfo.append((field.displayLabel, [id, name]))
-                                
-                            } else if let value = value as? Bool {
-                                
-                                columns.append("\(field.displayLabel) Int")
-                                recordInfo.append((field.displayLabel, value == true ? "true" : "false"))
-                            } else if let recordArray = value as? [String] {
-                                
-                                columns.append("\(field.displayLabel) TEXT")
-                                recordInfo.append((field.displayLabel, recordArray.joined(separator: ",")))
-                            } else if let doubleValue = value as? Double {
-                                
-                                recordInfo.append((field.displayLabel, doubleValue))
-                            } else if let intValue = value as? Int {
-                                
-                                columns.append("\(field.displayLabel) INTEGER")
-                                recordInfo.append((field.displayLabel, String(intValue)))
-                            } else {
-                                
-                                let date = self?.convert(date: value  as? String ?? "")
-                                columns.append("\(field.displayLabel) TEXT")
-                                recordInfo.append((field.displayLabel, date!))
-                            }
+                        if  field.apiName == key || field.fieldLabel == key {
+                            
+                            recordInfo.append((field.fieldLabel, value))
                         }
                     }
                 }
-            }
-            
-            self?.databaseService.createIndividualRecordTable(tableName: module, columns: columns)
-            DispatchQueue.main.async {
+                
                 completion(recordInfo)
             }
-        }
+            
+            self.recordsNetworkService.getIndividualRecord(module: module, id: id) { [weak self] record in
+                
+                var recordInfo = [(String, Any)]()
+                var columns = ["id"]
+                
+                var databaseData = [id]
+                
+                for field in fields {
+                    
+                    for (key, value) in record {
+                        
+                        if field.fieldLabel == key || field.apiName == key {
+                            
+                            let isLookup = field.lookup.module != nil
+                            
+                            if !key.starts(with: "$") {
+                                if let recordDictionary = value as? [String: Any] {
+                                    
+                                    let name = recordDictionary["name"] as! String
+                                    let id = recordDictionary["id"] as! String
+                                    
+                                    databaseData.append(id)
+                                    recordInfo.append((field.fieldLabel, [id, name]))
+                                    
+                                } else if let value = value as? Bool {
+                                    
+                                    let data = value == true ? "true" : "false"
+                                    
+                                    databaseData.append(data)
+                                    recordInfo.append((field.fieldLabel, data))
+                                } else if let recordArray = value as? [String] {
+                                    
+                                    let data = recordArray.joined(separator: ",")
+                                    
+                                    databaseData.append(data)
+                                    recordInfo.append((field.fieldLabel, data))
+                                } else if let doubleValue = value as? Double {
+                                    
+                                    let data = String(doubleValue)
+                                    databaseData.append(data)
+                                    
+                                    recordInfo.append((field.fieldLabel, data))
+                                } else if let intValue = value as? Int {
+                                    
+                                    let data = String(intValue)
+                                    databaseData.append(data)
+                                    
+                                    recordInfo.append((field.fieldLabel, data))
+                                } else {
+                                    
+                                    let dateOrText = self?.convert(date: value  as? String ?? "")
+                                    
+                                    databaseData.append(dateOrText!)
+                                    recordInfo.append((field.fieldLabel, dateOrText!))
+                                }
+                                
+                                var column = field.apiName
+                                if isLookup {
+                                    
+                                    column = "\(field.apiName)Id"
+                                }
+                                columns.append(column)
+                                
+                            }
+                            break
+                        }
+                    }
+                }
+                
+                self?.recordInfoDatabaseService
+                    .createIndividualRecordTable(tableName: module, columns: columns)
+                
+                self?.recordInfoDatabaseService.saveIndividualRecordData(tableName: module, columns: columns, data: databaseData)
+                
+                completion(recordInfo)
+            }
+        
         
     }
     
-    // MARK: RETURN SUCCESS OR FAILIURE
-    func deleteRecords(module: String, ids: [String], completion: @escaping ([Any]) -> Void) -> Void {
+    private func getField(module: String) -> [Field] {
         
-        recordsNetworkService.deleteRecords(module: module, ids: ids) { data in
-            
+        var fieldsRecord = [Field]()
+        self.fieldsDataManager.getfieldMetaData(module: module) { fields in
+            fieldsRecord = fields
         }
         
-        databaseService.deleteRecordInDatabase(module: module, ids: ids)
+        return fieldsRecord
+    }
+    
+    // MARK: RETURN SUCCESS OR FAILIURE
+    func deleteRecords(module: String, ids: [String], completion: @escaping (Bool) -> Void) -> Void {
+        
+        recordsNetworkService.deleteRecords(module: module, ids: ids) { data in
+            completion(data)
+        }
+        
+        recordsDatabaseService.deleteRecordInDatabase(module: module, ids: ids)
         
     }
     
@@ -220,6 +265,7 @@ class RecordsDataManager {
                 
                 return formattedDate
             } else {
+                
                 // the string is invalid
                 print("Invalid date string")
             }

@@ -43,9 +43,9 @@ class TextAreaTableViewCell: FormTableViewCell {
         self.isUserInteractionEnabled = isEditable
     }
     
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
         
-        return ("", textView.text)
+        return (textView.text, true)
     }
     
 }

@@ -16,35 +16,38 @@ class FieldsDataManager {
         
         databaseService.getFieldMetadata(module: module) { fields in
             
-            
-            DispatchQueue.main.async {
-                completion(fields)
-            }
+            completion(fields)
         }
         
         fieldNetworkService.getfieldMetaData(module: module) { [weak self] data in
 
             do {
+                
                 let json = try JSONSerialization.data(withJSONObject: data, options: .prettyPrinted)
 
                 let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601
                 let result = try decoder.decode(Fields.self, from: json)
                 var fields = [Field]()
+                
+                for field in result.fields {
 
-                result.fields.forEach { field in
+                    if field.apiName == "Modified_By"
+                        || field.apiName == "Created_By" || field.apiName == "Created_Time"
+                        || field.apiName == "Modified_Time" || field.apiName == "Last_Activity_Time"
+                        || field.apiName == "Unsubscribed_Mode" || field.apiName == "Unsubscribed_Time"
+                        || field.apiName == "Owner" || field.apiName == "Tag" || field.apiName == "Exchange_Rate"
+                    {
 
-                    if field.apiName != "Modified_By" && field.apiName != "Created_By" && field.apiName != "Created_Time" && field.apiName != "Modified_Time" && field.apiName != "Last_Activity_Time" && field.apiName != "Unsubscribed_Mode" && field.apiName != "Unsubscribed_Time" && field.apiName != "Owner" && field.apiName != "Tag" {
-
+                        continue
+                    } else {
+                        
                         fields.append(field)
-
                         self?.databaseService.saveFieldToDataBase(field: field, module: module)
                     }
                 }
 
-                DispatchQueue.main.async {
-                    completion(fields)
-                }
+                completion(fields)
 
             } catch {
 

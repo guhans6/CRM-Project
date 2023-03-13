@@ -9,19 +9,28 @@ import Foundation
 
 class BookingController {
     
-    let bookingService = BookingNetworkService()
-    lazy var fieldsController = FieldsController()
+    private let bookingService = BookingNetworkService()
+    private let bookingDataManager = TableBookingDataManager()
     
     func getAvailableTablesFor(date: Date, time: String?,
                                completion: @escaping ([[Table]], [String]) -> Void) {
         
         let formattedDate = DateFormatter.formattedString(from: date, format: "yyyy-MM-dd")
+        let formattedDate2 = DateFormatter.formattedString(from: date, format: "dd-MM-yyyy")
         
-        bookingService.getBookedTablesfor(date: formattedDate,
-                                          time: time) { tables, reservationIds in
+        bookingDataManager.getAvailableTables(date: formattedDate2, time: time)
+        
+        DispatchQueue.global().async {
             
-            completion(tables, reservationIds)
+            self.bookingDataManager.getBookedTablesFor(date: formattedDate, time: time)
+            { tables, reservationIds in
+                
+                DispatchQueue.main.async {
+                    completion(tables, reservationIds)
+                }
+            }
         }
+        
     }
     
     func sendMailToCustomer(info: [String: Any?]) {

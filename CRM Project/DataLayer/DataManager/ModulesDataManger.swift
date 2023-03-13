@@ -22,16 +22,12 @@ class ModulesDataManager {
         
         getModulesFromDatabase { modules in
             
-            DispatchQueue.main.async {
-                completion(modules)
-            }
+            completion(modules)
         }
         
         getModulesFromNetwork { modules in
             
-            DispatchQueue.main.async {
-                completion(modules)
-            }
+            completion(modules)
         }
     }
     

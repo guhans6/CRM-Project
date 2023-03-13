@@ -10,13 +10,18 @@ import Foundation
 
 class UserDetailController {
 
-    let userDataManager = UserDataManager()
+    private let userDataManager = UserDataManager()
     
-
     func getUserDetails(completion: @escaping (User?) -> Void) -> Void {
         
-        userDataManager.getCurrentUserDetails { user in
-            completion(user)
+        DispatchQueue.global().async {
+            
+            self.userDataManager.getCurrentUserDetails { user in
+                
+                DispatchQueue.main.async {
+                    completion(user)
+                }
+            }
         }
     }
 }

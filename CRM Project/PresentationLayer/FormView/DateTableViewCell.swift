@@ -31,7 +31,7 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
         self.isUserInteractionEnabled = isRecordEditing
     }
     
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
         
         
         // MARK: MUST CHANGE THIS LOGIC TO SOMEWHERE ELSE
@@ -42,13 +42,14 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
         if let date = dateFormatter.date(from: formTextField.text!) {
             dateFormatter.dateFormat = "yyyy-MM-dd"
             let formattedDate = dateFormatter.string(from: date)
-            print(formattedDate)
-            return (label.text!, formattedDate)
+            
+            return (formattedDate, true)
         } else {
+            
             print("Invalid date string.")
+            return (formTextField.text, false)
         }
         
-        return (label.text!, formTextField.text)
     }
     
 }

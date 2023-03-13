@@ -9,13 +9,12 @@ import UIKit
 
 class RecordInfoTableViewController: UITableViewController {
 
-//    var record
-    private lazy var individualRecordPresenter = RecordInfoPresenter()
+    private lazy var recordsController = RecordsController()
     private let fieldsController = FieldsController()
     private var formVc: FormTableViewController?
     
     private let recordModule: Module?
-    private var moduleApiName: String?
+    private var moduleApiName: String
     private let recordId: String
     
     private var recordInfo = [(String, Any)]()
@@ -24,6 +23,7 @@ class RecordInfoTableViewController: UITableViewController {
     init(recordModule: Module, recordId: String) {
         
         self.recordModule = recordModule
+        self.moduleApiName = recordModule.apiName
         self.recordId = recordId
         self.formVc = FormTableViewController(module: recordModule)
         super.init(nibName: nil, bundle: nil)
@@ -50,29 +50,29 @@ class RecordInfoTableViewController: UITableViewController {
         
         configureTableView()
         
-        if title != nil {
             title = recordModule?.moduleSingularName.appending(" Information")
-        }
     }
     
     func setTitle(title: String) {
         self.title = title
     }
     
+    private func configureNavigationBar() {
+        
+        let editButtonImage = UIImage(systemName: "square.and.pencil")
+        
+        let editButton = UIBarButtonItem(image: editButtonImage, style: .plain, target: self, action: #selector(editButtonTapped))
+        let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped))
+        
+        navigationItem.rightBarButtonItems = [editButton, deleteButton]
+    }
+    
     private func configureTableView() {
-        
-        
-        if recordModule != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editButtonTapped))
-        }
         
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.separatorStyle = .none
         
-        
         tableView.register(RecordInfoTableViewCell.self, forCellReuseIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier)
-        
-        
     }
     
     @objc private func editButtonTapped() {
@@ -86,26 +86,43 @@ class RecordInfoTableViewController: UITableViewController {
         navigationController?.pushViewController(formVc, animated: true)
     }
     
+    @objc private func deleteButtonTapped() {
+        
+        let alertController = UIAlertController(title: "Are you sure want to delete this Record ?", message: nil, preferredStyle: .actionSheet)
+        
+        alertController.addAction(UIAlertAction(title: "Delete",
+                                                style: .destructive, handler: { [weak self] _ in
+            
+            guard let self = self else {
+                print("Deinitialized somewhere")
+                return
+            }
+            
+            self.recordsController.deleteRecords(module: self.moduleApiName, ids: [self.recordId]) { result in
+                
+                self.navigationController?.popViewController(animated: true)
+            }
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(alertController, animated: true)
+    }
+    
     private func getRecord() {
         
         tableView.showLoadingIndicator()
         
-        var module: String!
         
-        if let recordModule = recordModule {
-            module = recordModule.apiName
-        } else {
-            module = moduleApiName
-        }
-        
-        individualRecordPresenter
-            .getRecordFor(id: recordId, module: module) { [weak self] recordInfo in
+        recordsController.getIndividualRecords(module: moduleApiName,
+                                               id: recordId) { [weak self] recordInfo in
             
             self?.recordInfo = recordInfo
             
             if self?.recordInfo.count ?? 0 > 0 {
                 
                 self?.tableView.hideLoadingIndicator()
+                self?.configureNavigationBar()
                 self?.tableView.reloadData()
             } else {
                 
@@ -131,7 +148,6 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
         
         let record = recordInfo[indexPath.row]
         cell.setUpRecordInfoCell(recordName: record.0, recordData: record.1)
-        
         
         return cell
     }

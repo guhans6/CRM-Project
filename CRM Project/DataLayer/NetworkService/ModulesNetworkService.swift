@@ -24,7 +24,6 @@ class ModulesNetworkService {
                 return
             }
             
-
             guard let data = data,
                   let modules = data["modules"] as? Array<Dictionary<String, Any>> else {
                 print("Invalid modules data")

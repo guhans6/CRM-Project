@@ -16,7 +16,7 @@ class MenuViewController: UIViewController {
     private let headerView = UIView()
     private let tableView = UITableView()
     private let userController = UserDetailController()
-    private lazy var menuOptions = ["Table Booking", "Employee Management", "Modules", "Generate Auth Token"]
+    private lazy var menuOptions = ["Table Booking", "Modules", "Generate Auth Token"]
     private lazy var nameLabel = UILabel()
     private lazy var emailLabel = UILabel()
     weak var delegate: MenuViewDelegate?
@@ -80,7 +80,6 @@ class MenuViewController: UIViewController {
         
         nameLabel.textAlignment = .center
         nameLabel.font = .systemFont(ofSize: 20, weight: .semibold)
-        nameLabel.text = "Guhan"
         headerView.addSubview(nameLabel)
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -91,7 +90,6 @@ class MenuViewController: UIViewController {
             
         ])
         
-        emailLabel.text = "guhan@gmail.com"
         emailLabel.textAlignment = .center
         emailLabel.font = .preferredFont(forTextStyle: .subheadline)
         emailLabel.textColor = .label
@@ -182,11 +180,11 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = menuOptions[indexPath.row]
         cell.backgroundColor = .systemGray6
         
-        //        print(cell.textLabel?.font)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         tableView.deselectRow(at: indexPath, animated: true)
         
         let text = tableView.cellForRow(at: indexPath)?.textLabel?.text

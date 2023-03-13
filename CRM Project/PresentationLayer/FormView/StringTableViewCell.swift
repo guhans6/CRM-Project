@@ -27,17 +27,18 @@ class StringTableViewCell: FormTableViewCell {
         formTextField.keyboardType = .default
     }
     
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
         
         if formTextField.text?.count ?? 0 > 255 {
             
             configureInvalidLabel(with: "Max Charactar Limit: 255")
-            return (lookupLabel.text!, nil)
+            return (nil, false)
         } else if isMandatory && formTextField.text == "" {
             
             configureInvalidLabel(with: "Mandatory Field")
+            return (nil, false)
         }
         
-        return (label.text!, formTextField.text)
+        return (formTextField.text, true)
     }
 }

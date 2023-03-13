@@ -9,7 +9,8 @@ import UIKit
 
 class ModulesTableViewController: UITableViewController {
     
-    var modulesController = ModulesController()
+    private var modulesController = ModulesController()
+    private var recordsViewController: RecordsTableViewController?
     private var modules = [Module]()
 
     override func viewDidLoad() {
@@ -79,8 +80,8 @@ extension ModulesTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let module = modules[indexPath.row]
-        let recordsTableVC = RecordsTableViewController(module: module, isLookUp: false)
-        let _ = UINavigationController(rootViewController: recordsTableVC)
-        navigationController?.pushViewController(recordsTableVC, animated: true)
+        recordsViewController = RecordsTableViewController(module: module, isLookUp: false)
+        let _ = UINavigationController(rootViewController: recordsViewController!)
+        navigationController?.pushViewController(recordsViewController!, animated: true)
     }
 }

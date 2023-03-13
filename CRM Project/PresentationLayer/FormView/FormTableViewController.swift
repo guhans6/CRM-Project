@@ -14,7 +14,7 @@ protocol FormTableViewDelegate {
 
 class FormTableViewController: UITableViewController {
     
-    private let formPresenter = FormPresenter()
+    private let formController = FieldsController()
     private let recordsController = RecordsController()
     private var fields = [Field]()
     private lazy var editableRecords = [(String, Any)]()
@@ -67,7 +67,7 @@ class FormTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
+      
         if recordState == .edit {
             
             title = "Edit ".appending(module?.moduleSingularName ?? moduleApiName)
@@ -80,8 +80,7 @@ class FormTableViewController: UITableViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.isHidden.toggle()
     }
     
     private func setUpController() {
@@ -100,8 +99,7 @@ class FormTableViewController: UITableViewController {
         let saveButton = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .done, target: self, action: #selector(doneButtonClicked))
         
         navigationItem.rightBarButtonItems = [saveButton]
-        navigationItem.largeTitleDisplayMode = .always
-        //        navigationController?.navigationBar.prefersLargeTitles = trues
+        navigationItem.largeTitleDisplayMode = .never
     }
     
     private func configureTableView() {
@@ -127,7 +125,8 @@ class FormTableViewController: UITableViewController {
     
     private func getFields() {
         
-        formPresenter.getFieldsfor(module: moduleApiName) { fields in
+        formController.getfields(module: moduleApiName) { fields in
+            
             self.fields = fields
             self.tableView.reloadData()
             self.delegate?.sendFields(fields: fields)
@@ -135,6 +134,7 @@ class FormTableViewController: UITableViewController {
     }
     
     @objc private func doneButtonClicked() {
+        
         // SAVE DATA
         var data = [String: Any]()
         let rows = tableView.numberOfRows(inSection: 0)
@@ -146,20 +146,23 @@ class FormTableViewController: UITableViewController {
             let indexPath = IndexPath(row: row, section: 0)
             let field = fields[row]
             let cell: FormTableViewCell?
-            //            print(field.apiName)
+            
             if field.lookup.module != nil {
                 
                 cell = tableView.cellForRow(at: indexPath) as! LookupTableViewCell
             } else {
                 
                 switch field.dataType {
-                case "String":
+                case "text":
                     cell = tableView.cellForRow(at: indexPath) as! StringTableViewCell
                     
+                case "textarea":
+                    
+                    cell = tableView.cellForRow(at: indexPath) as! TextAreaTableViewCell
                 case "phone", "integer":
                     
                     cell = tableView.cellForRow(at: indexPath) as! IntegerTableViewCell
-                case "double":
+                case "double", "currency":
                     
                     cell = tableView.cellForRow(at: indexPath) as! DoubleTableViewCell
                 case "boolean":
@@ -176,42 +179,45 @@ class FormTableViewController: UITableViewController {
             }
             let cellField = cell!.getFieldData(for: field.dataType)
             
-            if cellField.1 != nil {
+            if cellField.0 != nil {
                 
-                if isReadyToSaveOrUpdate(field: field, recordData: cellField.1) == false {
-                    print("no we are not")
+                if isReadyToSaveOrUpdate(field: field,
+                                         recordData: cellField.0,
+                                         isValidated: cellField.1) == false
+                {
                     shouldCancel = true
                 }
                 
-                
-                data[field.apiName] = cellField.1
+                data[field.apiName] = cellField.0
             }
         }
         
+        // If all validation is made can continue
         if shouldCancel { return }
         
         if editingRecordId != nil {
             
-            recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: true, recordId: editingRecordId) { result in
+            recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: true, recordId: editingRecordId) { [weak self] result in
+                
                 print("Result is \(result)")
+                self?.navigationController?.popViewController(animated: true)
             }
         } else {
             
-            recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: false, recordId: nil) { result in
+            recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: false, recordId: nil) { [weak self] result in
+                
                 print("Result is \(result)")
+                self?.navigationController?.popViewController(animated: true)
             }
         }
-        navigationController?.popViewController(animated: true)
     }
     
-    private func isReadyToSaveOrUpdate(field: Field, recordData: Any?) -> Bool {
+    private func isReadyToSaveOrUpdate(field: Field, recordData: Any?, isValidated: Bool) -> Bool {
         
-//        print(recordData)
         let recordData = recordData as? String
-        if (field.isSystemMandatory && recordData == "") ||
-            (field.apiName == "Email" && recordData == "") {
+        
+        if (field.isSystemMandatory && recordData == "") || isValidated == false {
             
-            print("Its Working")
             tableView.beginUpdates()
             tableView.endUpdates()
             return false
@@ -285,13 +291,15 @@ extension FormTableViewController {
             cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
         }
         
-        cell?.setUpCellWith(fieldName: field.displayLabel, isMandatory: field.isSystemMandatory)
+        cell?.setUpCellWith(fieldName: field.fieldLabel, isMandatory: field.isSystemMandatory)
         
         if recordState == .edit || recordState == .editAndUserInteractionDisabled {
             
             for record in editableRecords {
                 
-                if field.fieldLabel == record.0 || field.apiName == record.0 {
+                if field.displayLabel == record.0
+                    || field.apiName == record.0
+                    || field.fieldLabel == record.0 {
                     
                     var shouldEnableUserInteracion = true
                     
@@ -331,7 +339,6 @@ extension FormTableViewController {
         let cell = gestureRecognizer.view as! FormTableViewCell
         let location = gestureRecognizer.location(in: cell)
         
-        //        print(moduleName)
         if location.x > cell.frame.width / 2 {
             
             if let cell = cell as? LookupTableViewCell {

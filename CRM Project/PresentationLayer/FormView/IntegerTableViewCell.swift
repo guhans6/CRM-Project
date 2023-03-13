@@ -38,10 +38,28 @@ class IntegerTableViewCell: FormTableViewCell {
         formTextField.isUserInteractionEnabled = isEditable
     }
     
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
         
-        let _ = super.getFieldData(for: type)
+        if type == "phone" {
+            
+            let phoneNumberRegex = "^([\\+]?)(?![\\.-])(?>(?>[\\.-]?[ ]?[\\da-zA-Z]+)+|([ ]?\\((?![\\.-])(?>[ \\.-]?[\\da-zA-Z]+)+\\)(?![\\.])([ -]?[\\da-zA-Z]+)?)+)+(?>(?>([,]+)?[;]?[\\da-zA-Z]+)+)?[;]?$"
+            
+            let phoneNumber = formTextField.text
+            
+            if let _ = phoneNumber?.range(of: phoneNumberRegex, options: .regularExpression) {
+                
+                return(phoneNumber, true)
+            }
+        }
+        
+        let fieldData = formTextField.text
+        
+        if fieldData?.count ?? 0 > 9 {
+            
+            configureInvalidLabel(with: "Max numbers count: 9")
+            return ("", false)
+        }
         let value = Int(formTextField.text!)
-        return (label.text!, value)
+        return (value, true)
     }
 }

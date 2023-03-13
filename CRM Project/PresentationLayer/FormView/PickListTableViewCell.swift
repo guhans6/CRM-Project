@@ -14,13 +14,13 @@ class PickListTableViewCell: LookupTableViewCell {
     private var isMultiSelect = false
     private var pickListValues = [String]()
     
-    override func getFieldData(for type: String) -> (String, Any?) {
+    override func getFieldData(for type: String) -> (Any?, Bool) {
         
         if !isMultiSelect {
             
-            return ("", pickListValues.first)
+            return (pickListValues.first, true)
         } else {
-            return("", pickListValues)
+            return(pickListValues, true)
         }
     }
     

@@ -9,12 +9,16 @@ import Foundation
 
 class FieldsController {
     
-    let fieldsDataManager = FieldsDataManager()
+    private let fieldsDataManager = FieldsDataManager()
     
     func getfields(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
         
-        fieldsDataManager.getfieldMetaData(module: module) { fields in
-            completion(fields)
+        DispatchQueue.global().async {
+            self.fieldsDataManager.getfieldMetaData(module: module) { fields in
+                DispatchQueue.main.async {
+                    completion(fields)
+                }
+            }
         }
     }
 }

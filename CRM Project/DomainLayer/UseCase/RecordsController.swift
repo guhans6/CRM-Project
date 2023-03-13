@@ -9,17 +9,17 @@ import Foundation
 
 class RecordsController {
     
-    let recordsNetworkService = RecordsNetworkService()
-    let recordsDataManager = RecordsDataManager()
-    
+    private let recordsNetworkService = RecordsNetworkService()
+    private let recordsDataManager = RecordsDataManager()
+    private let fieldsController = FieldsDataManager()
     
     func addRecord(module: String,
                    recordData: [String: Any?],
                    isAUpdate: Bool,
                    recordId: String?,
                    isRecordSaved: @escaping (Bool) -> Void) {
-        
-        recordsNetworkService.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId) { result in
+ 
+        recordsDataManager.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId) { result in
             
             isRecordSaved(result)
         }
@@ -36,17 +36,32 @@ class RecordsController {
     
     func getAllRecordsFor(module: String, completion: @escaping ([Record]) -> Void) -> Void {
         
-        recordsDataManager.getRecords(module: module) { records in
-            
-            completion(records)
+        DispatchQueue.global().async {
+            self.recordsDataManager.getRecords(module: module) { records in
+                
+                DispatchQueue.main.async {
+                    completion(records)
+                }
+            }
         }
     }
     
-    func getIndividualRecords(module: String, id: String?, completion: @escaping ([(String, Any)]) -> Void) -> Void {
-        
+    func getIndividualRecords(module: String, id: String,
+                              completion: @escaping ([(String, Any)]) -> Void) -> Void {
 
-        recordsDataManager.getRecordById(module: module, id: id) { recordInfo in
-            completion(recordInfo)
+        DispatchQueue.global().async {
+            
+            self.fieldsController.getfieldMetaData(module: module) { fields in
+                
+                self.recordsDataManager.getRecordById(module: module, id: id, fields: fields) { recordInfo in
+                    
+                    DispatchQueue.main.async {
+
+                        completion(recordInfo)
+                    }
+                }
+            }
+            
         }
     }
     
@@ -75,10 +90,15 @@ class RecordsController {
         return date
     }
     
-    func deleteRecords(module: String, ids: [String], completion: @escaping ([Any]) -> Void) -> Void {
+    func deleteRecords(module: String, ids: [String], completion: @escaping (Bool) -> Void) -> Void {
         
-        recordsDataManager.deleteRecords(module: module, ids: ids) { data in
-            completion(data)
+        DispatchQueue.global().async {
+            self.recordsDataManager.deleteRecords(module: module, ids: ids) { data in
+                
+                DispatchQueue.main.async {
+                    completion(data)
+                }
+            }
         }
     }
 }
