@@ -58,7 +58,7 @@ class FormTableViewCell: UITableViewCell {
         
         // Keyboard Height
         keyboardHeight = keyboardFrame.height
-        let keyboardTopY = keyboardFrame.origin.y - keyboardHeight
+//        let keyboardTopY = keyboardFrame.origin.y - keyboardHeight
         
         // The below is to find bounds of activeTextFields Rect according to it's superview
         let textFieldRect = activeTextField.convert(activeTextField.bounds, to: self.superview)

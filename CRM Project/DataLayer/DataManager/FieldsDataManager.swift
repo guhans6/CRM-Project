@@ -14,10 +14,18 @@ class FieldsDataManager {
 
     func getfieldMetaData(module: String, completion: @escaping ([Field]) -> Void ) -> Void {
         
-        databaseService.getFieldMetadata(module: module) { fields in
+        self.databaseService.getFieldMetadata(module: module) { fields in
             
             completion(fields)
         }
+        
+        self.getFieldsFromNetwork(module: module) { fields in
+            completion(fields)
+        }
+        
+    }
+    
+    private func getFieldsFromNetwork(module: String,  completion: @escaping ([Field]) -> Void) -> Void {
         
         fieldNetworkService.getfieldMetaData(module: module) { [weak self] data in
 
@@ -54,7 +62,5 @@ class FieldsDataManager {
                 print(error)
             }
         }
-        
     }
-    
 }

@@ -23,11 +23,6 @@ class SplashViewController: UIViewController {
             UserDefaultsManager.shared.isUserLoggedIn()
         }
     }
-    var isFirstUse: Bool  {
-        get {
-            UserDefaultsManager.shared.isFirstTimeLogin()
-        }
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +44,7 @@ class SplashViewController: UIViewController {
     }
     
     func configureUI() {
+        
         view.backgroundColor = .systemBackground
         configureLogoView()
         menuViewController.delegate = self
@@ -130,8 +126,10 @@ extension SplashViewController: MenuViewDelegate {
         isMenuOpen = true
         
         switch title {
+    
         case "Modules":
             
+            homeViewController.navigationController?.popToRootViewController(animated: true)
             let moduleTableVC = ModulesTableViewController()
             
             moduleTableVC.modalPresentationStyle = .fullScreen
@@ -141,6 +139,7 @@ extension SplashViewController: MenuViewDelegate {
             
         case "Table Booking":
             
+            homeViewController.navigationController?.popToRootViewController(animated: true)
             let tableBookingVC = TableBookingViewController()
             
             homeViewController.navigationController?.pushViewController(tableBookingVC, animated: true)

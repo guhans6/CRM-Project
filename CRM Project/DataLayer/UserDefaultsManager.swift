@@ -21,6 +21,7 @@ class UserDefaultsManager {
     private init() { }
     
     func isUserLoggedIn() -> Bool {
+        
         loggedIn = userDefaults.bool(forKey: loggedInKey)
         return loggedIn
     }

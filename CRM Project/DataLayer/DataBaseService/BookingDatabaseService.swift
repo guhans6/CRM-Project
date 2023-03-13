@@ -32,4 +32,12 @@ class BookingDatabaseService {
             completion(result)
         }
     }
+    
+    func getAllTables(completion: String) {
+        
+        database.select(tableName: "Table_Reservations") { resultData in
+            
+            print(resultData)
+        }
+    }
 }

@@ -33,7 +33,7 @@ class RecordsDatabaseService {
         }
     }
     
-    func saveRecordsInDatabase(record: Record, moduleApiName: String) {
+    func saveRecordInDatabase(record: Record, moduleApiName: String) {
         
         
         var recordDictionary = [String: Any]()

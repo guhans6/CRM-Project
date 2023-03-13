@@ -18,6 +18,14 @@ class UserDataManager {
                 
             completion(user)
         }
+        
+        self.getUserFromNetwork { user in
+            completion(user)
+        }
+    }
+    
+    func getUserFromNetwork(completion: @escaping (User) -> Void) -> Void {
+        
         userNetworkService.getCurrentUser { [weak self] resultData, error in
             
             guard let resultData = resultData,
@@ -32,10 +40,8 @@ class UserDataManager {
             }
             
             let user = User(id: id,fullName: fullName, email: email)
-                
             completion(user)
             self?.databaseService.saveUser(user: user)
         }
     }
-
 }

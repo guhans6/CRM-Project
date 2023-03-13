@@ -54,6 +54,7 @@ class MenuViewController: UIViewController {
         tableView.dataSource = self
         tableView.backgroundColor = .systemGray6
         tableView.separatorColor = .tableViewSeperator
+        tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
@@ -74,7 +75,7 @@ class MenuViewController: UIViewController {
         NSLayoutConstraint.activate([
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerView.heightAnchor.constraint(equalToConstant: 90),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
         
@@ -176,8 +177,9 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = menuOptions[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier, for: indexPath) as! LabelTableViewCell
+        
+        cell.label.text = menuOptions[indexPath.row]
         cell.backgroundColor = .systemGray6
         
         return cell
@@ -187,8 +189,8 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let text = tableView.cellForRow(at: indexPath)?.textLabel?.text
-        delegate?.didSelectRow(row: indexPath.row, title: text!)
+        let title = menuOptions[indexPath.row]
+        delegate?.didSelectRow(row: indexPath.row, title: title)
         
     }
 }

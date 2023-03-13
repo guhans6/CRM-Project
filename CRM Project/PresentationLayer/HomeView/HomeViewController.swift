@@ -98,7 +98,7 @@ class HomeViewController: UIViewController {
         NSLayoutConstraint.activate([
             bookedTablesView.topAnchor.constraint(equalTo: datePicker.bottomAnchor ,constant: 10),
             bookedTablesView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.98),
-            bookedTablesView.heightAnchor.constraint(equalToConstant: view.frame.height / 2.8),
+            bookedTablesView.heightAnchor.constraint(equalToConstant: view.frame.height / 2.0),
             bookedTablesView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }

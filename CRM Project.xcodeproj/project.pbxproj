@@ -254,7 +254,6 @@
 				53EEAEF329A4A7A700403541 /* MultiSelectTableView */,
 				5311864029A7968A004088DD /* TableBookingView */,
 				5301EF0629BEFB8900567753 /* EventBookingView */,
-				53EF7B0A299251E0000B1FA1 /* Presenter */,
 			);
 			path = PresentationLayer;
 			sourceTree = "<group>";
@@ -432,13 +431,6 @@
 				53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */,
 			);
 			path = FormView;
-			sourceTree = "<group>";
-		};
-		53EF7B0A299251E0000B1FA1 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Presenter;
 			sourceTree = "<group>";
 		};
 		53EF7B0D29928CFD000B1FA1 /* Entities */ = {

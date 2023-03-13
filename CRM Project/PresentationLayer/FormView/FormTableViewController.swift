@@ -200,14 +200,18 @@ class FormTableViewController: UITableViewController {
             recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: true, recordId: editingRecordId) { [weak self] result in
                 
                 print("Result is \(result)")
-                self?.navigationController?.popViewController(animated: true)
+                if result {
+                    self?.navigationController?.popViewController(animated: true)
+                }
             }
         } else {
             
             recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: false, recordId: nil) { [weak self] result in
                 
                 print("Result is \(result)")
-                self?.navigationController?.popViewController(animated: true)
+                if result {
+                    self?.navigationController?.popViewController(animated: true)
+                }
             }
         }
     }

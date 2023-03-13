@@ -19,16 +19,17 @@ class ModulesDataManager {
     private let moduleSingularName = "singular_label"
     
     func getModules(completion: @escaping ([Module]) -> Void) -> Void {
-        
-        getModulesFromDatabase { modules in
+    
+            getModulesFromDatabase { modules in
+                
+                completion(modules)
+            }
             
-            completion(modules)
-        }
+            getModulesFromNetwork { modules in
+                
+                completion(modules)
+            }
         
-        getModulesFromNetwork { modules in
-            
-            completion(modules)
-        }
     }
     
     private func getModulesFromDatabase(completion: @escaping ([Module]) -> Void ) {

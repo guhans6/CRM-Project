@@ -19,9 +19,13 @@ class RecordsController {
                    recordId: String?,
                    isRecordSaved: @escaping (Bool) -> Void) {
  
-        recordsDataManager.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId) { result in
-            
-            isRecordSaved(result)
+        DispatchQueue.global().async {
+            self.recordsDataManager.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId) { result in
+                
+                DispatchQueue.main.async {
+                    isRecordSaved(result)
+                }
+            }
         }
         
         switch module {
@@ -53,11 +57,13 @@ class RecordsController {
             
             self.fieldsController.getfieldMetaData(module: module) { fields in
                 
-                self.recordsDataManager.getRecordById(module: module, id: id, fields: fields) { recordInfo in
-                    
-                    DispatchQueue.main.async {
-
-                        completion(recordInfo)
+                if fields.isEmpty == false {
+                    self.recordsDataManager.getRecordById(module: module, id: id, fields: fields) { recordInfo in
+                        
+                        DispatchQueue.main.async {
+                            
+                            completion(recordInfo)
+                        }
                     }
                 }
             }

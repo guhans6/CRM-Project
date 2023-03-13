@@ -56,7 +56,6 @@ class RecordInfoDatabaseService {
         
         let whereClause = "id = '\(recordId)'"
         var recordInfo = [String: Any]()
-        let dispatchGroup = DispatchGroup()
         
         database.select(tableName: module, whereClause: whereClause) { [weak self] result in
             
