@@ -39,15 +39,16 @@ class TableBookingViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Book Table"
-        formVC.delegate = myPickerVC.self
-        configureTableView()
         configureUI()
     }
     
     private func configureUI() {
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray6
         
+        formVC.delegate = myPickerVC.self
+        configureHeaderView()
+        configureTableView()
         getTablesFor(date: Date(), time: myPickerVC.getPickedTime())
         configurePickerView()
     }
@@ -76,20 +77,28 @@ class TableBookingViewController: UIViewController {
     
     @objc private func showTimePicker() {
         
-        
         configurePickerView()
         myPickerVC.showView(viewType: .tableView)
         
         present(myPickerVC, animated: true, completion: nil)
     }
     
-    private func configureHeaderView() -> DateAndTimeHeaderView {
+    private func configureHeaderView() {
         
-        datePickerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 100)
+        view.addSubview(datePickerView)
+        
+        datePickerView.translatesAutoresizingMaskIntoConstraints = false
+        datePickerView.backgroundColor = .systemGray6
+        
         datePickerView.dateDisplayButton.addTarget(self, action: #selector(showDatePicker), for: .touchUpInside)
         datePickerView.timeDisplayButton.addTarget(self, action: #selector(showTimePicker), for: .touchUpInside)
         
-        return datePickerView
+        NSLayoutConstraint.activate([
+            datePickerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            datePickerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            datePickerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            datePickerView.heightAnchor.constraint(equalToConstant: 100)
+        ])
     }
     
     private func configureTableView() {
@@ -97,7 +106,7 @@ class TableBookingViewController: UIViewController {
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorColor = .tableViewSeperator
-        tableView.tableHeaderView = configureHeaderView()
+//        tableView.tableHeaderView = configureHeaderView()
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -105,7 +114,7 @@ class TableBookingViewController: UIViewController {
         tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: datePickerView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)

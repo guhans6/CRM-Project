@@ -36,15 +36,15 @@ class DateAndTimeHeaderView: UIView {
     
     private func configureLabel() {
         
-        selectDateLabel.text = "Select date: "
+        selectDateLabel.text = "Select date: ".localized()
         selectDateLabel.textAlignment = .left
         selectDateLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(selectDateLabel)
         
         // Layout constraints for the label
         NSLayoutConstraint.activate([
-//            selectDateLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            selectDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
+            selectDateLabel.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -30),
+//            selectDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
             selectDateLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15)
         ])
     }
@@ -52,7 +52,6 @@ class DateAndTimeHeaderView: UIView {
     private func configureDateDisplayButton() {
         
         self.addSubview(dateDisplayButton)
-//        self.superview?.bringSubviewToFront(self)
         dateDisplayButton.translatesAutoresizingMaskIntoConstraints = false
         
         let date = Date()
@@ -66,8 +65,8 @@ class DateAndTimeHeaderView: UIView {
         
         NSLayoutConstraint.activate([
             dateDisplayButton.centerYAnchor.constraint(equalTo: selectDateLabel.centerYAnchor),
-            dateDisplayButton.leadingAnchor.constraint(equalTo: selectDateLabel.trailingAnchor, constant: 30),
-            dateDisplayButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
+            dateDisplayButton.leadingAnchor.constraint(equalTo: self.centerXAnchor),
+            dateDisplayButton.widthAnchor.constraint(equalToConstant: 140),
             dateDisplayButton.heightAnchor.constraint(equalToConstant: 40),
 //            dateDisplayButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
             
@@ -85,7 +84,7 @@ class DateAndTimeHeaderView: UIView {
         // Layout constraints for the label
         NSLayoutConstraint.activate([
             timeLabel.topAnchor.constraint(equalTo: selectDateLabel.bottomAnchor, constant: 30),
-            timeLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
+            timeLabel.leadingAnchor.constraint(equalTo: selectDateLabel.leadingAnchor),
         ])
     }
     
@@ -103,8 +102,8 @@ class DateAndTimeHeaderView: UIView {
         
         NSLayoutConstraint.activate([
             timeDisplayButton.leadingAnchor.constraint(equalTo: dateDisplayButton.leadingAnchor),
+            timeDisplayButton.trailingAnchor.constraint(equalTo: dateDisplayButton.trailingAnchor),
             timeDisplayButton.centerYAnchor.constraint(equalTo: timeLabel.centerYAnchor),
-            timeDisplayButton.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.4),
             timeDisplayButton.heightAnchor.constraint(equalToConstant: 40)
             
         ])

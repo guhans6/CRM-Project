@@ -63,30 +63,14 @@ class HomeViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         
-        let refreshImage = UIImage(systemName: "arrow.counterclockwise")
-        let refreshButton = UIButton()
-        refreshButton.setImage(refreshImage, for: .normal)
-        
-        datePicker.addSubview(refreshButton)
-        refreshButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            refreshButton.topAnchor.constraint(equalTo: datePicker.topAnchor, constant: 5),
-            refreshButton.trailingAnchor.constraint(equalTo: datePicker.trailingAnchor, constant: -5)
-        ])
-        
         NSLayoutConstraint.activate([
             datePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.97),
-            datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             datePicker.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
-    
-    @objc private func refreshButtonTapped() {
-        
-    }
-    
+
     @objc private func datePickerValueChanged() {
         
         getBookedTablesFor(date: datePicker.date)
@@ -102,19 +86,19 @@ class HomeViewController: UIViewController {
         
         bookedTablesView.rowHeight = UITableView.automaticDimension
         bookedTablesView.estimatedRowHeight = 44
+        
         bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
-        bookedTablesView.backgroundColor = .background
+//        bookedTablesView.backgroundColor = .systemGray6
         bookedTablesView.layer.cornerRadius = 10
         bookedTablesView.clipsToBounds = true
         
-        bookedTablesView.rowHeight = view.frame.height / 15
-        
         NSLayoutConstraint.activate([
             bookedTablesView.topAnchor.constraint(equalTo: datePicker.bottomAnchor ,constant: 10),
-            bookedTablesView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.98),
-            bookedTablesView.heightAnchor.constraint(equalToConstant: view.frame.height / 2.0),
-            bookedTablesView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            bookedTablesView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            bookedTablesView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+//            bookedTablesView.heightAnchor.constraint(equalToConstant: view.frame.height / 2.0),
+            bookedTablesView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -123,17 +107,15 @@ extension HomeViewController {
     
     private func getBookedTablesFor(date: Date) {
         
-        bookingController.getAvailableTablesFor(date: date,
-                                                time: nil)
-        { [weak self] tables, reservationIds in
+        bookingController
+            .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
             
-//            self?.bookedTablesView.showLoadingIndicator()
+            self?.bookedTablesView.showLoadingIndicator()
             self?.tables = tables[1]
 
             if self?.tables.count ?? 0 > 0 {
                 
-//                self?.bookedTablesView.hideLoadingIndicator()
-                
+                self?.bookedTablesView.hideLoadingIndicator()
             }
 
             self?.bookedTablesView.reloadData()
@@ -148,8 +130,6 @@ extension HomeViewController {
 }
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
@@ -193,7 +173,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         if indexPath.section == 0 {
             
-            if !tables.isEmpty {
+            if tables.isEmpty == false {
                 
                 cell.label.text = tables[indexPath.row].name
 
@@ -203,7 +183,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             
-            if !events.isEmpty {
+            if events.isEmpty == false {
                 
                 cell.label.text = events[indexPath.row].name
             } else {
@@ -211,7 +191,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.label.text = "No Events for this Day".localized()
             }
         }
-        cell.backgroundColor = .systemGray6
         return cell
     }
     

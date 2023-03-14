@@ -10,7 +10,6 @@
 		5300C47429A8DEA700706150 /* NoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300C47329A8DEA700706150 /* NoDataView.swift */; };
 		5301EF0329BE0F3300567753 /* RecordInfoDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0229BE0F3300567753 /* RecordInfoDatabaseService.swift */; };
 		5301EF0529BE6B5100567753 /* BookingDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0429BE6B5100567753 /* BookingDatabaseService.swift */; };
-		5301EF0829BEFBBA00567753 /* EventBookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0729BEFBBA00567753 /* EventBookingViewController.swift */; };
 		5301EF0A29BEFC2600567753 /* EventBookingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0929BEFC2600567753 /* EventBookingController.swift */; };
 		5301EF0C29BEFC8B00567753 /* EventBookingNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0B29BEFC8B00567753 /* EventBookingNetworkService.swift */; };
 		5301EF0E29BEFEC500567753 /* EventDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0D29BEFEC500567753 /* EventDataManager.swift */; };
@@ -100,7 +99,6 @@
 		5300C47329A8DEA700706150 /* NoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataView.swift; sourceTree = "<group>"; };
 		5301EF0229BE0F3300567753 /* RecordInfoDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoDatabaseService.swift; sourceTree = "<group>"; };
 		5301EF0429BE6B5100567753 /* BookingDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDatabaseService.swift; sourceTree = "<group>"; };
-		5301EF0729BEFBBA00567753 /* EventBookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBookingViewController.swift; sourceTree = "<group>"; };
 		5301EF0929BEFC2600567753 /* EventBookingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBookingController.swift; sourceTree = "<group>"; };
 		5301EF0B29BEFC8B00567753 /* EventBookingNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBookingNetworkService.swift; sourceTree = "<group>"; };
 		5301EF0D29BEFEC500567753 /* EventDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDataManager.swift; sourceTree = "<group>"; };
@@ -200,14 +198,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5301EF0629BEFB8900567753 /* EventBookingView */ = {
-			isa = PBXGroup;
-			children = (
-				5301EF0729BEFBBA00567753 /* EventBookingViewController.swift */,
-			);
-			path = EventBookingView;
-			sourceTree = "<group>";
-		};
 		5311864029A7968A004088DD /* TableBookingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,7 +248,6 @@
 				53E749F9299A6348000EE176 /* LookupTableView */,
 				53EEAEF329A4A7A700403541 /* MultiSelectTableView */,
 				5311864029A7968A004088DD /* TableBookingView */,
-				5301EF0629BEFB8900567753 /* EventBookingView */,
 			);
 			path = PresentationLayer;
 			sourceTree = "<group>";
@@ -571,7 +560,6 @@
 				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
 				536AD439299E3EF400801158 /* RecordsController.swift in Sources */,
 				53964859299B804000781CE4 /* RecordInfoTableViewController.swift in Sources */,
-				5301EF0829BEFBBA00567753 /* EventBookingViewController.swift in Sources */,
 				537B608F29969BDE00ACA883 /* Record.swift in Sources */,
 				5356AF1929A3397100267943 /* FieldsNetworkService.swift in Sources */,
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
