@@ -40,7 +40,7 @@ class LoginViewController: UIViewController {
         openLinkButton.translatesAutoresizingMaskIntoConstraints = false
 
         openLinkButton.backgroundColor = .systemBlue
-        openLinkButton.setTitle("Login", for: .normal)
+        openLinkButton.setTitle("Login".localized(), for: .normal)
 //        openLinkButton.setTitleColor(.white, for: .normal)
         openLinkButton.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
         openLinkButton.addTarget(self, action: #selector(didTapOpenLinkButton), for: .touchUpInside)

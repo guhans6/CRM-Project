@@ -188,7 +188,7 @@ class RecordsDataManager {
                     
                     if field.fieldLabel == key || field.apiName == key {
                         
-//                            let isLookup = field.lookup.module != nil
+                            let isLookup = field.lookup.module != nil
                         
                         if !key.starts(with: "$") {
                             if let recordDictionary = value as? [String: Any] {
@@ -231,8 +231,13 @@ class RecordsDataManager {
                                 databaseData.append(dateOrText ?? modifiedValue)
                                 recordInfo.append((field.fieldLabel, dateOrText ?? modifiedValue))
                             }
-
-                            columns.append(field.apiName)
+                            
+                            var column = field.apiName
+                            if isLookup {
+                                
+                                column = column.appending("Id")
+                            }
+                            columns.append(column)
                         }
                         break
                     }

@@ -46,7 +46,7 @@ class RecordInfoDatabaseService {
         }
         
         if database.insert(tableName: tableName, values: record) == false {
-//            print(database.errorMsg)
+            print(database.errorMsg)
         }
     }
     
@@ -112,7 +112,6 @@ class RecordInfoDatabaseService {
             
             lookupData.append(id)
             lookupData.append(name)
-            
             completion(lookupData)
         }
     }

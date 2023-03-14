@@ -73,8 +73,6 @@ class RecordsController {
     
     private func convert(date: String) -> String {
         
-        
-        
         let regex = #"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$"# // your regex pattern
         
         if let _ = date.range(of: regex, options: .regularExpression) {

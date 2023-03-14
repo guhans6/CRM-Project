@@ -28,7 +28,7 @@ class HomeViewController: UIViewController {
         
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
-        title = "Home"
+        title = "Home".localized()
 
         configureUI()
     }
@@ -63,12 +63,28 @@ class HomeViewController: UIViewController {
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         
+        let refreshImage = UIImage(systemName: "arrow.counterclockwise")
+        let refreshButton = UIButton()
+        refreshButton.setImage(refreshImage, for: .normal)
+        
+        datePicker.addSubview(refreshButton)
+        refreshButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            refreshButton.topAnchor.constraint(equalTo: datePicker.topAnchor, constant: 5),
+            refreshButton.trailingAnchor.constraint(equalTo: datePicker.trailingAnchor, constant: -5)
+        ])
+        
         NSLayoutConstraint.activate([
             datePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.97),
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             datePicker.heightAnchor.constraint(equalToConstant: 100)
         ])
+    }
+    
+    @objc private func refreshButtonTapped() {
+        
     }
     
     @objc private func datePickerValueChanged() {
@@ -84,7 +100,6 @@ class HomeViewController: UIViewController {
         bookedTablesView.delegate = self
         bookedTablesView.dataSource = self
         
-//        bookedTablesView.backgroundColor = .systemGray6
         bookedTablesView.rowHeight = UITableView.automaticDimension
         bookedTablesView.estimatedRowHeight = 44
         bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
@@ -139,10 +154,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if section == 0 && tables.count > 0 {
-            return "Booked Tables"
+            return "Booked Tables".localized()
         } else if section == 1 && events.count > 0 {
             
-            return "Events Happening"
+            return "Events Happening".localized()
         }
         return nil
     }
@@ -156,7 +171,8 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         if tables.isEmpty && events.isEmpty {
             
-            self.bookedTablesView.setEmptyView(title: "No Activities for Today", message: "")
+            let noActivitiesString = "No Activities for Today".localized()
+            self.bookedTablesView.setEmptyView(title: noActivitiesString, message: "")
             return 0
         } else {
             
@@ -183,7 +199,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
 
             } else {
                 
-                cell.label.text = "No table Booked for this Day"
+                cell.label.text = "No table Booked for this Day".localized()
             }
         } else {
             
@@ -192,7 +208,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.label.text = events[indexPath.row].name
             } else {
                 
-                cell.label.text = "No Events for this Day"
+                cell.label.text = "No Events for this Day".localized()
             }
         }
         cell.backgroundColor = .systemGray6

@@ -11,11 +11,13 @@ import UIKit
 class RecordsTableViewController: UITableViewController {
     
     private let recordsController = RecordsController()
+    private let searchController = UISearchController()
     private var formViewController: FormTableViewController!
     private var module: Module?
     private var moduleApiName: String
     private var isLookUp: Bool
     private var records = [Record]()
+    private var filteredRecords = [Record]()
     var delegate: RecordTableViewDelegate?
     
     // This init is for when module is availabe when called
@@ -45,6 +47,7 @@ class RecordsTableViewController: UITableViewController {
         title = module?.modulePluralName ?? moduleApiName
         view.backgroundColor = .systemBackground
         
+        self.definesPresentationContext = true
         configureRecordsTableView()
         configureNavigationBar()
         
@@ -57,8 +60,18 @@ class RecordsTableViewController: UITableViewController {
     
     private func configureNavigationBar() {
         
-        let barButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewRecordButtonTapped))
-        navigationItem.rightBarButtonItem = barButton
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewRecordButtonTapped))
+        
+        navigationItem.rightBarButtonItems = [addButton]
+        
+        searchController.searchBar.delegate = self
+        searchController.delegate = self
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.autocapitalizationType = .none
+    }
+    
+    @objc private func searchButtonTapped() {
         
     }
     
@@ -66,25 +79,6 @@ class RecordsTableViewController: UITableViewController {
         
         tableView.separatorColor = .tableViewSeperator
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
-    }
-    
-    private func getRecords() {
-        
-        tableView.showLoadingIndicator()
-        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
-            
-            self?.records = records
-            self?.tableView.reloadData()
-            
-            if records.count == 0 {
-                
-                self?.tableView.hideLoadingIndicator()
-                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
-                self?.tableView.setEmptyView(title: title, message: "Add a new record")
-            } else {
-                self?.tableView.restore()
-            }
-        }
     }
     
     @objc private func addNewRecordButtonTapped() {
@@ -97,19 +91,39 @@ class RecordsTableViewController: UITableViewController {
 
         navigationController?.pushViewController(formViewController, animated: true)
     }
+    
+    private func getRecords() {
+        
+        tableView.showLoadingIndicator()
+        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
+            
+            self?.records = records
+            self?.filteredRecords = records
+            self?.tableView.reloadData()
+            
+            if records.count == 0 {
+                
+                self?.tableView.hideLoadingIndicator()
+                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
+                self?.tableView.setEmptyView(title: title, message: "Add a new record")
+            } else {
+                self?.tableView.restore()
+            }
+        }
+    }
 }
 
 extension RecordsTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return records.count
+        return filteredRecords.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier) as! RecordsTableViewCell
-        let record = records[indexPath.row]
+        let record = filteredRecords[indexPath.row]
         cell.configureRecordCell(recordName: record.recordName, secondaryData: record.secondaryRecordData)
         
         return cell
@@ -141,4 +155,41 @@ extension RecordsTableViewController {
         return 50
     }
     
+}
+
+extension RecordsTableViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        filteredRecords = []
+        if searchText == "" {
+            
+            filteredRecords = records
+        } else {
+            filteredRecords = records.filter { record in
+                
+                if let _ = record.recordName.range(of: searchText, options: .caseInsensitive) {
+                    
+                    return true
+                } else if let _ = record.secondaryRecordData.range(of: searchText, options: .caseInsensitive) {
+                    
+                    return true
+                }
+                return false
+            }
+        }
+        tableView.reloadData()
+    }
+    
+    
+
+}
+
+extension RecordsTableViewController: UISearchControllerDelegate {
+    
+    func willDismissSearchController(_ searchController: UISearchController) {
+        
+        filteredRecords = records
+        tableView.reloadData()
+    }
 }

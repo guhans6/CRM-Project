@@ -19,7 +19,7 @@ class BookingController {
         let formattedDate2 = DateFormatter.formattedString(from: date, format: "dd-MM-yyyy")
         
         bookingDataManager.getAvailableTables(date: formattedDate2, time: time)
-        
+        print(formattedDate)
         DispatchQueue.global().async {
             
             self.bookingDataManager.getBookedTablesFor(date: formattedDate, time: time)

@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  CRM Project
+
+  Created by guhan-pt6208 on 14/03/23.
+  
+*/
+
+"Modules" = "الوحدات";
+"Table Booking" = "حجز طاولة";
+"Login" = "تسجيل الدخول";
+"Logout" = "تسجيل الدخول";
+"Booked Tables" = "طاولات محجوزة";
+"Events Happening" = "الأحداث الجارية";
+"No Activities for Today" = "لا توجد أنشطة لليوم";
+"No table Booked for this Day" = "لا طاولة محجوزة لهذا اليوم";
+"No Events for this Day" = "لا توجد أحداث لهذا اليوم";
+"Home" = "الصفحة الرئيسية";
+"Menu" = "قائمة طعام";

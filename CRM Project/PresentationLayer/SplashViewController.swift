@@ -127,7 +127,7 @@ extension SplashViewController: MenuViewDelegate {
         
         switch title {
     
-        case "Modules":
+        case "Modules".localized():
             
             homeViewController.navigationController?.popToRootViewController(animated: true)
             let moduleTableVC = ModulesTableViewController()
@@ -137,14 +137,14 @@ extension SplashViewController: MenuViewDelegate {
             homeViewController.navigationController?.pushViewController(moduleTableVC, animated: true)
             didTapCloseButton()
             
-        case "Table Booking":
+        case "Table Booking".localized():
             
             homeViewController.navigationController?.popToRootViewController(animated: true)
             let tableBookingVC = TableBookingViewController()
             
             homeViewController.navigationController?.pushViewController(tableBookingVC, animated: true)
             didTapCloseButton()
-        case "Generate Auth Token":
+        case "Generate Auth Token".localized():
             
             NetworkController().generateAuthToken()
         default :

@@ -16,7 +16,11 @@ class MenuViewController: UIViewController {
     private let headerView = UIView()
     private let tableView = UITableView()
     private let userController = UserDetailController()
-    private lazy var menuOptions = ["Table Booking", "Modules", "Generate Auth Token"]
+    private lazy var menuOptions = [
+        "Table Booking".localized(),
+        "Modules".localized(),
+        "Generate Auth Token".localized()
+    ]
     private lazy var nameLabel = UILabel()
     private lazy var emailLabel = UILabel()
     weak var delegate: MenuViewDelegate?
@@ -37,7 +41,7 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Menu"
+        title = "Menu".localized()
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.prefersLargeTitles = true
         
@@ -75,7 +79,7 @@ class MenuViewController: UIViewController {
         NSLayoutConstraint.activate([
             headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerView.heightAnchor.constraint(equalToConstant: 90),
-            headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
         
@@ -87,7 +91,7 @@ class MenuViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 30),
+            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
             
         ])
         
@@ -108,7 +112,7 @@ class MenuViewController: UIViewController {
         
         
         
-        logoutButton.setTitle("Logout", for: .normal)
+        logoutButton.setTitle("Logout".localized(), for: .normal)
         logoutButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         logoutButton.setTitleColor(.label, for: .normal)
         
@@ -120,7 +124,7 @@ class MenuViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            logoutButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            logoutButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
         ])
         
     }

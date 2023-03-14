@@ -15,6 +15,8 @@
 		5301EF0C29BEFC8B00567753 /* EventBookingNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0B29BEFC8B00567753 /* EventBookingNetworkService.swift */; };
 		5301EF0E29BEFEC500567753 /* EventDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0D29BEFEC500567753 /* EventDataManager.swift */; };
 		5301EF1029BF028200567753 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0F29BF028200567753 /* Event.swift */; };
+		5301EF3929C0607A00567753 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF3829C0607A00567753 /* StringExtension.swift */; };
+		5301EF3C29C060E700567753 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5301EF3E29C060E700567753 /* Localizable.strings */; };
 		531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531131BF29A79452006124AA /* RelatedListNetworkService.swift */; };
 		5311863F29A794B1004088DD /* RelatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311863E29A794B1004088DD /* RelatedList.swift */; };
 		5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */; };
@@ -103,6 +105,9 @@
 		5301EF0B29BEFC8B00567753 /* EventBookingNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventBookingNetworkService.swift; sourceTree = "<group>"; };
 		5301EF0D29BEFEC500567753 /* EventDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDataManager.swift; sourceTree = "<group>"; };
 		5301EF0F29BF028200567753 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		5301EF3829C0607A00567753 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		5301EF3D29C060E700567753 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5301EF3F29C061DD00567753 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		531131BF29A79452006124AA /* RelatedListNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedListNetworkService.swift; sourceTree = "<group>"; };
 		5311863E29A794B1004088DD /* RelatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedList.swift; sourceTree = "<group>"; };
 		5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimeHeaderView.swift; sourceTree = "<group>"; };
@@ -355,11 +360,13 @@
 				53D273232977D20F001718BD /* SceneDelegate.swift */,
 				5318F5D3297A851000AF76DC /* PresentationLayer */,
 				5311865029A8C551004088DD /* TableViewExtension.swift */,
+				5301EF3829C0607A00567753 /* StringExtension.swift */,
 				534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */,
 				5300C47329A8DEA700706150 /* NoDataView.swift */,
 				5318F5D0297A84D900AF76DC /* DomainLayer */,
 				5318F5D2297A84F500AF76DC /* DataLayer */,
 				53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */,
+				5301EF3E29C060E700567753 /* Localizable.strings */,
 				53D2732A2977D211001718BD /* Assets.xcassets */,
 				53D2732F2977D211001718BD /* Info.plist */,
 				537B6083299637DA00ACA883 /* json.json */,
@@ -500,6 +507,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = 53D273152977D20F001718BD;
 			packageReferences = (
@@ -522,6 +530,7 @@
 				53D2732B2977D211001718BD /* Assets.xcassets in Resources */,
 				53964860299BA76100781CE4 /* IndividualDataRespone.json in Resources */,
 				537B609729989ADA00ACA883 /* FieldsRespone.json in Resources */,
+				5301EF3C29C060E700567753 /* Localizable.strings in Resources */,
 				537B6084299637DA00ACA883 /* json.json in Resources */,
 				53E749FD299A7167000EE176 /* FieldRespone.json in Resources */,
 				53CCE37829AE50A700245CF7 /* Storyboard.storyboard in Resources */,
@@ -587,6 +596,7 @@
 				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,
 				5356AF0529A2886B00267943 /* DataManagerContract.swift in Sources */,
 				53E5B7BC29A953070079B567 /* PickerViewController.swift in Sources */,
+				5301EF3929C0607A00567753 /* StringExtension.swift in Sources */,
 				53A696DC297C6AD80029F92E /* KeyChain.swift in Sources */,
 				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
 				5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */,
@@ -619,11 +629,24 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		5301EF3E29C060E700567753 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5301EF3D29C060E700567753 /* en */,
+				5301EF3F29C061DD00567753 /* ar */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		53D273302977D211001718BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -684,6 +707,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
