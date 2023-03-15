@@ -9,7 +9,7 @@ import UIKit
 
 protocol FormTableViewDelegate {
     
-    func sendFields(fields: [Field]) -> Void
+    func getFields(fields: [Field]) -> Void
 }
 
 class FormTableViewController: UITableViewController {
@@ -129,7 +129,7 @@ class FormTableViewController: UITableViewController {
             
             self.fields = fields
             self.tableView.reloadData()
-            self.delegate?.sendFields(fields: fields)
+            self.delegate?.getFields(fields: fields)
         }
     }
     
@@ -179,18 +179,16 @@ class FormTableViewController: UITableViewController {
             }
             let cellField = cell!.getFieldData(for: field.dataType)
             
-            if cellField.0 != nil {
-                
-                if isReadyToSaveOrUpdate(field: field,
-                                         recordData: cellField.0,
-                                         isValidated: cellField.1) == false
-                {
-                    shouldCancel = true
-                }
-                
-                data[field.apiName] = cellField.0
+            
+            if isReadyToSaveOrUpdate(field: field,
+                                     recordData: cellField.0,
+                                     isValidated: cellField.1) == false
+            {
+                shouldCancel = true
             }
-        }
+            
+            data[field.apiName] = cellField.0
+            }
         
         // If all validation is made can continue
         if shouldCancel { return }

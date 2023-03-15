@@ -96,7 +96,7 @@ class FormTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-//        label.backgroundColor =
+//        label.font = .systemFont(ofSize: <#T##CGFloat#>)
         
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),

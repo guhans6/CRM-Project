@@ -64,7 +64,7 @@ class RecordsNetworkService {
             urlRequestString.append("/")
             urlRequestString.append(id)
         } else {
-            urlRequestString.append("?fields=Name,Email")
+            urlRequestString.append("?fields=Name,Email,Owner")
         }
         
         networService.performNetworkCall(url: urlRequestString, method: HTTPMethod.GET, urlComponents: nil, parameters: nil, headers: nil) { data, error in

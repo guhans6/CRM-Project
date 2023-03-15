@@ -34,9 +34,12 @@ class RecordInfoTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             
-            recordInfoNameLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            recordInfoNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            recordInfoNameLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            recordInfoNameLabel.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            recordInfoNameLabel.trailingAnchor.constraint(equalTo: contentView.centerXAnchor),
+            recordInfoNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
+            recordInfoNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -5)
+//            recordInfoNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
         ])
     }
     

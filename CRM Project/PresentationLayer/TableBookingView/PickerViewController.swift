@@ -7,9 +7,9 @@
 
 import UIKit
 
-protocol PickerViewDelegate {
+protocol PickerViewDelegate: AnyObject {
     
-    func dateAndTime(date: Date, time: String)
+    func pickerViewData(datePickerDate: Date, tableviewSelectedRow: String)
 }
 
 class PickerViewController: UIViewController {
@@ -17,20 +17,20 @@ class PickerViewController: UIViewController {
     private let datePicker = UIDatePicker()
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private let doneButton = UIButton()
-    var delegate: PickerViewDelegate?
     
     private var tableViewData = [String]()
     
     private var lastPickedDate = Date()
     private var lastPickedTime = "Breakfast"
+    weak var delegate: PickerViewDelegate?
     
     enum ViewType {
         case tableView
         case dateView
     }
     
-    init() {
-        
+    init(tablviewData: [String] = []) {
+        self.tableViewData = tablviewData
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,10 +43,15 @@ class PickerViewController: UIViewController {
         view.backgroundColor = .systemGray6
         
         configureDoneButton()
+        reloadTableData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
+        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
     }
     
     func showView(viewType: ViewType) {
@@ -58,7 +63,6 @@ class PickerViewController: UIViewController {
             datePicker.removeFromSuperview()
             configureTableView()
         }
-        print(viewType)
     }
     
     private func configureDoneButton() {
@@ -72,7 +76,6 @@ class PickerViewController: UIViewController {
         NSLayoutConstraint.activate([
             doneButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 15),
             doneButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-
         ])
         
     }
@@ -80,7 +83,7 @@ class PickerViewController: UIViewController {
     @objc private func doneButtonTapped() {
         lastPickedDate = self.datePicker.date
         
-        delegate?.dateAndTime(date: lastPickedDate, time: lastPickedTime)
+        delegate?.pickerViewData(datePickerDate: lastPickedDate, tableviewSelectedRow: lastPickedTime)
         dismiss(animated: true)
     }
     
@@ -125,11 +128,15 @@ class PickerViewController: UIViewController {
         tableView.dataSource = self
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: doneButton.bottomAnchor, constant: 10),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+    }
+
+    func reloadTableData() {
+        tableView.reloadData()
     }
     
     func getPickedDate() -> Date {
@@ -152,13 +159,9 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
         
-        let timing = tableViewData[indexPath.row]
+        let lableText = tableViewData[indexPath.row]
         
-        cell.label.text = timing
-        let selectedView = UIView()
-        
-        selectedView.backgroundColor = .tableSelect
-        cell.selectedBackgroundView = selectedView
+        cell.label.text = lableText
         
         return cell
     }
@@ -179,18 +182,20 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PickerViewController: FormTableViewDelegate {
     
-    func sendFields(fields: [Field]) {
+    func getFields(fields: [Field]) {
         
+        var pickListValues = [String]()
         for field in fields {
             if field.apiName == "Pick_List_1" && field.pickListValues.count > 0 {
                 
                 for index in 1 ..< field.pickListValues.count {
                     let pickListValue = field.pickListValues[index]
-                    tableViewData.append((pickListValue.displayValue))
+                    pickListValues.append((pickListValue.displayValue))
                 }
                 break
             }
         }
+        tableViewData = pickListValues
         tableView.reloadData()
     }
 }

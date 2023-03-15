@@ -58,6 +58,8 @@ class MenuViewController: UIViewController {
         tableView.dataSource = self
         tableView.backgroundColor = .systemGray6
         tableView.separatorColor = .tableViewSeperator
+        tableView.estimatedRowHeight = 50
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
         NSLayoutConstraint.activate([
@@ -83,8 +85,9 @@ class MenuViewController: UIViewController {
             headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
         
-        nameLabel.textAlignment = .center
-        nameLabel.font = .systemFont(ofSize: 20, weight: .semibold)
+        nameLabel.adjustsFontForContentSizeCategory = true
+        nameLabel.font = .preferredFont(forTextStyle: .headline)
+
         headerView.addSubview(nameLabel)
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -92,11 +95,11 @@ class MenuViewController: UIViewController {
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
             nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
-            
+            nameLabel.trailingAnchor.constraint(greaterThanOrEqualTo: headerView.trailingAnchor)
         ])
         
-        emailLabel.textAlignment = .center
-        emailLabel.font = .preferredFont(forTextStyle: .subheadline)
+        emailLabel.adjustsFontForContentSizeCategory  = true
+        emailLabel.font = .systemFont(ofSize: 17)
         emailLabel.textColor = .label
         headerView.addSubview(emailLabel)
         
@@ -105,6 +108,8 @@ class MenuViewController: UIViewController {
         NSLayoutConstraint.activate([
             emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
             emailLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            emailLabel.trailingAnchor.constraint(lessThanOrEqualTo: headerView.trailingAnchor),
+            emailLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -2)
         ])
     }
     
@@ -113,7 +118,7 @@ class MenuViewController: UIViewController {
         
         
         logoutButton.setTitle("Logout".localized(), for: .normal)
-        logoutButton.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
+        logoutButton.titleLabel?.font = .preferredFont(forTextStyle: .headline)
         logoutButton.setTitleColor(.label, for: .normal)
         
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
@@ -196,5 +201,9 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         let title = menuOptions[indexPath.row]
         delegate?.didSelectRow(row: indexPath.row, title: title)
         
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        UITableView.automaticDimension
     }
 }

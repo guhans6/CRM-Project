@@ -67,14 +67,15 @@ class FieldsDatabaseService {
         
         let pickListTableColumns = [
             
-            pickListIdColumn.appending("\(DatabaseService.sqliteText) \(DatabaseService.primaryKey)"),
+            pickListIdColumn.appending("\(DatabaseService.sqliteText)\(DatabaseService.primaryKey)"),
             fieldIdColumn.appending(DatabaseService.sqliteText),
             displayValueColumn.appending(DatabaseService.sqliteText),
             actualValueColumn.appending(DatabaseService.sqliteText),
-            "FOREIGN KEY(\(fieldIdColumn)) REFERENCES Fields(\(fieldIdColumn))"
+            "FOREIGN KEY(\(fieldIdColumn)) REFERENCES Field(\(fieldIdColumn))"
         ]
         
         if database.createTable(tableName: pickListValueTableName, columns: pickListTableColumns) == false {
+            print(pickListTableColumns)
             print(Database.shared.errorMsg)
         }
     }

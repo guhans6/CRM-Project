@@ -38,7 +38,9 @@ class NetworkController {
     
     func generateAuthToken() {
         
-        networkService.generateAuthToken()
+        networkService.generateAuthToken { accessToken in
+            
+        }
     }
     
     func getRegistrationURL() -> String {

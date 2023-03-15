@@ -34,6 +34,8 @@ class ModulesTableViewController: UITableViewController {
         view.backgroundColor = .systemBackground
         
         tableView.separatorColor = .tableViewSeperator
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 50
         
         tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
 
@@ -41,6 +43,7 @@ class ModulesTableViewController: UITableViewController {
     
     private func getModules() {
         
+        self.tableView.showLoadingIndicator()
         modulesController.getModules { [weak self] modules in
             self?.modules = modules
             self?.tableView.reloadData()
@@ -83,5 +86,9 @@ extension ModulesTableViewController {
         recordsViewController = RecordsTableViewController(module: module, isLookUp: false)
         let _ = UINavigationController(rootViewController: recordsViewController!)
         navigationController?.pushViewController(recordsViewController!, animated: true)
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
     }
 }

@@ -96,7 +96,7 @@ class TableBookingDataManager {
             
             guard let tables = tables else {
                 
-                print("No tables in database")
+//                print("No tables in database")
                 return
             }
             
@@ -114,7 +114,6 @@ class TableBookingDataManager {
     }
     
     func getAllTables(completion: @escaping ([Table]) -> Void) -> Void {
-        
         
         bookingNetworkService.getAllTables { data, error in
             

@@ -59,8 +59,6 @@ class NetworkService {
             return
         }
         
-        //        let headers = ["application/x-www-form-urlencoded": "Content-Type"]
-        
         var requestBodyComponents = URLComponents()
         requestBodyComponents.queryItems = [
             URLQueryItem(name: "code", value: code.value),
@@ -111,7 +109,7 @@ class NetworkService {
         }
     }
     
-    func generateAuthToken() {
+    func generateAuthToken(completion: @escaping (String) -> Void) -> Void {
         
         let refreshToken = keychainService.getRefreshToken()
         
@@ -145,12 +143,17 @@ class NetworkService {
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 
-                let accessToken = json["access_token"] as! String
+                guard let accessToken = json["access_token"] as? String else {
+                    print(("Cannot get access Token"))
+                    return
+                }
+                
                 self.keychainService.storeAccessToken(accessToken: accessToken)
                 self.userDefaults.saveTokenGeneratedTime()
                 self.token = accessToken
                 print("AccessToken Generated \(accessToken)")
                 
+                completion(accessToken)
                 
             } catch let jsonError {
                 print("Error decoding JSON: \(jsonError)")
@@ -210,7 +213,11 @@ class NetworkService {
             
             if self.isInvalidTokenResponse(data: data) {
                 
-                self.performNetworkCall(url: url, method: method, urlComponents: urlComponents, parameters: parameters, headers: headers, success: success)
+                self.generateAuthToken { accessToken in
+                    
+                    self.performNetworkCall(url: url, method: method, urlComponents: urlComponents, parameters: parameters, headers: headers, success: success)
+                }
+               
             } else {
                 
                 success(data, nil)
@@ -232,7 +239,9 @@ class NetworkService {
         let lastGeneratedTime = userDefaults.getLastTokenGenereatedTime()
         
         if Date().timeIntervalSinceReferenceDate - lastGeneratedTime.timeIntervalSinceReferenceDate >= 3480 {
-            self.generateAuthToken()
+            self.generateAuthToken { accessToken in
+                
+            }
             
         }
         return keychainService.getAccessToken()

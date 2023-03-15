@@ -18,7 +18,12 @@ class RecordsTableViewController: UITableViewController {
     private var isLookUp: Bool
     private var records = [Record]()
     private var filteredRecords = [Record]()
+    private var isSearching = false
+    private var isFiltered = false
     var delegate: RecordTableViewDelegate?
+    
+    private var sortedRecords = [String: [Record]]()
+    private var sectionTitles = [String]()
     
     // This init is for when module is availabe when called
     init(module: Module, isLookUp: Bool) {
@@ -47,22 +52,23 @@ class RecordsTableViewController: UITableViewController {
         title = module?.modulePluralName ?? moduleApiName
         view.backgroundColor = .systemBackground
         
-        self.definesPresentationContext = true
-        configureRecordsTableView()
         configureNavigationBar()
+        configureRecordsTableView()
         
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        isFiltered = false
         getRecords()
     }
     
     private func configureNavigationBar() {
         
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewRecordButtonTapped))
-        
-        navigationItem.rightBarButtonItems = [addButton]
+        let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
+        navigationItem.rightBarButtonItems = [addButton, sortButton]
         
         searchController.searchBar.delegate = self
         searchController.delegate = self
@@ -71,13 +77,26 @@ class RecordsTableViewController: UITableViewController {
         searchController.searchBar.autocapitalizationType = .none
     }
     
-    @objc private func searchButtonTapped() {
+    @objc private func sortButtonTapped() {
         
+        let pickerVc = PickerViewController(tablviewData: ["Normal", "ASC", "DSC"])
+        pickerVc.delegate = self
+        pickerVc.showView(viewType: .tableView)
+        if let sheetController = pickerVc.sheetPresentationController {
+            
+            sheetController.prefersGrabberVisible = true
+            sheetController.detents = [.medium(), .large()]
+            sheetController.prefersEdgeAttachedInCompactHeight = true
+        }
+        
+        present(pickerVc, animated: true)
     }
     
     private func configureRecordsTableView() {
         
         tableView.separatorColor = .tableViewSeperator
+        tableView.estimatedRowHeight = 50
+        tableView.rowHeight = UITableView.automaticDimension
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
     }
     
@@ -94,6 +113,8 @@ class RecordsTableViewController: UITableViewController {
     
     private func getRecords() {
         
+        sectionTitles = []
+        sortedRecords = [:]
         tableView.showLoadingIndicator()
         recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
             
@@ -115,16 +136,40 @@ class RecordsTableViewController: UITableViewController {
 
 extension RecordsTableViewController {
     
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        
+        if !isFiltered || isSearching {
+            return 1
+        } else {
+            return sectionTitles.count
+        }
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return filteredRecords.count
+        if !isFiltered || isSearching {
+            return filteredRecords.count
+        } else {
+            
+            let sectionTitle = sectionTitles[section]
+            return sortedRecords[sectionTitle]?.count ?? 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier) as! RecordsTableViewCell
-        let record = filteredRecords[indexPath.row]
-        cell.configureRecordCell(recordName: record.recordName, secondaryData: record.secondaryRecordData)
+        
+        if !isFiltered || isSearching {
+            
+            let record = filteredRecords[indexPath.row]
+            cell.configureRecordCell(recordName: record.recordName, secondaryData: record.secondaryRecordData)
+        } else {
+            let item = sortedRecords[sectionTitles[indexPath.section]]![indexPath.row]
+            
+            cell.configureRecordCell(recordName: item.recordName, secondaryData: item.secondaryRecordData)
+        }
+        
         
         return cell
     }
@@ -152,7 +197,7 @@ extension RecordsTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return UITableView.automaticDimension
     }
     
 }
@@ -164,8 +209,11 @@ extension RecordsTableViewController: UISearchBarDelegate {
         filteredRecords = []
         if searchText == "" {
             
+            isSearching = false
             filteredRecords = records
         } else {
+            
+            isSearching = true
             filteredRecords = records.filter { record in
                 
                 if let _ = record.recordName.range(of: searchText, options: .caseInsensitive) {
@@ -181,15 +229,51 @@ extension RecordsTableViewController: UISearchBarDelegate {
         tableView.reloadData()
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if !isFiltered || isSearching {
+            return nil
+        } else {
+            return sectionTitles[section]
+        }
+    }
     
-
+    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+        
+        if !isFiltered || isSearching {
+            return nil
+        } else {
+            return sectionTitles
+        }
+    }
 }
 
 extension RecordsTableViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
         
+        isSearching = false
         filteredRecords = records
         tableView.reloadData()
+    }
+}
+
+extension RecordsTableViewController: PickerViewDelegate {
+    
+    func pickerViewData(datePickerDate: Date, tableviewSelectedRow: String) {
+        
+        let sortMethod = tableviewSelectedRow
+        if sortMethod != "Normal" {
+            isFiltered = true
+            recordsController.sortRecords(records: records, sortMethod: sortMethod) { sectionData, sectionTitles in
+                
+                self.sectionTitles  = sectionTitles
+                self.sortedRecords = sectionData
+                tableView.reloadData()
+            }
+        } else {
+            
+            isFiltered = false
+            tableView.reloadData()
+        }
     }
 }

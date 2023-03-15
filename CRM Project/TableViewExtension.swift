@@ -36,27 +36,33 @@ extension UITableView {
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         
         titleLabel.textColor = .normalText
-//        titleLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 18)
         titleLabel.font = .preferredFont(forTextStyle: .title3)
-        
-        messageLabel.textColor = UIColor.lightGray
-//        messageLabel.font = UIFont(name: "HelveticaNeue-Regular", size: 17)
-        messageLabel.font = .preferredFont(forTextStyle: .body)
-        
-        emptyView.addSubview(titleLabel)
-        emptyView.addSubview(messageLabel)
-        
-        titleLabel.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor).isActive = true
-        titleLabel.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor).isActive = true
-        
-        messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20).isActive = true
-        messageLabel.leftAnchor.constraint(equalTo: emptyView.leftAnchor, constant: 20).isActive = true
-        messageLabel.rightAnchor.constraint(equalTo: emptyView.rightAnchor, constant: -20).isActive = true
+        titleLabel.numberOfLines = 0
         
         titleLabel.text = title
         messageLabel.text = message
         messageLabel.numberOfLines = 0
         messageLabel.textAlignment = .center
+        
+        messageLabel.textColor = UIColor.lightGray
+        messageLabel.font = .preferredFont(forTextStyle: .body)
+        
+        emptyView.addSubview(titleLabel)
+        emptyView.addSubview(messageLabel)
+        
+        NSLayoutConstraint.activate([
+            titleLabel.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor),
+            titleLabel.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor),
+            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: emptyView.safeAreaLayoutGuide.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: emptyView.safeAreaLayoutGuide.trailingAnchor)
+            
+        ])
+        
+        NSLayoutConstraint.activate([
+            messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            messageLabel.leadingAnchor.constraint(greaterThanOrEqualTo: emptyView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+//            messageLabel.trailingAnchor.constraint(lessThanOrEqualTo: emptyView.safeAreaLayoutGuide.trailingAnchor),
+        ])
         
         self.backgroundView = emptyView
         self.separatorStyle = .none

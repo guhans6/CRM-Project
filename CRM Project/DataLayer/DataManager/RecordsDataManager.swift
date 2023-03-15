@@ -35,22 +35,14 @@ class RecordsDataManager {
     
     func getRecords(module: String,
                     completion: @escaping ([Record]) -> Void) -> Void {
+
+        self.getRecordsFromDatabase(module: module) { records in
+            
+            completion(records)
+        }
         
-        if UserDefaultsManager.shared.isFirstTimeLogin() {
-            
-            self.getRecordsFromNetwork(module: module) { records in
-                completion(records)
-            }
-        } else {
-            
-            self.getRecordsFromDatabase(module: module) { records in
-                
-                completion(records)
-            }
-            
-            self.getRecordsFromNetwork(module: module) { records in
-                completion(records)
-            }
+        self.getRecordsFromNetwork(module: module) { records in
+            completion(records)
         }
     }
     
@@ -96,7 +88,17 @@ class RecordsDataManager {
             
             recordsResult.forEach { record in
                 
-                let secondaryData = record["Email"] as? String ?? record["Owner"] as? String ?? ""
+                var secondaryData = ""
+                
+                if let email = record["Email"] as? String {
+                    
+                    secondaryData = email
+                }
+//                } else if let owner = record["Owner"] as? [String: Any],
+//                          let ownerName = owner["name"] as? String {
+//
+//                    secondaryData = ownerName
+//                }
                 
                 guard let recordName = record["Name"] as? String,
                       let recordId = record["id"] as? String
@@ -107,9 +109,7 @@ class RecordsDataManager {
                 
                 let record = Record(recordName: recordName,
                                     secondaryRecordData: secondaryData,
-                                    recordId: recordId,
-                                    owner: nil ,createdTime: nil,
-                                    modifiedBy: nil, modifiedTime: nil)
+                                    recordId: recordId)
                 
                 recordsArray.append(record)
                 self?.recordsDatabaseService.saveRecordInDatabase(record: record,
@@ -127,7 +127,7 @@ class RecordsDataManager {
         let recordName = record[recordNameColumn] as! String
         let secodaryData = record[secondaryDataColumn] as! String
         
-        return Record(recordName: recordName, secondaryRecordData: secodaryData, recordId: recordId, owner: nil, createdTime: nil, modifiedBy: nil, modifiedTime: nil)
+        return Record(recordName: recordName, secondaryRecordData: secodaryData, recordId: recordId)
     }
     
     func getRecordById(module: String,

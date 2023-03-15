@@ -42,10 +42,9 @@ class HomeViewController: UIViewController {
     
     private func configureUI() {
         
-        getBookedTablesFor(date: Date())
         configureDatePicker()
         configureBookedTablesView()
-        NetworkController().generateAuthToken()
+        getBookedTablesFor(date: Date())
     }
     
     
@@ -87,9 +86,9 @@ class HomeViewController: UIViewController {
         bookedTablesView.rowHeight = UITableView.automaticDimension
         bookedTablesView.estimatedRowHeight = 44
         
-        bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
+//        bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
+        bookedTablesView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
-//        bookedTablesView.backgroundColor = .systemGray6
         bookedTablesView.layer.cornerRadius = 10
         bookedTablesView.clipsToBounds = true
         
@@ -97,7 +96,6 @@ class HomeViewController: UIViewController {
             bookedTablesView.topAnchor.constraint(equalTo: datePicker.bottomAnchor ,constant: 10),
             bookedTablesView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             bookedTablesView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//            bookedTablesView.heightAnchor.constraint(equalToConstant: view.frame.height / 2.0),
             bookedTablesView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
@@ -121,10 +119,10 @@ extension HomeViewController {
             self?.bookedTablesView.reloadData()
         }
         
-        eventBookingController.getEventsFor(date: date) { events in
+        eventBookingController.getEventsFor(date: date) { [weak self] events in
             
-            self.events = events
-            self.bookedTablesView.reloadData()
+            self?.events = events
+            self?.bookedTablesView.reloadData()
         }
     }
 }
@@ -134,6 +132,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if section == 0 && tables.count > 0 {
+            
             return "Booked Tables".localized()
         } else if section == 1 && events.count > 0 {
             
@@ -169,26 +168,28 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
         
         if indexPath.section == 0 {
             
             if tables.isEmpty == false {
                 
-                cell.label.text = tables[indexPath.row].name
+//                cell.label.text = tables[indexPath.row].name
+                cell.textLabel?.text = tables[indexPath.row].name
 
             } else {
                 
-                cell.label.text = "No table Booked for this Day".localized()
+//                cell.label.text = "No table Booked for this Day".localized()
             }
         } else {
             
             if events.isEmpty == false {
                 
-                cell.label.text = events[indexPath.row].name
+//                cell.label.text = events[indexPath.row].name
+                cell.textLabel?.text = events[indexPath.row].name
             } else {
                 
-                cell.label.text = "No Events for this Day".localized()
+//                cell.label.text = "No Events for this Day".localized()
             }
         }
         return cell

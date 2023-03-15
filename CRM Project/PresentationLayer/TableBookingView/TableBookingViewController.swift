@@ -21,7 +21,7 @@ class TableBookingViewController: UIViewController {
     private lazy var tableView = UITableView(frame: .zero , style: .insetGrouped)
     
     private let datePickerView = DateAndTimeHeaderView()
-    private let myPickerVC = PickerViewController()
+    private let pickerVC = PickerViewController()
     
     // MARK: MAKE IT A COMPUTED PROPERTY
     lazy var selectedDate: Date = Date()
@@ -46,20 +46,20 @@ class TableBookingViewController: UIViewController {
         
         view.backgroundColor = .systemGray6
         
-        formVC.delegate = myPickerVC.self
+        formVC.delegate = pickerVC.self
         configureHeaderView()
         configureTableView()
-        getTablesFor(date: Date(), time: myPickerVC.getPickedTime())
+        getTablesFor(date: Date(), time: pickerVC.getPickedTime())
         configurePickerView()
     }
     
     private func configurePickerView() {
         
-        myPickerVC.modalPresentationStyle = .pageSheet
-        myPickerVC.delegate  = self
+        pickerVC.modalPresentationStyle = .pageSheet
+        pickerVC.delegate  = self
         
         
-        if let sheet = myPickerVC.sheetPresentationController {
+        if let sheet = pickerVC.sheetPresentationController {
             sheet.prefersGrabberVisible = true
             sheet.detents = [.medium(), .large()]
             sheet.prefersEdgeAttachedInCompactHeight = true
@@ -69,18 +69,18 @@ class TableBookingViewController: UIViewController {
     @objc private func showDatePicker() {
         
         configurePickerView()
-        myPickerVC.showView(viewType: .dateView)
+        pickerVC.showView(viewType: .dateView)
         
-        present(myPickerVC, animated: true, completion: nil)
+        present(pickerVC, animated: true, completion: nil)
         
     }
     
     @objc private func showTimePicker() {
         
         configurePickerView()
-        myPickerVC.showView(viewType: .tableView)
+        pickerVC.showView(viewType: .tableView)
         
-        present(myPickerVC, animated: true, completion: nil)
+        present(pickerVC, animated: true, completion: nil)
     }
     
     private func configureHeaderView() {
@@ -207,11 +207,11 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             var record = [(String, Any)]()
             
             let dateFormat = "dd-MM-yyyy"
-            let lastPickedDate = myPickerVC.getPickedDate()
+            let lastPickedDate = pickerVC.getPickedDate()
             
             let dateString = DateFormatter.formattedString(from: lastPickedDate, format: dateFormat)
             
-            let pickedTime = myPickerVC.getPickedTime()
+            let pickedTime = pickerVC.getPickedTime()
             
             record.append(("Booking_Table", [table.id, table.name]))
             record.append(("Booking_Date", dateString))
@@ -240,14 +240,14 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
 
 extension TableBookingViewController: PickerViewDelegate {
     
-    func dateAndTime(date: Date, time: String) {
+    func pickerViewData(datePickerDate: Date, tableviewSelectedRow: String) {
         
-        self.getTablesFor(date: date, time: myPickerVC.getPickedTime())
+        self.getTablesFor(date: datePickerDate, time: pickerVC.getPickedTime())
         
-        let dateString = DateFormatter.formattedString(from: date, format: "dd-MM-yyyy")
+        let dateString = DateFormatter.formattedString(from: datePickerDate, format: "dd-MM-yyyy")
         
         self.datePickerView.dateDisplayButton.setTitle(dateString, for: .normal)
-        self.datePickerView.timeDisplayButton.setTitle(time, for: .normal)
+        self.datePickerView.timeDisplayButton.setTitle(tableviewSelectedRow, for: .normal)
     }
     
 }

@@ -57,11 +57,11 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
 extension DateTableViewCell: PickerViewDelegate {
     
     
-    func dateAndTime(date: Date, time: String) {
+    func pickerViewData(datePickerDate: Date, tableviewSelectedRow: String) {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd-MM-yyyy"
-        let formattedDate = dateFormatter.string(from: date)
+        let formattedDate = dateFormatter.string(from: datePickerDate)
         
         self.formTextField.text = formattedDate
     }

@@ -105,4 +105,42 @@ class RecordsController {
             }
         }
     }
+    
+    func sortRecords(records: [Record], sortMethod: String, completion: ([String: [Record]], [String]) -> Void) -> Void {
+        
+        var sortedRecords = [Record]()
+        if sortMethod == "ASC" {
+            sortedRecords = records.sorted {
+                $0.recordName < $1.recordName
+            }
+        } else {
+            
+            sortedRecords = records.sorted {
+                $0.recordName > $1.recordName
+            }
+        }
+        
+        var sectionData: [String: [Record]] = [:]
+
+        for record in sortedRecords {
+            
+            let firstLetter = String(record.recordName.prefix(1).uppercased())
+            
+            if sectionData[firstLetter] != nil {
+                sectionData[firstLetter]?.append(record)
+            } else {
+                sectionData[firstLetter] = [record]
+            }
+        }
+        var sectionTitles = [String]()
+        if sortMethod == "ASC" {
+            sectionTitles = sectionData.keys.sorted()
+        } else {
+            sectionTitles = sectionData.keys.sorted {
+                $0 > $1
+            }
+        }
+
+        completion(sectionData, sectionTitles)
+    }
 }
