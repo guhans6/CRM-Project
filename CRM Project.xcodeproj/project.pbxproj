@@ -83,6 +83,9 @@
 		53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */; };
 		53EEAEFC29A5402D00403541 /* PickListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */; };
 		53EEAEFE29A5EF4F00403541 /* TextAreaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEFD29A5EF4F00403541 /* TextAreaTableViewCell.swift */; };
+		53EF4A6729C979AE0077B977 /* ModuleContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF4A6629C979AE0077B977 /* ModuleContract.swift */; };
+		53EF4A6929C97BB60077B977 /* NetworkControllerContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF4A6829C97BB60077B977 /* NetworkControllerContract.swift */; };
+		53EF4A6B29C9909F0077B977 /* UserDetailControllerContract.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF4A6A29C9909F0077B977 /* UserDetailControllerContract.swift */; };
 		53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */; };
 		53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */; };
 		53EF7B0529921E53000B1FA1 /* FormTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */; };
@@ -175,6 +178,9 @@
 		53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTapRecognizer.swift; sourceTree = "<group>"; };
 		53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickListTableViewCell.swift; sourceTree = "<group>"; };
 		53EEAEFD29A5EF4F00403541 /* TextAreaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAreaTableViewCell.swift; sourceTree = "<group>"; };
+		53EF4A6629C979AE0077B977 /* ModuleContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModuleContract.swift; sourceTree = "<group>"; };
+		53EF4A6829C97BB60077B977 /* NetworkControllerContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkControllerContract.swift; sourceTree = "<group>"; };
+		53EF4A6A29C9909F0077B977 /* UserDetailControllerContract.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailControllerContract.swift; sourceTree = "<group>"; };
 		53EF7AFE29921E0B000B1FA1 /* FormTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		53EF7AFF29921E0B000B1FA1 /* FormTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
 		53EF7B0429921E53000B1FA1 /* FormTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewController.swift; sourceTree = "<group>"; };
@@ -211,6 +217,7 @@
 		5318F5D0297A84D900AF76DC /* DomainLayer */ = {
 			isa = PBXGroup;
 			children = (
+				53EF4A6529C978AD0077B977 /* Contract */,
 				53E749F8299A0326000EE176 /* UseCase */,
 				53EF7B0D29928CFD000B1FA1 /* Entities */,
 			);
@@ -371,10 +378,10 @@
 			isa = PBXGroup;
 			children = (
 				5318F5D6297AB81E00AF76DC /* NetworkController.swift */,
+				5356AF1E29A340D400267943 /* ModulesController.swift */,
 				536AD436299E21FA00801158 /* UserDetailController.swift */,
 				536AD438299E3EF400801158 /* RecordsController.swift */,
 				5356AF1A29A33A8100267943 /* FieldsController.swift */,
-				5356AF1E29A340D400267943 /* ModulesController.swift */,
 				5311864929A7BBE8004088DD /* BookingController.swift */,
 				5301EF0929BEFC2600567753 /* EventBookingController.swift */,
 			);
@@ -408,6 +415,16 @@
 				53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */,
 			);
 			path = MultiSelectTableView;
+			sourceTree = "<group>";
+		};
+		53EF4A6529C978AD0077B977 /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				53EF4A6629C979AE0077B977 /* ModuleContract.swift */,
+				53EF4A6829C97BB60077B977 /* NetworkControllerContract.swift */,
+				53EF4A6A29C9909F0077B977 /* UserDetailControllerContract.swift */,
+			);
+			path = Contract;
 			sourceTree = "<group>";
 		};
 		53EF7B0329921E27000B1FA1 /* FormView */ = {
@@ -556,6 +573,7 @@
 				53E9094429B11DAF00452748 /* ModulesDataManger.swift in Sources */,
 				5311864C29A884DF004088DD /* Table.swift in Sources */,
 				5301EF0329BE0F3300567753 /* RecordInfoDatabaseService.swift in Sources */,
+				53EF4A6929C97BB60077B977 /* NetworkControllerContract.swift in Sources */,
 				5356AF1F29A340D400267943 /* ModulesController.swift in Sources */,
 				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
 				536AD439299E3EF400801158 /* RecordsController.swift in Sources */,
@@ -589,6 +607,7 @@
 				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
 				5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */,
 				5362F76729AA342C00DA5F44 /* MenuViewController.swift in Sources */,
+				53EF4A6B29C9909F0077B977 /* UserDetailControllerContract.swift in Sources */,
 				5311864429A796F1004088DD /* TableBookingViewController.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,
 				5311864829A7A66A004088DD /* BookingNetworkService.swift in Sources */,
@@ -600,6 +619,7 @@
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
 				53F1EEB029AB9DB500C17723 /* UIColourExtension.swift in Sources */,
+				53EF4A6729C979AE0077B977 /* ModuleContract.swift in Sources */,
 				534DE57D29B5B09200C229BD /* DatabaseService.swift in Sources */,
 				537B60A72998B70100ACA883 /* EmailTableViewCell.swift in Sources */,
 				53F43A6D299ADABB002528BE /* RecordTableViewDelegate.swift in Sources */,

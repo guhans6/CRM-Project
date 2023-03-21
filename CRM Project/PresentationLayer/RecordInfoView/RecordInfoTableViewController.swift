@@ -50,11 +50,7 @@ class RecordInfoTableViewController: UITableViewController {
         
         configureTableView()
         
-            title = recordModule?.moduleSingularName.appending(" Information")
-    }
-    
-    func setTitle(title: String) {
-        self.title = title
+        title = recordModule?.moduleSingularName.appending(" Information")
     }
     
     private func configureNavigationBar() {
@@ -71,6 +67,7 @@ class RecordInfoTableViewController: UITableViewController {
         
         tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.separatorStyle = .none
+        tableView.rowHeight = UITableView.automaticDimension
         
         tableView.register(RecordInfoTableViewCell.self, forCellReuseIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier)
     }
@@ -113,7 +110,6 @@ class RecordInfoTableViewController: UITableViewController {
         
         tableView.showLoadingIndicator()
         
-        
         recordsController.getIndividualRecords(module: moduleApiName,
                                                id: recordId) { [weak self] recordInfo in
             
@@ -152,13 +148,17 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
-    }
-    
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//
+//
+//        return UITableView.automaticDimension
+//    }
+//
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        
+//        let cell = tableView.cellForRow(at: indexPath)
+//        print(cell?.bounds.height)
+        print(tableView.rowHeight)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

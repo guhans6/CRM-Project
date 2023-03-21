@@ -9,7 +9,6 @@ import Foundation
 
 class RecordsController {
     
-    private let recordsNetworkService = RecordsNetworkService()
     private let recordsDataManager = RecordsDataManager()
     private let fieldsController = FieldsDataManager()
     

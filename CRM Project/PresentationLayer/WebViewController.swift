@@ -11,7 +11,7 @@ import WebKit
 class WebViewController: UIViewController {
     
     private var webView: WKWebView?
-    private var networkController = NetworkController()
+    private lazy var networkController: NetworkNetworkControllerContract = NetworkController()
     
     private var registerURLString: String {
         networkController.getRegistrationURL()
@@ -68,7 +68,7 @@ extension WebViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
-        NetworkController().generateAccessToken(from: webView.url)
+        networkController.generateAccessToken(from: webView.url)
     }
     
 }

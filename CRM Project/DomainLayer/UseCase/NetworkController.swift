@@ -15,7 +15,7 @@ enum HTTPMethod: String {
     case PUT = "PUT"
 }
 
-class NetworkController {
+class NetworkController : NetworkNetworkControllerContract {
     
     private let networkService = NetworkService()
     
@@ -24,7 +24,7 @@ class NetworkController {
     }
     
     
-    func generateAccessToken(from url: URL?) {
+    func generateAccessToken(from url: URL?) -> Void {
         
         do {
             try networkService.generateAccessToken(from: url, completion: { isASuccess in
@@ -36,7 +36,7 @@ class NetworkController {
         }
     }
     
-    func generateAuthToken() {
+    func generateAuthToken() -> Void {
         
         networkService.generateAuthToken { accessToken in
             

@@ -9,7 +9,7 @@ import UIKit
 
 class ModulesTableViewController: UITableViewController {
     
-    private var modulesController = ModulesController()
+    private var modulesController: ModulesContract = ModulesController()
     private var recordsViewController: RecordsTableViewController?
     private var modules = [Module]()
 

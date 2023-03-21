@@ -15,7 +15,8 @@ class MenuViewController: UIViewController {
     
     private let headerView = UIView()
     private let tableView = UITableView()
-    private let userController = UserDetailController()
+    private let userController: UserDetailControllerContract = UserDetailController()
+    
     private lazy var menuOptions = [
         "Table Booking".localized(),
         "Modules".localized(),

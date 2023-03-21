@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ModulesController {
+class ModulesController: ModulesContract {
     
     private let modulesDataManager = ModulesDataManager()
     
