@@ -22,6 +22,7 @@ class PickerViewController: UIViewController {
     
     private var lastPickedDate = Date()
     private var lastPickedTime = "Breakfast"
+    private var sectionHeaderTitle: String?
     weak var delegate: PickerViewDelegate?
     
     enum ViewType {
@@ -29,7 +30,7 @@ class PickerViewController: UIViewController {
         case dateView
     }
     
-    init(tablviewData: [String] = []) {
+    init(tablviewData: [String] = [], headerTitle: String? = nil) {
         self.tableViewData = tablviewData
         super.init(nibName: nil, bundle: nil)
     }
@@ -168,6 +169,7 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        tableView.deselectRow(at: indexPath, animated: true)
         let timing = tableViewData[indexPath.row]
         
         self.lastPickedTime = timing
@@ -176,7 +178,7 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        return "Pick a Time"
+        return sectionHeaderTitle
     }
 }
 

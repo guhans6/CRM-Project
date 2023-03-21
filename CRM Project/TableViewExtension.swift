@@ -60,6 +60,7 @@ extension UITableView {
         
         NSLayoutConstraint.activate([
             messageLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            messageLabel.centerXAnchor.constraint(equalTo: titleLabel.centerXAnchor),
             messageLabel.leadingAnchor.constraint(greaterThanOrEqualTo: emptyView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
 //            messageLabel.trailingAnchor.constraint(lessThanOrEqualTo: emptyView.safeAreaLayoutGuide.trailingAnchor),
         ])

@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     private let cellIdentifier = "cell"
     
     private var tables = [Table]()
+    private var reservationIds = [String]()
     private var events = [Event]()
     private let bookingController = BookingController()
     private let eventBookingController = EventBookingController()
@@ -86,8 +87,8 @@ class HomeViewController: UIViewController {
         bookedTablesView.rowHeight = UITableView.automaticDimension
         bookedTablesView.estimatedRowHeight = 44
         
-//        bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
-        bookedTablesView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
+        
         
         bookedTablesView.layer.cornerRadius = 10
         bookedTablesView.clipsToBounds = true
@@ -107,17 +108,18 @@ extension HomeViewController {
         
         bookingController
             .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
-            
-            self?.bookedTablesView.showLoadingIndicator()
-            self?.tables = tables[1]
-
-            if self?.tables.count ?? 0 > 0 {
                 
-                self?.bookedTablesView.hideLoadingIndicator()
+                self?.bookedTablesView.showLoadingIndicator()
+                self?.tables = tables[1]
+                self?.reservationIds = reservationIds
+                
+                if self?.tables.count ?? 0 > 0 {
+                    
+                    self?.bookedTablesView.hideLoadingIndicator()
+                }
+                
+                self?.bookedTablesView.reloadData()
             }
-
-            self?.bookedTablesView.reloadData()
-        }
         
         eventBookingController.getEventsFor(date: date) { [weak self] events in
             
@@ -132,7 +134,6 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if section == 0 && tables.count > 0 {
-            
             return "Booked Tables".localized()
         } else if section == 1 && events.count > 0 {
             
@@ -168,28 +169,26 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
         
         if indexPath.section == 0 {
             
             if tables.isEmpty == false {
                 
-//                cell.label.text = tables[indexPath.row].name
-                cell.textLabel?.text = tables[indexPath.row].name
+                cell.label.text = tables[indexPath.row].name
 
             } else {
                 
-//                cell.label.text = "No table Booked for this Day".localized()
+                cell.label.text = "No table Booked for this Day".localized()
             }
         } else {
             
             if events.isEmpty == false {
                 
-//                cell.label.text = events[indexPath.row].name
-                cell.textLabel?.text = events[indexPath.row].name
+                cell.label.text = events[indexPath.row].name
             } else {
                 
-//                cell.label.text = "No Events for this Day".localized()
+                cell.label.text = "No Events for this Day".localized()
             }
         }
         return cell
@@ -202,5 +201,12 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        if indexPath.section == 0 {
+            let reservationId = reservationIds[indexPath.row]
+            let recordInfoVc = RecordInfoTableViewController(recordModule: "Reservations", recordId: reservationId)
+            
+            present(recordInfoVc, animated: true)
+        }
     }
 }

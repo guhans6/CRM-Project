@@ -92,14 +92,6 @@ class RecordsTableViewController: UITableViewController {
         present(pickerVc, animated: true)
     }
     
-    private func configureRecordsTableView() {
-        
-        tableView.separatorColor = .tableViewSeperator
-        tableView.estimatedRowHeight = 50
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
-    }
-    
     @objc private func addNewRecordButtonTapped() {
         
         if let module {
@@ -109,6 +101,14 @@ class RecordsTableViewController: UITableViewController {
         }
 
         navigationController?.pushViewController(formViewController, animated: true)
+    }
+    
+    private func configureRecordsTableView() {
+        
+        tableView.separatorColor = .tableViewSeperator
+        tableView.estimatedRowHeight = 50
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
     }
     
     private func getRecords() {
@@ -169,7 +169,6 @@ extension RecordsTableViewController {
             
             cell.configureRecordCell(recordName: item.recordName, secondaryData: item.secondaryRecordData)
         }
-        
         
         return cell
     }
@@ -264,10 +263,10 @@ extension RecordsTableViewController: PickerViewDelegate {
         let sortMethod = tableviewSelectedRow
         if sortMethod != "Normal" {
             isFiltered = true
-            recordsController.sortRecords(records: records, sortMethod: sortMethod) { sectionData, sectionTitles in
+            recordsController.sortRecords(records: records, sortMethod: sortMethod) { [weak self] sectionData, sectionTitles in
                 
-                self.sectionTitles  = sectionTitles
-                self.sortedRecords = sectionData
+                self?.sectionTitles  = sectionTitles
+                self?.sortedRecords = sectionData
                 tableView.reloadData()
             }
         } else {

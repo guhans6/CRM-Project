@@ -21,7 +21,7 @@ class TableBookingViewController: UIViewController {
     private lazy var tableView = UITableView(frame: .zero , style: .insetGrouped)
     
     private let datePickerView = DateAndTimeHeaderView()
-    private let pickerVC = PickerViewController()
+    private let pickerVC = PickerViewController(headerTitle: "Pick Time")
     
     // MARK: MAKE IT A COMPUTED PROPERTY
     lazy var selectedDate: Date = Date()

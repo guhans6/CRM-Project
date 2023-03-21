@@ -20,6 +20,7 @@ class FormTableViewController: UITableViewController {
     private lazy var editableRecords = [(String, Any)]()
     private var module: Module?
     private var moduleName: String?
+    private var fieldData = [Any]()
     
     private var recordState: RecordState = .add
     
@@ -65,6 +66,8 @@ class FormTableViewController: UITableViewController {
         configureNavigationBar()
         
     }
+    
+    
     
     override func viewWillAppear(_ animated: Bool) {
       
@@ -188,7 +191,7 @@ class FormTableViewController: UITableViewController {
             }
             
             data[field.apiName] = cellField.0
-            }
+        }
         
         // If all validation is made can continue
         if shouldCancel { return }
@@ -315,6 +318,7 @@ extension FormTableViewController {
             }
         }
         cell.backgroundColor = .secondarySystemFill
+//        cell.delegate = self
         return cell
     }
     
@@ -402,3 +406,11 @@ extension FormTableViewController {
         self.tableView.reloadData()
     }
 }
+
+//extension FormTableViewController: FormCellDelegate {
+//
+//    func textFieldData(data: Any?) {
+//
+//        print(data)
+//    }
+//}

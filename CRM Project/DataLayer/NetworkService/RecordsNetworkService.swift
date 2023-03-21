@@ -19,10 +19,8 @@ class RecordsNetworkService {
         
         let urlRequestString = "crm/v3/\(module)"
         
-        
         var data = recordData
         var httpMethod = HTTPMethod.POST
-        
         
         // MARK: DIFFERENT METHOD FOR UPDATE ONLY UPDATED RECORDS SHOULD BE SENT TO SERVER
         if isAUpdate {
