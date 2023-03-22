@@ -26,6 +26,7 @@ class NoDataView: UIView {
         messageLabel.textAlignment = .center
         addSubview(messageLabel)
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
+        
         messageLabel.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         messageLabel.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
     }

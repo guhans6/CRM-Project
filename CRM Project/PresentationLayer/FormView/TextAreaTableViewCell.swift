@@ -21,13 +21,19 @@ class TextAreaTableViewCell: FormTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        textView.text = nil
+    }
+    
     func configureTextView() {
         contentView.addSubview(textView)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.backgroundColor = .systemBackground
         textView.font = .systemFont(ofSize: 15)
         textView.autocorrectionType = .no
-
+        textView.delegate = self
         
         NSLayoutConstraint.activate([
 //            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -45,7 +51,16 @@ class TextAreaTableViewCell: FormTableViewCell {
     
     override func getFieldData(for type: String) -> (Any?, Bool) {
         
+        
         return (textView.text, true)
     }
     
+}
+
+extension TextAreaTableViewCell: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        delegate?.textFieldData(data: textView.text, isValid: true, index: index)
+    }
 }

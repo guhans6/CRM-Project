@@ -12,7 +12,9 @@ class RecordsTableViewCell: UITableViewCell {
     static let recordCellIdentifier = "recordCell"
     private let recordNameLabel = UILabel()
     private let secondaryLabel = UILabel()
+    
     private var nameLabelCenterYAnchor: NSLayoutConstraint?
+    private var nameLabelTop: NSLayoutConstraint?
     private var nameLabelBottom: NSLayoutConstraint?
     
     
@@ -33,11 +35,13 @@ class RecordsTableViewCell: UITableViewCell {
         recordNameLabel.font = .preferredFont(forTextStyle: .body)
         recordNameLabel.numberOfLines = 0
         
-        nameLabelCenterYAnchor = recordNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-        nameLabelCenterYAnchor?.priority = .defaultHigh
-        nameLabelCenterYAnchor?.isActive = true
+        nameLabelTop = recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13)
+        
+        nameLabelBottom = recordNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13)
         
         NSLayoutConstraint.activate([
+            nameLabelTop!,
+            nameLabelBottom!,
             recordNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
             recordNameLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor)
         ])
@@ -45,13 +49,15 @@ class RecordsTableViewCell: UITableViewCell {
     
     private func configureRecordEmailLabel() {
         
-        nameLabelCenterYAnchor?.isActive = false
-        recordNameLabel.removeConstraint(nameLabelCenterYAnchor!)
-        recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5).isActive = translatesAutoresizingMaskIntoConstraints
+        
+        nameLabelTop?.isActive = false
+        nameLabelBottom?.isActive = false
+
+        recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
     
         contentView.addSubview(secondaryLabel)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
-        secondaryLabel.font = .preferredFont(forTextStyle: .caption1)
+        secondaryLabel.font = .preferredFont(forTextStyle: .footnote)
         secondaryLabel.numberOfLines = 0
         
         NSLayoutConstraint.activate([

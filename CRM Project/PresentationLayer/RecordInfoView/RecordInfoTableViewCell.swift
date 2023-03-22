@@ -19,7 +19,6 @@ class RecordInfoTableViewCell: UITableViewCell {
         
         configureRecordNameLabel()
         configureRecordDataLabel()
-//        configureRecordView()
     }
     
     required init?(coder: NSCoder) {
@@ -56,48 +55,6 @@ class RecordInfoTableViewCell: UITableViewCell {
             recordDataLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             recordDataLabel.leadingAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 10),
             recordDataLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-        ])
-    }
-    
-    private func configureRecordView() {
-        
-        recordView.addSubview(recordInfoNameLabel)
-        
-        recordInfoNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        recordInfoNameLabel.textAlignment = .left
-        recordInfoNameLabel.font = .preferredFont(forTextStyle: .body)
-        recordInfoNameLabel.numberOfLines = 0
-        
-        NSLayoutConstraint.activate([
-            
-            recordInfoNameLabel.leadingAnchor.constraint(equalTo: recordView.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            recordInfoNameLabel.trailingAnchor.constraint(lessThanOrEqualTo: recordView.centerXAnchor),
-            recordInfoNameLabel.topAnchor.constraint(equalTo: recordView.topAnchor, constant: 15),
-            recordInfoNameLabel.bottomAnchor.constraint(lessThanOrEqualTo: recordView.bottomAnchor, constant: -15)
-            
-        ])
-        
-        recordView.addSubview(recordDataLabel)
-        recordDataLabel.translatesAutoresizingMaskIntoConstraints = false
-        recordDataLabel.font = .preferredFont(forTextStyle: .body)
-        recordDataLabel.numberOfLines = 0
-        
-        NSLayoutConstraint.activate([
-
-            recordDataLabel.topAnchor.constraint(equalTo: recordView.topAnchor, constant: 0),
-            recordDataLabel.bottomAnchor.constraint(equalTo: recordView.bottomAnchor, constant: 0),
-            recordDataLabel.leadingAnchor.constraint(equalTo: recordView.centerXAnchor, constant: 10),
-            recordDataLabel.trailingAnchor.constraint(equalTo: recordView.trailingAnchor)
-        ])
-        
-        contentView.addSubview(recordView)
-        recordView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            recordView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            recordView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            recordView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            recordView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
     }
     

@@ -12,7 +12,6 @@ class HomeViewController: UIViewController {
     private let datePicker = UIDatePicker()
     
     private let bookedTablesView = UITableView(frame: .zero, style: .insetGrouped)
-    private let cellIdentifier = "cell"
     
     private var tables = [Table]()
     private var reservationIds = [String]()
@@ -92,6 +91,7 @@ class HomeViewController: UIViewController {
         
         bookedTablesView.layer.cornerRadius = 10
         bookedTablesView.clipsToBounds = true
+        bookedTablesView.backgroundColor = .systemGray6
         
         NSLayoutConstraint.activate([
             bookedTablesView.topAnchor.constraint(equalTo: datePicker.bottomAnchor ,constant: 10),
@@ -191,6 +191,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.label.text = "No Events for this Day".localized()
             }
         }
+        cell.backgroundColor = .background
         return cell
     }
     
@@ -203,9 +204,15 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         if indexPath.section == 0 {
-            let reservationId = reservationIds[indexPath.row]
-            let recordInfoVc = RecordInfoTableViewController(recordModule: "Reservations", recordId: reservationId)
             
+            let reservationId = reservationIds[indexPath.row]
+            let recordInfoVc = RecordInfoTableViewController(recordModule: "Reservations", recordId: reservationId, title: "Reservation Details")
+            
+            if let sheetController = recordInfoVc.sheetPresentationController {
+                
+                sheetController.detents = [.medium(), .large()]
+                sheetController.prefersGrabberVisible = true
+            }
             present(recordInfoVc, animated: true)
         }
     }

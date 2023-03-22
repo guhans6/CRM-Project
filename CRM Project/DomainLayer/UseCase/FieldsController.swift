@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FieldsController {
+class FieldsController: FieldsContract {
     
     private let fieldsDataManager = FieldsDataManager()
     

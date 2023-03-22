@@ -34,16 +34,12 @@ class LabelTableViewCell: UITableViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
         label.numberOfLines = 0
-        
-        let centerYConstraint = label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
-           centerYConstraint.priority = .defaultHigh
            
            NSLayoutConstraint.activate([
                label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-               label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-               label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-               centerYConstraint,
-//               label.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10)
+               label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13),
+               label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13),
+               label.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor, constant: -10)
            ])
            
     }

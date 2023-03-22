@@ -31,16 +31,18 @@ class PickListTableViewCell: LookupTableViewCell {
         self.isUserInteractionEnabled = isRecordEditing
     }
     
-    
-    
 }
 
 extension PickListTableViewCell: PickListDelegate {
     
     func getPickListValues(isMultiSelect: Bool, pickListValue: [String]) {
+        
         self.formTextField.text = pickListValue.joined(separator: ", ")
         pickListValues = pickListValue
         self.isMultiSelect = isMultiSelect
+        let pickListData = getFieldData(for: "")
+        
+        delegate?.textFieldData(data: pickListData.0, isValid: pickListData.1, index: index)
     }
 
 }

@@ -42,7 +42,7 @@ class EmailTableViewCell: FormTableViewCell {
         if email == "" {
             
             if isMandatory {
-                invalidLabel.removeFromSuperview()
+                
                 configureInvalidLabel(with: "Mandatory Field")
                 return ("" , false)
             } else {
@@ -56,7 +56,6 @@ class EmailTableViewCell: FormTableViewCell {
                 return (email, true)
             } else {
                 
-                invalidLabel.removeFromSuperview()
                 configureInvalidLabel(with: "Invalid Email")
                 return ("" , false)
             }

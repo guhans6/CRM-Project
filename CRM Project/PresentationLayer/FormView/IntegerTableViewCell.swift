@@ -49,14 +49,18 @@ class IntegerTableViewCell: FormTableViewCell {
             if let _ = phoneNumber?.range(of: phoneNumberRegex, options: .regularExpression) {
                 
                 return(phoneNumber, true)
+            } else {
+                
+                configureInvalidLabel(with: "Invalid Number")
+                return(phoneNumber, false)
             }
         }
         
         let fieldData = formTextField.text
         
-        if fieldData?.count ?? 0 > 9 {
+        if fieldData?.count ?? 0 > 30 {
             
-            configureInvalidLabel(with: "Max numbers count: 9")
+            configureInvalidLabel(with: "Max numbers count: 30")
             return ("", false)
         }
         let value = Int(formTextField.text!)

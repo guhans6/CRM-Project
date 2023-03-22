@@ -24,21 +24,31 @@ class BooleanTableViewCell: FormTableViewCell {
     
     private func configureSwitch() {
         formTextField.removeFromSuperview()
+        
         contentView.addSubview(switchButton)
         switchButton.translatesAutoresizingMaskIntoConstraints = false
         
+        switchButton.addTarget(self, action: #selector(switchValueChanged), for: .valueChanged)
         NSLayoutConstraint.activate([
             switchButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             switchButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
+    @objc private func switchValueChanged() {
+        
+        let switchData = getFieldData(for: "")
+        delegate?.textFieldData(data: switchData.0, isValid: switchData.1, index: index)
+    }
+    
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
 
         self.isUserInteractionEnabled = isRecordEditing
         if data as? String == "true" {
+            print(data, data)
             switchButton.isOn = true
         } else {
+            print(data)
             switchButton.isOn = false
         }
     }

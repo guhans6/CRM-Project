@@ -9,13 +9,14 @@ import UIKit
 
 class RecordInfoTableViewController: UITableViewController {
 
-    private lazy var recordsController = RecordsController()
+    private lazy var recordsController: RecordInfoContract = RecordsController()
     private let fieldsController = FieldsController()
     private var formVc: FormTableViewController?
     
     private let recordModule: Module?
     private var moduleApiName: String
     private let recordId: String
+    private var headerTitle: String?
     
     private var recordInfo = [(String, Any)]()
     private var fields = [Field]()
@@ -34,6 +35,7 @@ class RecordInfoTableViewController: UITableViewController {
         
         self.moduleApiName = recordModule
         self.recordId = recordId
+        self.headerTitle = title
         self.recordModule = nil
         super.init(nibName: nil, bundle: nil)
     }
@@ -49,7 +51,6 @@ class RecordInfoTableViewController: UITableViewController {
     override func viewDidLoad() {
         
         configureTableView()
-        
         title = recordModule?.moduleSingularName.appending(" Information")
     }
     
@@ -148,21 +149,18 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
         return cell
     }
     
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//
-//
-//        return UITableView.automaticDimension
-//    }
-//
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
+
+        return UITableView.automaticDimension
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-//        let cell = tableView.cellForRow(at: indexPath)
-//        print(cell?.bounds.height)
-        print(tableView.rowHeight)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        return nil
+        return headerTitle
     }
 }

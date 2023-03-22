@@ -43,12 +43,55 @@ class MenuViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Menu".localized()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray6
         navigationController?.navigationBar.prefersLargeTitles = true
         
         confiureTableHeaderView()
         configureTableView()
         configureLogoutButton()
+    }
+    
+    private func confiureTableHeaderView() {
+        
+        view.addSubview(headerView)
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        headerView.backgroundColor = .tableSelect
+
+        NSLayoutConstraint.activate([
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            headerView.heightAnchor.constraint(equalToConstant: 90),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            headerView.bottomAnchor.constraint(equalTo: headerView.topAnchor, constant: 90)
+        ])
+        
+//        nameLabel.font = .preferredFont(forTextStyle: .headline)
+        nameLabel.font = .systemFont(ofSize: 25, weight: .semibold)
+
+        headerView.addSubview(nameLabel)
+        
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 17),
+            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
+            nameLabel.trailingAnchor.constraint(greaterThanOrEqualTo: headerView.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
+        emailLabel.adjustsFontForContentSizeCategory  = true
+        emailLabel.font = .systemFont(ofSize: 17)
+        emailLabel.textColor = .label
+        headerView.addSubview(emailLabel)
+        
+        emailLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
+            emailLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
+            emailLabel.trailingAnchor.constraint(lessThanOrEqualTo: headerView.safeAreaLayoutGuide.trailingAnchor),
+            emailLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -3)
+        ])
     }
     
     private func configureTableView() {
@@ -67,68 +110,32 @@ class MenuViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: headerView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             
         ])
     }
-    
-    private func confiureTableHeaderView() {
-        
-        headerView.backgroundColor = .tableSelect
-        view.addSubview(headerView)
-        
-        headerView.translatesAutoresizingMaskIntoConstraints = false
 
-        NSLayoutConstraint.activate([
-            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 90),
-            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        ])
-        
-        nameLabel.adjustsFontForContentSizeCategory = true
-        nameLabel.font = .preferredFont(forTextStyle: .headline)
-
-        headerView.addSubview(nameLabel)
-        
-        nameLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 20),
-            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
-            nameLabel.trailingAnchor.constraint(greaterThanOrEqualTo: headerView.trailingAnchor)
-        ])
-        
-        emailLabel.adjustsFontForContentSizeCategory  = true
-        emailLabel.font = .systemFont(ofSize: 17)
-        emailLabel.textColor = .label
-        headerView.addSubview(emailLabel)
-        
-        emailLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            emailLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 10),
-            emailLabel.leadingAnchor.constraint(equalTo: nameLabel.leadingAnchor),
-            emailLabel.trailingAnchor.constraint(lessThanOrEqualTo: headerView.trailingAnchor),
-            emailLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -2)
-        ])
-    }
-    
     private func configureLogoutButton() {
         
-        
+        view.addSubview(logoutButton)
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
         
         logoutButton.setTitle("Logout".localized(), for: .normal)
-        logoutButton.titleLabel?.font = .preferredFont(forTextStyle: .headline)
+
         logoutButton.setTitleColor(.label, for: .normal)
+        
+        let logoutButtonFont: UIFont = .systemFont(ofSize: 25, weight: .semibold)
+        let fontMetrics = UIFontMetrics(forTextStyle: .headline)
+        logoutButton.titleLabel?.font = fontMetrics.scaledFont(for: logoutButtonFont)
+        logoutButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
         logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
         
-        view.addSubview(logoutButton)
-        view.bringSubviewToFront(logoutButton)
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        logoutButton.backgroundColor = .systemGray6
         
         NSLayoutConstraint.activate([
+            logoutButton.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            logoutButton.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
             logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             logoutButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
         ])

@@ -11,7 +11,6 @@ class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
     private var lookupId: String!
-    let textView = UITextView()
     let discloseIndicatorMark = UIButton()
 
     var lookupApiName: String!
@@ -31,7 +30,6 @@ class LookupTableViewCell: FormTableViewCell {
 
     override func setLookupName(lookupApiName: String) {
         self.lookupApiName = lookupApiName
-        
         
     }
     
@@ -66,27 +64,6 @@ class LookupTableViewCell: FormTableViewCell {
         texFieldTrailing?.isActive = true
     }
     
-    func configureTextView() {
-        
-        contentView.addSubview(textView)
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.backgroundColor = .systemBackground
-        textView.font = .preferredFont(forTextStyle: .body)
-        textView.textContainerInset = UIEdgeInsets(top: 13, left: 7, bottom: 0, right: 0)
-        textView.isEditable = false
-        
-        NSLayoutConstraint.activate([
-//            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            textView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -21),
-            textView.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
-            textView.topAnchor.constraint(equalTo: contentView.topAnchor),
-
-        ])
-        textFieldHeight = textView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        textFieldHeight?.isActive = true
-        
-    }
-    
     override func getFieldData(for type: String) -> (Any?, Bool) {
         
         if lookupId == nil {
@@ -117,5 +94,8 @@ extension LookupTableViewCell: RecordTableViewDelegate {
 
         self.formTextField.text = recordName
         self.lookupId = recordId
+        
+//        if isMandatory
+        delegate?.textFieldData(data: ["id": lookupId], isValid: true, index: index)
     }
 }

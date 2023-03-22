@@ -12,7 +12,8 @@ class TableBookingDataManager {
     private let bookingDatabaseService = BookingDatabaseService()
     private let bookingNetworkService = BookingNetworkService()
     
-    func getBookedTablesFor(date: String, time: String?,
+    func getBookedTablesFor(date: String,
+                            time: String?,
                             completion: @escaping ([[Table]], [String]) -> Void) {
         
         let dispatchGroup = DispatchGroup()
@@ -73,19 +74,19 @@ class TableBookingDataManager {
             completion([availabeTables, bookedTables], reservationIds)
         }
         
-//        bookingDatabaseService.bookedTablesFor(date: date) { results in
-//
-//            guard let results = results else {
-//
-//                print("DB returned nothing")
-//                return
-//            }
-//
-//            for result in results {
-//
-//
-//            }
-//        }
+        bookingDatabaseService.bookedTablesFor(date: date) { results in
+
+            guard let results = results else {
+
+                print("DB returned nothing")
+                return
+            }
+
+            for result in results {
+
+
+            }
+        }
     }
     
     func getAvailableTables(date: String, time: String?) {

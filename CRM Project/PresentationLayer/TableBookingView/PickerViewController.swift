@@ -32,6 +32,7 @@ class PickerViewController: UIViewController {
     
     init(tablviewData: [String] = [], headerTitle: String? = nil) {
         self.tableViewData = tablviewData
+        self.sectionHeaderTitle = headerTitle
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -48,11 +49,7 @@ class PickerViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
+        super.viewWillAppear(animated)
     }
     
     func showView(viewType: ViewType) {
@@ -62,6 +59,7 @@ class PickerViewController: UIViewController {
             configureDatePicker()
         } else {
             datePicker.removeFromSuperview()
+            doneButton.isHidden = true
             configureTableView()
         }
     }
@@ -87,6 +85,8 @@ class PickerViewController: UIViewController {
         delegate?.pickerViewData(datePickerDate: lastPickedDate, tableviewSelectedRow: lastPickedTime)
         dismiss(animated: true)
     }
+    
+    
     
     private func configureDatePicker() {
         
@@ -129,7 +129,7 @@ class PickerViewController: UIViewController {
         tableView.dataSource = self
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: doneButton.bottomAnchor, constant: 10),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -156,6 +156,10 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
         tableViewData.count
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
@@ -180,6 +184,8 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
         
         return sectionHeaderTitle
     }
+    
+    
 }
 
 extension PickerViewController: FormTableViewDelegate {

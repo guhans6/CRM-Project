@@ -114,8 +114,6 @@ class SplashViewController: UIViewController {
         splitvc.show(.secondary)
         isMenuOpen = false
     }
-    
-    
 }
 
 extension SplashViewController: MenuViewDelegate {

@@ -10,9 +10,9 @@ import UIKit
 
 class RecordsTableViewController: UITableViewController {
     
-    private let recordsController = RecordsController()
-    private let searchController = UISearchController()
+    private let recordsController: RecordsContract = RecordsController()
     private var formViewController: FormTableViewController!
+    private let searchController = UISearchController()
     private var module: Module?
     private var moduleApiName: String
     private var isLookUp: Bool
@@ -20,6 +20,7 @@ class RecordsTableViewController: UITableViewController {
     private var filteredRecords = [Record]()
     private var isSearching = false
     private var isFiltered = false
+    
     var delegate: RecordTableViewDelegate?
     
     private var sortedRecords = [String: [Record]]()
@@ -79,7 +80,7 @@ class RecordsTableViewController: UITableViewController {
     
     @objc private func sortButtonTapped() {
         
-        let pickerVc = PickerViewController(tablviewData: ["Normal", "ASC", "DSC"])
+        let pickerVc = PickerViewController(tablviewData: ["Normal", "ASC", "DSC"], headerTitle: "Sort By")
         pickerVc.delegate = self
         pickerVc.showView(viewType: .tableView)
         if let sheetController = pickerVc.sheetPresentationController {

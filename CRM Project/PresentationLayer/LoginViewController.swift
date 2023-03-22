@@ -8,7 +8,7 @@
 import UIKit
 class LoginViewController: UIViewController {
     
-    private let openLinkButton = UIButton()
+    private let loginButton = UIButton()
     private var isLoggedIn: Bool = false
     
     deinit {
@@ -36,18 +36,17 @@ class LoginViewController: UIViewController {
     }
     
     private func configureOpenLinkButton() {
-        view.addSubview(openLinkButton)
-        openLinkButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loginButton)
+        loginButton.translatesAutoresizingMaskIntoConstraints = false
 
-        openLinkButton.backgroundColor = .systemBlue
-        openLinkButton.setTitle("Login".localized(), for: .normal)
-//        openLinkButton.setTitleColor(.white, for: .normal)
-        openLinkButton.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
-        openLinkButton.addTarget(self, action: #selector(didTapOpenLinkButton), for: .touchUpInside)
+        loginButton.backgroundColor = .systemBlue
+        loginButton.setTitle("Login".localized(), for: .normal)
+        loginButton.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
+        loginButton.addTarget(self, action: #selector(didTapOpenLinkButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
-            openLinkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            openLinkButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
+            loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loginButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20),
         ])
     }
     

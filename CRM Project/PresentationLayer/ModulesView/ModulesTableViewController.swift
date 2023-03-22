@@ -38,7 +38,6 @@ class ModulesTableViewController: UITableViewController {
         tableView.estimatedRowHeight = 50
         
         tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
-
     }
     
     private func getModules() {

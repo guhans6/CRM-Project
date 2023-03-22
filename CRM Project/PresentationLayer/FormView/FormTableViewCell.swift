@@ -9,11 +9,11 @@ import UIKit
 
 protocol FormCellDelegate: AnyObject {
     
-    func textFieldData(data: Any?, index: Int)
+    func textFieldData(data: Any?, isValid: Bool, index: Int)
 }
 
 class FormTableViewCell: UITableViewCell {
-
+    
     static let cellIdentifier = "formCell"
     let label = UILabel()
     lazy var formTextField = FormTextField()
@@ -22,7 +22,7 @@ class FormTableViewCell: UITableViewCell {
     lazy var invalidLabel = UILabel()
     var isMandatory: Bool = false
     weak var delegate: FormCellDelegate?
-    private var index: Int!
+    var index: Int!
     
     var textFieldHeight: NSLayoutConstraint?
     var texFieldTrailing: NSLayoutConstraint?
@@ -30,8 +30,6 @@ class FormTableViewCell: UITableViewCell {
     
     var fieldType: String!
     
-    var activeTextField: UITextField?
-    var activeTextView: UITextView?
     var keyboardHeight: CGFloat = 0
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -46,69 +44,14 @@ class FormTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-
+        
+        formTextField.text = nil
+        
     }
     
     func configureCell() {
         
         configureLabel()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-    }
-    
-    @objc func keyboardWillShow(_ notification: Notification) {
-    
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
-              
-        else {
-            return
-            
-        }
-        // Keyboard Height
-        keyboardHeight = keyboardFrame.height
-        
-        if activeTextView != nil || activeTextField != nil {
-            
-            // Keyboard Height
-    //        let keyboardTopY = keyboardFrame.origin.y - keyboardHeight
-            
-            // The below is to find bounds of activeTextFields Rect according to it's superview
-            let textFieldRect = activeTextField!.convert(activeTextField!.bounds, to: self.superview)
-            let textViewRect = activeTextView!.convert(activeTextView!.bounds, to: self.superview)
-            
-            // The below is to find the bottom position of textField in the rectangle
-            let textFieldBottom = textFieldRect.origin.y + textFieldRect.size.height
-            
-            // So if the bottom is greater than keyboard's height it will move the view up
-            // We are checking if it is Greater because y increase in the way down and x increases on right form (0, 0) on phone's top left
-            
-            if textFieldBottom > keyboardHeight && superview?.frame.origin.y == 0 {
-                
-                superview?.frame.origin.y -= keyboardHeight
-                if let parentVC = self.next?.next as? UIViewController {
-                    
-                    parentVC.navigationController?.navigationBar.isHidden = true
-                }
-            }
-        } else {
-            return
-        }
-        
-        // Save the keyboard height and set the content inset to move the table view up
-        
-    }
-
-
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        
-        // Move the view back down to its original position
-        superview?.frame.origin.y = 0
-        if let parentVC = self.next?.next as? UIViewController {
-            
-            parentVC.navigationController?.navigationBar.isHidden = false
-        }
     }
     
     func configureLabel() {
@@ -135,7 +78,7 @@ class FormTableViewCell: UITableViewCell {
         formTextField.autocorrectionType = .no
         formTextField.autocapitalizationType = .none
         formTextField.returnKeyType = .done
-//        formTextField.addTarget(self, action: <#T##Selector#>, for: .)
+        formTextField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
         
         NSLayoutConstraint.activate([
             formTextField.leadingAnchor.constraint(equalTo: contentView.centerXAnchor),
@@ -147,6 +90,21 @@ class FormTableViewCell: UITableViewCell {
         
         texFieldTrailing?.isActive = true
         textFieldHeight?.isActive = true
+    }
+    
+    @objc private func textFieldValueChanged() {
+        
+        let textFieldData = getFieldData(for: fieldType)
+        print(textFieldData)
+        delegate?.textFieldData(data: textFieldData.0, isValid: textFieldData.1, index: index)
+//        print(textFieldData)
+    }
+    
+    func configureInvalidLabel() {
+        
+        if isMandatory && formTextField.text == "" {
+            configureInvalidLabel(with: "This j is Required")
+        }
     }
     
     func configureInvalidLabel(with message: String?) {
@@ -181,9 +139,12 @@ class FormTableViewCell: UITableViewCell {
         }
     }
     
-    func setUpCellWith(fieldName: String, isMandatory: Bool) {
+    func setUpCellWith(fieldName: String, isMandatory: Bool, cellIndex: Int, fieldType: String) {
 
+        self.index = cellIndex
         self.isMandatory = isMandatory
+        self.fieldType = fieldType
+        
         if isMandatory {
             let fieldNameString = fieldName
             let starString = "*"
@@ -198,7 +159,6 @@ class FormTableViewCell: UITableViewCell {
         } else {
             label.text = fieldName
         }
-
     }
     
     func setLookupName(lookupApiName: String) { }
@@ -218,7 +178,7 @@ class FormTableViewCell: UITableViewCell {
             configureInvalidLabel(with: "This field is Required")
             return ("" , false)
         }
-        
+    
         switch type {
             
         case "String":
@@ -233,33 +193,8 @@ class FormTableViewCell: UITableViewCell {
 
 extension FormTableViewCell: UITextFieldDelegate {
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        
-        activeTextField = textField
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        let textFieldData = getFieldData(for: "")
-        delegate?.textFieldData(data: textFieldData.0, index: index)
-        activeTextField = nil
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
          textField.resignFirstResponder()
          return true
      }
-}
-
-extension FormTableViewCell: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        
-        activeTextView = textView
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        
-        activeTextView = nil
-    }
 }

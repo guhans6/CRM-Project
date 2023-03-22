@@ -28,7 +28,8 @@ class BookingDatabaseService {
     
     func bookedTablesFor(date: String, completion: @escaping ([[String: Any]]?) -> Void) {
         
-        database.select(tableName: tableName) { result in
+        let whereClause = "Booking_Date = \(date)"
+        database.select(tableName: tableName, whereClause: whereClause) { result in
             completion(result)
         }
     }
@@ -37,7 +38,7 @@ class BookingDatabaseService {
         
         database.select(tableName: "Table_Reservations") { resultData in
             
-            print(resultData)
+//            print(resultData)
         }
     }
 }
