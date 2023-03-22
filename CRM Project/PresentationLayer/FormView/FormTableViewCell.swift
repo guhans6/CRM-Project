@@ -46,7 +46,6 @@ class FormTableViewCell: UITableViewCell {
         super.prepareForReuse()
         
         formTextField.text = nil
-        
     }
     
     func configureCell() {

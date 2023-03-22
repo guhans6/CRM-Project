@@ -22,6 +22,10 @@ class BooleanTableViewCell: FormTableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+    
     private func configureSwitch() {
         formTextField.removeFromSuperview()
         
@@ -44,7 +48,8 @@ class BooleanTableViewCell: FormTableViewCell {
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
 
         self.isUserInteractionEnabled = isRecordEditing
-        if data as? String == "true" {
+        
+        if data as? Bool == true || data as? String == "Yes" {
             print(data, data)
             switchButton.isOn = true
         } else {

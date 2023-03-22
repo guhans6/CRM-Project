@@ -201,7 +201,7 @@ class RecordsDataManager {
                                 
                             } else if let value = value as? Bool {
                                 
-                                let data = value == true ? "true" : "false"
+                                let data = value == true ? "Yes" : "No"
                                 
                                 databaseData.append(data)
                                 recordInfo.append((field.fieldLabel, data))
