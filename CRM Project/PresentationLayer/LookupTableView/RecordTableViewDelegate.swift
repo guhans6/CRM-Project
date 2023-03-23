@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol LookupTableViewDelegate {
+protocol RecordTableViewDelegate {
     
-    func getLookupRecordId(recordName: String,recordId: String)
+    func setLookupRecordAndId(recordName: String,recordId: String)
 }
 
 protocol PickListDelegate {
