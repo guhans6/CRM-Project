@@ -23,7 +23,6 @@ class HomeViewController: UIViewController {
     deinit {
         print("Login deinitialized")
     }
-    
 
     override func viewDidLoad() {
         
@@ -33,7 +32,6 @@ class HomeViewController: UIViewController {
 
         configureUI()
     }
-    
     
     override func viewWillAppear(_ animated: Bool) {
         

@@ -45,10 +45,8 @@ class WebViewController: UIViewController {
             return
         }
         
-        DispatchQueue.main.async {
             
-            webView.load(URLRequest(url: url))
-        }
+        webView.load(URLRequest(url: url))
     }
     
     @objc private func didPressBackButton() {

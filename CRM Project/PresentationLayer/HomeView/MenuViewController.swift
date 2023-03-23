@@ -27,7 +27,7 @@ class MenuViewController: UIViewController {
     weak var delegate: MenuViewDelegate?
     
     private let darkModeSwitch = UISwitch()
-    private lazy var logoutButton = UIButton()
+    private let logoutButton = UIButton()
     
     init() {
         super.init(nibName: nil, bundle: nil)

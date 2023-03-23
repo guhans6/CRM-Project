@@ -10,11 +10,11 @@ import UIKit
 class SplashViewController: UIViewController {
     
     private let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
-    private lazy var splitvc = UISplitViewController(style: .doubleColumn)
+    private let splitvc = UISplitViewController(style: .doubleColumn)
     
-    private lazy var menuViewController = MenuViewController()
-    private lazy var homeViewController = HomeViewController()
-    private lazy var loginViewController = LoginViewController()
+    private let menuViewController = MenuViewController()
+    private let homeViewController = HomeViewController()
+    private let loginViewController = LoginViewController()
     
     private var isMenuOpen = false
     
@@ -28,6 +28,7 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        configureSplitView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -76,7 +77,7 @@ class SplashViewController: UIViewController {
         }
     }
     
-    private func presentSplitView() {
+    private func configureSplitView() {
         
         let menuVC = UINavigationController(rootViewController: menuViewController)
         let homeNavigationVC = UINavigationController(rootViewController: homeViewController)
@@ -97,8 +98,11 @@ class SplashViewController: UIViewController {
         }
         
         splitvc.setViewController(menuVC, for: .primary)
-        splitvc.setViewController(homeViewController, for: .secondary)
+        splitvc.setViewController(homeNavigationVC, for: .secondary)
+    }
+    private func presentSplitView() {
         
+        didTapCloseButton()
         present(splitvc, animated: true)
     }
     
