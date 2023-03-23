@@ -47,10 +47,15 @@ class TextAreaTableViewCell: FormTableViewCell {
     override func setRecordData(for data: Any, isEditable: Bool = true) {
         self.textView.text = data as? String
         self.isUserInteractionEnabled = isEditable
+        
+    }
+    
+    private func saveTextViewData() {
+        
+        delegate?.textFieldData(data: textView.text, isValid: true, index: index)
     }
     
     override func getFieldData(for type: String) -> (Any?, Bool) {
-        
         
         return (textView.text, true)
     }
@@ -61,6 +66,6 @@ extension TextAreaTableViewCell: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         
-        delegate?.textFieldData(data: textView.text, isValid: true, index: index)
+        saveTextViewData()
     }
 }

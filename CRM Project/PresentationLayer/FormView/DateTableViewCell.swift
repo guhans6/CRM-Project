@@ -29,6 +29,8 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
         formTextField.text = data as? String
         self.isUserInteractionEnabled = isRecordEditing
+        
+       saveDateValue()
     }
     
     override func getFieldData(for type: String) -> (Any?, Bool) {
@@ -52,6 +54,12 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
         
     }
     
+    private func saveDateValue() {
+        
+        let date = getFieldData(for: "")
+        delegate?.textFieldData(data: date.0, isValid: true, index: index)
+    }
+    
 }
 
 extension DateTableViewCell: PickerViewDelegate {
@@ -64,6 +72,8 @@ extension DateTableViewCell: PickerViewDelegate {
         let formattedDate = dateFormatter.string(from: datePickerDate)
         
         self.formTextField.text = formattedDate
+        
+        saveDateValue()
     }
     
 }

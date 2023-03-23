@@ -33,12 +33,10 @@ class SplashViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if isMenuOpen {
-            menuButtonTapped()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        
         super.viewDidAppear(animated)
         setUpViewController()
     }
@@ -80,7 +78,7 @@ class SplashViewController: UIViewController {
     
     private func presentSplitView() {
         
-        let navigationVC = UINavigationController(rootViewController: menuViewController)
+        let menuVC = UINavigationController(rootViewController: menuViewController)
         let homeNavigationVC = UINavigationController(rootViewController: homeViewController)
         
         splitvc.modalPresentationStyle = .fullScreen
@@ -98,8 +96,8 @@ class SplashViewController: UIViewController {
             homeViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: navigationLeftButton, style: .plain, target: self, action: #selector(menuButtonTapped))
         }
         
-        splitvc.setViewController(navigationVC, for: .primary)
-        splitvc.setViewController(homeNavigationVC, for: .secondary)
+        splitvc.setViewController(menuVC, for: .primary)
+        splitvc.setViewController(homeViewController, for: .secondary)
         
         present(splitvc, animated: true)
     }

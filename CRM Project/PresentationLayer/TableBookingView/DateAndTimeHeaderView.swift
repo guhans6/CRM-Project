@@ -9,9 +9,9 @@ import UIKit
 
 class DateAndTimeHeaderView: UIView {
     
-    let selectDateLabel = UILabel()
+    private let selectDateLabel = UILabel()
     let dateDisplayButton = UIButton()
-    let timeLabel = UILabel()
+    private let timeLabel = UILabel()
     let timeDisplayButton = UIButton()
     
     override init(frame: CGRect) {
@@ -69,8 +69,13 @@ class DateAndTimeHeaderView: UIView {
             dateDisplayButton.widthAnchor.constraint(equalToConstant: 140),
             dateDisplayButton.heightAnchor.constraint(equalToConstant: 40),
 //            dateDisplayButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
-            
         ])
+    }
+    
+    func setDate(date: Date) {
+        
+        let convertedDate = DateFormatter.formattedString(from: date, format: "dd-MM-yyyy")
+        dateDisplayButton.setTitle(convertedDate, for: .normal)
     }
     
     private func configureTimeLabel() {

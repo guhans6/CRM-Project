@@ -41,6 +41,11 @@ class BooleanTableViewCell: FormTableViewCell {
     
     @objc private func switchValueChanged() {
         
+        saveValue()
+    }
+    
+    private func saveValue() {
+        
         let switchData = getFieldData(for: "")
         delegate?.textFieldData(data: switchData.0, isValid: switchData.1, index: index)
     }
@@ -49,13 +54,14 @@ class BooleanTableViewCell: FormTableViewCell {
 
         self.isUserInteractionEnabled = isRecordEditing
         
-        if data as? Bool == true || data as? String == "Yes" {
+        if data as? Bool == true || data as? String == "Yes"{
             print(data, data)
             switchButton.isOn = true
         } else {
             print(data)
             switchButton.isOn = false
         }
+        saveValue()
     }
     
     // MARK: Can also override the get field

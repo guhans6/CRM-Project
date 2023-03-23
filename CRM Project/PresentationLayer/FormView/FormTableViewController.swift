@@ -140,86 +140,6 @@ class FormTableViewController: UITableViewController {
     
     @objc private func doneButtonClicked() {
         
-//        // SAVE DATA
-//        var data = [String: Any]()
-//        let rows = tableView.numberOfRows(inSection: 0)
-//
-//        var shouldCancel = false
-//
-//        for row in 0..<rows {
-//
-//            let indexPath = IndexPath(row: row, section: 0)
-//            let field = fields[row]
-//            let cell: FormTableViewCell?
-//
-//            if field.lookup.module != nil {
-//
-//                cell = tableView.cellForRow(at: indexPath) as! LookupTableViewCell
-//            } else {
-//
-//                switch field.dataType {
-//                case "text":
-//                    cell = tableView.cellForRow(at: indexPath) as! StringTableViewCell
-//
-//                case "textarea":
-//
-//                    cell = tableView.cellForRow(at: indexPath) as! TextAreaTableViewCell
-//                case "phone", "integer":
-//
-//                    cell = tableView.cellForRow(at: indexPath) as! IntegerTableViewCell
-//                case "double", "currency":
-//
-//                    cell = tableView.cellForRow(at: indexPath) as! DoubleTableViewCell
-//                case "boolean":
-//
-//                    cell = tableView.cellForRow(at: indexPath) as! BooleanTableViewCell
-//                case "picklist", "multiselectpicklist":
-//
-//                    cell = tableView.cellForRow(at: indexPath) as! PickListTableViewCell
-//                default:
-//
-//                    cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell
-//                }
-//
-//            }
-//            let cellField = cell!.getFieldData(for: field.dataType)
-//
-//
-//            if isReadyToSaveOrUpdate(field: field,
-//                                     recordData: cellField.0,
-//                                     isValidated: cellField.1) == false
-//            {
-//                shouldCancel = true
-//            }
-//
-//            data[field.apiName] = cellField.0
-//        }
-//
-//        // If all validation is made can continue
-//        if shouldCancel {
-//            print("Cancelled")
-//            return
-//        }
-//
-//        if editingRecordId != nil {
-//
-//            recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: true, recordId: editingRecordId) { [weak self] result in
-//
-//                print("Result is \(result)")
-//                if result {
-//                    self?.navigationController?.popViewController(animated: true)
-//                }
-//            }
-//        } else {
-//
-//            recordsController.addRecord(module: moduleApiName, recordData: data, isAUpdate: false, recordId: nil) { [weak self] result in
-//
-//                print("Result is \(result)")
-//                if result {
-//                    self?.navigationController?.popViewController(animated: true)
-//                }
-//            }
-//        }
         editTapped()
     }
     
@@ -382,6 +302,13 @@ extension FormTableViewController {
                         shouldEnableUserInteracion = false
                     }
                     
+                    if field.dataType == "lookup" {
+                        
+                        if let lookupData = record.1 as? [String] {
+                            recordsToBeSaved[indexPath.row] = (true, ["id", lookupData[0]])
+                        }
+                    }
+                    recordsToBeSaved[indexPath.row] = (true, record.1)
                     cell.setRecordData(for: record.1, isEditable: shouldEnableUserInteracion)
                     break
                 }
@@ -433,15 +360,34 @@ extension FormTableViewController {
         let cell = gestureRecognizer.view as! FormTableViewCell
         let location = gestureRecognizer.location(in: cell)
         
-        if location.x > cell.frame.width / 2 {
+        if #available(iOS 9.0, *) {
             
-            if let cell = cell as? LookupTableViewCell {
+            var canPresentLookup = false
+            
+            if UIView.userInterfaceLayoutDirection(
+                for: view.semanticContentAttribute) == .rightToLeft {
                 
-                let moduleName = cell.lookupApiName
-                let lookupTableVC = RecordsTableViewController(module: moduleName!, isLookup: true)
-                lookupTableVC.delegate = cell.self
-                navigationController?.pushViewController(lookupTableVC, animated: true)
                 
+                if location.x < cell.frame.width / 2 {
+                    
+                    canPresentLookup = true
+                }
+            } else {
+                
+                if location.x > cell.frame.width / 2 {
+                    
+                    canPresentLookup = true
+                }
+            }
+            
+            if canPresentLookup {
+                if let cell = cell as? LookupTableViewCell {
+                    
+                    let moduleName = cell.lookupApiName
+                    let lookupTableVC = RecordsTableViewController(module: moduleName!, isLookup: true)
+                    lookupTableVC.delegate = cell.self
+                    navigationController?.pushViewController(lookupTableVC, animated: true)
+                }
             } else if let cell = cell as? DateTableViewCell {
                 
                 let myPickerVC = PickerViewController()
@@ -472,13 +418,33 @@ extension FormTableViewController {
         let pickListName = field.fieldLabel
         let dataType = field.dataType
         
-        if location.x > cell.frame.width / 2 {
+        if #available(iOS 9.0, *) {
             
-            let lookupTableVC = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickList, isMultiSelect: dataType == "picklist" ? false : true)
-            lookupTableVC.delegate = cell.self
+            var canPresent = false
             
-            navigationController?.pushViewController(lookupTableVC, animated: true)
+            if UIView.userInterfaceLayoutDirection(
+                for: view.semanticContentAttribute) == .rightToLeft {
+                
+                // The view is shown in right-to-left mode right now.
+                if location.x < cell.frame.width / 2 {
+                    canPresent = true
+                }
+            } else {
+                
+                if location.x > cell.frame.width / 2 {
+                    canPresent = true
+                }
+            }
+            
+            if canPresent {
+                
+                let lookupTableVC = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickList, isMultiSelect: dataType == "picklist" ? false : true)
+                lookupTableVC.delegate = cell.self
+                
+                navigationController?.pushViewController(lookupTableVC, animated: true)
+            }
         }
+        //Should also handle lower ios versions
     }
 }
 

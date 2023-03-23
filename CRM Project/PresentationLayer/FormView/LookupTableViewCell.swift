@@ -69,10 +69,12 @@ class LookupTableViewCell: FormTableViewCell {
         if lookupId == nil {
             return (nil, false)
         }
+        
         return (["id": lookupId], true)
     }
     
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool) {
+        
         
         if let lookupData = data as? [String] {
             
@@ -82,9 +84,16 @@ class LookupTableViewCell: FormTableViewCell {
         } else if let lookupData = data as? String {
             self.formTextField.text = lookupData
         }
-//        self.textView.isEditable = isRecordEditing
+        
+        saveLookupValue()
         self.isUserInteractionEnabled = isRecordEditing
         
+    }
+    
+    private func saveLookupValue() {
+        
+        let lookupData = getFieldData(for: "")
+        delegate?.textFieldData(data: lookupData.0, isValid: true, index: index)
     }
 }
 
@@ -95,7 +104,6 @@ extension LookupTableViewCell: RecordTableViewDelegate {
         self.formTextField.text = recordName
         self.lookupId = recordId
         
-//        if isMandatory
-        delegate?.textFieldData(data: ["id": lookupId], isValid: true, index: index)
+        saveLookupValue()
     }
 }

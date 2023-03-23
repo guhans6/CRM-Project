@@ -17,6 +17,7 @@ class PickerViewController: UIViewController {
     private let datePicker = UIDatePicker()
     private let tableView = UITableView(frame: .zero, style: .insetGrouped)
     private let doneButton = UIButton()
+    private lazy var resetButton = UIButton()
     
     private var tableViewData = [String]()
     
@@ -45,6 +46,8 @@ class PickerViewController: UIViewController {
         view.backgroundColor = .systemGray6
         
         configureDoneButton()
+        configureDatePicker()
+        configureTableView()
         reloadTableData()
     }
     
@@ -55,12 +58,15 @@ class PickerViewController: UIViewController {
     func showView(viewType: ViewType) {
         
         if viewType == .dateView {
-            tableView.removeFromSuperview()
-            configureDatePicker()
+            tableView.isHidden = true
+            doneButton.isHidden = false
+            datePicker.isHidden = false
+            resetButton.isHidden = false
         } else {
-            datePicker.removeFromSuperview()
+            datePicker.isHidden = true
             doneButton.isHidden = true
-            configureTableView()
+            resetButton.isHidden = true
+            tableView.isHidden = false
         }
     }
     
@@ -100,19 +106,54 @@ class PickerViewController: UIViewController {
         datePicker.layer.cornerRadius = 20
         datePicker.clipsToBounds = true
         
+        datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
+        
         let today = Date()
 //        datePicker.minimumDate = today
         
         let calendar = Calendar.current
-        let nextWeek = calendar.date(byAdding: .day, value: 30, to: today)!
+        let nextMonth = calendar.date(byAdding: .day, value: 30, to: today)!
 
-        datePicker.maximumDate = nextWeek
+//        datePicker.maximumDate = nextMonth
         
         NSLayoutConstraint.activate([
             datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             datePicker.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.9)
         ])
+        configureResetButton()
+    }
+    
+    @objc private func datePickerValueChanged() {
+        
+        if datePicker.date == Date() {
+            resetButton.isHidden = true
+        } else {
+            resetButton.isHidden = false
+        }
+    }
+    
+    private func configureResetButton() {
+        
+        view.addSubview(resetButton)
+        resetButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        resetButton.setTitle("Today", for: .normal)
+        resetButton.setTitleColor(.systemBlue, for: .normal)
+        resetButton.titleLabel?.font = .systemFont(ofSize: 15)
+        resetButton.addTarget(self, action: #selector(resetButtonTapped), for: .touchUpInside)
+        resetButton.isHidden = true
+        
+        NSLayoutConstraint.activate([
+            resetButton.topAnchor.constraint(equalTo: datePicker.bottomAnchor, constant: 10),
+            resetButton.centerXAnchor.constraint(equalTo: datePicker.centerXAnchor),
+        ])
+    }
+    
+    @objc private func resetButtonTapped() {
+        
+        datePicker.date = Date()
+        resetButton.isHidden = true
     }
     
     private func configureTableView() {

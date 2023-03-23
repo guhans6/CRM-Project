@@ -83,7 +83,6 @@ class KeychainController {
         
         do {
             let refresh = try keychainManager.retreiveFromKeyChain(service: refreshTokenService, account: account)
-            print(String(data: refresh!, encoding: .utf8)!)
             
             return String(data: refresh!, encoding: .utf8)!
         } catch {
@@ -93,10 +92,16 @@ class KeychainController {
     }
     
     func getAccessToken() -> String {
-        let access = try! keychainManager.retreiveFromKeyChain(service: accessTokenService, account: account)
-        let accessToken = String(data: access!, encoding: .utf8)!
         
-        return accessToken
+        do {
+            let accessToken = try keychainManager.retreiveFromKeyChain(service: accessTokenService, account: account)
+            let accessTokenString = String(data: accessToken!, encoding: .utf8)!
+            
+            return accessTokenString
+        } catch {
+            print(error)
+        }
+        return ""
     }
     
     // Update Refresh Token

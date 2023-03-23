@@ -77,6 +77,7 @@ class FormTableViewCell: UITableViewCell {
         formTextField.autocorrectionType = .no
         formTextField.autocapitalizationType = .none
         formTextField.returnKeyType = .done
+        formTextField.keyboardType = .asciiCapable
         formTextField.addTarget(self, action: #selector(textFieldValueChanged), for: .editingChanged)
         
         NSLayoutConstraint.activate([
@@ -102,7 +103,7 @@ class FormTableViewCell: UITableViewCell {
     func configureInvalidLabel() {
         
         if isMandatory && formTextField.text == "" {
-            configureInvalidLabel(with: "This j is Required")
+            configureInvalidLabel(with: "This is Required")
         }
     }
     

@@ -28,6 +28,11 @@ class RecordsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        recordNameLabel.text = nil
+        secondaryLabel.text = nil
+    }
+    
     private func configureRecordNameLabel() {
         
         contentView.addSubview(recordNameLabel)

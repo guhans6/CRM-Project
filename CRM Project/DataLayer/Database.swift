@@ -37,7 +37,7 @@ class Database {
     func openDatabase() {
         
         //        if sqlite3_open(fileURL.path, &dbPointer) != SQLITE_OK {
-        if (sqlite3_open_v2(fileURL.path(),
+        if (sqlite3_open_v2(fileURL.path,
                             &dbPointer,
                             SQLITE_OPEN_READWRITE | SQLITE_OPEN_FULLMUTEX | SQLITE_OPEN_CREATE,
                             nil) != SQLITE_OK) {

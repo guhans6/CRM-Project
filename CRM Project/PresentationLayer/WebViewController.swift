@@ -44,7 +44,11 @@ class WebViewController: UIViewController {
             print("Invalid URL!")
             return
         }
-        webView.load(URLRequest(url: url))
+        
+        DispatchQueue.main.async {
+            
+            webView.load(URLRequest(url: url))
+        }
     }
     
     @objc private func didPressBackButton() {
@@ -67,6 +71,7 @@ class WebViewController: UIViewController {
 extension WebViewController: WKNavigationDelegate {
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        
         
         networkController.generateAccessToken(from: webView.url)
     }

@@ -25,6 +25,11 @@ class RecordInfoTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        recordInfoNameLabel.text = nil
+        recordDataLabel.text = nil
+    }
+    
     private func configureRecordNameLabel() {
         
         contentView.addSubview(recordInfoNameLabel)
@@ -32,6 +37,7 @@ class RecordInfoTableViewCell: UITableViewCell {
         recordInfoNameLabel.textAlignment = .left
         recordInfoNameLabel.font = .preferredFont(forTextStyle: .body)
         recordInfoNameLabel.numberOfLines = 0
+        recordInfoNameLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         
         NSLayoutConstraint.activate([
             

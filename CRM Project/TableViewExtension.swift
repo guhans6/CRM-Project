@@ -19,8 +19,7 @@ extension UITableView {
     }
     
     func hideLoadingIndicator() {
-        self.backgroundView = nil
-        self.separatorStyle = .singleLine
+        restore()
     }
     
     

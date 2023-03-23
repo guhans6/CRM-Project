@@ -10,8 +10,9 @@ import UIKit
 class HomeViewController: UIViewController {
         
     private let datePicker = UIDatePicker()
-    
-    private let bookedTablesView = UITableView(frame: .zero, style: .insetGrouped)
+    private let dateResetButton = UIButton()
+    private let activitiesTableView = UITableView(frame: .zero, style: .insetGrouped)
+    private var lastPickedDate = Date()
     
     private var tables = [Table]()
     private var reservationIds = [String]()
@@ -37,16 +38,42 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
+        datePicker.date = lastPickedDate
         navigationController?.navigationBar.prefersLargeTitles = true
+        getBookedTablesFor(date: lastPickedDate)
     }
     
     private func configureUI() {
         
+        configureDateResetButton()
         configureDatePicker()
         configureBookedTablesView()
         getBookedTablesFor(date: Date())
     }
     
+    private func configureDateResetButton() {
+        
+        view.addSubview(dateResetButton)
+        dateResetButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        dateResetButton.setTitle("Today", for: .normal)
+        dateResetButton.setTitleColor(.systemBlue, for: .normal)
+        dateResetButton.titleLabel?.font = .systemFont(ofSize: 15)
+        dateResetButton.addTarget(self, action: #selector(resetDateButtonTapped), for: .touchUpInside)
+        dateResetButton.isHidden = true
+        
+        NSLayoutConstraint.activate([
+            dateResetButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            dateResetButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+        ])
+    }
+    
+    @objc private func resetDateButtonTapped() {
+        
+        datePicker.date = Date()
+        dateResetButton.isHidden = true
+        getBookedTablesFor(date: datePicker.date)
+    }
     
     private func configureDatePicker() {
         
@@ -63,7 +90,7 @@ class HomeViewController: UIViewController {
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         
         NSLayoutConstraint.activate([
-            datePicker.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            datePicker.topAnchor.constraint(equalTo: dateResetButton.bottomAnchor),
             datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             datePicker.heightAnchor.constraint(equalToConstant: 100)
@@ -72,32 +99,36 @@ class HomeViewController: UIViewController {
 
     @objc private func datePickerValueChanged() {
         
+        if datePicker.date == Date() {
+            dateResetButton.isHidden = true
+        } else {
+            dateResetButton.isHidden = false
+        }
         getBookedTablesFor(date: datePicker.date)
     }
-    
+
     private func configureBookedTablesView() {
         
-        view.addSubview(bookedTablesView)
-        bookedTablesView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(activitiesTableView)
+        activitiesTableView.translatesAutoresizingMaskIntoConstraints = false
         
-        bookedTablesView.delegate = self
-        bookedTablesView.dataSource = self
+        activitiesTableView.delegate = self
+        activitiesTableView.dataSource = self
         
-        bookedTablesView.rowHeight = UITableView.automaticDimension
-        bookedTablesView.estimatedRowHeight = 44
+        activitiesTableView.rowHeight = UITableView.automaticDimension
+        activitiesTableView.estimatedRowHeight = 44
         
-        bookedTablesView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
+        activitiesTableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
-        
-        bookedTablesView.layer.cornerRadius = 10
-        bookedTablesView.clipsToBounds = true
-        bookedTablesView.backgroundColor = .systemGray6
+        activitiesTableView.layer.cornerRadius = 10
+        activitiesTableView.clipsToBounds = true
+        activitiesTableView.backgroundColor = .systemGray6
         
         NSLayoutConstraint.activate([
-            bookedTablesView.topAnchor.constraint(equalTo: datePicker.bottomAnchor ,constant: 10),
-            bookedTablesView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            bookedTablesView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            bookedTablesView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            activitiesTableView.topAnchor.constraint(equalTo: datePicker.bottomAnchor ,constant: 10),
+            activitiesTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            activitiesTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            activitiesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -106,25 +137,26 @@ extension HomeViewController {
     
     private func getBookedTablesFor(date: Date) {
         
+        activitiesTableView.showLoadingIndicator()
         bookingController
             .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
                 
-                self?.bookedTablesView.showLoadingIndicator()
+                self?.activitiesTableView.showLoadingIndicator()
                 self?.tables = tables[1]
                 self?.reservationIds = reservationIds
                 
                 if self?.tables.count ?? 0 > 0 {
                     
-                    self?.bookedTablesView.hideLoadingIndicator()
+                    self?.activitiesTableView.hideLoadingIndicator()
                 }
                 
-                self?.bookedTablesView.reloadData()
+                self?.activitiesTableView.reloadData()
             }
         
         eventBookingController.getEventsFor(date: date) { [weak self] events in
             
             self?.events = events
-            self?.bookedTablesView.reloadData()
+            self?.activitiesTableView.reloadData()
         }
     }
 }
@@ -152,11 +184,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         if tables.isEmpty && events.isEmpty {
             
             let noActivitiesString = "No Activities for Today".localized()
-            self.bookedTablesView.setEmptyView(title: noActivitiesString, message: "")
+            self.activitiesTableView.setEmptyView(title: noActivitiesString, message: "")
             return 0
         } else {
             
-            self.bookedTablesView.restore()
+            self.activitiesTableView.restore()
             if section == 0 {
                 
                 return tables.count == 0 ? 1 : tables.count

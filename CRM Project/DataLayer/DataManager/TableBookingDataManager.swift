@@ -27,6 +27,7 @@ class TableBookingDataManager {
         dispatchGroup.enter()
         getAllTables { tables in
             allTables = tables
+            print(tables)
             dispatchGroup.leave()
         }
         
@@ -74,19 +75,19 @@ class TableBookingDataManager {
             completion([availabeTables, bookedTables], reservationIds)
         }
         
-        bookingDatabaseService.bookedTablesFor(date: date) { results in
-
-            guard let results = results else {
-
-                print("DB returned nothing")
-                return
-            }
-
-            for result in results {
-
-
-            }
-        }
+//        bookingDatabaseService.bookedTablesFor(date: date) { results in
+//
+//            guard let results = results else {
+//
+//                print("DB returned nothing")
+//                return
+//            }
+//
+//            for result in results {
+//
+//
+//            }
+//        }
     }
     
     func getAvailableTables(date: String, time: String?) {
@@ -151,13 +152,14 @@ class TableBookingDataManager {
     private func convertTables(data: [String: Any]) -> Table? {
         
         guard let id = data["id"] as? String,
-              let name = data["Name"] as? String,
-              let seatingCapacity = data["Seating_Capacity"] as? String,
-              let tableLocation = data["Table_Location"] as? String else {
+              let name = data["Name"] as? String else {
             
             print("Table can't be parsed")
             return nil
         }
+        let seatingCapacity = data["Seating_Capacity"] as? String
+        let tableLocation = data["Table_Location"] as? String
+        
         let convertedTable = Table(id: id, name: name, seatingCapacity: seatingCapacity, tableLocation: tableLocation)
         return convertedTable
     }

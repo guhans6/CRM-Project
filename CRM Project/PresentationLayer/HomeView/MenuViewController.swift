@@ -31,7 +31,6 @@ class MenuViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        getCurrentUser()
         
     }
     
@@ -49,6 +48,7 @@ class MenuViewController: UIViewController {
         confiureTableHeaderView()
         configureTableView()
         configureLogoutButton()
+        getCurrentUser()
     }
     
     private func confiureTableHeaderView() {

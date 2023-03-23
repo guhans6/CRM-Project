@@ -25,7 +25,6 @@ class RecordsDataManager {
                    recordId: String?,
                    isRecordSaved: @escaping (Bool) -> Void ) -> Void {
         
-        print(recordData)
         recordsNetworkService.addRecord(module: module, recordData: recordData, isAUpdate: isAUpdate, recordId: recordId) { isASuccess in
             
             isRecordSaved(isASuccess)

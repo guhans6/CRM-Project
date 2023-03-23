@@ -17,11 +17,12 @@ class TableBookingViewController: UIViewController {
     private var reservationIds = [String]()
     
     private lazy var noDataView = UIView()
-    let label = UILabel()
     private lazy var tableView = UITableView(frame: .zero , style: .insetGrouped)
     
     private let datePickerView = DateAndTimeHeaderView()
     private let pickerVC = PickerViewController(headerTitle: "Pick Time")
+    private var lastPickedDate = Date()
+    private var lastPickedTime = "Breakfast"
     
     // MARK: MAKE IT A COMPUTED PROPERTY
     lazy var selectedDate: Date = Date()
@@ -42,6 +43,12 @@ class TableBookingViewController: UIViewController {
         configureUI()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        
+        
+        getTablesFor(date: lastPickedDate, time: lastPickedTime)
+    }
+    
     private func configureUI() {
         
         view.backgroundColor = .systemGray6
@@ -58,7 +65,6 @@ class TableBookingViewController: UIViewController {
         pickerVC.modalPresentationStyle = .pageSheet
         pickerVC.delegate  = self
         
-        
         if let sheet = pickerVC.sheetPresentationController {
             sheet.prefersGrabberVisible = true
             sheet.detents = [.medium(), .large()]
@@ -72,7 +78,6 @@ class TableBookingViewController: UIViewController {
         pickerVC.showView(viewType: .dateView)
         
         present(pickerVC, animated: true, completion: nil)
-        
     }
     
     @objc private func showTimePicker() {
@@ -124,13 +129,17 @@ class TableBookingViewController: UIViewController {
     
     private func getTablesFor(date: Date, time: String) {
         
+        lastPickedTime = time
+        lastPickedDate = date
+        tableView.showLoadingIndicator()
         bookingViewController
-            .getAvailableTablesFor(date: date, time: time) { allTables, reservationIds in
+            .getAvailableTablesFor(date: date, time: time) { [weak self] allTables, reservationIds in
                 
-                self.selectedDate = date
-                self.tables = allTables
-                self.reservationIds = reservationIds
-                self.tableView.reloadData()
+                self?.selectedDate = date
+                self?.tables = allTables
+                self?.reservationIds = reservationIds
+                self?.tableView.reloadData()
+                self?.tableView.hideLoadingIndicator()
             }
     }
     
@@ -143,7 +152,6 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //        self.tables[section].count
         
         let count = self.tables[section].count
         

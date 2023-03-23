@@ -24,4 +24,19 @@ class FormTextField: UITextField {
         return bounds.inset(by: UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 0))
     }
     
+    private func getKeyboardLanguage() -> String? {
+         return "en" // here you can choose keyboard any way you need
+     }
+
+     override var textInputMode: UITextInputMode? {
+         if let language = getKeyboardLanguage() {
+             for tim in UITextInputMode.activeInputModes {
+                 if tim.primaryLanguage!.contains(language) {
+                     return tim
+                 }
+             }
+         }
+         return super.textInputMode
+     }
+
 }

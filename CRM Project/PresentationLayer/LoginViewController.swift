@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
     
     private func configureUI() {
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemBlue
         
         configureOpenLinkButton()
     }
