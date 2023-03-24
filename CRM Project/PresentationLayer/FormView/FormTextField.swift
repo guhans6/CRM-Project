@@ -17,11 +17,11 @@ class FormTextField: UITextField {
     }
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 0))
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 5))
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 0))
+        return bounds.inset(by: UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 5))
     }
     
     private func getKeyboardLanguage() -> String? {

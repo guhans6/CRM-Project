@@ -37,7 +37,7 @@ extension RecordsController: AddRecordContract {
             let bookingController = BookingController()
             bookingController.sendMailToCustomer(info: recordData)
         default:
-            print("other module network call")
+            print("")
         }
     }
 }

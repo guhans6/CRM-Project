@@ -51,7 +51,7 @@ class RecordsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         title = module?.modulePluralName ?? moduleApiName
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemGray6
         
         configureNavigationBar()
         configureRecordsTableView()
@@ -60,6 +60,7 @@ class RecordsTableViewController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         navigationController?.navigationBar.prefersLargeTitles = true
         isFiltered = false
         getRecords()
@@ -101,14 +102,19 @@ class RecordsTableViewController: UITableViewController {
             formViewController = FormTableViewController(moduleApiName: moduleApiName)
         }
 
-        navigationController?.pushViewController(formViewController, animated: true)
+        let navigationVC = UINavigationController(rootViewController: formViewController)
+        navigationVC.modalPresentationStyle = .fullScreen
+        
+        present(navigationVC, animated: true)
     }
     
     private func configureRecordsTableView() {
         
+        
         tableView.separatorColor = .tableViewSeperator
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.backgroundColor = .systemGray6
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
     }
     

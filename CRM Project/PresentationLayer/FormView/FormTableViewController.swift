@@ -83,7 +83,6 @@ class FormTableViewController: UITableViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        navigationController?.navigationBar.isHidden.toggle()
     }
     
     private func setUpController() {
@@ -101,8 +100,16 @@ class FormTableViewController: UITableViewController {
         
         let saveButton = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .done, target: self, action: #selector(doneButtonClicked))
         
-        navigationItem.rightBarButtonItems = [saveButton]
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonClicked))
+        
+        navigationItem.rightBarButtonItem = saveButton
+        navigationItem.leftBarButtonItem = cancelButton
         navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    @objc private func cancelButtonClicked() {
+        
+        dismiss(animated: true)
     }
     
     private func configureTableView() {
@@ -161,7 +168,9 @@ class FormTableViewController: UITableViewController {
                 shouldCancel = true
                 break
             }
-            data[field.apiName] = record?.1
+            if record?.1 != nil && record?.1 as? String != "" {
+                data[field.apiName] = record?.1
+            }
         }
         
         if shouldCancel {

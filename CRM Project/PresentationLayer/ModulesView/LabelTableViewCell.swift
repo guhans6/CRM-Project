@@ -16,6 +16,7 @@ class LabelTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureLabel()
+        backgroundColor = .systemGray6
     }
     
     required init?(coder: NSCoder) {

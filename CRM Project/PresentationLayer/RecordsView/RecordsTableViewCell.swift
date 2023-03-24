@@ -22,6 +22,7 @@ class RecordsTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureRecordNameLabel()
+        backgroundColor = .systemGray6
     }
     
     required init?(coder: NSCoder) {

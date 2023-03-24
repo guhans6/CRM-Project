@@ -25,7 +25,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.windowScene = windowScene
         
         let splitVc  = SplashViewController()
-//        let navVc = UINavigationController(rootViewController: splitVc)
         window?.rootViewController = splitVc
         window?.makeKeyAndVisible()
     }

@@ -37,7 +37,7 @@ class RecordsNetworkService {
             if let _ = error {
                 isSaved(false)
                 return
-            }
+            } 
             
             if let resultData = resultData,
                   let data = resultData["data"] as? [[String: Any]],

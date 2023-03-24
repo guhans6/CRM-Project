@@ -26,14 +26,6 @@ class BookingDatabaseService {
         }
     }
     
-    func bookedTablesFor(date: String, completion: @escaping ([[String: Any]]?) -> Void) {
-        
-        let whereClause = "Booking_Date = \(date)"
-        database.select(tableName: tableName, whereClause: whereClause) { result in
-            completion(result)
-        }
-    }
-    
     func getAllTables(completion: String) {
         
         database.select(tableName: "Table_Reservations") { resultData in

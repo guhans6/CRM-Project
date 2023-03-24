@@ -27,7 +27,6 @@ class TableBookingDataManager {
         dispatchGroup.enter()
         getAllTables { tables in
             allTables = tables
-            print(tables)
             dispatchGroup.leave()
         }
         
@@ -75,19 +74,19 @@ class TableBookingDataManager {
             completion([availabeTables, bookedTables], reservationIds)
         }
         
-//        bookingDatabaseService.bookedTablesFor(date: date) { results in
-//
-//            guard let results = results else {
-//
-//                print("DB returned nothing")
-//                return
-//            }
-//
-//            for result in results {
-//
-//
-//            }
-//        }
+        bookingDatabaseService.getAvailableTables(date: date, time: time) { results in
+
+            guard let results = results else {
+
+                print("DB returned nothing")
+                return
+            }
+
+            for result in results {
+
+                print(result)
+            }
+        }
     }
     
     func getAvailableTables(date: String, time: String?) {

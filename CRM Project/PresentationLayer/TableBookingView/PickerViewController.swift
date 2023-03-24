@@ -53,6 +53,8 @@ class PickerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        datePickerValueChanged()
     }
     
     func showView(viewType: ViewType) {

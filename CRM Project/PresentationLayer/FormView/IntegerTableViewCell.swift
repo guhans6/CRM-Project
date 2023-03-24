@@ -13,6 +13,7 @@ class IntegerTableViewCell: FormTableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         configureLabel()
         configureTextField()
     }
@@ -35,7 +36,14 @@ class IntegerTableViewCell: FormTableViewCell {
             self.formTextField.text = data as? String
         }
         
+        saveLookupValue()
         formTextField.isUserInteractionEnabled = isEditable
+    }
+    
+    private func saveLookupValue() {
+        
+        let lookupData = getFieldData(for: fieldType)
+        delegate?.textFieldData(data: lookupData.0, isValid: lookupData.1, index: index)
     }
     
     override func getFieldData(for type: String) -> (Any?, Bool) {
@@ -46,9 +54,11 @@ class IntegerTableViewCell: FormTableViewCell {
             
             let phoneNumber = formTextField.text
             
-            if let _ = phoneNumber?.range(of: phoneNumberRegex, options: .regularExpression) {
+            if let _ = phoneNumber?.range(of: phoneNumberRegex, options: .regularExpression){
                 
                 return(phoneNumber, true)
+            } else if let phoneNumber = phoneNumber, phoneNumber == "" {
+                return (phoneNumber, true)
             } else {
                 
                 configureInvalidLabel(with: "Invalid Number")

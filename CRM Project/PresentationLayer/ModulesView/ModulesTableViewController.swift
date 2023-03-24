@@ -16,6 +16,7 @@ class ModulesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemGray6
         tableView.showLoadingIndicator()
         configureModuleTableView()
     }
@@ -33,9 +34,10 @@ class ModulesTableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
         
-        tableView.separatorColor = .tableViewSeperator
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 50
+        tableView.separatorColor = .tableViewSeperator
+        tableView.backgroundColor = .systemGray6
         
         tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
     }
@@ -55,7 +57,6 @@ class ModulesTableViewController: UITableViewController {
                 
                 self?.tableView.restore()
             }
-            
         }
     }
     

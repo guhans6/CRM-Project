@@ -81,7 +81,11 @@ class RecordInfoTableViewController: UITableViewController {
         }
         
         formVc.setUpCellsForEditing(recordid: recordId, recordData: recordInfo, recordState: .edit)
-        navigationController?.pushViewController(formVc, animated: true)
+        let navigationVC = UINavigationController(rootViewController: formVc)
+        
+        navigationVC.modalPresentationStyle = .fullScreen
+        present(navigationVC, animated: true)
+        
     }
     
     @objc private func deleteButtonTapped() {
@@ -98,7 +102,8 @@ class RecordInfoTableViewController: UITableViewController {
             
             self.recordsController.deleteRecords(module: self.moduleApiName, ids: [self.recordId]) { result in
                 
-                self.navigationController?.popViewController(animated: true)
+//                self.navigationController?.popViewController(animated: true)
+                self.dismiss(animated: true)
             }
         }))
         

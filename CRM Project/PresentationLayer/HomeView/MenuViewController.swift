@@ -122,7 +122,7 @@ class MenuViewController: UIViewController {
         
         logoutButton.setTitle("Logout".localized(), for: .normal)
 
-        logoutButton.setTitleColor(.label, for: .normal)
+        logoutButton.setTitleColor(.normalText, for: .normal)
         
         let logoutButtonFont: UIFont = .systemFont(ofSize: 25, weight: .semibold)
         let fontMetrics = UIFontMetrics(forTextStyle: .headline)
