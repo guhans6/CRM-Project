@@ -21,7 +21,7 @@ class FormTableViewController: UITableViewController {
     private var module: Module?
     private var moduleName: String?
     private var fieldData = [Any]()
-    var recordsToBeSaved: [(Bool, Any?)?]!
+    var recordsToBeSaved: [(isValid: Bool, data: Any?)?]!
     
     private var recordState: RecordState = .add
     
@@ -64,7 +64,6 @@ class FormTableViewController: UITableViewController {
         
         configureTableView()
         configureNavigationBar()
-        
     }
     
     
@@ -113,9 +112,11 @@ class FormTableViewController: UITableViewController {
     }
     
     private func configureTableView() {
+//        tableView = UITableView(frame: CGRect.zero, style: .insetGrouped)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 50
         tableView.separatorColor = .tableViewSeperator
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
         registerTableViewCells()
     }
@@ -147,11 +148,6 @@ class FormTableViewController: UITableViewController {
     
     @objc private func doneButtonClicked() {
         
-        editTapped()
-    }
-    
-    private func editTapped() {
-        
         var data = [String: Any]()
         
         var shouldCancel = false
@@ -161,15 +157,15 @@ class FormTableViewController: UITableViewController {
             let field = fields[index]
             let record = recordsToBeSaved[index]
             if isReadyToSaveOrUpdate(field: field,
-                                     recordData: record?.1,
-                                     isValidated: record?.0 ?? true,
+                                     recordData: record?.data,
+                                     isValidated: record?.isValid ?? true,
                                      cellIndex: index) == false
             {
                 shouldCancel = true
                 break
             }
-            if record?.1 != nil && record?.1 as? String != "" {
-                data[field.apiName] = record?.1
+            if record?.data != nil && record?.data as? String != "" {
+                data[field.apiName] = record?.data
             }
         }
         
@@ -184,7 +180,7 @@ class FormTableViewController: UITableViewController {
                 
                 print("Result is \(result)")
                 if result {
-                    self?.navigationController?.popViewController(animated: true)
+                    self?.dismiss(animated: true)
                 }
             }
         } else {
@@ -193,12 +189,12 @@ class FormTableViewController: UITableViewController {
                 
                 print("Result is \(result)")
                 if result {
-                    self?.navigationController?.popViewController(animated: true)
+                    self?.dismiss(animated: true)
                 }
             }
         }
     }
-    
+
     private func isReadyToSaveOrUpdate(field: Field,
                                        recordData: Any?,
                                        isValidated: Bool,
@@ -206,7 +202,6 @@ class FormTableViewController: UITableViewController {
         
         let recordData = recordData as? String
         
-//        print(field.isSystemMandatory, recordData)
         if (field.isSystemMandatory && (recordData == "" || recordData == nil)) || isValidated == false {
             
             let cell = tableView.cellForRow(at: IndexPath(row: cellIndex, section: 0)) as! FormTableViewCell
@@ -323,7 +318,7 @@ extension FormTableViewController {
                 }
             }
         }
-        cell.backgroundColor = .secondarySystemFill
+        cell.backgroundColor = .systemGray6
         cell.delegate = self
         return cell
     }
@@ -376,7 +371,6 @@ extension FormTableViewController {
             if UIView.userInterfaceLayoutDirection(
                 for: view.semanticContentAttribute) == .rightToLeft {
                 
-                
                 if location.x < cell.frame.width / 2 {
                     
                     canPresentLookup = true
@@ -396,22 +390,22 @@ extension FormTableViewController {
                     let lookupTableVC = RecordsTableViewController(module: moduleName!, isLookup: true)
                     lookupTableVC.delegate = cell.self
                     navigationController?.pushViewController(lookupTableVC, animated: true)
+                } else if let cell = cell as? DateTableViewCell {
+                    
+                    let myPickerVC = PickerViewController()
+                    
+                    myPickerVC.showView(viewType: .dateView)
+                    myPickerVC.modalPresentationStyle = .pageSheet
+                    myPickerVC.delegate  = cell.self
+                    
+                    if let sheet = myPickerVC.sheetPresentationController {
+                        sheet.prefersGrabberVisible = true
+                        sheet.detents = [.medium(), .large()]
+                        sheet.prefersEdgeAttachedInCompactHeight = true
+                    }
+                    
+                    present(myPickerVC, animated: true, completion: nil)
                 }
-            } else if let cell = cell as? DateTableViewCell {
-                
-                let myPickerVC = PickerViewController()
-                
-                myPickerVC.showView(viewType: .dateView)
-                myPickerVC.modalPresentationStyle = .pageSheet
-                myPickerVC.delegate  = cell.self
-                
-                if let sheet = myPickerVC.sheetPresentationController {
-                    sheet.prefersGrabberVisible = true
-                    sheet.detents = [.medium(), .large()]
-                    sheet.prefersEdgeAttachedInCompactHeight = true
-                }
-                
-                present(myPickerVC, animated: true, completion: nil)
             }
         }
         

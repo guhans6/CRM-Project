@@ -228,7 +228,9 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             
             formVC.setUpCellsForEditing(recordid: nil, recordData: record, recordState: .editAndUserInteractionDisabled)
             
-            navigationController?.pushViewController(formVC, animated: true)
+            let navVc = UINavigationController(rootViewController: formVC)
+            navVc.modalPresentationStyle = .fullScreen
+            present(navVc, animated: true)
             
         } else if indexPath.section == 1 {
 

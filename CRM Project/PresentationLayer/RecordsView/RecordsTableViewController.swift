@@ -75,7 +75,7 @@ class RecordsTableViewController: UITableViewController {
         searchController.searchBar.delegate = self
         searchController.delegate = self
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+//        navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.autocapitalizationType = .none
     }
     
@@ -215,10 +215,12 @@ extension RecordsTableViewController: UISearchBarDelegate {
         filteredRecords = []
         if searchText == "" {
             
+            tableView.restore()
             isSearching = false
             filteredRecords = records
         } else {
             
+            tableView.restore()
             isSearching = true
             filteredRecords = records.filter { record in
                 
@@ -232,10 +234,14 @@ extension RecordsTableViewController: UISearchBarDelegate {
                 return false
             }
         }
+        if filteredRecords.isEmpty {
+            tableView.setEmptyView(title: "No search Results for \"\(searchText)\"", message: "")
+        }
         tableView.reloadData()
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
         if !isFiltered || isSearching {
             return nil
         } else {
@@ -258,6 +264,7 @@ extension RecordsTableViewController: UISearchControllerDelegate {
     func willDismissSearchController(_ searchController: UISearchController) {
         
         isSearching = false
+        tableView.restore()
         filteredRecords = records
         tableView.reloadData()
     }

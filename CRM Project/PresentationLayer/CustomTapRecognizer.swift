@@ -10,4 +10,3 @@ import UIKit
 class LookupTapGestureRecognizer: UITapGestureRecognizer {
     var row: Int?
 }
-

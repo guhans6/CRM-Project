@@ -11,6 +11,7 @@ class SplashViewController: UIViewController {
     
     private let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
     private let splitvc = UISplitViewController(style: .doubleColumn)
+    private let mainTabBarController = UITabBarController()
     
     private let menuViewController = MenuViewController()
     private let homeViewController = HomeViewController()
@@ -28,12 +29,14 @@ class SplashViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        configureSplitView()
+//        configureSplitView()
+        configureTabBarController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        mainTabBarController.selectedIndex = 0
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,8 +68,8 @@ class SplashViewController: UIViewController {
     func setUpViewController() {
         
         if UserDefaultsManager.shared.isUserLoggedIn() {
-            
-            presentSplitView()
+
+            present(mainTabBarController, animated: true)
         } else {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -77,44 +80,18 @@ class SplashViewController: UIViewController {
         }
     }
     
-    private func configureSplitView() {
+    private func configureTabBarController() {
         
         let menuVC = UINavigationController(rootViewController: menuViewController)
         let homeNavigationVC = UINavigationController(rootViewController: homeViewController)
         
-        splitvc.modalPresentationStyle = .fullScreen
-        
-        let leftSwipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(didTapCloseButton))
-        leftSwipeGesture.direction = .left
-        
-        menuViewController.view.addGestureRecognizer(leftSwipeGesture)
-        
-        if self.traitCollection.userInterfaceIdiom == .phone {
-            
-            menuViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(didTapCloseButton))
-            
-            let navigationLeftButton = UIImage(systemName: "list.dash")
-            homeViewController.navigationItem.leftBarButtonItem = UIBarButtonItem(image: navigationLeftButton, style: .plain, target: self, action: #selector(menuButtonTapped))
-        }
-        
-        splitvc.setViewController(menuVC, for: .primary)
-        splitvc.setViewController(homeNavigationVC, for: .secondary)
-    }
-    private func presentSplitView() {
-        
-        didTapCloseButton()
-        present(splitvc, animated: true)
-    }
-    
-    @objc private func menuButtonTapped() {
-        
-        splitvc.show(.primary)
-    }
-    
-    @objc private func didTapCloseButton() {
-        
-        splitvc.show(.secondary)
-        isMenuOpen = false
+        mainTabBarController.setViewControllers([homeNavigationVC, menuVC], animated: false)
+        mainTabBarController.selectedIndex = 0
+        mainTabBarController.tabBar.backgroundColor = .systemBackground
+        mainTabBarController.tabBar.items?[0].image = UIImage(systemName: "house")
+        mainTabBarController.tabBar.items?[1].image = UIImage(systemName: "list.dash")
+
+        mainTabBarController.modalPresentationStyle = .fullScreen
     }
 }
 
@@ -129,21 +106,21 @@ extension SplashViewController: MenuViewDelegate {
     
         case "Modules".localized():
             
-            homeViewController.navigationController?.popToRootViewController(animated: true)
             let moduleTableVC = ModulesTableViewController()
             
             moduleTableVC.modalPresentationStyle = .fullScreen
-            
-            homeViewController.navigationController?.pushViewController(moduleTableVC, animated: true)
-            didTapCloseButton()
+            menuViewController.navigationController?.pushViewController(moduleTableVC, animated: true)
+//            mainTabBarController.navigationController?.pushViewController(moduleTableVC, animated: true)
+//            didTapCloseButton()
             
         case "Table Booking".localized():
             
-            homeViewController.navigationController?.popToRootViewController(animated: true)
             let tableBookingVC = TableBookingViewController()
             
-            homeViewController.navigationController?.pushViewController(tableBookingVC, animated: true)
-            didTapCloseButton()
+            tableBookingVC.modalPresentationStyle = .fullScreen
+            menuViewController.navigationController?.pushViewController(tableBookingVC, animated: true)
+//            mainTabBarController.navigationController?.pushViewController(tableBookingVC, animated: true)
+//            didTapCloseButton()
         case "Generate Auth Token".localized():
             
             NetworkController().generateAuthToken()

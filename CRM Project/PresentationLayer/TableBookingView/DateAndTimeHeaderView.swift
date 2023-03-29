@@ -24,7 +24,6 @@ class DateAndTimeHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     private func configureUI() {
         
         configureLabel()
@@ -68,7 +67,6 @@ class DateAndTimeHeaderView: UIView {
             dateDisplayButton.leadingAnchor.constraint(equalTo: self.centerXAnchor),
             dateDisplayButton.widthAnchor.constraint(equalToConstant: 140),
             dateDisplayButton.heightAnchor.constraint(equalToConstant: 40),
-//            dateDisplayButton.heightAnchor.constraint(equalTo: self.heightAnchor, multiplier: 0.2)
         ])
     }
     

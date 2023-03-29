@@ -19,6 +19,7 @@ class ModulesTableViewController: UITableViewController {
         view.backgroundColor = .systemGray6
         tableView.showLoadingIndicator()
         configureModuleTableView()
+        getModules()
     }
     
     override func viewWillAppear(_ animated: Bool) {

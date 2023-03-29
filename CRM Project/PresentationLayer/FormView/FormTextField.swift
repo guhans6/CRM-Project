@@ -9,6 +9,8 @@ import UIKit
 
 class FormTextField: UITextField {
     
+    let padding = UIEdgeInsets(top: 0, left: 7, bottom: 0, right: 5)
+    
     override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
         if action == #selector(UIResponderStandardEditActions.paste(_:)) {
             return false
@@ -29,6 +31,7 @@ class FormTextField: UITextField {
      }
 
      override var textInputMode: UITextInputMode? {
+         
          if let language = getKeyboardLanguage() {
              for tim in UITextInputMode.activeInputModes {
                  if tim.primaryLanguage!.contains(language) {

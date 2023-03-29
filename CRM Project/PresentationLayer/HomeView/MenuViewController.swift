@@ -45,17 +45,32 @@ class MenuViewController: UIViewController {
         view.backgroundColor = .systemGray6
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        let logoutImage = UIImage(systemName: "power")
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: logoutImage, style: .plain, target: self, action: #selector(logoutButtonTapped))
+        
+        getCurrentUser()
         confiureTableHeaderView()
         configureTableView()
-        configureLogoutButton()
-        getCurrentUser()
     }
     
+    @objc private func logoutButtonTapped() {
+        
+        let alertController = UIAlertController(title: "Confirm Logout ?", message: nil, preferredStyle: .alert)
+        
+        alertController.addAction(UIAlertAction(title: "Logout",
+                                                style: .destructive,
+                                                handler: { [weak self] _ in
+            self?.logout()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        present(alertController, animated: true)
+    }
     private func confiureTableHeaderView() {
         
         view.addSubview(headerView)
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        
         headerView.backgroundColor = .tableSelect
 
         NSLayoutConstraint.activate([
@@ -66,16 +81,16 @@ class MenuViewController: UIViewController {
             headerView.bottomAnchor.constraint(equalTo: headerView.topAnchor, constant: 90)
         ])
         
-//        nameLabel.font = .preferredFont(forTextStyle: .headline)
-        nameLabel.font = .systemFont(ofSize: 25, weight: .semibold)
 
         headerView.addSubview(nameLabel)
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.font = .systemFont(ofSize: 25, weight: .semibold)
+        
         
         NSLayoutConstraint.activate([
             nameLabel.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 17),
-            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
+            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 17),
             nameLabel.trailingAnchor.constraint(greaterThanOrEqualTo: headerView.safeAreaLayoutGuide.trailingAnchor)
         ])
         
@@ -114,36 +129,9 @@ class MenuViewController: UIViewController {
             
         ])
     }
-
-    private func configureLogoutButton() {
-        
-        view.addSubview(logoutButton)
-        logoutButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        logoutButton.setTitle("Logout".localized(), for: .normal)
-
-        logoutButton.setTitleColor(.normalText, for: .normal)
-        
-        let logoutButtonFont: UIFont = .systemFont(ofSize: 25, weight: .semibold)
-        let fontMetrics = UIFontMetrics(forTextStyle: .headline)
-        logoutButton.titleLabel?.font = fontMetrics.scaledFont(for: logoutButtonFont)
-        logoutButton.titleLabel?.adjustsFontForContentSizeCategory = true
-        
-        logoutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
-        
-        logoutButton.backgroundColor = .systemGray6
-        
-        NSLayoutConstraint.activate([
-            logoutButton.topAnchor.constraint(equalTo: tableView.bottomAnchor),
-            logoutButton.trailingAnchor.constraint(lessThanOrEqualTo: view.trailingAnchor),
-            logoutButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            logoutButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 30),
-        ])
-        
-    }
     
     
-    @objc private func logoutButtonTapped() {
+    @objc private func logout() {
         
         UserDefaultsManager.shared.setLogIn(equalTo: false)
         dismiss(animated: true)

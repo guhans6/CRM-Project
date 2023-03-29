@@ -63,12 +63,12 @@ class LoginViewController: UIViewController {
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         let titleLabelColour = #colorLiteral(red: 0.2901960784, green: 0.4588235294, blue: 0.6745098039, alpha: 1)
 
-        loginButton.backgroundColor = .systemBackground
+        loginButton.backgroundColor = .normalText
         loginButton.setTitle("Login".localized(), for: .normal)
         loginButton.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
         loginButton.setTitleColor(titleLabelColour, for: .normal)
         loginButton.layer.cornerRadius = 15
-        loginButton.addTarget(self, action: #selector(didTapOpenLinkButton), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
             loginButton.topAnchor.constraint(greaterThanOrEqualTo: hotelHubLabel.bottomAnchor),
@@ -78,9 +78,10 @@ class LoginViewController: UIViewController {
         ])
     }
     
-    @objc private func didTapOpenLinkButton() {
+    @objc private func didTapLoginButton() {
         
         if NetworkMonitor.shared.isConnected {
+            
             let navController = UINavigationController(rootViewController: WebViewController())
             navController.modalPresentationStyle = .fullScreen
             self.present(navController, animated: true)

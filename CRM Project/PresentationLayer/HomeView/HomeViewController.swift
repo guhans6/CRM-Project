@@ -13,6 +13,7 @@ class HomeViewController: UIViewController {
     private let dateResetButton = UIButton()
     private let activitiesTableView = UITableView(frame: .zero, style: .insetGrouped)
     private var lastPickedDate = Date()
+    private let mainTabBarController = UITabBarController()
     
     private var tables = [Table]()
     private var reservationIds = [String]()
@@ -46,11 +47,12 @@ class HomeViewController: UIViewController {
         configureDateResetButton()
         configureDatePicker()
         configureBookedTablesView()
+        
         getBookedTablesFor(date: Date())
     }
     
     private func configureDateResetButton() {
-        
+            
         view.addSubview(dateResetButton)
         dateResetButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -128,6 +130,11 @@ class HomeViewController: UIViewController {
             activitiesTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             activitiesTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func configureTabBarController() {
+        
+        
     }
 }
 

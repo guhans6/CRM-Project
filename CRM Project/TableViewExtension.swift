@@ -37,6 +37,7 @@ extension UITableView {
         titleLabel.textColor = .normalText
         titleLabel.font = .preferredFont(forTextStyle: .title3)
         titleLabel.numberOfLines = 0
+        titleLabel.textAlignment = .center
         
         titleLabel.text = title
         messageLabel.text = message
@@ -52,8 +53,8 @@ extension UITableView {
         NSLayoutConstraint.activate([
             titleLabel.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor),
-            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: emptyView.safeAreaLayoutGuide.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: emptyView.safeAreaLayoutGuide.trailingAnchor)
+            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: emptyView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: emptyView.safeAreaLayoutGuide.trailingAnchor, constant: -10)
             
         ])
         

@@ -97,7 +97,6 @@ class FormTableViewCell: UITableViewCell {
         let textFieldData = getFieldData(for: fieldType)
         print(textFieldData)
         delegate?.textFieldData(data: textFieldData.0, isValid: textFieldData.1, index: index)
-//        print(textFieldData)
     }
     
     func configureInvalidLabel() {
@@ -110,6 +109,7 @@ class FormTableViewCell: UITableViewCell {
     func configureInvalidLabel(with message: String?) {
         
         if isWariningLabelShown == false {
+            
             isWariningLabelShown = true
             contentView.addSubview(invalidLabel)
             invalidLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -117,11 +117,11 @@ class FormTableViewCell: UITableViewCell {
             invalidLabel.textAlignment = .left
             invalidLabel.text = message
             invalidLabel.textColor = .red
-            invalidLabel.font = .systemFont(ofSize: 15)            
+            invalidLabel.font = .systemFont(ofSize: 15)
             
             NSLayoutConstraint.activate([
-                //            invalidLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor),
-                invalidLabel.leadingAnchor.constraint(equalTo: formTextField.leadingAnchor),
+
+                invalidLabel.leadingAnchor.constraint(equalTo: formTextField.leadingAnchor, constant: 7),
                 invalidLabel.topAnchor.constraint(equalTo: formTextField.bottomAnchor),
                 invalidLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
                 invalidLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
@@ -158,6 +158,7 @@ class FormTableViewCell: UITableViewCell {
             label.attributedText = attributedString
         } else {
             label.text = fieldName
+            label.textColor = .normalText
         }
     }
     
