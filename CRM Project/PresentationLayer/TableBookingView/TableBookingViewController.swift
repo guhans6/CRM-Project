@@ -112,8 +112,8 @@ class TableBookingViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         tableView.separatorColor = .tableViewSeperator
-        tableView.backgroundColor = .systemGray6
-        
+        tableView.backgroundColor = .systemBackground
+
         tableView.delegate = self
         tableView.dataSource = self
         

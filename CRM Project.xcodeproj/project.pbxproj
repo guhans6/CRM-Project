@@ -16,6 +16,8 @@
 		5301EF1029BF028200567753 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF0F29BF028200567753 /* Event.swift */; };
 		5301EF3929C0607A00567753 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5301EF3829C0607A00567753 /* StringExtension.swift */; };
 		5301EF3C29C060E700567753 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5301EF3E29C060E700567753 /* Localizable.strings */; };
+		530847E929D5498500D08087 /* LoginPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530847E829D5498500D08087 /* LoginPageViewController.swift */; };
+		530847EB29D56CA000D08087 /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530847EA29D56CA000D08087 /* ImageViewExtension.swift */; };
 		531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531131BF29A79452006124AA /* RelatedListNetworkService.swift */; };
 		5311863F29A794B1004088DD /* RelatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311863E29A794B1004088DD /* RelatedList.swift */; };
 		5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */; };
@@ -111,6 +113,8 @@
 		5301EF3829C0607A00567753 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		5301EF3D29C060E700567753 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5301EF3F29C061DD00567753 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		530847E829D5498500D08087 /* LoginPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageViewController.swift; sourceTree = "<group>"; };
+		530847EA29D56CA000D08087 /* ImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
 		531131BF29A79452006124AA /* RelatedListNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedListNetworkService.swift; sourceTree = "<group>"; };
 		5311863E29A794B1004088DD /* RelatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedList.swift; sourceTree = "<group>"; };
 		5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimeHeaderView.swift; sourceTree = "<group>"; };
@@ -250,6 +254,7 @@
 			children = (
 				53EC9A47298261430056C300 /* SplashViewController.swift */,
 				5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */,
+				530847E829D5498500D08087 /* LoginPageViewController.swift */,
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
 				53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */,
 				5362F76229AA33EE00DA5F44 /* HomeView */,
@@ -356,7 +361,7 @@
 		53D273202977D20F001718BD /* CRM Project */ = {
 			isa = PBXGroup;
 			children = (
-				53F1EEAE29AB9DA100C17723 /* Colours */,
+				53F1EEAE29AB9DA100C17723 /* Utilities */,
 				53D273212977D20F001718BD /* AppDelegate.swift */,
 				53D273232977D20F001718BD /* SceneDelegate.swift */,
 				5318F5D3297A851000AF76DC /* PresentationLayer */,
@@ -467,12 +472,13 @@
 			path = Entities;
 			sourceTree = "<group>";
 		};
-		53F1EEAE29AB9DA100C17723 /* Colours */ = {
+		53F1EEAE29AB9DA100C17723 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
 				53F1EEAF29AB9DB500C17723 /* UIColourExtension.swift */,
+				530847EA29D56CA000D08087 /* ImageViewExtension.swift */,
 			);
-			path = Colours;
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -592,6 +598,7 @@
 				53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */,
 				537B60A82998B70100ACA883 /* StringTableViewCell.swift in Sources */,
 				534DE57B29B5B02A00C229BD /* ModulesDatabaseService.swift in Sources */,
+				530847EB29D56CA000D08087 /* ImageViewExtension.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */,
 				534DE59B29BAF8D200C229BD /* FieldsDatabaseService.swift in Sources */,
@@ -624,6 +631,7 @@
 				53EEAEFE29A5EF4F00403541 /* TextAreaTableViewCell.swift in Sources */,
 				5301EF0C29BEFC8B00567753 /* EventBookingNetworkService.swift in Sources */,
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
+				530847E929D5498500D08087 /* LoginPageViewController.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
 				53F1EEB029AB9DB500C17723 /* UIColourExtension.swift in Sources */,
 				53EF4A6729C979AE0077B977 /* ModuleContract.swift in Sources */,

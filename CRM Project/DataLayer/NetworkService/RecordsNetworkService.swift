@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class RecordsNetworkService {
     
@@ -52,6 +53,36 @@ class RecordsNetworkService {
             }
         }
     }
+    
+//    func uploadRecordImage(module: String, recordId: String) {
+//        
+//        
+//        let urlRequestString = "crm/v3/\(module)/\(recordId)/photo?restrict_triggers=workflow"
+//
+//        // Set the authorization header
+//
+//        // Set the file data to upload
+//        let imageData = UIImage(named: "img1.png")!.pngData()!
+//        let boundary = UUID().uuidString
+//        let body = NSMutableData()
+//        body.append("--\(boundary)\r\n".data(using: .utf8)!)
+//        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"img1.png\"\r\n".data(using: .utf8)!)
+//        body.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+//        body.append(imageData)
+//        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
+//
+//        // Create the request
+//        var httpMethod = "POST"
+//        var headers = [ "multipart/form-data; boundary=\(boundary)" : "Content-Type"]
+//        request.httpBody = body as Data
+//
+//        // Create and execute the URLSession task
+//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+//            // Handle the response here
+//        }
+//        task.resume()
+//
+//    }
     
     func getRecords(module: String, id: String?, completion: @escaping ([[String: Any]]?, Error?) -> Void) -> Void {
         

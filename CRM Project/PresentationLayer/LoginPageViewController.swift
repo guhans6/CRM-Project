@@ -1,0 +1,136 @@
+//
+//  LoginPageViewController.swift
+//  CRM C
+//
+//  Created by guhan-pt6208 on 30/03/23.
+//
+
+import UIKit
+
+class LoginPageViewController: UIViewController {
+    
+    lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        label.textColor = .normalText
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    lazy var bodyLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.textColor = .normalText
+        label.textAlignment = .center
+        label.numberOfLines = 0
+//        label.text = "Please sign in to continue"
+        return label
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemGray6
+        
+        configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        imageView.transform = CGAffineTransform(scaleX: 0.03, y: 0.03)
+        imageView.alpha = 0.0
+        
+        // Animate the imageView with a spring effect
+        UIView.animate(withDuration: 1.0,
+                       delay: 0.0,
+                       usingSpringWithDamping: 0.7,
+                       initialSpringVelocity: 0.2,
+                       options: .curveEaseInOut,
+                       animations: {
+            
+            self.imageView.transform = .identity
+            self.imageView.alpha = 1.0
+        })
+        
+        titleLabel.alpha = 0.0
+            titleLabel.transform = CGAffineTransform(translationX: 0, y: 20)
+            bodyLabel.alpha = 0.0
+            bodyLabel.transform = CGAffineTransform(translationX: 0, y: 20)
+            
+            // Animate the titleLabel and bodyLabel with a fade-in and slide-up effect
+        UIView.animate(withDuration: 1.0,
+                         delay: 0.0,
+                         options: [.curveEaseInOut, .beginFromCurrentState],
+                         animations: {
+              self.titleLabel.alpha = 1.0
+              self.titleLabel.transform = .identity
+          }, completion: { _ in
+              UIView.animate(withDuration: 1.0,
+                             delay: 0.0,
+                             options: [.curveEaseInOut, .beginFromCurrentState],
+                             animations: {
+                  self.bodyLabel.alpha = 1.0
+                  self.bodyLabel.transform = .identity
+              }, completion: nil)
+          })
+    }
+    
+    private func configureUI() {
+        
+        view.addSubview(imageView)
+        view.addSubview(titleLabel)
+        view.addSubview(bodyLabel)
+        
+        imageView.tintColor = #colorLiteral(red: 0.2901960784, green: 0.4588235294, blue: 0.6745098039, alpha: 1)
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            imageView.widthAnchor.constraint(equalToConstant: 200),
+            imageView.heightAnchor.constraint(equalToConstant: 200),
+            
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
+            titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
+            titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32),
+            
+            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
+            bodyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            bodyLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
+        ])
+    }
+    
+    func setUpPageWith(image: UIImage?, title: String, body: String?, shouldAnimate: Bool = false) {
+        imageView.image = image
+        titleLabel.text = title
+        bodyLabel.text = body
+        
+        
+//        if shouldAnimate {
+//
+//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+//                if shouldAnimate {
+//                    // Apply a scale animation to the image view
+//                    let animation = CABasicAnimation(keyPath: "transform.scale")
+//                    animation.fromValue = 1.0
+//                    animation.toValue = 1.1
+//                    animation.autoreverses = true
+//                    animation.duration = 0.7
+//                    animation.repeatCount = 5.0
+//                    self.imageView.layer.add(animation, forKey: "scaleAnimation")
+//                } else {
+//                    self.imageView.layer.removeAnimation(forKey: "scaleAnimation")
+//                }
+//            }
+//        }
+    }
+    
+}

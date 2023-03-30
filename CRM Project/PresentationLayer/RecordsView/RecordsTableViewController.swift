@@ -64,6 +64,12 @@ class RecordsTableViewController: UITableViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
         isFiltered = false
         getRecords()
+        
+        if isSearching {
+            
+            searchController.searchBar.delegate?.searchBar?(searchController.searchBar, textDidChange: searchController.searchBar.text ?? "")
+            tableView.reloadData()
+        }
     }
     
     private func configureNavigationBar() {
@@ -75,7 +81,7 @@ class RecordsTableViewController: UITableViewController {
         searchController.searchBar.delegate = self
         searchController.delegate = self
         navigationItem.searchController = searchController
-//        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.hidesSearchBarWhenScrolling = false
         searchController.searchBar.autocapitalizationType = .none
     }
     
@@ -126,9 +132,11 @@ class RecordsTableViewController: UITableViewController {
         recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
             
             self?.records = records
-            self?.filteredRecords = records
+            if self?.isSearching == false {
+                self?.filteredRecords = records
+            }
             self?.tableView.reloadData()
-            
+
             if records.count == 0 {
                 
                 self?.tableView.hideLoadingIndicator()
@@ -235,7 +243,8 @@ extension RecordsTableViewController: UISearchBarDelegate {
             }
         }
         if filteredRecords.isEmpty {
-            tableView.setEmptyView(title: "No search Results for \"\(searchText)\"", message: "")
+            
+            tableView.setEmptyView(title: "No search Results for \"\(searchText)\"", message: "", image: UIImage(named: "search"))
         }
         tableView.reloadData()
     }

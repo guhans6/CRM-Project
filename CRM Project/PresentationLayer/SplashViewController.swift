@@ -15,7 +15,7 @@ class SplashViewController: UIViewController {
     
     private let menuViewController = MenuViewController()
     private let homeViewController = HomeViewController()
-    private let loginViewController = LoginViewController()
+    private let loginViewController = LoginViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
     private var isMenuOpen = false
     

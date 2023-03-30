@@ -36,9 +36,19 @@ class WebViewController: UIViewController {
             return
         }
         
-        webView.navigationDelegate = self
         view.backgroundColor = .systemBackground
+        
         view.addSubview(webView)
+        
+        webView.navigationDelegate = self
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            
+            webView.topAnchor.constraint(equalTo: view.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
         
         guard let url = URL(string: registerURLString) else {
             print("Invalid URL!")

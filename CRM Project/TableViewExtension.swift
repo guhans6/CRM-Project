@@ -24,13 +24,15 @@ extension UITableView {
     
     
     /// This is used when there is no data in a table view with a custom message
-    func setEmptyView(title: String, message: String) {
+    func setEmptyView(title: String, message: String, image: UIImage? = nil) {
         
         let emptyView = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
         
+        let imageView = UIImageView()
         let titleLabel = UILabel()
         let messageLabel = UILabel()
         
+        imageView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         messageLabel.translatesAutoresizingMaskIntoConstraints = false
         
@@ -39,6 +41,7 @@ extension UITableView {
         titleLabel.numberOfLines = 0
         titleLabel.textAlignment = .center
         
+        imageView.image = image
         titleLabel.text = title
         messageLabel.text = message
         messageLabel.numberOfLines = 0
@@ -47,15 +50,22 @@ extension UITableView {
         messageLabel.textColor = UIColor.lightGray
         messageLabel.font = .preferredFont(forTextStyle: .body)
         
+        emptyView.addSubview(imageView)
         emptyView.addSubview(titleLabel)
         emptyView.addSubview(messageLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor),
+            imageView.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: emptyView.centerYAnchor, constant: -50),
+            imageView.widthAnchor.constraint(equalToConstant: 70),
+            imageView.heightAnchor.constraint(equalToConstant: 70),
+        ])
+        
+        NSLayoutConstraint.activate([
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
             titleLabel.centerXAnchor.constraint(equalTo: emptyView.centerXAnchor),
             titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: emptyView.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: emptyView.safeAreaLayoutGuide.trailingAnchor, constant: -10)
-            
         ])
         
         NSLayoutConstraint.activate([
@@ -68,7 +78,6 @@ extension UITableView {
         self.backgroundView = emptyView
         self.separatorStyle = .none
     }
-    
     
     /// Call this to restore the background view
     func restore() {

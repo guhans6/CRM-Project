@@ -57,7 +57,7 @@ class DateAndTimeHeaderView: UIView {
         let todayDate = DateFormatter.formattedString(from: date, format: "dd-MM-yyyy")
         
         dateDisplayButton.setTitle(todayDate, for: .normal)
-        dateDisplayButton.setTitleColor(.normalText, for: .normal)
+        dateDisplayButton.setTitleColor(.label, for: .normal)
         dateDisplayButton.layer.cornerRadius = 7
         
         dateDisplayButton.backgroundColor = .tableSelect
@@ -98,7 +98,7 @@ class DateAndTimeHeaderView: UIView {
         timeDisplayButton.translatesAutoresizingMaskIntoConstraints = false
         
         timeDisplayButton.setTitle("Breakfast", for: .normal)
-        timeDisplayButton.setTitleColor(.normalText, for: .normal)
+        timeDisplayButton.setTitleColor(.label, for: .normal)
         timeDisplayButton.layer.cornerRadius = 7
         
         timeDisplayButton.backgroundColor = .tableSelect
