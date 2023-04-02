@@ -24,12 +24,15 @@ class NetworkController : NetworkNetworkControllerContract {
     }
     
     
-    func generateAccessToken(from url: URL?) -> Void {
+    func generateAccessToken(from url: URL?, completion: @escaping (Bool) -> Void) -> Void {
         
         do {
             try networkService.generateAccessToken(from: url, completion: { isASuccess in
                 
-                
+                DispatchQueue.main.async {
+                    
+                    completion(true)
+                }
             })
         } catch {
             print(error)

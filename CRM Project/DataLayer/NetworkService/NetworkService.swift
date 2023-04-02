@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 /// This is for the type of error in network
 enum NetworkError: Error, Equatable {
@@ -190,7 +191,7 @@ class NetworkService {
             }
         }
         
-        network.performDataTask(url: requestURL, method: method.rawValue, urlComponents: requestBodyComponents, parameters: parameters, headers: authHeader) { data, error  in
+        network.performDataTask(url: requestURL, method: method.rawValue, urlComponents: requestBodyComponents, parameters: parameters, header: authHeader) { data, error  in
             
             if let error = error {
                 
@@ -262,7 +263,7 @@ class NetworkService {
         ]
         
         
-        network.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, headers: headers) { data, error in
+        network.performDataTask(url: requestURL, method: HTTPMethod.GET.rawValue, urlComponents: nil, parameters: nil, header: headers) { data, error in
             
             if let error = error {
                 print(error.localizedDescription)
@@ -300,5 +301,71 @@ class NetworkService {
         let registerURLString = "https://accounts.zoho.com/oauth/v2/auth?scope=ZohoCRM.settings.ALL,ZohoCRM.users.ALL,ZohoCRM.modules.ALL,ZohoCRM.coql.READ,ZohoCRM.send_mail.all.CREATE,ZohoCRM.notifications.All&client_id=1000.24VNMCSZ1JRK4QJUA6L60NZA91C1KG&response_type=code&access_type=offline&redirect_uri=https://guhans6.github.io/logIn-20611/"
         
         return registerURLString
+    }
+    
+    func uploadImage(photoData: UIImage?, module: String, recordId: String) {
+        
+        guard let photo = photoData?.pngData() else {
+            print("No image")
+            return
+        }
+        
+        let requestURLString = zohoApiURLString.appending("crm/v3/\(module)/\(recordId)/photo?restrict_triggers=workflow")
+        
+        let requestURL = URL(string: requestURLString)
+        
+        guard let requestURL = requestURL else {
+            print("Invalid URL")
+            return
+        }
+        var request = URLRequest(url: requestURL)
+        
+        request.httpMethod = "POST"
+        request.addValue("Zoho-oauthtoken \(accessToken)", forHTTPHeaderField: "Authorization")
+
+        let boundary = UUID().uuidString
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        var body = Data()
+        let boundaryPrefix = "--\(boundary)\r\n"
+
+        body.append(boundaryPrefix.data(using: .utf8)!)
+        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"img1.png\"\r\n".data(using: .utf8)!)
+        body.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
+        body.append(photo)
+        body.append("\r\n".data(using: .utf8)!)
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        request.httpBody = body
+        
+        Network.shared.uploadLeadPhoto(url: requestURL,
+                                       authToken: accessToken,
+                                       request: request,
+                                       body: body)
+        { result, error in
+            
+            print(result! , "aaaa")
+        }
+    }
+
+    func downloadImage(url: String,
+                       module: String,
+                       recordId: String,
+                       completion: @escaping (Data?) -> Void) -> Void {
+        
+        let requestURLString = zohoApiURLString.appending(url)
+        
+        let requestURL = URL(string: requestURLString)
+        
+        guard let requestURL = requestURL else {
+            print("Invalid URL")
+            return
+        }
+        
+        let authHeader: [String: String] = ["Zoho-oauthtoken \(accessToken)": "Authorization"]
+        
+        network.downloadImage(url: requestURL, header: authHeader) { imageData in
+            
+            completion(imageData)
+        }
     }
 }

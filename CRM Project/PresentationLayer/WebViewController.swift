@@ -81,7 +81,13 @@ extension WebViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         
-        networkController.generateAccessToken(from: webView.url)
+        networkController.generateAccessToken(from: webView.url) { [weak self] isLoginSuccess in
+            
+            if isLoginSuccess {
+
+                self?.presentingViewController?.dismiss(animated: true)
+            }
+        }
     }
     
 }

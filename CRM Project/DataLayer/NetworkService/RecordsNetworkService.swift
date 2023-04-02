@@ -20,6 +20,7 @@ class RecordsNetworkService {
         
         let urlRequestString = "crm/v3/\(module)"
         
+        var recordImage: UIImage?
         var data = recordData
         var httpMethod = HTTPMethod.POST
         
@@ -29,6 +30,11 @@ class RecordsNetworkService {
             
             data["id"] = recordId
             httpMethod =  HTTPMethod.PUT
+        }
+        
+        if let image = data["Record_Image"] {
+            data.removeValue(forKey: "Record_Image")
+            recordImage = image as? UIImage
         }
         
         let parameters = ["data": [data]]
@@ -41,8 +47,18 @@ class RecordsNetworkService {
             } 
             
             if let resultData = resultData,
-                  let data = resultData["data"] as? [[String: Any]],
-               data[0]["code"] as? String == "SUCCESS"{
+               let data = resultData["data"] as? [[String: Any]],
+               data[0]["code"] as? String == "SUCCESS",
+               let details = data[0]["details"] as? [String: Any],
+               let recordIdFromResponse = details["id"] as? String
+            {
+                
+                if let recordImage = recordImage {
+                    
+                    self.networService.uploadImage(photoData: recordImage,
+                                                   module: module,
+                                                   recordId: recordIdFromResponse)
+                }
                 
                 isSaved(true)
                 return
@@ -54,35 +70,7 @@ class RecordsNetworkService {
         }
     }
     
-//    func uploadRecordImage(module: String, recordId: String) {
-//        
-//        
-//        let urlRequestString = "crm/v3/\(module)/\(recordId)/photo?restrict_triggers=workflow"
-//
-//        // Set the authorization header
-//
-//        // Set the file data to upload
-//        let imageData = UIImage(named: "img1.png")!.pngData()!
-//        let boundary = UUID().uuidString
-//        let body = NSMutableData()
-//        body.append("--\(boundary)\r\n".data(using: .utf8)!)
-//        body.append("Content-Disposition: form-data; name=\"file\"; filename=\"img1.png\"\r\n".data(using: .utf8)!)
-//        body.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-//        body.append(imageData)
-//        body.append("\r\n--\(boundary)--\r\n".data(using: .utf8)!)
-//
-//        // Create the request
-//        var httpMethod = "POST"
-//        var headers = [ "multipart/form-data; boundary=\(boundary)" : "Content-Type"]
-//        request.httpBody = body as Data
-//
-//        // Create and execute the URLSession task
-//        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-//            // Handle the response here
-//        }
-//        task.resume()
-//
-//    }
+    
     
     func getRecords(module: String, id: String?, completion: @escaping ([[String: Any]]?, Error?) -> Void) -> Void {
         
@@ -112,6 +100,24 @@ class RecordsNetworkService {
             
             completion(recordsResult, nil)
         }
+    }
+    
+    func getRecordImage(module: String,
+                        id: String,
+                        completion: @escaping (UIImage?) -> Void) -> Void {
+        
+        let urlRequestString = "crm/v3/\(module)/\(id)/photo"
+        
+        networService.downloadImage(url: urlRequestString, module: module, recordId: id) { result in
+            
+            guard let result = result else {
+                print("No image present")
+                return
+            }
+            
+            completion(UIImage(data: result))
+        }
+        
     }
     
     func getIndividualRecord(module: String, id: String,

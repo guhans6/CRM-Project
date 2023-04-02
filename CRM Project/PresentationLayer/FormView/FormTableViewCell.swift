@@ -20,6 +20,8 @@ class FormTableViewCell: UITableViewCell {
     lazy var lookupLabel = UILabel()
     lazy var switchButton = UISwitch()
     lazy var invalidLabel = UILabel()
+    lazy var recordImageView = UIImageView()
+    
     var isMandatory: Bool = false
     weak var delegate: FormCellDelegate?
     var index: Int!

@@ -1,29 +1,27 @@
 //
-//  TableViewExtension.swift
+//  CollectionViewExtension.swift
 //  CRM C
 //
-//  Created by guhan-pt6208 on 24/02/23.
+//  Created by guhan-pt6208 on 31/03/23.
 //
 
 import UIKit
 
-extension UITableView {
-    
+extension UICollectionView {
+
     func showLoadingIndicator() {
         
         let activityIndicator = UIActivityIndicatorView(style: .large)
         
         activityIndicator.startAnimating()
         self.backgroundView = activityIndicator
-        self.separatorStyle = .none
     }
-    
+
     func hideLoadingIndicator() {
         restore()
     }
-    
-    
-    /// This is used when there is no data in a table view with a custom message
+
+    /// This is used when there is no data in a collection view with a custom message
     func setEmptyView(title: String,
                       message: String,
                       image: UIImage? = nil,
@@ -79,7 +77,6 @@ extension UITableView {
         ])
         
         self.backgroundView = emptyView
-        self.separatorStyle = .none
         
         if shouldImageAnimate {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -95,11 +92,9 @@ extension UITableView {
             }
         }
     }
-    
+
     /// Call this to restore the background view
     func restore() {
-        
         backgroundView = nil
-        separatorStyle = .singleLine
     }
 }

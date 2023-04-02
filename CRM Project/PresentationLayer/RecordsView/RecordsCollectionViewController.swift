@@ -1,14 +1,13 @@
 //
-//  RecordsTableViewController.swift
-//  CRM Project
+//  ViewController.swift
+//  ProfileCollecitonViewPractice
 //
-//  Created by guhan-pt6208 on 10/02/23.
+//  Created by guhan-pt6208 on 31/03/23.
 //
 
 import UIKit
 
-
-class RecordsTableViewController: UITableViewController {
+class RecordsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     private let recordsController: RecordsContract = RecordsController()
     private var formViewController: FormTableViewController!
@@ -19,30 +18,32 @@ class RecordsTableViewController: UITableViewController {
     private var records = [Record]()
     private var filteredRecords = [Record]()
     
-    private var isSearching = false
-    private var isFiltered = false
-    private var isVCPushed = false
-    
-    var delegate: RecordTableViewDelegate?
     
     private var sortedRecords = [String: [Record]]()
     private var sectionTitles = [String]()
     
-    // This init is for when module is availabe when called
+    private var isSearching = false
+    private var isFiltered = false
+    private var isVCPushed = false
+
+//    private var collectionView: UICollectionView!
+    
     init(module: Module, isLookUp: Bool) {
         
         self.module = module
         self.moduleApiName = module.apiName
         self.isLookUp = isLookUp
-        super.init(nibName: nil, bundle: nil)
+        super.init(collectionViewLayout: UICollectionViewLayout())
+//        super.init(nibName: nil, bundle: nil)
     }
     
-    // in lookup 
+    // in lookup
     init(module: String, isLookup: Bool) {
         
         self.moduleApiName = module
         self.isLookUp = isLookup
-        super.init(nibName: nil, bundle: nil)
+        super.init(collectionViewLayout: UICollectionViewLayout())
+//        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -53,11 +54,9 @@ class RecordsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         title = module?.modulePluralName ?? moduleApiName
-        view.backgroundColor = .systemGray6
         
         configureNavigationBar()
-        configureRecordsTableView()
-        
+        configureCollectionView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,13 +68,22 @@ class RecordsTableViewController: UITableViewController {
             
             UIView.animate(withDuration: 0.5) {
 
+                
                 self.tabBarController?.tabBar.frame.origin.y -= self.tabBarController?.tabBar.frame.size.height ?? 0.0
             }
         }
         navigationController?.navigationBar.prefersLargeTitles = true
         
-//        isFiltered = false
         getRecords()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        searchController.searchBar.delegate = self
+        searchController.delegate = self
+        navigationItem.searchController = searchController
+
+        searchController.searchBar.autocapitalizationType = .none
     }
     
     private func configureNavigationBar() {
@@ -83,12 +91,7 @@ class RecordsTableViewController: UITableViewController {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewRecordButtonTapped))
         let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
         navigationItem.rightBarButtonItems = [addButton, sortButton]
-        
-        searchController.searchBar.delegate = self
-        searchController.delegate = self
-        navigationItem.searchController = searchController
-
-        searchController.searchBar.autocapitalizationType = .none
+//
     }
     
     @objc private func sortButtonTapped() {
@@ -120,46 +123,70 @@ class RecordsTableViewController: UITableViewController {
         present(navigationVC, animated: true)
     }
     
-    private func configureRecordsTableView() {
+    private func configureCollectionView() {
         
+        view.backgroundColor = .systemBackground
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 1
+        layout.itemSize = CGSize(width: (view.frame.width/3)-5, height: (view.frame.width/2)-5)
         
-        tableView.separatorColor = .tableViewSeperator
-        tableView.estimatedRowHeight = 50
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.backgroundColor = .systemGray6
-        tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
+//        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+//        guard let collectionView = collectionView else {
+//            return
+//        }
+        collectionView.collectionViewLayout = layout
+//        view.addSubview(collectionView)
+        
+        collectionView.register(RecordCollectionViewCell.self,
+                                forCellWithReuseIdentifier: RecordCollectionViewCell.identifier)
+        collectionView.register(RecordHeaderView.self,
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: RecordHeaderView.identifier)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.alwaysBounceVertical = true
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
     private func getRecords() {
         
         sectionTitles = []
         sortedRecords = [:]
-        tableView.showLoadingIndicator()
+        collectionView.showLoadingIndicator()
         recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
             
             self?.records = records
             if self?.isSearching == false {
                 self?.filteredRecords = records
             }
-            self?.tableView.reloadData()
+            self?.collectionView.reloadData()
 
             if records.count == 0 {
                 
-                self?.tableView.hideLoadingIndicator()
+                self?.collectionView.hideLoadingIndicator()
                 let title = "No \(self?.module?.moduleSingularName ?? "") record found"
-                self?.tableView.setEmptyView(title: title,
+                self?.collectionView.setEmptyView(title: title,
                                              message: "Add a new record",
                                              image: UIImage(named: "records"))
             } else {
-                self?.tableView.restore()
+                self?.collectionView.restore()
             }
         }
     }
+    
 }
 
-extension RecordsTableViewController {
+extension RecordsCollectionViewController {
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         
         if !isFiltered || isSearching {
             return 1
@@ -168,7 +195,8 @@ extension RecordsTableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         
         if !isFiltered || isSearching {
             return filteredRecords.count
@@ -179,9 +207,9 @@ extension RecordsTableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier) as! RecordsTableViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecordCollectionViewCell.identifier, for: indexPath) as! RecordCollectionViewCell
         
         let record: Record!
         if !isFiltered || isSearching {
@@ -192,15 +220,16 @@ extension RecordsTableViewController {
             record = sortedRecords[sectionTitles[indexPath.section]]![indexPath.row]
         }
         
-        cell.configureRecordCell(recordName: record.recordName,
-                                 secondaryData: record.secondaryRecordData,
-                                 recordImage: record.recordImage)
+        if let recordImage = record.recordImage {
+            cell.imageview.image = recordImage
+        }
+        cell.name.text = record.recordName
+        cell.secondaryLabel.text = record.secondaryRecordData
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        tableView.deselectRow(at: indexPath, animated: true)
         let record = records[indexPath.row]
         
         // Checking if it is a lookup, if it is call the delegate method to fill up lookup record
@@ -220,30 +249,70 @@ extension RecordsTableViewController {
             }
         } else {
             
-            delegate?.setLookupRecordAndId(recordName: record.recordName, recordId: record.recordId)
+//            delegate?.setLookupRecordAndId(recordName: record.recordName, recordId: record.recordId)
             navigationController?.popViewController(animated: true)
         }
     }
-    
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
 }
 
-extension RecordsTableViewController: UISearchBarDelegate {
+// MARK: - UICollectionViewDelegateFlowLayout
+
+extension RecordsCollectionViewController {
+    
+    // Set the size of the header
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForHeaderInSection section: Int) -> CGSize
+    {
+        if isFiltered {
+            return CGSize(width: collectionView.bounds.width, height: 50)
+        } else {
+            return CGSize.zero
+        }
+    }
+    
+    // Set the view for the header
+    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        
+        if kind == UICollectionView.elementKindSectionHeader {
+            
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: RecordHeaderView.identifier, for: indexPath) as! RecordHeaderView
+            
+            if !isFiltered || isSearching {
+                headerView.titleLabel.text = nil
+            } else {
+                headerView.titleLabel.text = sectionTitles[indexPath.section]
+            }
+            
+            return headerView
+        }
+        
+        fatalError("Invalid supplementary view kind")
+    }
+    
+    // Set the titles for the section index
+    func sectionIndexTitles(for collectionView: UICollectionView) -> [String]? {
+        if !isFiltered || isSearching {
+            return nil
+        } else {
+            return sectionTitles
+        }
+    }
+}
+
+extension RecordsCollectionViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
         filteredRecords = []
         if searchText == "" {
             
-            tableView.restore()
+            collectionView.restore()
             isSearching = false
             filteredRecords = records
         } else {
             
-            tableView.restore()
+            collectionView.restore()
             isSearching = true
             filteredRecords = records.filter { record in
                 
@@ -257,47 +326,30 @@ extension RecordsTableViewController: UISearchBarDelegate {
                 return false
             }
         }
+        
         if filteredRecords.isEmpty {
             
-            tableView.setEmptyView(title: "No search Results for \"\(searchText)\"",
+            collectionView.setEmptyView(title: "No search Results for \"\(searchText)\"",
                                    message: "",
                                    image: UIImage(named: "search"),
                                    shouldImageAnimate: true)
         }
-        tableView.reloadData()
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        
-        if !isFiltered || isSearching {
-            return nil
-        } else {
-            return sectionTitles[section]
-        }
-    }
-    
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
-        
-        if !isFiltered || isSearching {
-            return nil
-        } else {
-            return sectionTitles
-        }
+        collectionView.reloadData()
     }
 }
 
-extension RecordsTableViewController: UISearchControllerDelegate {
+extension RecordsCollectionViewController: UISearchControllerDelegate {
     
     func willDismissSearchController(_ searchController: UISearchController) {
         
         isSearching = false
-        tableView.restore()
+        collectionView.restore()
         filteredRecords = records
-        tableView.reloadData()
+        collectionView.reloadData()
     }
 }
 
-extension RecordsTableViewController: PickerViewDelegate {
+extension RecordsCollectionViewController: PickerViewDelegate {
     
     func pickerViewData(datePickerDate: Date, tableviewSelectedRow: String) {
         
@@ -308,12 +360,12 @@ extension RecordsTableViewController: PickerViewDelegate {
                 
                 self?.sectionTitles  = sectionTitles
                 self?.sortedRecords = sectionData
-                tableView.reloadData()
+                collectionView.reloadData()
             }
         } else {
             
             isFiltered = false
-            tableView.reloadData()
+            collectionView.reloadData()
         }
     }
 }

@@ -42,46 +42,50 @@ class LoginPageViewController: UIViewController {
         view.backgroundColor = .systemGray6
         
         configureUI()
+        viewWillAppear(true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        imageView.transform = CGAffineTransform(scaleX: 0.03, y: 0.03)
-        imageView.alpha = 0.0
-        
-        // Animate the imageView with a spring effect
-        UIView.animate(withDuration: 1.0,
-                       delay: 0.0,
-                       usingSpringWithDamping: 0.7,
-                       initialSpringVelocity: 0.2,
-                       options: .curveEaseInOut,
-                       animations: {
+        if !UserDefaultsManager.shared.isUserLoggedIn() {
+            imageView.transform = CGAffineTransform(scaleX: 0.03, y: 0.03)
+            imageView.alpha = 0.0
             
-            self.imageView.transform = .identity
-            self.imageView.alpha = 1.0
-        })
-        
-        titleLabel.alpha = 0.0
+            // Animate the imageView with a spring effect
+            UIView.animate(withDuration: 1.0,
+                           delay: 0.0,
+                           usingSpringWithDamping: 0.7,
+                           initialSpringVelocity: 0.2,
+                           options: .curveEaseInOut,
+                           animations: {
+                
+                self.imageView.transform = .identity
+                self.imageView.alpha = 1.0
+            })
+            
+            titleLabel.alpha = 0.0
             titleLabel.transform = CGAffineTransform(translationX: 0, y: 20)
             bodyLabel.alpha = 0.0
             bodyLabel.transform = CGAffineTransform(translationX: 0, y: 20)
             
             // Animate the titleLabel and bodyLabel with a fade-in and slide-up effect
-        UIView.animate(withDuration: 1.0,
-                         delay: 0.0,
-                         options: [.curveEaseInOut, .beginFromCurrentState],
-                         animations: {
-              self.titleLabel.alpha = 1.0
-              self.titleLabel.transform = .identity
-          }, completion: { _ in
-              UIView.animate(withDuration: 1.0,
-                             delay: 0.0,
-                             options: [.curveEaseInOut, .beginFromCurrentState],
-                             animations: {
-                  self.bodyLabel.alpha = 1.0
-                  self.bodyLabel.transform = .identity
-              }, completion: nil)
-          })
+            UIView.animate(withDuration: 1.0,
+                           delay: 0.0,
+                           options: [.curveEaseInOut, .beginFromCurrentState],
+                           animations: {
+                self.titleLabel.alpha = 1.0
+                self.titleLabel.transform = .identity
+            }, completion: { _ in
+                UIView.animate(withDuration: 1.0,
+                               delay: 0.0,
+                               options: [.curveEaseInOut, .beginFromCurrentState],
+                               animations: {
+                    self.bodyLabel.alpha = 1.0
+                    self.bodyLabel.transform = .identity
+                }, completion: nil)
+            })
+        }
     }
     
     private func configureUI() {
@@ -98,7 +102,7 @@ class LoginPageViewController: UIViewController {
             imageView.widthAnchor.constraint(equalToConstant: 200),
             imageView.heightAnchor.constraint(equalToConstant: 200),
             
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 16),
+            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
             titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32),
             
@@ -109,28 +113,10 @@ class LoginPageViewController: UIViewController {
     }
     
     func setUpPageWith(image: UIImage?, title: String, body: String?, shouldAnimate: Bool = false) {
+        
         imageView.image = image
         titleLabel.text = title
         bodyLabel.text = body
-        
-        
-//        if shouldAnimate {
-//
-//            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-//                if shouldAnimate {
-//                    // Apply a scale animation to the image view
-//                    let animation = CABasicAnimation(keyPath: "transform.scale")
-//                    animation.fromValue = 1.0
-//                    animation.toValue = 1.1
-//                    animation.autoreverses = true
-//                    animation.duration = 0.7
-//                    animation.repeatCount = 5.0
-//                    self.imageView.layer.add(animation, forKey: "scaleAnimation")
-//                } else {
-//                    self.imageView.layer.removeAnimation(forKey: "scaleAnimation")
-//                }
-//            }
-//        }
     }
     
 }

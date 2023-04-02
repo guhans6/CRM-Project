@@ -12,15 +12,19 @@ class RecordsTableViewCell: UITableViewCell {
     static let recordCellIdentifier = "recordCell"
     private let recordNameLabel = UILabel()
     private let secondaryLabel = UILabel()
+    private let recordImageView = UIImageView()
+    private let defaultImage = UIImage(named: "camera")
     
     private var nameLabelCenterYAnchor: NSLayoutConstraint?
     private var nameLabelTop: NSLayoutConstraint?
     private var nameLabelBottom: NSLayoutConstraint?
+    private var nameLabelConstraints: [NSLayoutConstraint]?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        configureImageView()
         configureRecordNameLabel()
         backgroundColor = .systemGray6
     }
@@ -30,8 +34,29 @@ class RecordsTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
+        
         recordNameLabel.text = nil
         secondaryLabel.text = nil
+        recordImageView.image = defaultImage
+    }
+    
+    private func configureImageView() {
+        
+        contentView.addSubview(recordImageView)
+        recordImageView.translatesAutoresizingMaskIntoConstraints = false
+        recordImageView.contentMode = .scaleAspectFit
+        recordImageView.layer.cornerRadius = 25
+        recordImageView.clipsToBounds = true
+        recordImageView.image = defaultImage
+        
+        NSLayoutConstraint.activate([
+            recordImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            recordImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            recordImageView.widthAnchor.constraint(equalToConstant: 50),
+            recordImageView.heightAnchor.constraint(equalToConstant: 50)
+        ])
+
     }
     
     private func configureRecordNameLabel() {
@@ -42,24 +67,26 @@ class RecordsTableViewCell: UITableViewCell {
         recordNameLabel.numberOfLines = 0
         
         nameLabelTop = recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13)
-        
+        nameLabelTop?.isActive = true
+
         nameLabelBottom = recordNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13)
+        nameLabelBottom?.isActive = true
         
         NSLayoutConstraint.activate([
-            nameLabelTop!,
-            nameLabelBottom!,
             recordNameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
-            recordNameLabel.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor)
+            recordNameLabel.trailingAnchor.constraint(equalTo: recordImageView.leadingAnchor)
         ])
     }
     
-    private func configureRecordEmailLabel() {
-        
+    func configureRecordEmailLabel() {
         
         nameLabelTop?.isActive = false
         nameLabelBottom?.isActive = false
-
-        recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10).isActive = true
+        
+        recordNameLabel.removeConstraints([nameLabelTop!, nameLabelBottom!])
+    
+        nameLabelTop = recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
+        nameLabelTop?.isActive = translatesAutoresizingMaskIntoConstraints
     
         contentView.addSubview(secondaryLabel)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -70,23 +97,35 @@ class RecordsTableViewCell: UITableViewCell {
             secondaryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: 20),
             secondaryLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             secondaryLabel.topAnchor.constraint(equalTo: recordNameLabel.bottomAnchor, constant: 5),
-            secondaryLabel.trailingAnchor.constraint(lessThanOrEqualTo: contentView.trailingAnchor)
+            secondaryLabel.trailingAnchor.constraint(lessThanOrEqualTo: recordImageView.leadingAnchor)
             
         ])
     }
     
     private func reconfigureCell() {
+        
         secondaryLabel.removeFromSuperview()
-
+        
+        if nameLabelTop?.isActive == false {
+            
+            nameLabelTop?.isActive = true
+            nameLabelBottom?.isActive = true
+        }
     }
     
-    func configureRecordCell(recordName: String, secondaryData: String) {
+    func configureRecordCell(recordName: String, secondaryData: String, recordImage: UIImage?) {
+        
         self.recordNameLabel.text = recordName
+        if let recordImage = recordImage {
+            recordImageView.image = recordImage
+        }
         
         if secondaryData != "" {
             
             configureRecordEmailLabel()
             self.secondaryLabel.text = secondaryData
+        } else {
+            reconfigureCell()
         }
     }
 

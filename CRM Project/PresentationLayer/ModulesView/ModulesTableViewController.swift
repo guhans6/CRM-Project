@@ -84,9 +84,12 @@ extension ModulesTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let module = modules[indexPath.row]
-        recordsViewController = RecordsTableViewController(module: module, isLookUp: false)
-        let _ = UINavigationController(rootViewController: recordsViewController!)
-        navigationController?.pushViewController(recordsViewController!, animated: true)
+        let recordsViewController = RecordsCollectionViewController(module: module, isLookUp: false)
+        let _ = UINavigationController(rootViewController: recordsViewController)
+        navigationController?.pushViewController(recordsViewController, animated: true)
+//        recordsViewController = RecordsTableViewController(module: module, isLookUp: false)
+//        let _ = UINavigationController(rootViewController: recordsViewController!)
+//        navigationController?.pushViewController(recordsViewController!, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

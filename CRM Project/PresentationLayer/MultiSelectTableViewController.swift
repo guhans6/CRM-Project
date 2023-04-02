@@ -75,7 +75,8 @@ class MultiSelectTableViewController: UITableViewController {
                                                  for: indexPath) as! RecordsTableViewCell
         
         let pickListValue = pickListValues[indexPath.row]
-        cell.configureRecordCell(recordName: pickListValue.displayValue, secondaryData: "")
+        cell.configureRecordCell(recordName: pickListValue.displayValue,
+                                 secondaryData: "", recordImage: nil)
         
         cell.tintColor = .normalText
         

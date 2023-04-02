@@ -53,10 +53,14 @@ class Network: NetworkContract {
         task.resume()
     }
     
-    func performDataTask(url: URL, method: String, urlComponents: URLComponents?, parameters: [String: Any?]?, headers: [String: String]?, success: @escaping (([String: Any]?, Error?) -> Void))
+    func performDataTask(url: URL, method: String,
+                         urlComponents: URLComponents?,
+                         parameters: [String: Any?]?,
+                         header: [String: String]?,
+                         success: @escaping (([String: Any]?, Error?) -> Void))
     {
         
-        guard let headers = headers else {
+        guard let headers = header else {
             print("No Headers Present")
             return
         }
@@ -84,6 +88,7 @@ class Network: NetworkContract {
                 return
             }
             
+            
             do {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
 //                print(json, "aaa")
@@ -93,6 +98,76 @@ class Network: NetworkContract {
                 success(nil, error)
             }
         }
+        task.resume()
+    }
+    
+    func uploadLeadPhoto(url: URL,
+                         authToken: String,
+                         request: URLRequest,
+                         body: Data,
+                         completion: @escaping ([String: Any]?, Error?) -> Void) {
+        
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            
+            if let _ = error {
+                print("ERR")
+                return
+            }
+            
+            guard let data = data else {
+                print("Error in data")
+                return
+            }
+
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+//                print(json, "aaa")
+                print(json!)
+                completion(json, nil)
+            } catch {
+//                print(error , "abc")
+                completion(nil, error)
+            }
+        }
+
+        task.resume()
+    }
+
+    func downloadImage(url: URL,
+                       header: [String: String]?,
+                       completion: @escaping (Data) -> Void) -> Void {
+
+        var request = URLRequest(url: url)
+        
+        guard let header = header else {
+            print("No Headers Present")
+            return
+        }
+        
+        let _ = header.map { value, headerField in
+            request.setValue(value, forHTTPHeaderField: headerField)
+        }
+       
+        let task = URLSession.shared.downloadTask(with: request) { (data, response, error) in
+            guard error == nil else {
+                print("Error downloading image: \(error!)")
+                return
+            }
+            
+            guard let location = data else {
+                print("Invalid location")
+                return
+            }
+            
+            do {
+                let imageData = try Data(contentsOf: location)
+                completion(imageData)
+                
+            } catch {
+                print("Error converting image data: \(error)")
+            }
+        }
+
         task.resume()
     }
 }

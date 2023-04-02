@@ -18,6 +18,11 @@
 		5301EF3C29C060E700567753 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5301EF3E29C060E700567753 /* Localizable.strings */; };
 		530847E929D5498500D08087 /* LoginPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530847E829D5498500D08087 /* LoginPageViewController.swift */; };
 		530847EB29D56CA000D08087 /* ImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530847EA29D56CA000D08087 /* ImageViewExtension.swift */; };
+		530847F129D66EE800D08087 /* ImageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530847F029D66EE800D08087 /* ImageTableViewCell.swift */; };
+		5308481329D6FF2600D08087 /* RecordsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481229D6FF2600D08087 /* RecordsCollectionViewController.swift */; };
+		5308481529D70D5200D08087 /* RecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481429D70D5200D08087 /* RecordCollectionViewCell.swift */; };
+		5308481729D710A100D08087 /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481629D710A100D08087 /* CollectionViewExtension.swift */; };
+		5308481929D7156F00D08087 /* RecordsCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481829D7156F00D08087 /* RecordsCollectionHeaderView.swift */; };
 		531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531131BF29A79452006124AA /* RelatedListNetworkService.swift */; };
 		5311863F29A794B1004088DD /* RelatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311863E29A794B1004088DD /* RelatedList.swift */; };
 		5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */; };
@@ -115,6 +120,11 @@
 		5301EF3F29C061DD00567753 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		530847E829D5498500D08087 /* LoginPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageViewController.swift; sourceTree = "<group>"; };
 		530847EA29D56CA000D08087 /* ImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewExtension.swift; sourceTree = "<group>"; };
+		530847F029D66EE800D08087 /* ImageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTableViewCell.swift; sourceTree = "<group>"; };
+		5308481229D6FF2600D08087 /* RecordsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordsCollectionViewController.swift; sourceTree = "<group>"; };
+		5308481429D70D5200D08087 /* RecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCollectionViewCell.swift; sourceTree = "<group>"; };
+		5308481629D710A100D08087 /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
+		5308481829D7156F00D08087 /* RecordsCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsCollectionHeaderView.swift; sourceTree = "<group>"; };
 		531131BF29A79452006124AA /* RelatedListNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedListNetworkService.swift; sourceTree = "<group>"; };
 		5311863E29A794B1004088DD /* RelatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedList.swift; sourceTree = "<group>"; };
 		5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimeHeaderView.swift; sourceTree = "<group>"; };
@@ -328,6 +338,9 @@
 			isa = PBXGroup;
 			children = (
 				537B60882996694700ACA883 /* RecordsTableViewController.swift */,
+				5308481229D6FF2600D08087 /* RecordsCollectionViewController.swift */,
+				5308481829D7156F00D08087 /* RecordsCollectionHeaderView.swift */,
+				5308481429D70D5200D08087 /* RecordCollectionViewCell.swift */,
 				537B608C299674E700ACA883 /* RecordsTableViewCell.swift */,
 			);
 			path = RecordsView;
@@ -366,6 +379,7 @@
 				53D273232977D20F001718BD /* SceneDelegate.swift */,
 				5318F5D3297A851000AF76DC /* PresentationLayer */,
 				5311865029A8C551004088DD /* TableViewExtension.swift */,
+				5308481629D710A100D08087 /* CollectionViewExtension.swift */,
 				5301EF3829C0607A00567753 /* StringExtension.swift */,
 				534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */,
 				5318F5D0297A84D900AF76DC /* DomainLayer */,
@@ -453,6 +467,7 @@
 				53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */,
 				53EEAEFD29A5EF4F00403541 /* TextAreaTableViewCell.swift */,
 				53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */,
+				530847F029D66EE800D08087 /* ImageTableViewCell.swift */,
 			);
 			path = FormView;
 			sourceTree = "<group>";
@@ -571,6 +586,7 @@
 				537B60932997933A00ACA883 /* UserType.swift in Sources */,
 				531B11122980E558000FAF02 /* HomeViewController.swift in Sources */,
 				5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */,
+				5308481529D70D5200D08087 /* RecordCollectionViewCell.swift in Sources */,
 				53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */,
 				53A696DE297C6D310029F92E /* Network.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
@@ -583,12 +599,14 @@
 				5356AF1729A3393800267943 /* UserNetworkService.swift in Sources */,
 				53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */,
 				53E9094429B11DAF00452748 /* ModulesDataManger.swift in Sources */,
+				5308481929D7156F00D08087 /* RecordsCollectionHeaderView.swift in Sources */,
 				5311864C29A884DF004088DD /* Table.swift in Sources */,
 				5301EF0329BE0F3300567753 /* RecordInfoDatabaseService.swift in Sources */,
 				53EF4A6929C97BB60077B977 /* NetworkControllerContract.swift in Sources */,
 				53EF4A9129C9C3840077B977 /* FieldsContract.swift in Sources */,
 				5356AF1F29A340D400267943 /* ModulesController.swift in Sources */,
 				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
+				5308481729D710A100D08087 /* CollectionViewExtension.swift in Sources */,
 				536AD439299E3EF400801158 /* RecordsController.swift in Sources */,
 				53964859299B804000781CE4 /* RecordInfoTableViewController.swift in Sources */,
 				537B608F29969BDE00ACA883 /* Record.swift in Sources */,
@@ -607,6 +625,7 @@
 				531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */,
 				53E9094329B11DAF00452748 /* UserDataManager.swift in Sources */,
 				5301EF0A29BEFC2600567753 /* EventBookingController.swift in Sources */,
+				530847F129D66EE800D08087 /* ImageTableViewCell.swift in Sources */,
 				5356AF1529A3382100267943 /* ModulesNetworkService.swift in Sources */,
 				537B60A52998B70100ACA883 /* BooleanTableViewCell.swift in Sources */,
 				5356AF1029A332B800267943 /* NetworkService.swift in Sources */,
@@ -630,6 +649,7 @@
 				5311865129A8C551004088DD /* TableViewExtension.swift in Sources */,
 				53EEAEFE29A5EF4F00403541 /* TextAreaTableViewCell.swift in Sources */,
 				5301EF0C29BEFC8B00567753 /* EventBookingNetworkService.swift in Sources */,
+				5308481329D6FF2600D08087 /* RecordsCollectionViewController.swift in Sources */,
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
 				530847E929D5498500D08087 /* LoginPageViewController.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,

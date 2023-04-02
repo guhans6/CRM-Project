@@ -112,7 +112,7 @@ class TableBookingViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         tableView.separatorColor = .tableViewSeperator
-        tableView.backgroundColor = .systemBackground
+        tableView.backgroundColor = .systemGray6
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -176,7 +176,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         if indexPath.section == 1 {
             cell.accessoryType = .detailButton
         }
-        
+        cell.backgroundColor = .systemBackground
         return cell
     }
     

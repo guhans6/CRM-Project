@@ -16,6 +16,7 @@ class FormTableViewController: UITableViewController {
     
     private let formController: FieldsContract = FieldsController()
     private let recordsController: AddRecordContract = RecordsController()
+    
     private var fields = [Field]()
     private lazy var editableRecords = [(String, Any)]()
     private var module: Module?
@@ -37,6 +38,8 @@ class FormTableViewController: UITableViewController {
     private lazy var textAreaIndexes = [IndexPath]()
     
     var delegate: FormTableViewDelegate?
+    
+    private var selectedImageCell: ImageTableViewCell?
     
     init(module: Module) {
         self.module = module
@@ -132,6 +135,7 @@ class FormTableViewController: UITableViewController {
         tableView.register(PickListTableViewCell.self, forCellReuseIdentifier: PickListTableViewCell.pickListCellIdentifier)
         tableView.register(TextAreaTableViewCell.self, forCellReuseIdentifier: TextAreaTableViewCell.textAreaCellIdentifier)
         tableView.register(DateTableViewCell.self, forCellReuseIdentifier: DateTableViewCell.dateCellIdentifier)
+        tableView.register(ImageTableViewCell.self, forCellReuseIdentifier: ImageTableViewCell.identifier)
         
     }
     
@@ -268,6 +272,15 @@ extension FormTableViewController {
             
             cell?.addGestureRecognizer(tapGesture)
             
+        case "profileimage":
+            
+            cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.identifier) as! ImageTableViewCell
+            
+            
+            let tapGesture = LookupTapGestureRecognizer(target: self,
+                                                    action: #selector(didTapImageView(sender:)))
+            cell.recordImageView.addGestureRecognizer(tapGesture)
+            
         default:
             
             cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
@@ -283,7 +296,7 @@ extension FormTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return fields.count - 1
+        return fields.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -349,6 +362,9 @@ extension FormTableViewController {
         
         // If it is text area it should be bigger and it is scrollable so constant height
         if textAreaIndexes.contains(indexPath) {
+            
+            return 65
+        } else if indexPath.row == fields.count - 1 {
             
             return 65
         } else {
@@ -448,6 +464,77 @@ extension FormTableViewController {
             }
         }
         //Should also handle lower ios versions
+    }
+}
+
+extension FormTableViewController {
+    
+    @objc private func didTapImageView(sender: LookupTapGestureRecognizer) {
+        
+        guard let cell = sender.view?.superview?.superview as? ImageTableViewCell else {
+            return
+        }
+        
+        selectedImageCell = cell
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true)
+    }
+}
+
+extension FormTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        // Get the selected image
+        guard let pickedImage = info[.originalImage] as? UIImage else {
+            print("No image selected")
+            return
+        }
+        
+        // Convert image to PNG data representation
+        guard let imageData = pickedImage.pngData() else {
+            print("Unable to convert image to PNG data")
+            return
+        }
+        
+        // Check if image size is within the allowed range (10 MB)
+        let allowedSize: Int64 = 10 * 1024 * 1024 // 10 MB
+        let imageSize = Int64(imageData.count)
+        guard imageSize <= allowedSize else {
+            
+            // Display an alert to the user
+            let alert = UIAlertController(title: "Image Size Exceeded", message: "The selected image size exceeds the allowed size (10 MB). Please select a smaller image.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            picker.dismiss(animated: true)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        // Check if image resolution is within the allowed range (10 MP)
+        let allowedResolution: CGFloat = 10000000 // 10 MP
+        let imageResolution = pickedImage.size.width * pickedImage.size.height
+        guard imageResolution <= allowedResolution else {
+            // Display an alert to the user
+            let alert = UIAlertController(title: "Image Resolution Exceeded", message: "The selected image resolution exceeds the allowed resolution (10 MP). Please select a smaller image.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            picker.dismiss(animated: true)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        // Display the image in the image view
+        
+        recordsToBeSaved[selectedImageCell!.index] = (true, pickedImage)
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        picker.dismiss(animated: true)
     }
 }
 

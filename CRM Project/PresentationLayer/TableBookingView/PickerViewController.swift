@@ -23,6 +23,10 @@ class PickerViewController: UIViewController {
     
     private var lastPickedDate = Date()
     private var lastPickedTime = "Breakfast"
+    private var todayDate: String {
+        return DateFormatter.formattedString(from: Date(), format: "yyyy-MM-dd")
+    }
+    
     private var sectionHeaderTitle: String?
     weak var delegate: PickerViewDelegate?
     
@@ -110,14 +114,6 @@ class PickerViewController: UIViewController {
         
         datePicker.addTarget(self, action: #selector(datePickerValueChanged), for: .valueChanged)
         
-        let today = Date()
-//        datePicker.minimumDate = today
-        
-        let calendar = Calendar.current
-        let nextMonth = calendar.date(byAdding: .day, value: 30, to: today)!
-
-//        datePicker.maximumDate = nextMonth
-        
         NSLayoutConstraint.activate([
             datePicker.topAnchor.constraint(equalTo: view.topAnchor, constant: 70),
             datePicker.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -128,7 +124,8 @@ class PickerViewController: UIViewController {
     
     @objc private func datePickerValueChanged() {
         
-        if datePicker.date == Date() {
+        let formattedDate = DateFormatter.formattedString(from: datePicker.date, format: "yyyy-MM-dd")
+        if formattedDate == todayDate {
             resetButton.isHidden = true
         } else {
             resetButton.isHidden = false

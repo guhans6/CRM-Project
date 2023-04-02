@@ -27,6 +27,7 @@ class LoginViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,16 +59,16 @@ class LoginViewController: UIPageViewController {
         let page1 = LoginPageViewController()
         let bar = UIImage(named: "hotel")
         page1.setUpPageWith(image: bar,
-                            title: "Manage your hotel staff with ease",
+                            title: "Manage your hotel with ease",
                             body: nil, shouldAnimate: true)
         
         let page2 = LoginPageViewController()
-        page2.setUpPageWith(image: UIImage(systemName: "iphone.gen1.radiowaves.left.and.right.circle.fill"),
+        page2.setUpPageWith(image: UIImage(named: "restaurantTable"),
                             title: "Effortlessly book and manage tables",
                             body: nil)
         
         let page3 = LoginPageViewController()
-        page3.setUpPageWith(image: UIImage(systemName: "building.fill"),
+        page3.setUpPageWith(image: UIImage(named: "people"),
                             title: "Plan and host events like a pro",
                             body: nil)
 

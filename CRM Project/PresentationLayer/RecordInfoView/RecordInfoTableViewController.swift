@@ -102,8 +102,8 @@ class RecordInfoTableViewController: UITableViewController {
             
             self.recordsController.deleteRecords(module: self.moduleApiName, ids: [self.recordId]) { result in
                 
-//                self.navigationController?.popViewController(animated: true)
-                self.dismiss(animated: true)
+                self.navigationController?.popViewController(animated: true)
+//                self.dismiss(animated: true, completion: nil)
             }
         }))
         

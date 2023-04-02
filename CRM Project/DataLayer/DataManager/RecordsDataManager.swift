@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class RecordsDataManager {
     
@@ -30,13 +31,14 @@ class RecordsDataManager {
             isRecordSaved(isASuccess)
         }
         
+        
     }
     
     func getRecords(module: String,
                     completion: @escaping ([Record]) -> Void) -> Void {
 
         self.getRecordsFromDatabase(module: module) { records in
-            
+
             completion(records)
         }
         
@@ -106,17 +108,52 @@ class RecordsDataManager {
                     return
                 }
                 
+                var recordImage: UIImage?
+                self?.recordsNetworkService.getRecordImage(module: module,
+                                                           id: recordId,
+                                                           completion: { resultImage in
+                    
+                    recordImage = resultImage
+                })
+                
                 let record = Record(recordName: recordName,
                                     secondaryRecordData: secondaryData,
-                                    recordId: recordId)
+                                    recordId: recordId, recordImage: recordImage)
                 
                 recordsArray.append(record)
                 self?.recordsDatabaseService.saveRecordInDatabase(record: record,
                                                             moduleApiName: module)
             }
             
+            var recordsWithImages = [Record]()
+            var dict = [Int: Record]()
+            var count = 0
+
+            for i in 0 ..< recordsArray.count {
+
+                let record = recordsArray[i]
+                self?.recordsNetworkService.getRecordImage(module: module,
+                                                           id: record.recordId,
+                                                           completion: { resultImage in
+                    count += 1
+                    var record2 = record
+                    record2.recordImage = resultImage
+
+                    recordsWithImages.append(record2)
+                    dict[i] = record2
+                    
+                    if count == recordsArray.count {
+                        
+                        for i in 0 ..< recordsArray.count {
+                            
+                            recordsWithImages[i] = dict[i]!
+                        }
+                        completion(recordsWithImages)
+                    }
+                })
+
+            }
             completion(recordsArray)
-            
         }
     }
     
@@ -126,7 +163,10 @@ class RecordsDataManager {
         let recordName = record[recordNameColumn] as! String
         let secodaryData = record[secondaryDataColumn] as! String
         
-        return Record(recordName: recordName, secondaryRecordData: secodaryData, recordId: recordId)
+        return Record(recordName: recordName,
+                      secondaryRecordData: secodaryData,
+                      recordId: recordId,
+                      recordImage: nil)
     }
     
     func getRecordById(module: String,

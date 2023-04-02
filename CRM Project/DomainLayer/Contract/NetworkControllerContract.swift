@@ -9,7 +9,7 @@ import Foundation
 
 protocol NetworkNetworkControllerContract {
     
-    func generateAccessToken(from url: URL?) -> Void
+    func generateAccessToken(from url: URL?, completion: @escaping (Bool) -> Void) -> Void
     
     func generateAuthToken() -> Void
     

@@ -15,6 +15,10 @@ class HomeViewController: UIViewController {
     private var lastPickedDate = Date()
     private let mainTabBarController = UITabBarController()
     
+    private var todayDate: String {
+        return DateFormatter.formattedString(from: Date(), format: "yyyy-MM-dd")
+    }
+    
     private var tables = [Table]()
     private var reservationIds = [String]()
     private var events = [Event]()
@@ -38,6 +42,7 @@ class HomeViewController: UIViewController {
         
         super.viewWillAppear(animated)
         datePicker.date = lastPickedDate
+        datePickerValueChanged()
         navigationController?.navigationBar.prefersLargeTitles = true
         getBookedTablesFor(date: lastPickedDate)
     }
@@ -99,7 +104,8 @@ class HomeViewController: UIViewController {
 
     @objc private func datePickerValueChanged() {
         
-        if datePicker.date == Date() {
+        let formattedDate = DateFormatter.formattedString(from: datePicker.date, format: "yyyy-MM-dd")
+        if formattedDate == todayDate {
             dateResetButton.isHidden = true
         } else {
             dateResetButton.isHidden = false
