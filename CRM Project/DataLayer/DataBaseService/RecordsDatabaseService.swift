@@ -15,16 +15,18 @@ class RecordsDatabaseService {
     private let recordNameColumn = "record_name"
     private let secondaryDataColumn = "secondary_data"
     private let recordModule = "recordModule"
+    private let recordImage = "recordImage"
     
     private let database = Database.shared
     
     func createRecordsTable() {
         
         let columns = [
-            recordIdColumn.appending("\(DatabaseService.sqliteText) PRIMARY KEY"),
-            recordNameColumn.appending(DatabaseService.sqliteText),
-            secondaryDataColumn.appending(DatabaseService.sqliteText),
-            recordModule.appending(DatabaseService.sqliteText)
+            recordIdColumn.appending("\(DatabaseService.text) PRIMARY KEY"),
+            recordNameColumn.appending(DatabaseService.text),
+            secondaryDataColumn.appending(DatabaseService.text),
+            recordModule.appending(DatabaseService.text),
+            recordImage.appending(DatabaseService.blob)
         ]
 
         if database.createTable(tableName: recordsTableName, columns: columns) == false {
@@ -42,10 +44,11 @@ class RecordsDatabaseService {
         recordDictionary[recordNameColumn] = record.recordName
         recordDictionary[secondaryDataColumn] = record.secondaryRecordData
         recordDictionary[recordModule] = moduleApiName
+        recordDictionary[recordImage] = record.recordImage?.pngData()
         
         if database.insert(tableName: recordsTableName, values: recordDictionary) == false {
             
-//            print(Database.shared.errorMsg)
+            print(Database.shared.errorMsg)
         }
     }
     

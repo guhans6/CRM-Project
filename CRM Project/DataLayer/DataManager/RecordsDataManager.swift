@@ -14,6 +14,7 @@ class RecordsDataManager {
     private let recordIdColumn = "record_id"
     private let recordNameColumn = "record_name"
     private let secondaryDataColumn = "secondary_data"
+    private let recordImageColumn = "recordImage"
     
     private let recordsNetworkService = RecordsNetworkService()
     private let recordsDatabaseService = RecordsDatabaseService()
@@ -55,6 +56,7 @@ class RecordsDataManager {
             var recordsArray = [Record]()
             recordResult.forEach { record in
                 
+                
                 let convertedRecord = self.convertRecord(record: record)
                 
                 recordsArray.append(convertedRecord)
@@ -95,11 +97,6 @@ class RecordsDataManager {
                     
                     secondaryData = email
                 }
-//                } else if let owner = record["Owner"] as? [String: Any],
-//                          let ownerName = owner["name"] as? String {
-//
-//                    secondaryData = ownerName
-//                }
                 
                 guard let recordName = record["Name"] as? String,
                       let recordId = record["id"] as? String
@@ -126,7 +123,7 @@ class RecordsDataManager {
             }
             
             var recordsWithImages = [Record]()
-            var dict = [Int: Record]()
+            var recordDictionary = [Int: Record]()
             var count = 0
 
             for i in 0 ..< recordsArray.count {
@@ -136,24 +133,27 @@ class RecordsDataManager {
                                                            id: record.recordId,
                                                            completion: { resultImage in
                     count += 1
-                    var record2 = record
-                    record2.recordImage = resultImage
-
-                    recordsWithImages.append(record2)
-                    dict[i] = record2
+                    var recordCopy = record
+                    recordCopy.recordImage = resultImage
+                    
+                    recordsWithImages.append(recordCopy)
+                    
+                    recordDictionary[i] = recordCopy
                     
                     if count == recordsArray.count {
                         
                         for i in 0 ..< recordsArray.count {
                             
-                            recordsWithImages[i] = dict[i]!
+                            recordsWithImages[i] = recordDictionary[i]!
+                            self?.recordsDatabaseService.saveRecordInDatabase(record: recordsWithImages[i],
+                                                                        moduleApiName: module)
                         }
                         completion(recordsWithImages)
                     }
                 })
 
             }
-            completion(recordsArray)
+
         }
     }
     
@@ -163,10 +163,16 @@ class RecordsDataManager {
         let recordName = record[recordNameColumn] as! String
         let secodaryData = record[secondaryDataColumn] as! String
         
+        var recordImage: UIImage? = nil
+        
+        if let imageData = record[recordImageColumn] as? Data {
+            recordImage = UIImage(data: imageData)
+        }
+
         return Record(recordName: recordName,
                       secondaryRecordData: secodaryData,
                       recordId: recordId,
-                      recordImage: nil)
+                      recordImage: recordImage)
     }
     
     func getRecordById(module: String,

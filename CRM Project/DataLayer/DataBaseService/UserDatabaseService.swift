@@ -20,9 +20,9 @@ class UserDatabaseService {
     func createUsers() {
         
         let columns = [
-            userdIdColumn.appending("\(DatabaseService.sqliteText) \(DatabaseService.primaryKey)"),
-            userFullName.appending(DatabaseService.sqliteText),
-            userEmail.appending(DatabaseService.sqliteText)
+            userdIdColumn.appending("\(DatabaseService.text) \(DatabaseService.primaryKey)"),
+            userFullName.appending(DatabaseService.text),
+            userEmail.appending(DatabaseService.text)
         ]
         
         if database.createTable(tableName: usersTableName, columns: columns) == false {

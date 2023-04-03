@@ -11,8 +11,9 @@ class DatabaseService {
     
     static let shared = DatabaseService()
     
-    static let sqliteText = " TEXT"
-    static let sqliteInt = " INTEGER"
+    static let text = " TEXT"
+    static let blob = " BLOB"
+    static let integer = " INTEGER"
     static let primaryKey = " PRIMARY KEY"
     static let foreignKey = "FOREIGN KEY"
     static let references = " REFERENCES"

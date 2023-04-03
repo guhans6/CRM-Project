@@ -19,7 +19,7 @@ class ModulesDatabaseService {
     private let database = Database.shared
     
     func createModulesTable() {
-        let sqliteText = DatabaseService.sqliteText
+        let sqliteText = DatabaseService.text
         
         let columns = [
             moduleId.appending("\(sqliteText) PRIMARY KEY"),

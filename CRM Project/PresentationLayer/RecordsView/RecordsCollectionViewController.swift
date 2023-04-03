@@ -25,6 +25,10 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
     private var isSearching = false
     private var isFiltered = false
     private var isVCPushed = false
+    
+    private lazy var viewheight = view.frame.height < view.frame.width ? view.frame.width : view.frame.height
+    private lazy var viewWidth = view.frame.width > view.frame.height ? view.frame.height : view.frame.width
+    private var tabBarHeight: CGFloat?
 
 //    private var collectionView: UICollectionView!
     
@@ -54,6 +58,7 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
         super.viewDidLoad()
         
         title = module?.modulePluralName ?? moduleApiName
+        tabBarHeight = tabBarController?.tabBar.frame.origin.y
         
         configureNavigationBar()
         configureCollectionView()
@@ -62,14 +67,20 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        tabBarController?.tabBar.isHidden = false
         if isVCPushed == true {
             
             isVCPushed = false
             
-            UIView.animate(withDuration: 0.5) {
-
-                
-                self.tabBarController?.tabBar.frame.origin.y -= self.tabBarController?.tabBar.frame.size.height ?? 0.0
+            let currentY = tabBarController?.tabBar.frame.origin.y ?? 0.0
+            let currentHeight = tabBarController?.tabBar.frame.size.height ?? 0.0
+            
+            if tabBarHeight != currentY {
+                UIView.animate(withDuration: 0.5) {
+                    
+                    
+                    self.tabBarController?.tabBar.frame.origin.y -= self.tabBarController?.tabBar.frame.size.height ?? 0.0
+                }
             }
         }
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -91,7 +102,6 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewRecordButtonTapped))
         let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
         navigationItem.rightBarButtonItems = [addButton, sortButton]
-//
     }
     
     @objc private func sortButtonTapped() {
@@ -130,14 +140,9 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 1
-        layout.itemSize = CGSize(width: (view.frame.width/3)-5, height: (view.frame.width/2)-5)
+        layout.itemSize = CGSize(width: (viewWidth/3)-5, height: (viewWidth/2)-5)
         
-//        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-//        guard let collectionView = collectionView else {
-//            return
-//        }
         collectionView.collectionViewLayout = layout
-//        view.addSubview(collectionView)
         
         collectionView.register(RecordCollectionViewCell.self,
                                 forCellWithReuseIdentifier: RecordCollectionViewCell.identifier)
@@ -167,6 +172,7 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
             if self?.isSearching == false {
                 self?.filteredRecords = records
             }
+            self?.collectionView.hideLoadingIndicator()
             self?.collectionView.reloadData()
 
             if records.count == 0 {
@@ -287,7 +293,7 @@ extension RecordsCollectionViewController {
             return headerView
         }
         
-        fatalError("Invalid supplementary view kind")
+        return UICollectionReusableView()
     }
     
     // Set the titles for the section index

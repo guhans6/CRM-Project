@@ -38,8 +38,8 @@ class FieldsDatabaseService {
     func createFieldsTable() {
         
         let lookupTableColumns = [
-            lookupIdColumn.appending("\(DatabaseService.sqliteText) PRIMARY KEY"),
-            lookupApiNameColumn.appending(DatabaseService.sqliteText),
+            lookupIdColumn.appending("\(DatabaseService.text) PRIMARY KEY"),
+            lookupApiNameColumn.appending(DatabaseService.text),
         ]
         
         if database.createTable(tableName: lookupTableName, columns: lookupTableColumns) == false {
@@ -48,16 +48,16 @@ class FieldsDatabaseService {
         
         let fieldsTableColumns = [
             
-            fieldIdColumn.appending("\(DatabaseService.sqliteText) \(DatabaseService.primaryKey)"),
-            displayLabelColumn.appending(DatabaseService.sqliteText),
-            fieldLabelColumn.appending(DatabaseService.sqliteText),
-            apiNameColumn.appending(DatabaseService.sqliteText),
-            jsonTypeColumn.appending(DatabaseService.sqliteText),
-            customFieldColumn.appending(DatabaseService.sqliteInt),
-            dataTypeColumn.appending(DatabaseService.sqliteText),
-            isSystemMandatoryColumn.appending(DatabaseService.sqliteInt),
-            lookupIdColumn.appending(DatabaseService.sqliteText),
-            moduleApiNameColumn.appending(DatabaseService.sqliteText),
+            fieldIdColumn.appending("\(DatabaseService.text) \(DatabaseService.primaryKey)"),
+            displayLabelColumn.appending(DatabaseService.text),
+            fieldLabelColumn.appending(DatabaseService.text),
+            apiNameColumn.appending(DatabaseService.text),
+            jsonTypeColumn.appending(DatabaseService.text),
+            customFieldColumn.appending(DatabaseService.integer),
+            dataTypeColumn.appending(DatabaseService.text),
+            isSystemMandatoryColumn.appending(DatabaseService.integer),
+            lookupIdColumn.appending(DatabaseService.text),
+            moduleApiNameColumn.appending(DatabaseService.text),
             "FOREIGN KEY(\(lookupIdColumn)) REFERENCES \(lookupTableName)(\(lookupIdColumn))"
         ]
         
@@ -67,10 +67,10 @@ class FieldsDatabaseService {
         
         let pickListTableColumns = [
             
-            pickListIdColumn.appending("\(DatabaseService.sqliteText)\(DatabaseService.primaryKey)"),
-            fieldIdColumn.appending(DatabaseService.sqliteText),
-            displayValueColumn.appending(DatabaseService.sqliteText),
-            actualValueColumn.appending(DatabaseService.sqliteText),
+            pickListIdColumn.appending("\(DatabaseService.text)\(DatabaseService.primaryKey)"),
+            fieldIdColumn.appending(DatabaseService.text),
+            displayValueColumn.appending(DatabaseService.text),
+            actualValueColumn.appending(DatabaseService.text),
             "FOREIGN KEY(\(fieldIdColumn)) REFERENCES Field(\(fieldIdColumn))"
         ]
         

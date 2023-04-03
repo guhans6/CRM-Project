@@ -70,7 +70,11 @@ class Database {
                     sqlite3_bind_double(statement, parameterIndex, doubleValue)
                 } else if let dataValue = value as? Data {
                     
-                    sqlite3_bind_blob(statement, parameterIndex, (dataValue as NSData).bytes, Int32(dataValue.count), nil)
+                    let _ = sqlite3_bind_blob(statement,
+                                                   parameterIndex,
+                                                   (dataValue as NSData).bytes,
+                                                   Int32(dataValue.count), nil)
+                    
                 } else if let boolValue = value as? Bool {
                     
                     let boolIntValue = boolValue ? 1 : 0

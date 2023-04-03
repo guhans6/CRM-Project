@@ -23,6 +23,7 @@
 		5308481529D70D5200D08087 /* RecordCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481429D70D5200D08087 /* RecordCollectionViewCell.swift */; };
 		5308481729D710A100D08087 /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481629D710A100D08087 /* CollectionViewExtension.swift */; };
 		5308481929D7156F00D08087 /* RecordsCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481829D7156F00D08087 /* RecordsCollectionHeaderView.swift */; };
+		5308481B29D9B4D700D08087 /* RecordInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481A29D9B4D600D08087 /* RecordInfoHeaderView.swift */; };
 		531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531131BF29A79452006124AA /* RelatedListNetworkService.swift */; };
 		5311863F29A794B1004088DD /* RelatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311863E29A794B1004088DD /* RelatedList.swift */; };
 		5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */; };
@@ -125,6 +126,7 @@
 		5308481429D70D5200D08087 /* RecordCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordCollectionViewCell.swift; sourceTree = "<group>"; };
 		5308481629D710A100D08087 /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
 		5308481829D7156F00D08087 /* RecordsCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsCollectionHeaderView.swift; sourceTree = "<group>"; };
+		5308481A29D9B4D600D08087 /* RecordInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoHeaderView.swift; sourceTree = "<group>"; };
 		531131BF29A79452006124AA /* RelatedListNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedListNetworkService.swift; sourceTree = "<group>"; };
 		5311863E29A794B1004088DD /* RelatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedList.swift; sourceTree = "<group>"; };
 		5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimeHeaderView.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				53964858299B804000781CE4 /* RecordInfoTableViewController.swift */,
+				5308481A29D9B4D600D08087 /* RecordInfoHeaderView.swift */,
 				53964863299BEFB500781CE4 /* RecordInfoTableViewCell.swift */,
 			);
 			path = RecordInfoView;
@@ -601,6 +604,7 @@
 				53E9094429B11DAF00452748 /* ModulesDataManger.swift in Sources */,
 				5308481929D7156F00D08087 /* RecordsCollectionHeaderView.swift in Sources */,
 				5311864C29A884DF004088DD /* Table.swift in Sources */,
+				5308481B29D9B4D700D08087 /* RecordInfoHeaderView.swift in Sources */,
 				5301EF0329BE0F3300567753 /* RecordInfoDatabaseService.swift in Sources */,
 				53EF4A6929C97BB60077B977 /* NetworkControllerContract.swift in Sources */,
 				53EF4A9129C9C3840077B977 /* FieldsContract.swift in Sources */,

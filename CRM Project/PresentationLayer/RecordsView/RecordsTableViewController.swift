@@ -63,6 +63,7 @@ class RecordsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        tabBarController?.tabBar.isHidden = false
         if isVCPushed == true {
             
             isVCPushed = false
@@ -74,7 +75,6 @@ class RecordsTableViewController: UITableViewController {
         }
         navigationController?.navigationBar.prefersLargeTitles = true
         
-//        isFiltered = false
         getRecords()
     }
     
@@ -145,7 +145,6 @@ class RecordsTableViewController: UITableViewController {
 
             if records.count == 0 {
                 
-                self?.tableView.hideLoadingIndicator()
                 let title = "No \(self?.module?.moduleSingularName ?? "") record found"
                 self?.tableView.setEmptyView(title: title,
                                              message: "Add a new record",

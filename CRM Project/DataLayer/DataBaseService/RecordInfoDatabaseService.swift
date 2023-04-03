@@ -20,7 +20,7 @@ class RecordInfoDatabaseService {
             
             for index in 0 ..< columns.count {
                 
-                var modifiedColumn = columns[index].appending(DatabaseService.sqliteText)
+                var modifiedColumn = columns[index].appending(DatabaseService.text)
                 
                 if index == 0 {
                     

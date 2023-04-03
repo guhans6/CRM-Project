@@ -12,6 +12,7 @@ class RecordInfoTableViewController: UITableViewController {
     private lazy var recordsController: RecordInfoContract = RecordsController()
     private let fieldsController = FieldsController()
     private var formVc: FormTableViewController?
+//    private let headerView = RoundedImageViewHeader()
     
     private let recordModule: Module?
     private var moduleApiName: String
@@ -20,6 +21,13 @@ class RecordInfoTableViewController: UITableViewController {
     
     private var recordInfo = [(String, Any)]()
     private var fields = [Field]()
+    
+    private let headerHeight: CGFloat = 160
+    private let minHeaderHeight: CGFloat = 80 // Change this to the minimum height you want for the header view
+    var imageHeight: CGFloat = 130
+    private let headerView = UIView()
+    private let headerImageView = UIImageView()
+    private var headerImageViewHeightConstraint: NSLayoutConstraint?
     
     init(recordModule: Module, recordId: String) {
         
@@ -49,9 +57,20 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         
         configureTableView()
+//        navigationController?.navigationBar.prefersLargeTitles = false
         title = recordModule?.moduleSingularName.appending(" Information")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
     }
     
     private func configureNavigationBar() {
@@ -70,6 +89,30 @@ class RecordInfoTableViewController: UITableViewController {
         tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         
+        let safeAreaInset = view.safeAreaInsets.top
+        
+        // Set up header view
+        headerView.frame = CGRect(x: 0, y: -safeAreaInset, width: view.bounds.width, height: headerHeight)
+        headerView.backgroundColor = .clear
+        headerView.clipsToBounds = true
+        tableView.tableHeaderView = headerView
+        
+        // Set up image view
+        headerImageView.contentMode = .scaleAspectFill
+        headerImageView.clipsToBounds = true
+        headerImageView.layer.cornerRadius = imageHeight / 2
+        headerImageView.image = UIImage(named: "camera")
+        headerImageView.backgroundColor = .systemGray5
+        headerView.addSubview(headerImageView)
+        
+        // Set up Auto Layout constraints for header image view
+        headerImageView.translatesAutoresizingMaskIntoConstraints = false
+        headerImageView.centerXAnchor.constraint(equalTo: headerView.centerXAnchor).isActive = true
+        headerImageView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        headerImageViewHeightConstraint = headerImageView.heightAnchor.constraint(equalToConstant: imageHeight)
+        headerImageViewHeightConstraint?.isActive = true
+        headerImageView.widthAnchor.constraint(equalTo: headerImageView.heightAnchor).isActive = true
+
         tableView.register(RecordInfoTableViewCell.self, forCellReuseIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier)
     }
     
@@ -169,3 +212,12 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
         return headerTitle
     }
 }
+
+extension RecordInfoTableViewController {
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+      }
+}
+
+
