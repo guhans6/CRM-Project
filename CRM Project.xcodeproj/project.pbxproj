@@ -24,6 +24,7 @@
 		5308481729D710A100D08087 /* CollectionViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481629D710A100D08087 /* CollectionViewExtension.swift */; };
 		5308481929D7156F00D08087 /* RecordsCollectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481829D7156F00D08087 /* RecordsCollectionHeaderView.swift */; };
 		5308481B29D9B4D700D08087 /* RecordInfoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308481A29D9B4D600D08087 /* RecordInfoHeaderView.swift */; };
+		5308483D29DAB7CE00D08087 /* RecordsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5308483C29DAB7CE00D08087 /* RecordsViewController.swift */; };
 		531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531131BF29A79452006124AA /* RelatedListNetworkService.swift */; };
 		5311863F29A794B1004088DD /* RelatedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311863E29A794B1004088DD /* RelatedList.swift */; };
 		5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */; };
@@ -127,6 +128,7 @@
 		5308481629D710A100D08087 /* CollectionViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewExtension.swift; sourceTree = "<group>"; };
 		5308481829D7156F00D08087 /* RecordsCollectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsCollectionHeaderView.swift; sourceTree = "<group>"; };
 		5308481A29D9B4D600D08087 /* RecordInfoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordInfoHeaderView.swift; sourceTree = "<group>"; };
+		5308483C29DAB7CE00D08087 /* RecordsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordsViewController.swift; sourceTree = "<group>"; };
 		531131BF29A79452006124AA /* RelatedListNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedListNetworkService.swift; sourceTree = "<group>"; };
 		5311863E29A794B1004088DD /* RelatedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RelatedList.swift; sourceTree = "<group>"; };
 		5311864129A796AE004088DD /* DateAndTimeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateAndTimeHeaderView.swift; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 				5308481829D7156F00D08087 /* RecordsCollectionHeaderView.swift */,
 				5308481429D70D5200D08087 /* RecordCollectionViewCell.swift */,
 				537B608C299674E700ACA883 /* RecordsTableViewCell.swift */,
+				5308483C29DAB7CE00D08087 /* RecordsViewController.swift */,
 			);
 			path = RecordsView;
 			sourceTree = "<group>";
@@ -627,6 +630,7 @@
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
 				537B608029962C7E00ACA883 /* LabelTableViewCell.swift in Sources */,
 				531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */,
+				5308483D29DAB7CE00D08087 /* RecordsViewController.swift in Sources */,
 				53E9094329B11DAF00452748 /* UserDataManager.swift in Sources */,
 				5301EF0A29BEFC2600567753 /* EventBookingController.swift in Sources */,
 				530847F129D66EE800D08087 /* ImageTableViewCell.swift in Sources */,

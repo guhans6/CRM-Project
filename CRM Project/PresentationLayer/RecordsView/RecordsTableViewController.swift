@@ -8,7 +8,7 @@
 import UIKit
 
 
-class RecordsTableViewController: UITableViewController {
+class RecordsTableViewController: UIViewController {
     
     private let recordsController: RecordsContract = RecordsController()
     private var formViewController: FormTableViewController!
@@ -25,6 +25,7 @@ class RecordsTableViewController: UITableViewController {
     
     var delegate: RecordTableViewDelegate?
     
+    private var tableView: UITableView!
     private var sortedRecords = [String: [Record]]()
     private var sectionTitles = [String]()
     
@@ -55,27 +56,30 @@ class RecordsTableViewController: UITableViewController {
         title = module?.modulePluralName ?? moduleApiName
         view.backgroundColor = .systemGray6
         
-        configureNavigationBar()
+//        configureNavigationBar()
         configureRecordsTableView()
-        
+        reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+//        searchController.searchBar.delegate = self
+//        searchController.delegate = self
+//        navigationItem.searchController = searchController
+//        
+//        searchController.searchBar.autocapitalizationType = .none
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+//        navigationController?.navigationBar.prefersLargeTitles = true
         tabBarController?.tabBar.isHidden = false
         if isVCPushed == true {
             
             isVCPushed = false
-            
-            UIView.animate(withDuration: 0.5) {
-
-                self.tabBarController?.tabBar.frame.origin.y -= self.tabBarController?.tabBar.frame.size.height ?? 0.0
-            }
         }
-        navigationController?.navigationBar.prefersLargeTitles = true
-        
-        getRecords()
+//        getRecords()
+        reloadData()
     }
     
     private func configureNavigationBar() {
@@ -84,11 +88,6 @@ class RecordsTableViewController: UITableViewController {
         let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
         navigationItem.rightBarButtonItems = [addButton, sortButton]
         
-        searchController.searchBar.delegate = self
-        searchController.delegate = self
-        navigationItem.searchController = searchController
-
-        searchController.searchBar.autocapitalizationType = .none
     }
     
     @objc private func sortButtonTapped() {
@@ -102,7 +101,6 @@ class RecordsTableViewController: UITableViewController {
             sheetController.detents = [.medium(), .large()]
             sheetController.prefersEdgeAttachedInCompactHeight = true
         }
-        
         present(pickerVc, animated: true)
     }
     
@@ -122,43 +120,79 @@ class RecordsTableViewController: UITableViewController {
     
     private func configureRecordsTableView() {
         
+        tableView = UITableView(frame: view.bounds)
         
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.alwaysBounceVertical = true
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.separatorColor = .tableViewSeperator
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = .systemGray6
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
+        view.addSubview(tableView)
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
-    private func getRecords() {
+//    private func getRecords() {
+//
+//        sectionTitles = []
+//        sortedRecords = [:]
+//        tableView.showLoadingIndicator()
+//        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
+//
+//            self?.records = records
+//            if self?.isSearching == false {
+//                self?.filteredRecords = records
+//            }
+//            self?.tableView.reloadData()
+//
+//            if records.count == 0 {
+//
+//                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
+//                self?.tableView.setEmptyView(title: title,
+//                                             message: "Add a new record",
+//                                             image: UIImage(named: "records"))
+//            } else {
+//                self?.tableView.restore()
+//            }
+//        }
+//    }
+    
+    func setRecords(records: [Record]) {
         
-        sectionTitles = []
-        sortedRecords = [:]
-        tableView.showLoadingIndicator()
-        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
-            
-            self?.records = records
-            if self?.isSearching == false {
-                self?.filteredRecords = records
-            }
-            self?.tableView.reloadData()
-
-            if records.count == 0 {
-                
-                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
-                self?.tableView.setEmptyView(title: title,
-                                             message: "Add a new record",
-                                             image: UIImage(named: "records"))
-            } else {
-                self?.tableView.restore()
-            }
+        self.records = records
+        if self.isSearching == false {
+            self.filteredRecords = records
         }
+        reloadData()
+    }
+    
+    func reloadData() {
+        if let tableView = tableView {
+            tableView.reloadData()
+        }
+    }
+    
+    func setEmptyView() {
+        
+        let title = "No \(module?.moduleSingularName ?? "") record found"
+        tableView.setEmptyView(title: title,
+                                     message: "Add a new record",
+                                     image: UIImage(named: "records"))
     }
 }
 
-extension RecordsTableViewController {
+extension RecordsTableViewController: UITableViewDataSource, UITableViewDelegate {
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         
         if !isFiltered || isSearching {
             return 1
@@ -167,7 +201,7 @@ extension RecordsTableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if !isFiltered || isSearching {
             return filteredRecords.count
@@ -178,7 +212,7 @@ extension RecordsTableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier) as! RecordsTableViewCell
         
@@ -197,7 +231,7 @@ extension RecordsTableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
         let record = records[indexPath.row]
@@ -208,13 +242,10 @@ extension RecordsTableViewController {
             
             if let module {
                 
-                let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId)
+                let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId, recordImage: record.recordImage)
 //                let _ = UINavigationController(rootViewController: individualRecordVC)
                 navigationController?.pushViewController(individualRecordVC, animated: true)
-                UIView.animate(withDuration: 0.5) {
-
-                        self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
-                    }
+//                present(individualRecordVC, animated: true)
                 isVCPushed = true
             }
         } else {
@@ -224,7 +255,7 @@ extension RecordsTableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
     
@@ -239,6 +270,7 @@ extension RecordsTableViewController: UISearchBarDelegate {
             
             tableView.restore()
             isSearching = false
+            
             filteredRecords = records
         } else {
             
@@ -266,7 +298,7 @@ extension RecordsTableViewController: UISearchBarDelegate {
         tableView.reloadData()
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         if !isFiltered || isSearching {
             return nil
@@ -275,7 +307,7 @@ extension RecordsTableViewController: UISearchBarDelegate {
         }
     }
     
-    override func sectionIndexTitles(for tableView: UITableView) -> [String]? {
+    func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         
         if !isFiltered || isSearching {
             return nil

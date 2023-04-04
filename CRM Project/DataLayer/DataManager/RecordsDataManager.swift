@@ -151,9 +151,7 @@ class RecordsDataManager {
                         completion(recordsWithImages)
                     }
                 })
-
             }
-
         }
     }
     

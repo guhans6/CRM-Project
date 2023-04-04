@@ -14,9 +14,11 @@ class UserDefaultsManager {
     private let userDefaults = UserDefaults.standard
     private let loggedInKey = "isLoggedIn"
     private let firstTimeLoginKey = "firstTime"
+    private let gridViewKey = "view"
     private let timeKey = "time"
     private var loggedIn = false
     private var isFirstTime = true
+    private var isGridViewPicked = true
     
     private init() { }
     
@@ -59,5 +61,20 @@ class UserDefaultsManager {
         } else {
             return Date()
         }
+    }
+    
+    func isLastPickedViewGrid() -> Bool {
+        
+        isGridViewPicked = userDefaults.bool(forKey: gridViewKey)
+        return isGridViewPicked
+    }
+    
+    func setLastPickedView(equalTo value: Bool) {
+        isGridViewPicked = value
+        saveLastPickedView()
+    }
+    
+    private func saveLastPickedView() {
+        userDefaults.set(isGridViewPicked, forKey: gridViewKey)
     }
 }

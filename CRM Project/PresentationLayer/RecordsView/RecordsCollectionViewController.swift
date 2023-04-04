@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RecordsCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class RecordsCollectionViewController: UIViewController, UICollectionViewDelegateFlowLayout {
     
     private let recordsController: RecordsContract = RecordsController()
     private var formViewController: FormTableViewController!
@@ -18,7 +18,6 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
     private var records = [Record]()
     private var filteredRecords = [Record]()
     
-    
     private var sortedRecords = [String: [Record]]()
     private var sectionTitles = [String]()
     
@@ -28,26 +27,25 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
     
     private lazy var viewheight = view.frame.height < view.frame.width ? view.frame.width : view.frame.height
     private lazy var viewWidth = view.frame.width > view.frame.height ? view.frame.height : view.frame.width
-    private var tabBarHeight: CGFloat?
 
-//    private var collectionView: UICollectionView!
+    private var collectionView: UICollectionView!
     
     init(module: Module, isLookUp: Bool) {
         
         self.module = module
         self.moduleApiName = module.apiName
         self.isLookUp = isLookUp
-        super.init(collectionViewLayout: UICollectionViewLayout())
-//        super.init(nibName: nil, bundle: nil)
+//        super.init(collectionViewLayout: UICollectionViewLayout())
+        super.init(nibName: nil, bundle: nil)
     }
     
     // in lookup
-    init(module: String, isLookup: Bool) {
+    init(moduleName: String, isLookup: Bool) {
         
-        self.moduleApiName = module
+        self.moduleApiName = moduleName
         self.isLookUp = isLookup
-        super.init(collectionViewLayout: UICollectionViewLayout())
-//        super.init(nibName: nil, bundle: nil)
+//        super.init(collectionViewLayout: UICollectionViewLayout())
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -57,11 +55,12 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = module?.modulePluralName ?? moduleApiName
-        tabBarHeight = tabBarController?.tabBar.frame.origin.y
         
-        configureNavigationBar()
+        title = module?.modulePluralName ?? moduleApiName
+        
+//        configureNavigationBar()
         configureCollectionView()
+        reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,29 +71,19 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
             
             isVCPushed = false
             
-            let currentY = tabBarController?.tabBar.frame.origin.y ?? 0.0
-            let currentHeight = tabBarController?.tabBar.frame.size.height ?? 0.0
-            
-            if tabBarHeight != currentY {
-                UIView.animate(withDuration: 0.5) {
-                    
-                    
-                    self.tabBarController?.tabBar.frame.origin.y -= self.tabBarController?.tabBar.frame.size.height ?? 0.0
-                }
-            }
         }
-        navigationController?.navigationBar.prefersLargeTitles = true
+//        navigationController?.navigationBar.prefersLargeTitles = true
         
-        getRecords()
+        reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         
-        searchController.searchBar.delegate = self
-        searchController.delegate = self
-        navigationItem.searchController = searchController
-
-        searchController.searchBar.autocapitalizationType = .none
+//        searchController.searchBar.delegate = self
+//        searchController.delegate = self
+//        navigationItem.searchController = searchController
+//
+//        searchController.searchBar.autocapitalizationType = .none
     }
     
     private func configureNavigationBar() {
@@ -142,7 +131,7 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
         layout.minimumInteritemSpacing = 1
         layout.itemSize = CGSize(width: (viewWidth/3)-5, height: (viewWidth/2)-5)
         
-        collectionView.collectionViewLayout = layout
+        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         
         collectionView.register(RecordCollectionViewCell.self,
                                 forCellWithReuseIdentifier: RecordCollectionViewCell.identifier)
@@ -152,7 +141,8 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
+        view.addSubview(collectionView)
+
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
@@ -188,11 +178,33 @@ class RecordsCollectionViewController: UICollectionViewController, UICollectionV
         }
     }
     
+    func setRecords(records: [Record]) {
+        
+        self.records = records
+        if self.isSearching == false {
+            self.filteredRecords = records
+        }
+        reloadData()
+    }
+    
+    func reloadData() {
+        if let collectionView = collectionView {
+            collectionView.reloadData()
+        }
+    }
+    
+    func setEmptyView() {
+        
+        let title = "No \(module?.moduleSingularName ?? "") record found"
+        collectionView.setEmptyView(title: title,
+                                     message: "Add a new record",
+                                     image: UIImage(named: "records"))
+    }
 }
 
-extension RecordsCollectionViewController {
+extension RecordsCollectionViewController: UICollectionViewDataSource {
     
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         
         if !isFiltered || isSearching {
             return 1
@@ -201,7 +213,7 @@ extension RecordsCollectionViewController {
         }
     }
     
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         
         if !isFiltered || isSearching {
@@ -213,7 +225,7 @@ extension RecordsCollectionViewController {
         }
     }
     
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RecordCollectionViewCell.identifier, for: indexPath) as! RecordCollectionViewCell
         
@@ -234,7 +246,7 @@ extension RecordsCollectionViewController {
         return cell
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let record = records[indexPath.row]
         
@@ -244,13 +256,10 @@ extension RecordsCollectionViewController {
             
             if let module {
                 
-                let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId)
-//                let _ = UINavigationController(rootViewController: individualRecordVC)
-                navigationController?.pushViewController(individualRecordVC, animated: true)
-                UIView.animate(withDuration: 0.5) {
+                let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId, recordImage: record.recordImage)
+//                navigationController?.pushViewController(individualRecordVC, animated: true)
+//                present(individualRecordVC, animated: true)
 
-                        self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
-                    }
                 isVCPushed = true
             }
         } else {
@@ -263,7 +272,7 @@ extension RecordsCollectionViewController {
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
-extension RecordsCollectionViewController {
+extension RecordsCollectionViewController: UICollectionViewDelegate {
     
     // Set the size of the header
     func collectionView(_ collectionView: UICollectionView,
@@ -278,7 +287,7 @@ extension RecordsCollectionViewController {
     }
     
     // Set the view for the header
-    override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionView.elementKindSectionHeader {
             

@@ -31,7 +31,6 @@ class ModulesTableViewController: UITableViewController {
     private func configureModuleTableView() {
         
         title = "Modules"
-        
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
         
@@ -84,12 +83,12 @@ extension ModulesTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let module = modules[indexPath.row]
-        let recordsViewController = RecordsCollectionViewController(module: module, isLookUp: false)
+//        let recordsViewController = RecordsCollectionViewController(module: module, isLookUp: false)
+//        let _ = UINavigationController(rootViewController: recordsViewController)
+//        navigationController?.pushViewController(recordsViewController, animated: true)
+        let recordsViewController = RecordsViewController(module: module, isLookUp: false)
         let _ = UINavigationController(rootViewController: recordsViewController)
         navigationController?.pushViewController(recordsViewController, animated: true)
-//        recordsViewController = RecordsTableViewController(module: module, isLookUp: false)
-//        let _ = UINavigationController(rootViewController: recordsViewController!)
-//        navigationController?.pushViewController(recordsViewController!, animated: true)
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

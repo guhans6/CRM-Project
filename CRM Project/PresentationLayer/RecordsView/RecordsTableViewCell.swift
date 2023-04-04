@@ -45,7 +45,7 @@ class RecordsTableViewCell: UITableViewCell {
         
         contentView.addSubview(recordImageView)
         recordImageView.translatesAutoresizingMaskIntoConstraints = false
-        recordImageView.contentMode = .scaleAspectFit
+        recordImageView.contentMode = .scaleAspectFill
         recordImageView.layer.cornerRadius = 25
         recordImageView.clipsToBounds = true
         recordImageView.image = defaultImage

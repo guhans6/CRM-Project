@@ -28,13 +28,15 @@ class RecordInfoTableViewController: UITableViewController {
     private let headerView = UIView()
     private let headerImageView = UIImageView()
     private var headerImageViewHeightConstraint: NSLayoutConstraint?
+    private var recordImage: UIImage?
     
-    init(recordModule: Module, recordId: String) {
+    init(recordModule: Module, recordId: String, recordImage: UIImage?) {
         
         self.recordModule = recordModule
         self.moduleApiName = recordModule.apiName
         self.recordId = recordId
         self.formVc = FormTableViewController(module: recordModule)
+        self.recordImage = recordImage
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -53,6 +55,10 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        UIView.animate(withDuration: 0.5) {
+
+                self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
+            }
         getRecord()
     }
     
@@ -71,8 +77,20 @@ class RecordInfoTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+            UIView.animate(withDuration: 0.5) {
+                
+                self.tabBarController?.tabBar.frame.origin.y -= self.tabBarController?.tabBar.frame.size.height ?? 0.0
+            }
     }
     
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+//            UIView.animate(withDuration: 0.5) {
+//
+//                    self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
+//            }
+    }
+
     private func configureNavigationBar() {
         
         let editButtonImage = UIImage(systemName: "square.and.pencil")
@@ -96,23 +114,8 @@ class RecordInfoTableViewController: UITableViewController {
         headerView.backgroundColor = .clear
         headerView.clipsToBounds = true
         tableView.tableHeaderView = headerView
+        configureTableHeader()
         
-        // Set up image view
-        headerImageView.contentMode = .scaleAspectFill
-        headerImageView.clipsToBounds = true
-        headerImageView.layer.cornerRadius = imageHeight / 2
-        headerImageView.image = UIImage(named: "camera")
-        headerImageView.backgroundColor = .systemGray5
-        headerView.addSubview(headerImageView)
-        
-        // Set up Auto Layout constraints for header image view
-        headerImageView.translatesAutoresizingMaskIntoConstraints = false
-        headerImageView.centerXAnchor.constraint(equalTo: headerView.centerXAnchor).isActive = true
-        headerImageView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-        headerImageViewHeightConstraint = headerImageView.heightAnchor.constraint(equalToConstant: imageHeight)
-        headerImageViewHeightConstraint?.isActive = true
-        headerImageView.widthAnchor.constraint(equalTo: headerImageView.heightAnchor).isActive = true
-
         tableView.register(RecordInfoTableViewCell.self, forCellReuseIdentifier: RecordInfoTableViewCell.recordInfoCellIdentifier)
     }
     
@@ -129,6 +132,30 @@ class RecordInfoTableViewController: UITableViewController {
         navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
         
+    }
+    
+    private func configureTableHeader() {
+        
+        // Set up image view
+        headerImageView.contentMode = .scaleAspectFill
+        headerImageView.clipsToBounds = true
+        headerImageView.layer.cornerRadius = imageHeight / 2
+        if let recordImage = recordImage {
+            headerImageView.image = recordImage
+        } else {
+            headerImageView.image = UIImage(named: "camera")
+        }
+        headerImageView.backgroundColor = .systemGray5
+        headerView.addSubview(headerImageView)
+        
+        // Set up Auto Layout constraints for header image view
+        headerImageView.translatesAutoresizingMaskIntoConstraints = false
+        headerImageView.centerXAnchor.constraint(equalTo: headerView.centerXAnchor).isActive = true
+        headerImageView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        headerImageViewHeightConstraint = headerImageView.heightAnchor.constraint(equalToConstant: imageHeight)
+        headerImageViewHeightConstraint?.isActive = true
+        headerImageView.widthAnchor.constraint(equalTo: headerImageView.heightAnchor).isActive = true
+
     }
     
     @objc private func deleteButtonTapped() {
@@ -217,7 +244,7 @@ extension RecordInfoTableViewController {
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-      }
+    }
 }
 
 
