@@ -257,7 +257,7 @@ extension RecordsCollectionViewController: UICollectionViewDataSource {
             if let module {
                 
                 let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId, recordImage: record.recordImage)
-//                navigationController?.pushViewController(individualRecordVC, animated: true)
+                navigationController?.pushViewController(individualRecordVC, animated: true)
 //                present(individualRecordVC, animated: true)
 
                 isVCPushed = true

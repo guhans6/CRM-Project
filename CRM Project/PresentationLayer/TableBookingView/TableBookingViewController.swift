@@ -45,7 +45,7 @@ class TableBookingViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         
-        
+        formVC = FormTableViewController(moduleApiName: module)
         getTablesFor(date: lastPickedDate, time: lastPickedTime)
     }
     
@@ -59,6 +59,7 @@ class TableBookingViewController: UIViewController {
         getTablesFor(date: Date(), time: pickerVC.getPickedTime())
         configurePickerView()
     }
+    
     
     private func configurePickerView() {
         

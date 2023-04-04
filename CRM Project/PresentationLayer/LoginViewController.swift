@@ -45,7 +45,7 @@ class LoginViewController: UIPageViewController {
         configurePages()
         style()
         layout()
-        configureOpenLinkButton()
+        configureLoginButton()
     }
     
     private func configurePages() {
@@ -115,7 +115,7 @@ class LoginViewController: UIPageViewController {
         ])
     }
     
-    private func configureOpenLinkButton() {
+    private func configureLoginButton() {
         
         view.addSubview(loginButton)
         view.bringSubviewToFront(loginButton)

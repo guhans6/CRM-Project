@@ -10,6 +10,8 @@ import UIKit
 protocol FormTableViewDelegate {
     
     func getFields(fields: [Field]) -> Void
+    func formView(recordImage: UIImage?) -> Void
+
 }
 
 class FormTableViewController: UITableViewController {
@@ -186,6 +188,7 @@ class FormTableViewController: UITableViewController {
                 if result {
                     self?.dismiss(animated: true)
                 }
+                self?.delegate?.formView(recordImage: self?.selectedImageCell?.recordImageView.image)
             }
         } else {
             
@@ -527,7 +530,7 @@ extension FormTableViewController: UIImagePickerControllerDelegate, UINavigation
         }
         
         // Display the image in the image view
-        
+        selectedImageCell?.recordImageView.image = pickedImage
         recordsToBeSaved[selectedImageCell!.index] = (true, pickedImage)
         picker.dismiss(animated: true)
     }

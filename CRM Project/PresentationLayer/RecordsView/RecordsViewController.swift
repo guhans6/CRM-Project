@@ -21,7 +21,7 @@ class RecordsViewController: UIViewController {
     private var filteredRecords = [Record]()
     
     private lazy var collectionView = RecordsCollectionViewController(module: module, isLookUp: isLookUp)
-    private lazy var tableview = RecordsTableViewController(module: module, isLookUp: isLookUp)
+    private lazy var tableview = RecordsTableViewController(module: module)
     
     private enum RecordViews {
         case tableView
@@ -119,8 +119,6 @@ class RecordsViewController: UIViewController {
        
             self?.sortButtonTapped()
         })
-        
-        let sortMenu = UIMenu(title: "", children: [sortBy])
 
         let viewMenu = UIMenu(title: "View Options", options: .displayInline, children: [
             tableViewSwitch,

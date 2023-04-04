@@ -49,15 +49,9 @@ class ImageTableViewCell: FormTableViewCell {
         return (recordImageView.image, true)
     }
     
+    
     private func saveData() {
         
-        
-    }
-}
-
-extension ImageTableViewCell {
-    
-    @objc func didTapImageView(sender: LookupTapGestureRecognizer) {
         
     }
 }

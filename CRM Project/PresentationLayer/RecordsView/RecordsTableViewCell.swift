@@ -48,6 +48,7 @@ class RecordsTableViewCell: UITableViewCell {
         recordImageView.contentMode = .scaleAspectFill
         recordImageView.layer.cornerRadius = 25
         recordImageView.clipsToBounds = true
+        recordImageView.backgroundColor = .systemGray5
         recordImageView.image = defaultImage
         
         NSLayoutConstraint.activate([
@@ -65,6 +66,10 @@ class RecordsTableViewCell: UITableViewCell {
         recordNameLabel.translatesAutoresizingMaskIntoConstraints = false
         recordNameLabel.font = .preferredFont(forTextStyle: .body)
         recordNameLabel.numberOfLines = 0
+        
+        let minHeightConstraint = recordNameLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 30)
+        minHeightConstraint.priority = UILayoutPriority(rawValue: 999)
+        minHeightConstraint.isActive = true
         
         nameLabelTop = recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13)
         nameLabelTop?.isActive = true
@@ -124,9 +129,7 @@ class RecordsTableViewCell: UITableViewCell {
             
             configureRecordEmailLabel()
             self.secondaryLabel.text = secondaryData
-        } else {
-            reconfigureCell()
-        }
+        } 
     }
 
 }

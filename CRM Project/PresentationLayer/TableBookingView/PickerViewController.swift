@@ -230,6 +230,8 @@ extension PickerViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension PickerViewController: FormTableViewDelegate {
     
+    func formView(recordImage: UIImage?) { }
+    
     func getFields(fields: [Field]) {
         
         var pickListValues = [String]()

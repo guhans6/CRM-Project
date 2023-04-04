@@ -68,6 +68,7 @@ class RecordInfoTableViewController: UITableViewController {
         configureTableView()
 //        navigationController?.navigationBar.prefersLargeTitles = false
         title = recordModule?.moduleSingularName.appending(" Information")
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,12 +84,12 @@ class RecordInfoTableViewController: UITableViewController {
             }
     }
     
-    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
-//            UIView.animate(withDuration: 0.5) {
-//
-//                    self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
-//            }
+        UIView.animate(withDuration: 0.5) {
+
+                self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
+        }
     }
 
     private func configureNavigationBar() {
@@ -240,11 +241,14 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
     }
 }
 
-extension RecordInfoTableViewController {
+extension RecordInfoTableViewController: FormTableViewDelegate {
     
-    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
+    func getFields(fields: [Field]) { }
+    
+    func formView(recordImage: UIImage?) {
+        self.headerImageView.image = recordImage
     }
+    
+    
+    
 }
-
-

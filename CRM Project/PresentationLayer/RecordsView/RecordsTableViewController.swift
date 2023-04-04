@@ -15,7 +15,7 @@ class RecordsTableViewController: UIViewController {
     private let searchController = UISearchController()
     private var module: Module?
     private var moduleApiName: String
-    private var isLookUp: Bool
+    private var isLookUp: Bool = false
     private var records = [Record]()
     private var filteredRecords = [Record]()
     
@@ -30,11 +30,10 @@ class RecordsTableViewController: UIViewController {
     private var sectionTitles = [String]()
     
     // This init is for when module is availabe when called
-    init(module: Module, isLookUp: Bool) {
+    init(module: Module) {
         
         self.module = module
         self.moduleApiName = module.apiName
-        self.isLookUp = isLookUp
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,6 +42,7 @@ class RecordsTableViewController: UIViewController {
         
         self.moduleApiName = module
         self.isLookUp = isLookup
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -58,7 +58,12 @@ class RecordsTableViewController: UIViewController {
         
 //        configureNavigationBar()
         configureRecordsTableView()
-        reloadData()
+        if isLookUp {
+            
+            getRecords()
+        } else {
+            reloadData()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -141,30 +146,30 @@ class RecordsTableViewController: UIViewController {
         ])
     }
     
-//    private func getRecords() {
-//
-//        sectionTitles = []
-//        sortedRecords = [:]
-//        tableView.showLoadingIndicator()
-//        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
-//
-//            self?.records = records
-//            if self?.isSearching == false {
-//                self?.filteredRecords = records
-//            }
-//            self?.tableView.reloadData()
-//
-//            if records.count == 0 {
-//
-//                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
-//                self?.tableView.setEmptyView(title: title,
-//                                             message: "Add a new record",
-//                                             image: UIImage(named: "records"))
-//            } else {
-//                self?.tableView.restore()
-//            }
-//        }
-//    }
+    private func getRecords() {
+
+        sectionTitles = []
+        sortedRecords = [:]
+        tableView.showLoadingIndicator()
+        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
+
+            self?.records = records
+            if self?.isSearching == false {
+                self?.filteredRecords = records
+            }
+            self?.tableView.reloadData()
+
+            if records.count == 0 {
+
+                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
+                self?.tableView.setEmptyView(title: title,
+                                             message: "Add a new record",
+                                             image: UIImage(named: "records"))
+            } else {
+                self?.tableView.restore()
+            }
+        }
+    }
     
     func setRecords(records: [Record]) {
         

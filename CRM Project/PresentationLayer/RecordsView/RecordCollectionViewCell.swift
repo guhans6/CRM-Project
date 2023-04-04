@@ -30,6 +30,7 @@ class RecordCollectionViewCell: UICollectionViewCell {
         let fontMetrics = UIFontMetrics(forTextStyle: .headline)
         label.font = fontMetrics.scaledFont(for: label.font)
         label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
         label.lineBreakMode = .byTruncatingMiddle
         
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -47,6 +48,7 @@ class RecordCollectionViewCell: UICollectionViewCell {
         label.adjustsFontForContentSizeCategory = true
         label.lineBreakMode = .byTruncatingMiddle
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
 //        label.adjustsFontSizeToFitWidth = true
         return label
     }()
@@ -107,7 +109,7 @@ class RecordCollectionViewCell: UICollectionViewCell {
         
         
         NSLayoutConstraint.activate([
-            name.topAnchor.constraint(equalTo: imageview.bottomAnchor, constant: 10),
+            name.topAnchor.constraint(equalTo: imageview.bottomAnchor, constant: 15),
             name.heightAnchor.constraint(equalToConstant: height),
             name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: widthSpace),
             name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthSpace)

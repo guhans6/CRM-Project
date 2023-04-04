@@ -194,7 +194,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         if tables.isEmpty && events.isEmpty {
             
-            let noActivitiesString = "No Activities for Today".localized()
+            let noActivitiesString = "No Activities for this day".localized()
             self.activitiesTableView.setEmptyView(title: noActivitiesString, message: "", image: UIImage(named: "calendar"))
             return 0
         } else {
