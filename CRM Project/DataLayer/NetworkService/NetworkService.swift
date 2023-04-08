@@ -145,7 +145,7 @@ class NetworkService {
                 let json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                 
                 guard let accessToken = json["access_token"] as? String else {
-                    print(("Cannot get access Token"))
+                    print(("Cannot get access Token, \(json)"))
                     return
                 }
                 

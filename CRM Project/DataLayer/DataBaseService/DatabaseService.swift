@@ -25,7 +25,13 @@ class DatabaseService {
         
         ModulesDatabaseService().createModulesTable()
         RecordsDatabaseService().createRecordsTable()
-        UserDatabaseService().createUsers()
+        UserDatabaseService().createUsersTable()
         FieldsDatabaseService().createFieldsTable()
+    }
+    
+   
+    func deleteAllTables() {
+        
+        UserDatabaseService().deleteUserTable()
     }
 }

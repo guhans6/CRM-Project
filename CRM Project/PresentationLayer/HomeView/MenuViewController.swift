@@ -131,9 +131,11 @@ class MenuViewController: UIViewController {
     }
     
     
+    
     @objc private func logout() {
         
         UserDefaultsManager.shared.setLogIn(equalTo: false)
+        DatabaseController().clearAllData()
         dismiss(animated: true)
     }
     

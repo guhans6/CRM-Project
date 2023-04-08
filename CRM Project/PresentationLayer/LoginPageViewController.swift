@@ -9,33 +9,11 @@ import UIKit
 
 class LoginPageViewController: UIViewController {
     
-    lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
+    lazy var imageView: UIImageView = UIImageView()
     
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        label.textColor = .normalText
-        label.textAlignment = .center
-        label.numberOfLines = 0
-        return label
-    }()
+    lazy var titleLabel: UILabel = UILabel()
     
-    lazy var bodyLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.textColor = .normalText
-        label.textAlignment = .center
-        label.numberOfLines = 0
-//        label.text = "Please sign in to continue"
-        return label
-    }()
+    lazy var bodyLabel: UILabel = UILabel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,10 +68,16 @@ class LoginPageViewController: UIViewController {
     
     private func configureUI() {
         
-        view.addSubview(imageView)
-        view.addSubview(titleLabel)
-        view.addSubview(bodyLabel)
+        confiureImageView()
+        configureTitleLabel()
+        configureBodyLabel()
+    }
+    
+    private func confiureImageView() {
         
+        view.addSubview(imageView)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         imageView.tintColor = #colorLiteral(red: 0.2901960784, green: 0.4588235294, blue: 0.6745098039, alpha: 1)
         
         NSLayoutConstraint.activate([
@@ -101,15 +85,42 @@ class LoginPageViewController: UIViewController {
             imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
             imageView.widthAnchor.constraint(equalToConstant: 200),
             imageView.heightAnchor.constraint(equalToConstant: 200),
-            
+        ])
+    }
+    
+    private func configureTitleLabel() {
+        
+        view.addSubview(titleLabel)
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        titleLabel.textColor = .normalText
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 0
+        
+        NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 32),
             titleLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -32),
+        ])
+    }
+    
+    private func configureBodyLabel() {
+        
+        view.addSubview(bodyLabel)
+        bodyLabel.translatesAutoresizingMaskIntoConstraints = false
+        bodyLabel.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        bodyLabel.textColor = .normalText
+        bodyLabel.textAlignment = .center
+        bodyLabel.numberOfLines = 0
+//        label.text = "Please sign in to continue"
+        
+        NSLayoutConstraint.activate([
             
             bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 16),
             bodyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             bodyLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
         ])
+
     }
     
     func setUpPageWith(image: UIImage?, title: String, body: String?, shouldAnimate: Bool = false) {

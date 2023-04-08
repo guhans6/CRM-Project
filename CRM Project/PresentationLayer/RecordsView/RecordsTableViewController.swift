@@ -171,11 +171,19 @@ class RecordsTableViewController: UIViewController {
         }
     }
     
+    func showLoadingIndicator() {
+        
+        tableView.showLoadingIndicator()
+    }
+    
     func setRecords(records: [Record]) {
         
         self.records = records
         if self.isSearching == false {
             self.filteredRecords = records
+        }
+        if let tableView = tableView {
+            tableView.hideLoadingIndicator()
         }
         reloadData()
     }

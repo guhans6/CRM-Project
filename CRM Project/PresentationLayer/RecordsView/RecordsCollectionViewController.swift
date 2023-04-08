@@ -129,7 +129,7 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 5
         layout.minimumInteritemSpacing = 1
-        layout.itemSize = CGSize(width: (viewWidth/3)-5, height: (viewWidth/2)-5)
+        layout.itemSize = CGSize(width: (viewWidth/3)-20, height: (viewWidth/2)-20)
         
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         
@@ -145,37 +145,15 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
 
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
-            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
-    private func getRecords() {
+    func showLoadingIndicator() {
         
-        sectionTitles = []
-        sortedRecords = [:]
         collectionView.showLoadingIndicator()
-        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
-            
-            self?.records = records
-            if self?.isSearching == false {
-                self?.filteredRecords = records
-            }
-            self?.collectionView.hideLoadingIndicator()
-            self?.collectionView.reloadData()
-
-            if records.count == 0 {
-                
-                self?.collectionView.hideLoadingIndicator()
-                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
-                self?.collectionView.setEmptyView(title: title,
-                                             message: "Add a new record",
-                                             image: UIImage(named: "records"))
-            } else {
-                self?.collectionView.restore()
-            }
-        }
     }
     
     func setRecords(records: [Record]) {
@@ -183,6 +161,9 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         self.records = records
         if self.isSearching == false {
             self.filteredRecords = records
+        }
+        if let collectionView = collectionView {
+            collectionView.hideLoadingIndicator()
         }
         reloadData()
     }
@@ -193,12 +174,18 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         }
     }
     
+    
     func setEmptyView() {
         
         let title = "No \(module?.moduleSingularName ?? "") record found"
         collectionView.setEmptyView(title: title,
                                      message: "Add a new record",
                                      image: UIImage(named: "records"))
+    }
+    
+    func restore() {
+        
+        collectionView.restore()
     }
 }
 

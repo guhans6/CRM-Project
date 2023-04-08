@@ -17,7 +17,7 @@ class UserDatabaseService {
     
     private let database = Database.shared
     
-    func createUsers() {
+    func createUsersTable() {
         
         let columns = [
             userdIdColumn.appending("\(DatabaseService.text) \(DatabaseService.primaryKey)"),
@@ -71,5 +71,14 @@ class UserDatabaseService {
         
         let user = User(id: userId, fullName: userFullName, email: userEmail)
         return user
+    }
+    
+    func deleteUserTable() {
+        
+        if database.drop(tableName: usersTableName) == false {
+            print(database.errorMsg)
+        } else {
+            print("success aaa")
+        }
     }
 }

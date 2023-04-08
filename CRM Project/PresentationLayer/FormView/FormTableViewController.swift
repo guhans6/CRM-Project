@@ -367,7 +367,7 @@ extension FormTableViewController {
         if textAreaIndexes.contains(indexPath) {
             
             return 65
-        } else if indexPath.row == fields.count - 1 {
+        } else if indexPath.row == 0 {
             
             return 65
         } else {
@@ -545,11 +545,14 @@ extension FormTableViewController {
     
     // to make the form for edit view and fill up the fields
     func setUpCellsForEditing(recordid: String?, recordData: [(String, Any)],
-                              recordState: RecordState = .edit) -> Void {
+                              recordState: RecordState = .edit, recordImage: UIImage?) -> Void {
         
         self.recordState = recordState
         self.editableRecords = recordData
         self.editingRecordId = recordid
+        if let recordImage = recordImage {
+            editableRecords.append(("Record_Image", recordImage))
+        }
         self.tableView.reloadData()
     }
 }

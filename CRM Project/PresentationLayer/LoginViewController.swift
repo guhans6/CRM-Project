@@ -124,16 +124,16 @@ class LoginViewController: UIPageViewController {
         
         loginButton.backgroundColor = titleLabelColour
         loginButton.setTitle("Login".localized(), for: .normal)
-        loginButton.titleLabel?.font = .systemFont(ofSize: 30, weight: .semibold)
+        loginButton.titleLabel?.font = .systemFont(ofSize: 30, weight: .medium)
         loginButton.setTitleColor(.white, for: .normal)
-        loginButton.layer.cornerRadius = 15
+        loginButton.layer.cornerRadius = 23
         loginButton.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         
         NSLayoutConstraint.activate([
 //            loginButton.topAnchor.constraint(greaterThanOrEqualTo: view.centerYAnchor, constant: 100),
             loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 //            loginButton.centerYAnchor.constraint(greaterThanOrEqualTo: view.centerYAnchor, constant: 300),
-            loginButton.widthAnchor.constraint(equalToConstant: 200),
+            loginButton.widthAnchor.constraint(equalToConstant: 150),
             loginButton.bottomAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50)
         ])
     }

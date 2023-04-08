@@ -141,6 +141,12 @@ class Database {
         return execute(query: deleteQuery, values: whereArgs ?? [Any]())
     }
     
+    func drop(tableName: String) -> Bool {
+        let dropQuery = "DROP TABLE IF EXISTS \(tableName)"
+        
+        return execute(query: dropQuery)
+    }
+    
     func select(tableName: String,
                 whereClause: String? = nil,
                 args: [Any]? = nil,

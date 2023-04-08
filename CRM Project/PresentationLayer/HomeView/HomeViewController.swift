@@ -69,7 +69,7 @@ class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             dateResetButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            dateResetButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            dateResetButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -22),
         ])
     }
     
@@ -89,6 +89,7 @@ class HomeViewController: UIViewController {
         datePicker.backgroundColor = .background
         
         datePicker.layer.cornerRadius = 20
+
         datePicker.clipsToBounds = true
         
         datePicker.translatesAutoresizingMaskIntoConstraints = false
@@ -96,8 +97,8 @@ class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             datePicker.topAnchor.constraint(equalTo: dateResetButton.bottomAnchor),
-            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            datePicker.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            datePicker.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             datePicker.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
@@ -171,6 +172,7 @@ extension HomeViewController {
         }
     }
 }
+
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     

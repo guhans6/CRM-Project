@@ -36,6 +36,7 @@
 		5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5CE29796B4900AF76DC /* WebViewController.swift */; };
 		5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5318F5D6297AB81E00AF76DC /* NetworkController.swift */; };
 		531B11122980E558000FAF02 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531B11112980E558000FAF02 /* HomeViewController.swift */; };
+		531BBB4B29DD6A7B00C81BC2 /* DatabaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531BBB4A29DD6A7B00C81BC2 /* DatabaseController.swift */; };
 		5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */; };
 		534DE57B29B5B02A00C229BD /* ModulesDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */; };
 		534DE57D29B5B09200C229BD /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534DE57C29B5B09200C229BD /* DatabaseService.swift */; };
@@ -106,6 +107,7 @@
 		53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */; };
 		53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */; };
 		53F43A6D299ADABB002528BE /* RecordTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */; };
+		53F86E1E29DFFB5400ACD0B1 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E1D29DFFB5400ACD0B1 /* UIImageExtension.swift */; };
 		53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +142,7 @@
 		5318F5CE29796B4900AF76DC /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		5318F5D6297AB81E00AF76DC /* NetworkController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkController.swift; sourceTree = "<group>"; };
 		531B11112980E558000FAF02 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		531BBB4A29DD6A7B00C81BC2 /* DatabaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseController.swift; sourceTree = "<group>"; };
 		5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		534DE57A29B5B02A00C229BD /* ModulesDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModulesDatabaseService.swift; sourceTree = "<group>"; };
 		534DE57C29B5B09200C229BD /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
@@ -212,6 +215,7 @@
 		53F1EEB129AC6E3200C17723 /* DateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
 		53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupTableViewCell.swift; sourceTree = "<group>"; };
 		53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTableViewDelegate.swift; sourceTree = "<group>"; };
+		53F86E1D29DFFB5400ACD0B1 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -407,6 +411,7 @@
 			isa = PBXGroup;
 			children = (
 				5318F5D6297AB81E00AF76DC /* NetworkController.swift */,
+				531BBB4A29DD6A7B00C81BC2 /* DatabaseController.swift */,
 				5356AF1E29A340D400267943 /* ModulesController.swift */,
 				536AD436299E21FA00801158 /* UserDetailController.swift */,
 				536AD438299E3EF400801158 /* RecordsController.swift */,
@@ -498,6 +503,7 @@
 			children = (
 				53F1EEAF29AB9DB500C17723 /* UIColourExtension.swift */,
 				530847EA29D56CA000D08087 /* ImageViewExtension.swift */,
+				53F86E1D29DFFB5400ACD0B1 /* UIImageExtension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -596,6 +602,7 @@
 				53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */,
 				53A696DE297C6D310029F92E /* Network.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
+				53F86E1E29DFFB5400ACD0B1 /* UIImageExtension.swift in Sources */,
 				5311864A29A7BBE8004088DD /* BookingController.swift in Sources */,
 				534DE59329BA57CC00C229BD /* RecordsDatabaseService.swift in Sources */,
 				534DE59D29BC6D0600C229BD /* TableBookingDataManager.swift in Sources */,
@@ -611,6 +618,7 @@
 				5301EF0329BE0F3300567753 /* RecordInfoDatabaseService.swift in Sources */,
 				53EF4A6929C97BB60077B977 /* NetworkControllerContract.swift in Sources */,
 				53EF4A9129C9C3840077B977 /* FieldsContract.swift in Sources */,
+				531BBB4B29DD6A7B00C81BC2 /* DatabaseController.swift in Sources */,
 				5356AF1F29A340D400267943 /* ModulesController.swift in Sources */,
 				5375155C2980436A004B00E7 /* UserDefaultsManager.swift in Sources */,
 				5308481729D710A100D08087 /* CollectionViewExtension.swift in Sources */,

@@ -66,6 +66,7 @@ class RecordInfoTableViewController: UITableViewController {
         super.viewDidLoad()
         
         configureTableView()
+        formVc?.delegate = self
 //        navigationController?.navigationBar.prefersLargeTitles = false
         title = recordModule?.moduleSingularName.appending(" Information")
         
@@ -97,7 +98,7 @@ class RecordInfoTableViewController: UITableViewController {
         let editButtonImage = UIImage(systemName: "square.and.pencil")
         
         let editButton = UIBarButtonItem(image: editButtonImage, style: .plain, target: self, action: #selector(editButtonTapped))
-        let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped))
+        let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped(_:)))
         
         navigationItem.rightBarButtonItems = [editButton, deleteButton]
     }
@@ -127,7 +128,9 @@ class RecordInfoTableViewController: UITableViewController {
             return
         }
         
-        formVc.setUpCellsForEditing(recordid: recordId, recordData: recordInfo, recordState: .edit)
+        formVc.setUpCellsForEditing(recordid: recordId,
+                                    recordData: recordInfo,
+                                    recordState: .edit, recordImage: recordImage)
         let navigationVC = UINavigationController(rootViewController: formVc)
         
         navigationVC.modalPresentationStyle = .fullScreen
@@ -159,7 +162,7 @@ class RecordInfoTableViewController: UITableViewController {
 
     }
     
-    @objc private func deleteButtonTapped() {
+    @objc private func deleteButtonTapped(_ sender: UIBarButtonItem) {
         
         let alertController = UIAlertController(title: "Are you sure want to delete this Record ?", message: nil, preferredStyle: .actionSheet)
         
@@ -179,6 +182,10 @@ class RecordInfoTableViewController: UITableViewController {
         }))
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        if let popoverController = alertController.popoverPresentationController {
+            popoverController.barButtonItem = sender
+        }
         
         present(alertController, animated: true)
     }
@@ -248,7 +255,4 @@ extension RecordInfoTableViewController: FormTableViewDelegate {
     func formView(recordImage: UIImage?) {
         self.headerImageView.image = recordImage
     }
-    
-    
-    
 }

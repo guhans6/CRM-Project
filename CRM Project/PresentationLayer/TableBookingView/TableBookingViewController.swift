@@ -40,6 +40,7 @@ class TableBookingViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Book Table"
+        navigationController?.navigationBar.prefersLargeTitles = true
         configureUI()
     }
     
@@ -176,6 +177,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         
         if indexPath.section == 1 {
             cell.accessoryType = .detailButton
+            
         }
         cell.backgroundColor = .systemBackground
         return cell
@@ -210,6 +212,20 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         tableView.deselectRow(at: indexPath, animated: true)
+        showReservationDetails(indexPath: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
+        
+        showReservationDetails(indexPath: indexPath)
+    }
+    
+}
+
+extension TableBookingViewController {
+    
+    private func showReservationDetails(indexPath: IndexPath) {
+        
         let table = tables[0][indexPath.row]
         
         if indexPath.section == 0 {
@@ -227,7 +243,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             record.append(("Booking_Date", dateString))
             record.append(("Pick_List_1", pickedTime))
             
-            formVC.setUpCellsForEditing(recordid: nil, recordData: record, recordState: .editAndUserInteractionDisabled)
+            formVC.setUpCellsForEditing(recordid: nil, recordData: record, recordState: .editAndUserInteractionDisabled, recordImage: nil)
             
             let navVc = UINavigationController(rootViewController: formVC)
             navVc.modalPresentationStyle = .fullScreen
@@ -247,7 +263,6 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
             present(recordInfoVC, animated: true)
         }
     }
-    
 }
 
 extension TableBookingViewController: PickerViewDelegate {

@@ -216,5 +216,10 @@ class FieldsDatabaseService {
         return PickListValue(displayValue: displayValue, id: id, actualValue: actualValue)
     }
     
-    
+    func deleteFieldsTable() {
+        
+        if database.drop(tableName: fieldTableName) == false {
+            print(database.errorMsg)
+        }
+    }
 }

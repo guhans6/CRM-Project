@@ -162,11 +162,7 @@ class RecordsViewController: UIViewController {
     
     @objc private func addNewRecordButtonTapped() {
         
-//        if let module {
-            formViewController = FormTableViewController(module: module)
-//        } else {
-            formViewController = FormTableViewController(moduleApiName: moduleApiName)
-//        }
+        formViewController = FormTableViewController(module: module)
 
         let navigationVC = UINavigationController(rootViewController: formViewController)
         navigationVC.modalPresentationStyle = .fullScreen
@@ -204,7 +200,12 @@ class RecordsViewController: UIViewController {
         
         sectionTitles = []
         sortedRecords = [:]
-//        collectionView.showLoadingIndicator()
+        
+        if currentView == .tableView {
+            tableview.showLoadingIndicator()
+        } else {
+            collectionView.showLoadingIndicator()
+        }
         recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
             
 //            self?.records = records
@@ -222,7 +223,6 @@ class RecordsViewController: UIViewController {
                 } else {
                     self?.tableview.setEmptyView()
                 }
-//                self?.collectionView.hideLoadingIndicator()
                
             } else {
 //                self?.collectionView.restore()
@@ -232,10 +232,12 @@ class RecordsViewController: UIViewController {
     
     private func setUpRecordsInView(records: [Record]) {
         
+        if currentView == .collectionView {
             
-        collectionView.setRecords(records: records)
-            
-        tableview.setRecords(records: records)
+            collectionView.setRecords(records: records)
+        } else {
+            tableview.setRecords(records: records)
+        }
     }
 }
 

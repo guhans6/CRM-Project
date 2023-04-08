@@ -80,6 +80,12 @@ class RecordsDatabaseService {
 //                print(Database.shared.errorMsg)
             }
         }
+    }
+    
+    func deleteRecordTable() {
         
+        if database.drop(tableName: recordsTableName) == false {
+            print(database.errorMsg)
+        }
     }
 }

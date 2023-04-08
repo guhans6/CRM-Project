@@ -9,7 +9,6 @@ import Foundation
 
 class Network: NetworkContract {
     
-    
     static let shared = Network()
     private let session = URLSession.shared
    

@@ -233,7 +233,7 @@ class RecordsDataManager {
                         
                             let isLookup = field.lookup.module != nil
                         
-                        if !key.starts(with: "$") {
+                        if !key.starts(with: "$") && key != "Locked__s" {
                             if let recordDictionary = value as? [String: Any] {
                                 
                                 let name = recordDictionary["name"] as! String

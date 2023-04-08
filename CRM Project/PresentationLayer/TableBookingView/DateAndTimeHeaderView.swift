@@ -35,14 +35,15 @@ class DateAndTimeHeaderView: UIView {
     
     private func configureLabel() {
         
-        selectDateLabel.text = "Select date: ".localized()
+        selectDateLabel.text = "Date: ".localized()
         selectDateLabel.textAlignment = .left
         selectDateLabel.translatesAutoresizingMaskIntoConstraints = false
+        selectDateLabel.font = .systemFont(ofSize: 20, weight: .regular)
         self.addSubview(selectDateLabel)
         
         // Layout constraints for the label
         NSLayoutConstraint.activate([
-            selectDateLabel.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -30),
+            selectDateLabel.trailingAnchor.constraint(equalTo: self.centerXAnchor, constant: -70),
 //            selectDateLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
             selectDateLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 15)
         ])
@@ -78,7 +79,7 @@ class DateAndTimeHeaderView: UIView {
     
     private func configureTimeLabel() {
         
-        timeLabel.text = "Select Time: "
+        timeLabel.text = "Time: "
         timeLabel.textAlignment = .left
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
         

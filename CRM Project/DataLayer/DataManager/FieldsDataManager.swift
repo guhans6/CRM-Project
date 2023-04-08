@@ -45,6 +45,7 @@ class FieldsDataManager {
                         || field.apiName == "Modified_Time" || field.apiName == "Last_Activity_Time"
                         || field.apiName == "Unsubscribed_Mode" || field.apiName == "Unsubscribed_Time"
                         || field.apiName == "Owner" || field.apiName == "Tag" || field.apiName == "Exchange_Rate"
+                        || field.apiName == "Locked__s"
                     {
 
                         continue

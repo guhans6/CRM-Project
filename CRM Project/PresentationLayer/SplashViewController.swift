@@ -15,6 +15,7 @@ class SplashViewController: UIViewController {
     
     private let menuViewController = MenuViewController()
     private let homeViewController = HomeViewController()
+    private let tableBookingViewController = TableBookingViewController()
     private let loginViewController = LoginViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     
     private var isMenuOpen = false
@@ -83,20 +84,25 @@ class SplashViewController: UIViewController {
     private func configureTabBarController() {
         
         let menuVC = UINavigationController(rootViewController: menuViewController)
+        let tableBookingVC = UINavigationController(rootViewController: tableBookingViewController)
         let homeNavigationVC = UINavigationController(rootViewController: homeViewController)
         
-        mainTabBarController.setViewControllers([homeNavigationVC, menuVC], animated: false)
+        mainTabBarController.tabBar.autoresizesSubviews = false
+        mainTabBarController.setViewControllers([homeNavigationVC, tableBookingVC, menuVC], animated: false)
         mainTabBarController.selectedIndex = 0
         mainTabBarController.tabBar.backgroundColor = .systemBackground
         mainTabBarController.tabBar.items?[0].image = UIImage(systemName: "house")
-        mainTabBarController.tabBar.items?[1].image = UIImage(systemName: "list.dash")
+        mainTabBarController.tabBar.items?[0].title = "Home"
+        mainTabBarController.tabBar.items?[1].image = UIImage(systemName: "fork.knife.circle")
+        mainTabBarController.tabBar.items?[1].title = "Book Table"
+        mainTabBarController.tabBar.items?[2].image = UIImage(systemName: "list.dash")
+        mainTabBarController.tabBar.items?[2].title = "Menu"
 
         mainTabBarController.modalPresentationStyle = .fullScreen
     }
 }
 
 extension SplashViewController: MenuViewDelegate {
-    
     
     func didSelectRow(row: Int, title: String) {
         

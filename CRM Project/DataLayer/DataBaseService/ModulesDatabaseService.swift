@@ -35,7 +35,7 @@ class ModulesDatabaseService {
     
     func getAllModulesFromDataBase(completion: @escaping ([[String: Any]]) -> Void ) {
         
-        Database.shared.select(tableName: modulesTableName) { result in
+        database.select(tableName: modulesTableName) { result in
             
             guard let result = result else {
                 print("Module result nil db")
@@ -54,9 +54,16 @@ class ModulesDatabaseService {
         moduleDictionary[modulePluralName] = module.modulePluralName
         moduleDictionary[moduleSingularName] = module.moduleSingularName
         
-        if Database.shared.insert(tableName: "Modules", values: moduleDictionary) == false {
-            print(Database.shared.errorMsg)
+        if database.insert(tableName: modulesTableName, values: moduleDictionary) == false {
+            print(database.errorMsg)
         }
         
+    }
+    
+    func deleteModulesTable() {
+        
+        if database.drop(tableName: modulesTableName) == false {
+            print(database.errorMsg)
+        }
     }
 }
