@@ -71,7 +71,7 @@ class RecordsViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        searchController.searchBar.isHidden = false
     }
     
     private func configureView() {
@@ -140,7 +140,10 @@ class RecordsViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.delegate = self
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.isHidden = true
+//        tableview.reloadData()
+//        collectionView.reloadData()
+//        navigationItem.hidesSearchBarWhenScrolling = false
 
         searchController.searchBar.autocapitalizationType = .none
     }

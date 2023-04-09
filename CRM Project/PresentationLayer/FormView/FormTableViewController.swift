@@ -39,7 +39,7 @@ class FormTableViewController: UITableViewController {
     private var moduleApiName: String!
     private lazy var textAreaIndexes = [IndexPath]()
     
-    var delegate: FormTableViewDelegate?
+    weak var delegate: FormTableViewDelegate?
     
     private var selectedImageCell: ImageTableViewCell?
     

@@ -28,9 +28,9 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
     
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
         formTextField.text = data as? String
-        self.isUserInteractionEnabled = isRecordEditing
-        
-       saveDateValue()
+//        self.isUserInteractionEnabled = isRecordEditing
+        configureIsCellEditable(isRecordEditing)
+        saveDateValue()
     }
     
     override func getFieldData(for type: String) -> (Any?, Bool) {

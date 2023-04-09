@@ -35,8 +35,8 @@ class DoubleTableViewCell: FormTableViewCell {
             
             self.formTextField.text = data as? String
         }
-        formTextField.isUserInteractionEnabled = isEditable
-        
+//        formTextField.isUserInteractionEnabled = isEditable
+        configureIsCellEditable(isEditable)
         
         let lookupData = getFieldData(for: fieldType)
         delegate?.textFieldData(data: lookupData.0, isValid: lookupData.1, index: index)

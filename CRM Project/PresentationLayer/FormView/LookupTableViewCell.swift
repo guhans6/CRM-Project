@@ -94,8 +94,12 @@ class LookupTableViewCell: FormTableViewCell {
         }
         
         saveLookupValue()
-        self.isUserInteractionEnabled = isRecordEditing
-        
+//        if !isRecordEditing {
+//            formTextField.isEnabled = false
+//            label.isEnabled = false
+//        }
+//        self.isUserInteractionEnabled = isRecordEditing
+        configureIsCellEditable(isRecordEditing)
     }
     
     private func saveLookupValue() {

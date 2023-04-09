@@ -140,6 +140,8 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.alwaysBounceVertical = true
+        collectionView.refreshControl = UIRefreshControl()
+        collectionView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(collectionView)
 
@@ -149,6 +151,10 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
             collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    @objc private func didPullToRefresh() {
+        getRecords()
     }
     
     func showLoadingIndicator() {
@@ -186,6 +192,35 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
     func restore() {
         
         collectionView.restore()
+    }
+}
+
+extension RecordsCollectionViewController {
+    
+    private func getRecords() {
+
+        sectionTitles = []
+        sortedRecords = [:]
+        collectionView.showLoadingIndicator()
+        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
+
+            self?.records = records
+            if self?.isSearching == false {
+                self?.filteredRecords = records
+            }
+            self?.collectionView.reloadData()
+
+            if records.count == 0 {
+
+                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
+                self?.collectionView.setEmptyView(title: title,
+                                             message: "Add a new record",
+                                             image: UIImage(named: "records"))
+            } else {
+                self?.collectionView.restore()
+            }
+        }
+        self.collectionView.refreshControl?.endRefreshing()
     }
 }
 

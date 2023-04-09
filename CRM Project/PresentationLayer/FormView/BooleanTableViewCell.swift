@@ -52,7 +52,8 @@ class BooleanTableViewCell: FormTableViewCell {
     
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
 
-        self.isUserInteractionEnabled = isRecordEditing
+//        self.isUserInteractionEnabled = isRecordEditing
+        configureIsCellEditable(isRecordEditing)
         
         if data as? Bool == true || data as? String == "Yes"{
             print(data, data)

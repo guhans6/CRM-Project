@@ -150,7 +150,9 @@ extension HomeViewController {
     
     private func getBookedTablesFor(date: Date) {
         
-        activitiesTableView.showLoadingIndicator()
+        if tables.isEmpty {
+            activitiesTableView.showLoadingIndicator()
+        }
         bookingController
             .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
                 
@@ -197,7 +199,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         if tables.isEmpty && events.isEmpty {
             
-            let noActivitiesString = "No Activities for this day".localized()
+            let noActivitiesString = "No activities for this day".localized()
             self.activitiesTableView.setEmptyView(title: noActivitiesString, message: "", image: UIImage(named: "calendar"))
             return 0
         } else {

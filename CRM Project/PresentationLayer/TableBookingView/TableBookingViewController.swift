@@ -24,6 +24,8 @@ class TableBookingViewController: UIViewController {
     private var lastPickedDate = Date()
     private var lastPickedTime = "Breakfast"
     
+    private var isTableViewHidden = true
+    
     // MARK: MAKE IT A COMPUTED PROPERTY
     lazy var selectedDate: Date = Date()
     
@@ -47,6 +49,7 @@ class TableBookingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         
         formVC = FormTableViewController(moduleApiName: module)
+        isTableViewHidden = true
         getTablesFor(date: lastPickedDate, time: lastPickedTime)
     }
     
@@ -115,6 +118,9 @@ class TableBookingViewController: UIViewController {
         
         tableView.separatorColor = .tableViewSeperator
         tableView.backgroundColor = .systemGray6
+        
+        tableView.refreshControl = UIRefreshControl()
+        tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -129,19 +135,28 @@ class TableBookingViewController: UIViewController {
         ])
     }
     
+    @objc private func didPullToRefresh() {
+        getTablesFor(date: lastPickedDate, time: lastPickedTime)
+    }
+    
     private func getTablesFor(date: Date, time: String) {
         
         lastPickedTime = time
         lastPickedDate = date
-        tableView.showLoadingIndicator()
+        if tables.isEmpty {
+            tableView.showLoadingIndicator()
+        }
+        isTableViewHidden = true
         bookingViewController
             .getAvailableTablesFor(date: date, time: time) { [weak self] allTables, reservationIds in
                 
                 self?.selectedDate = date
                 self?.tables = allTables
                 self?.reservationIds = reservationIds
-                self?.tableView.reloadData()
                 self?.tableView.hideLoadingIndicator()
+                self?.isTableViewHidden = false
+                self?.tableView.refreshControl?.endRefreshing()
+                self?.tableView.reloadData()
             }
     }
     
@@ -171,7 +186,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         
         let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier, for: indexPath) as! LabelTableViewCell
         
-        
+        cell.isHidden = isTableViewHidden
         let labelText = tables[indexPath.section][indexPath.row].name
         cell.configureCellWith(text: labelText)
         
@@ -194,6 +209,19 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
+        var message = "No reservations "
+        
+        switch pickerVC.getPickedTime() {
+        case "Breakfast":
+            message.append("for breakfast.")
+        case "Meals":
+            message.append("for meal.")
+        case "Dinner":
+            message.append("for dinner.")
+        default:
+            break
+        }
+        
         if section == 0 && tables[section].isEmpty {
             
             let noDataView = NoDataView()
@@ -203,7 +231,7 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         } else if section == 1 && tables[section].isEmpty {
             
             let noDataView = NoDataView()
-            noDataView.setMessage("No Table is Booked for the Day")
+            noDataView.setMessage(message)
             return noDataView
         }
         return nil

@@ -37,7 +37,8 @@ class IntegerTableViewCell: FormTableViewCell {
         }
         
         saveLookupValue()
-        formTextField.isUserInteractionEnabled = isEditable
+//        formTextField.isUserInteractionEnabled = isEditable
+        configureIsCellEditable(isEditable)
     }
     
     private func saveLookupValue() {

@@ -18,7 +18,6 @@ class MenuViewController: UIViewController {
     private let userController: UserDetailControllerContract = UserDetailController()
     
     private lazy var menuOptions = [
-        "Table Booking".localized(),
         "Modules".localized(),
         "Generate Auth Token".localized()
     ]

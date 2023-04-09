@@ -47,6 +47,7 @@ class TextAreaTableViewCell: FormTableViewCell {
     override func setRecordData(for data: Any, isEditable: Bool = true) {
         self.textView.text = data as? String
         self.isUserInteractionEnabled = isEditable
+        configureIsCellEditable(isEditable)
         
     }
     

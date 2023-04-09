@@ -26,12 +26,12 @@ class EmailTableViewCell: FormTableViewCell {
         super.configureTextField()
         formTextField.keyboardType = .emailAddress
         
-        formTextField.addTarget(self, action: #selector(editingBegins), for: .editingDidBegin)
+//        formTextField.addTarget(self, action: #selector(editingBegins), for: .editingDidBegin)
     }
     
-    @objc private func editingBegins() {
-        formTextField.placeholder = ""
-    }
+//    @objc private func editingBegins() {
+//        formTextField.placeholder = ""
+//    }
     
     override func getFieldData(for type: String) -> (Any?, Bool) {
         

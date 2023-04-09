@@ -13,6 +13,7 @@ class RecordsTableViewController: UIViewController {
     private let recordsController: RecordsContract = RecordsController()
     private var formViewController: FormTableViewController!
     private let searchController = UISearchController()
+    private let refreshControl = UIRefreshControl()
     private var module: Module?
     private var moduleApiName: String
     private var isLookUp: Bool = false
@@ -23,7 +24,7 @@ class RecordsTableViewController: UIViewController {
     private var isFiltered = false
     private var isVCPushed = false
     
-    var delegate: RecordTableViewDelegate?
+    weak var delegate: RecordTableViewDelegate?
     
     private var tableView: UITableView!
     private var sortedRecords = [String: [Record]]()
@@ -135,7 +136,10 @@ class RecordsTableViewController: UIViewController {
         tableView.estimatedRowHeight = 50
         tableView.rowHeight = UITableView.automaticDimension
         tableView.backgroundColor = .systemGray6
+        tableView.refreshControl = refreshControl
+        tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
+        
         view.addSubview(tableView)
 
         NSLayoutConstraint.activate([
@@ -144,6 +148,10 @@ class RecordsTableViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    @objc private func didPullToRefresh() {
+        getRecords()
     }
     
     private func getRecords() {
@@ -169,6 +177,7 @@ class RecordsTableViewController: UIViewController {
                 self?.tableView.restore()
             }
         }
+        self.tableView.refreshControl?.endRefreshing()
     }
     
     func showLoadingIndicator() {

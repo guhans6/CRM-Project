@@ -11,6 +11,7 @@ extension UITableView {
     
     func showLoadingIndicator() {
         
+        self.backgroundView = nil
         let activityIndicator = UIActivityIndicatorView(style: .large)
         
         activityIndicator.startAnimating()

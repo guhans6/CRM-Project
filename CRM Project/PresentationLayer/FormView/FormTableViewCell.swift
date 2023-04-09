@@ -170,7 +170,8 @@ class FormTableViewCell: UITableViewCell {
         
         formTextField.text = data as? String
         formTextField.isUserInteractionEnabled = isEditable
-        self.isUserInteractionEnabled = isEditable
+//        self.isUserInteractionEnabled = isEditable
+        configureIsCellEditable(isEditable)
         
     }
     
@@ -191,6 +192,21 @@ class FormTableViewCell: UITableViewCell {
             
             return (formTextField.text, true)
         }
+    }
+}
+
+extension FormTableViewCell {
+    
+    func configureIsCellEditable(_ isEditable: Bool) {
+        
+        if !isEditable {
+            alpha = 0.5
+        }
+        isUserInteractionEnabled = isEditable
+//            formTextField.isEnabled = isEditable
+//            label.isEnabled = isEditable
+//            switchButton.isEnabled = isEditable
+            
     }
 }
 

@@ -139,14 +139,6 @@ extension SplashViewController: MenuViewDelegate {
 //            mainTabBarController.navigationController?.pushViewController(moduleTableVC, animated: true)
 //            didTapCloseButton()
             
-        case "Table Booking".localized():
-            
-            let tableBookingVC = TableBookingViewController()
-            
-            tableBookingVC.modalPresentationStyle = .fullScreen
-            menuViewController.navigationController?.pushViewController(tableBookingVC, animated: true)
-//            mainTabBarController.navigationController?.pushViewController(tableBookingVC, animated: true)
-//            didTapCloseButton()
         case "Generate Auth Token".localized():
             
             NetworkController().generateAuthToken()
