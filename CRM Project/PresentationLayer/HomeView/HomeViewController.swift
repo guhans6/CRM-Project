@@ -106,6 +106,7 @@ class HomeViewController: UIViewController {
     @objc private func datePickerValueChanged() {
         
         let formattedDate = DateFormatter.formattedString(from: datePicker.date, format: "yyyy-MM-dd")
+        lastPickedDate = datePicker.date
         if formattedDate == todayDate {
             dateResetButton.isHidden = true
         } else {
@@ -252,11 +253,11 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             
             let reservationId = reservationIds[indexPath.row]
             let recordInfoVc = RecordInfoTableViewController(recordModule: "Reservations", recordId: reservationId, title: "Reservation Details")
-            
-            if let sheetController = recordInfoVc.sheetPresentationController {
+            recordInfoVc.modalPresentationStyle = .pageSheet
+            if let sheet = recordInfoVc.sheetPresentationController {
                 
-                sheetController.detents = [.medium(), .large()]
-                sheetController.prefersGrabberVisible = true
+                sheet.prefersGrabberVisible = true
+                sheet.prefersEdgeAttachedInCompactHeight = true
             }
             present(recordInfoVc, animated: true)
         }

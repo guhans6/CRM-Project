@@ -35,9 +35,17 @@ class LookupTableViewCell: FormTableViewCell {
     
     func configureDiscloseIndicator() {
         
+        if UIView.userInterfaceLayoutDirection(
+            for: self.semanticContentAttribute) == .leftToRight {
+            
+            discloseIndicatorMark.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        } else {
+            
+            discloseIndicatorMark.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        }
+        
         contentView.addSubview(discloseIndicatorMark)
         discloseIndicatorMark.translatesAutoresizingMaskIntoConstraints = false
-        discloseIndicatorMark.setImage(UIImage(systemName: "chevron.right"), for: .normal)
         discloseIndicatorMark.tintColor = .normalText
         discloseIndicatorMark.backgroundColor = .systemBackground
         

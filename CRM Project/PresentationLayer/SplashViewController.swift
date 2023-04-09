@@ -9,7 +9,8 @@ import UIKit
 
 class SplashViewController: UIViewController {
     
-    private let logoImageView = UIImageView(image: UIImage(named: "crm logo"))
+    private lazy var logoImageView = UIImageView(image: UIImage(named: "OnlyText"))
+    private lazy var appLabel = UILabel()
     private let splitvc = UISplitViewController(style: .doubleColumn)
     private let mainTabBarController = UITabBarController()
     
@@ -54,15 +55,34 @@ class SplashViewController: UIViewController {
     }
     
     func configureLogoView() {
-        view.addSubview(logoImageView)
+//        view.addSubview(logoImageView)
+//
+//        logoImageView.translatesAutoresizingMaskIntoConstraints = false
+//        logoImageView.contentMode = .scaleAspectFit
+//
+//        NSLayoutConstraint.activate([
+//            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            logoImageView.heightAnchor.constraint(equalToConstant: 60)
+//        ])
         
-        logoImageView.translatesAutoresizingMaskIntoConstraints = false
-        logoImageView.contentMode = .scaleAspectFit
+        view.addSubview(appLabel)
+        appLabel.text = "Hotel Hub"
+        appLabel.textAlignment = .center
+        
+        let fontMetrics = UIFontMetrics(forTextStyle: .largeTitle)
+        appLabel.font = fontMetrics.scaledFont(for: .systemFont(ofSize: 40, weight: .semibold))
+        
+        appLabel.textColor = UIColor(named: "primary")
+        appLabel.translatesAutoresizingMaskIntoConstraints = false
+        appLabel.contentMode = .scaleAspectFit
         
         NSLayoutConstraint.activate([
-            logoImageView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoImageView.heightAnchor.constraint(equalToConstant: 60)
+            appLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            appLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            appLabel.heightAnchor.constraint(equalToConstant: 60),
+            appLabel.widthAnchor.constraint(equalToConstant: view.frame.width)
+            
         ])
     }
     

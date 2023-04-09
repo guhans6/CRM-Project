@@ -274,7 +274,6 @@
 				5340DEE02982CD8C00ED51D1 /* LoginViewController.swift */,
 				530847E829D5498500D08087 /* LoginPageViewController.swift */,
 				5318F5CE29796B4900AF76DC /* WebViewController.swift */,
-				53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */,
 				5362F76229AA33EE00DA5F44 /* HomeView */,
 				537B607C2996216A00ACA883 /* ModulesView */,
 				537B60872996683800ACA883 /* RecordsView */,
@@ -384,14 +383,10 @@
 		53D273202977D20F001718BD /* CRM Project */ = {
 			isa = PBXGroup;
 			children = (
-				53F1EEAE29AB9DA100C17723 /* Utilities */,
 				53D273212977D20F001718BD /* AppDelegate.swift */,
 				53D273232977D20F001718BD /* SceneDelegate.swift */,
 				5318F5D3297A851000AF76DC /* PresentationLayer */,
-				5311865029A8C551004088DD /* TableViewExtension.swift */,
-				5308481629D710A100D08087 /* CollectionViewExtension.swift */,
-				5301EF3829C0607A00567753 /* StringExtension.swift */,
-				534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */,
+				53F1EEAE29AB9DA100C17723 /* Utilities */,
 				5318F5D0297A84D900AF76DC /* DomainLayer */,
 				5318F5D2297A84F500AF76DC /* DataLayer */,
 				53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */,
@@ -502,8 +497,13 @@
 			isa = PBXGroup;
 			children = (
 				53F1EEAF29AB9DB500C17723 /* UIColourExtension.swift */,
+				5301EF3829C0607A00567753 /* StringExtension.swift */,
 				530847EA29D56CA000D08087 /* ImageViewExtension.swift */,
+				5308481629D710A100D08087 /* CollectionViewExtension.swift */,
+				5311865029A8C551004088DD /* TableViewExtension.swift */,
 				53F86E1D29DFFB5400ACD0B1 /* UIImageExtension.swift */,
+				53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */,
+				534DE58629B9B2DB00C229BD /* DateFormatterExtension.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";

@@ -120,7 +120,7 @@ class LoginViewController: UIPageViewController {
         view.addSubview(loginButton)
         view.bringSubviewToFront(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false
-        let titleLabelColour = #colorLiteral(red: 0.2901960784, green: 0.4588235294, blue: 0.6745098039, alpha: 1)
+        let titleLabelColour = UIColor(named: "primary")
         
         loginButton.backgroundColor = titleLabelColour
         loginButton.setTitle("Login".localized(), for: .normal)

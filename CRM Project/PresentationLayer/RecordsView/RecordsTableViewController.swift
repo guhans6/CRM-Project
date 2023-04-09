@@ -257,6 +257,7 @@ extension RecordsTableViewController: UITableViewDataSource, UITableViewDelegate
                 
                 let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId, recordImage: record.recordImage)
 //                let _ = UINavigationController(rootViewController: individualRecordVC)
+                navigationController?.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(individualRecordVC, animated: true)
 //                present(individualRecordVC, animated: true)
                 isVCPushed = true

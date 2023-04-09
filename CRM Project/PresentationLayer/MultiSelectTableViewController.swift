@@ -10,10 +10,11 @@ import UIKit
 class MultiSelectTableViewController: UITableViewController {
     
     private let pickListName: String
-    var pickListValues = [PickListValue]()
-    var delegate: PickListDelegate?
-    var isMultiSelect: Bool
-    var selectedItems: [Int] = []
+    private var pickListValues = [PickListValue]()
+    private var isMultiSelect: Bool
+    private var selectedItemsIndex: [Int] = []
+    private var selectedItems: [String] = []
+    weak var delegate: PickListDelegate?
     
     init(pickListName: String, pickListValues: [PickListValue], isMultiSelect: Bool = false) {
         self.pickListValues = pickListValues
@@ -47,19 +48,28 @@ class MultiSelectTableViewController: UITableViewController {
     @objc private func didPressSaveButton() {
         
         guard let indexPaths = tableView.indexPathsForSelectedRows else {
+            delegate?.getPickListValues(isMultiSelect: isMultiSelect, pickListValue: selectedItems)
+            navigationController?.popViewController(animated: true)
             print(" No rows are selected")
             return
         }
         
         // Iterate over the selected rows and perform some action
-        var values = [String]()
+        
         for indexPath in indexPaths {
             let pickListValue = pickListValues[indexPath.row]
-            values.append(pickListValue.displayValue)
+            if !selectedItems.contains(pickListValue.displayValue) {
+                selectedItems.append(pickListValue.displayValue)
+            }
         }
         
-        delegate?.getPickListValues(isMultiSelect: isMultiSelect, pickListValue: values)
+        delegate?.getPickListValues(isMultiSelect: isMultiSelect, pickListValue: selectedItems)
         navigationController?.popViewController(animated: true)
+    }
+    
+    func getPickListValues() -> [String] {
+
+        return selectedItems
     }
 
     // MARK: - Table view data source
@@ -73,7 +83,7 @@ class MultiSelectTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier,
                                                  for: indexPath) as! RecordsTableViewCell
-        
+        cell.removeImageView()
         let pickListValue = pickListValues[indexPath.row]
         cell.configureRecordCell(recordName: pickListValue.displayValue,
                                  secondaryData: "", recordImage: nil)
@@ -84,15 +94,21 @@ class MultiSelectTableViewController: UITableViewController {
         let selectedBackgroundView = UIView()
         selectedBackgroundView.backgroundColor = .tableSelect
         cell.selectedBackgroundView = selectedBackgroundView
+        
+        if selectedItemsIndex.contains(indexPath.row) == true {
+
+            tableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+            cell.accessoryType = .checkmark
+        }
 
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
+        let pickListValue = pickListValues[indexPath.row]
         if !isMultiSelect {
             
-            let pickListValue = pickListValues[indexPath.row]
             delegate?.getPickListValues(isMultiSelect: isMultiSelect, pickListValue: [pickListValue.displayValue])
             navigationController?.popViewController(animated: true)
         }
@@ -101,9 +117,10 @@ class MultiSelectTableViewController: UITableViewController {
         
         let row = indexPath.row
         
-        if selectedItems.contains(row) == false {
+        if selectedItemsIndex.contains(row) == false {
 
-            selectedItems.append(row)
+            selectedItems.append(pickListValue.displayValue)
+            selectedItemsIndex.append(row)
             cell?.accessoryType = .checkmark
             
         }
@@ -113,11 +130,21 @@ class MultiSelectTableViewController: UITableViewController {
         
         let cell = tableView.cellForRow(at: indexPath)
         
-        if let index = selectedItems.firstIndex(of: indexPath.row) {
-            selectedItems.remove(at: index)
+        if let index = selectedItemsIndex.firstIndex(of: indexPath.row) {
+            selectedItemsIndex.remove(at: index)
+//            selectedItems.remove(at: index)
             cell?.accessoryType = .none
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 
+}
+
+extension MultiSelectTableViewController {
+    
+    func setSelectedItems(_ items: [Int]) {
+        
+        selectedItemsIndex = items
+
+    }
 }

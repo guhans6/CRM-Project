@@ -244,6 +244,7 @@ extension RecordsCollectionViewController: UICollectionViewDataSource {
             if let module {
                 
                 let individualRecordVC = RecordInfoTableViewController(recordModule: module, recordId: record.recordId, recordImage: record.recordImage)
+                navigationController?.hidesBottomBarWhenPushed = true
                 navigationController?.pushViewController(individualRecordVC, animated: true)
 //                present(individualRecordVC, animated: true)
 

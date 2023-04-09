@@ -432,11 +432,16 @@ extension FormTableViewController {
     
     @objc private func pickListTapGesuture(sender gestureRecognizer: LookupTapGestureRecognizer) {
         
+        
+        guard let row = gestureRecognizer.row else {
+            print("No row in gesture recognizer")
+            return
+        }
         let cell = gestureRecognizer.view as! PickListTableViewCell
         let location = gestureRecognizer.location(in: cell)
         
-        let field = fields[gestureRecognizer.row!]
-        let pickList = field.pickListValues
+        let field = fields[row]
+        let pickListValues = field.pickListValues
         let pickListName = field.fieldLabel
         let dataType = field.dataType
         
@@ -460,10 +465,42 @@ extension FormTableViewController {
             
             if canPresent {
                 
-                let lookupTableVC = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickList, isMultiSelect: dataType == "picklist" ? false : true)
-                lookupTableVC.delegate = cell.self
+                let multiSelectVc = MultiSelectTableViewController(pickListName: pickListName, pickListValues: pickListValues, isMultiSelect: dataType == "picklist" ? false : true)
+                multiSelectVc.delegate = cell.self
                 
-                navigationController?.pushViewController(lookupTableVC, animated: true)
+                let selectedItems = cell.getPickListValues()
+                
+                if !selectedItems.isEmpty {
+                    
+                    var selectedIndex: [Int] = []
+
+                    for index in 0 ..< pickListValues.count {
+                        for selectedItem in selectedItems {
+                            if pickListValues[index].displayValue == selectedItem {
+                                selectedIndex.append(index)
+                            }
+                        }
+                    }
+                    multiSelectVc.setSelectedItems(selectedIndex)
+                }
+                
+//                if !editableRecords.isEmpty {
+//                    if let cellData = editableRecords[row - 1].1 as? String {
+//                        var selectedIndex: [Int] = []
+//                        let selectedValues = cellData.components(separatedBy: ",")
+//
+//                        for index in 0 ..< pickListValues.count {
+//                            for selectedValue in selectedValues {
+//                                if pickListValues[index].displayValue == selectedValue {
+//                                    selectedIndex.append(index)
+//                                }
+//                            }
+//                        }
+//                        multiSelectVc.setSelectedItems(selectedIndex)
+//                    }
+//                }
+                
+                navigationController?.pushViewController(multiSelectVc, animated: true)
             }
         }
         //Should also handle lower ios versions

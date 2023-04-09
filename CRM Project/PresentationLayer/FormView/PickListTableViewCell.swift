@@ -27,7 +27,7 @@ class PickListTableViewCell: LookupTableViewCell {
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {
         
         self.formTextField.text = data as? String
-        self.pickListValues = [self.formTextField.text!]
+        self.pickListValues = self.formTextField.text!.components(separatedBy: ",")
         self.isUserInteractionEnabled = isRecordEditing
         
         savePickListValue()
@@ -38,6 +38,14 @@ class PickListTableViewCell: LookupTableViewCell {
         let pickListData = getFieldData(for: "")
         
         delegate?.textFieldData(data: pickListData.0, isValid: pickListData.1, index: index)
+    }
+}
+
+extension PickListTableViewCell {
+    
+    func getPickListValues() -> [String] {
+        
+        return pickListValues
     }
 }
 

@@ -255,9 +255,11 @@ extension TableBookingViewController {
             let recordInfoVC = RecordInfoTableViewController(recordModule: "Reservations",
                                                              recordId: reservationId)
             recordInfoVC.title = "Booking Details"
-            if let formSheet = recordInfoVC.sheetPresentationController {
-                formSheet.detents = [.medium(), .large()]
-                formSheet.prefersGrabberVisible = true
+            recordInfoVC.modalPresentationStyle = .pageSheet
+            if let sheet = recordInfoVC.sheetPresentationController {
+                sheet.detents = [.medium(), .large()]
+                sheet.prefersGrabberVisible = true
+                sheet.prefersEdgeAttachedInCompactHeight = true
             }
             
             present(recordInfoVC, animated: true)

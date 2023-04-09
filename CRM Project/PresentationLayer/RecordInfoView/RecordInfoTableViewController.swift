@@ -38,6 +38,7 @@ class RecordInfoTableViewController: UITableViewController {
         self.formVc = FormTableViewController(module: recordModule)
         self.recordImage = recordImage
         super.init(nibName: nil, bundle: nil)
+        hidesBottomBarWhenPushed = true
         
     }
     
@@ -48,6 +49,7 @@ class RecordInfoTableViewController: UITableViewController {
         self.headerTitle = title
         self.recordModule = nil
         super.init(nibName: nil, bundle: nil)
+        hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {
@@ -55,10 +57,10 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        UIView.animate(withDuration: 0.5) {
-
-                self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
-            }
+//        UIView.animate(withDuration: 0.5) {
+//
+//                self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
+//            }
         getRecord()
     }
     
@@ -68,6 +70,7 @@ class RecordInfoTableViewController: UITableViewController {
         configureTableView()
         formVc?.delegate = self
 //        navigationController?.navigationBar.prefersLargeTitles = false
+        navigationController?.hidesBottomBarWhenPushed = true
         title = recordModule?.moduleSingularName.appending(" Information")
         
     }
@@ -79,18 +82,18 @@ class RecordInfoTableViewController: UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-            UIView.animate(withDuration: 0.5) {
-                
-                self.tabBarController?.tabBar.frame.origin.y -= self.tabBarController?.tabBar.frame.size.height ?? 0.0
-            }
+//            UIView.animate(withDuration: 0.5) {
+//
+//                self.tabBarController?.tabBar.frame.origin.y -= self.tabBarController?.tabBar.frame.size.height ?? 0.0
+//            }
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
-        UIView.animate(withDuration: 0.5) {
-
-                self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
-        }
+//        UIView.animate(withDuration: 0.5) {
+//
+//                self.tabBarController?.tabBar.frame.origin.y += self.tabBarController?.tabBar.frame.size.height ?? 0.0
+//        }
     }
 
     private func configureNavigationBar() {
@@ -253,6 +256,8 @@ extension RecordInfoTableViewController: FormTableViewDelegate {
     func getFields(fields: [Field]) { }
     
     func formView(recordImage: UIImage?) {
-        self.headerImageView.image = recordImage
+        if let recordImage = recordImage {
+            self.headerImageView.image = recordImage
+        }
     }
 }

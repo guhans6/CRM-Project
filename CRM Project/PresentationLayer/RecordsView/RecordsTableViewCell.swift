@@ -133,3 +133,11 @@ class RecordsTableViewCell: UITableViewCell {
     }
 
 }
+
+extension RecordsTableViewCell {
+    
+    func removeImageView() {
+        
+        recordImageView.removeFromSuperview()
+    }
+}
