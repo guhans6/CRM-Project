@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol RecordTableViewDelegate {
+protocol RecordTableViewDelegate: AnyObject {
     
     func setLookupRecordAndId(recordName: String,recordId: String)
 }
 
-protocol PickListDelegate {
+protocol PickListDelegate: AnyObject {
     
     func getPickListValues(isMultiSelect: Bool, pickListValue: [String])
 }
