@@ -58,7 +58,7 @@ class RecordsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        getRecords()
+//        getRecords()
     }
     
     override func viewDidLoad() {
@@ -71,7 +71,7 @@ class RecordsViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        searchController.searchBar.isHidden = false
+//        searchController.searchBar.isHidden = false
     }
     
     private func configureView() {
@@ -140,10 +140,10 @@ class RecordsViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.delegate = self
         navigationItem.searchController = searchController
-        searchController.searchBar.isHidden = true
+//        searchController.searchBar.isHidden = true
 //        tableview.reloadData()
 //        collectionView.reloadData()
-//        navigationItem.hidesSearchBarWhenScrolling = false
+        navigationItem.hidesSearchBarWhenScrolling = false
 
         searchController.searchBar.autocapitalizationType = .none
     }
@@ -219,6 +219,11 @@ class RecordsViewController: UIViewController {
 //            self?.collectionView.hideLoadingIndicator()
 //            self?.collectionView.reloadData()
 
+            if self?.currentView == .collectionView {
+                self?.collectionView.stopLoadingIndicator()
+            } else {
+                self?.tableview.stopLoadingIndicator()
+            }
             if records.count == 0 {
                 
                 if self?.currentView == .collectionView {

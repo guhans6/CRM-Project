@@ -39,13 +39,14 @@ class EventDataManager {
             for event in events {
                 
                 guard let id = event["id"] as? String,
-                      let name = event["Name"] as? String,
-                      let eventType = event["Event_Type"] as? String,
-                      let hall = event["Hall"] as? String  else {
+                      let name = event["Name"] as? String else {
                           
                         print("event data parse error")
                         return
                       }
+                
+                let eventType = event["Event_Type"] as? String
+                let hall = event["Hall"] as? String
                 bookedEvents.append(Event(id: id, name: name, eventHall: hall, eventType: eventType))
             }
             completion(bookedEvents)

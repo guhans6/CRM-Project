@@ -41,7 +41,8 @@ class RecordsNetworkService {
         
         networService.performNetworkCall(url: urlRequestString, method: httpMethod, urlComponents: nil, parameters: parameters, headers: nil) { resultData, error in
             
-            if let _ = error {
+            if let error = error {
+                print(error)
                 isSaved(false)
                 return
             } 
@@ -64,6 +65,7 @@ class RecordsNetworkService {
                 return
             } else {
                 
+                print(resultData)
                 isSaved(false)
                 return
             }

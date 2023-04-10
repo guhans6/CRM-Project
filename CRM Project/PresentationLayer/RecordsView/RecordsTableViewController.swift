@@ -23,6 +23,7 @@ class RecordsTableViewController: UIViewController {
     private var isSearching = false
     private var isFiltered = false
     private var isVCPushed = false
+    private var isLoading = true
     
     weak var delegate: RecordTableViewDelegate?
     
@@ -80,11 +81,12 @@ class RecordsTableViewController: UIViewController {
         
 //        navigationController?.navigationBar.prefersLargeTitles = true
         tabBarController?.tabBar.isHidden = false
+        tableView.showLoadingIndicator()
         if isVCPushed == true {
             
             isVCPushed = false
         }
-//        getRecords()
+        getRecords()
         reloadData()
     }
     
@@ -183,6 +185,13 @@ class RecordsTableViewController: UIViewController {
     func showLoadingIndicator() {
         
         tableView.showLoadingIndicator()
+        isLoading = true
+    }
+    
+    func stopLoadingIndicator() {
+        
+        tableView.hideLoadingIndicator()
+        isLoading = false
     }
     
     func setRecords(records: [Record]) {

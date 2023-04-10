@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol FormTableViewDelegate {
+protocol FormTableViewDelegate: AnyObject {
     
     func getFields(fields: [Field]) -> Void
     func formView(recordImage: UIImage?) -> Void
@@ -24,6 +24,7 @@ class FormTableViewController: UITableViewController {
     private var module: Module?
     private var moduleName: String?
     private var fieldData = [Any]()
+    private lazy var recordImage: UIImage? = nil
     var recordsToBeSaved: [(isValid: Bool, data: Any?)?]!
     
     private var recordState: RecordState = .add
@@ -102,7 +103,7 @@ class FormTableViewController: UITableViewController {
     
     private func configureNavigationBar() {
         
-        let saveButton = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .done, target: self, action: #selector(doneButtonClicked))
+        let saveButton = UIBarButtonItem(image: UIImage(systemName: "checkmark"), style: .done, target: self, action: #selector(doneButtonClicked(_:)))
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonClicked))
         
@@ -152,8 +153,9 @@ class FormTableViewController: UITableViewController {
         }
     }
     
-    @objc private func doneButtonClicked() {
+    @objc private func doneButtonClicked(_ sender: UIBarButtonItem) {
         
+        sender.isEnabled = false
         var data = [String: Any]()
         
         var shouldCancel = false
@@ -177,6 +179,7 @@ class FormTableViewController: UITableViewController {
         
         if shouldCancel {
             print("Cancelled")
+            sender.isEnabled = true
             return
         }
         
@@ -189,6 +192,7 @@ class FormTableViewController: UITableViewController {
                     self?.dismiss(animated: true)
                 }
                 self?.delegate?.formView(recordImage: self?.selectedImageCell?.recordImageView.image)
+                sender.isEnabled = true
             }
         } else {
             
@@ -198,6 +202,7 @@ class FormTableViewController: UITableViewController {
                 if result {
                     self?.dismiss(animated: true)
                 }
+                sender.isEnabled = true
             }
         }
     }
@@ -312,12 +317,12 @@ extension FormTableViewController {
             
             for record in editableRecords {
                 
+//                print(field., record.0)
                 if field.displayLabel == record.0
                     || field.apiName == record.0
                     || field.fieldLabel == record.0 {
                     
                     var shouldEnableUserInteracion = true
-                    
                     if recordState == .editAndUserInteractionDisabled {
                         shouldEnableUserInteracion = false
                     }
@@ -328,7 +333,17 @@ extension FormTableViewController {
                             recordsToBeSaved[indexPath.row] = (true, ["id", lookupData[0]])
                         }
                     }
-                    recordsToBeSaved[indexPath.row] = (true, record.1)
+                    else if field.dataType == "multiselectpicklist" {
+
+                        if let data = record.1 as? String {
+
+                            let dataArray = data.components(separatedBy: ",")
+                            recordsToBeSaved[indexPath.row] = (true, dataArray)
+                        }
+                    }
+                    else {
+                        recordsToBeSaved[indexPath.row] = (true, record.1)
+                    }
                     cell.setRecordData(for: record.1, isEditable: shouldEnableUserInteracion)
                     break
                 }
@@ -342,7 +357,7 @@ extension FormTableViewController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
         let cell = cell as! FormTableViewCell
-        
+        let field = fields[indexPath.row]
         
         if let cellRecord = recordsToBeSaved[indexPath.row]?.1 {
             
@@ -351,8 +366,18 @@ extension FormTableViewController {
                 isEditable = false
             }
             print(cellRecord, indexPath.row)
-            
-            cell.setRecordData(for: cellRecord, isEditable: isEditable)
+            if field.dataType == "lookup" {
+                
+                for record in editableRecords {
+                    
+                    if let data = record.1 as? [String] {
+                        
+                        cell.setRecordData(for: data, isEditable: isEditable)
+                    }
+                }
+            } else {
+                cell.setRecordData(for: cellRecord, isEditable: isEditable)
+            }
 //            print(recordsToBeSaved)
         }
     }
@@ -581,15 +606,15 @@ extension FormTableViewController: UIImagePickerControllerDelegate, UINavigation
 extension FormTableViewController {
     
     // to make the form for edit view and fill up the fields
-    func setUpCellsForEditing(recordid: String?, recordData: [(String, Any)],
+    func setUpCellsForEditing(recordId: String?, recordData: [(String, Any)],
                               recordState: RecordState = .edit, recordImage: UIImage?) -> Void {
         
         self.recordState = recordState
         self.editableRecords = recordData
-        self.editingRecordId = recordid
-        if let recordImage = recordImage {
-            editableRecords.append(("Record_Image", recordImage))
-        }
+        self.editingRecordId = recordId
+//        if let recordImage = recordImage {
+//            editableRecords.append(("Record_Image", recordImage))
+//        }
         self.tableView.reloadData()
     }
 }

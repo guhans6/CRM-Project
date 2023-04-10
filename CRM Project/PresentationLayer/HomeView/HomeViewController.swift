@@ -14,15 +14,18 @@ class HomeViewController: UIViewController {
     private let activitiesTableView = UITableView(frame: .zero, style: .insetGrouped)
     private var lastPickedDate = Date()
     private let mainTabBarController = UITabBarController()
+    private var isLoading = true
     
     private var todayDate: String {
         return DateFormatter.formattedString(from: Date(), format: "yyyy-MM-dd")
     }
     
-    private var tables = [Table]()
+//    private var tables = [Table]()
+    private var reservations = [Reservation]()
     private var reservationIds = [String]()
     private var events = [Event]()
     private let bookingController = BookingController()
+    private let reservationController = ReservationController()
     private let eventBookingController = EventBookingController()
     
     deinit {
@@ -36,6 +39,7 @@ class HomeViewController: UIViewController {
         title = "Home".localized()
 
         configureUI()
+//        getBookedTablesFor(date: lastPickedDate)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -122,6 +126,8 @@ class HomeViewController: UIViewController {
         
         activitiesTableView.delegate = self
         activitiesTableView.dataSource = self
+        activitiesTableView.refreshControl = UIRefreshControl()
+        activitiesTableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         
         activitiesTableView.rowHeight = UITableView.automaticDimension
         activitiesTableView.estimatedRowHeight = 44
@@ -140,9 +146,9 @@ class HomeViewController: UIViewController {
         ])
     }
     
-    private func configureTabBarController() {
+    @objc private func didPullToRefresh() {
         
-        
+        getBookedTablesFor(date: lastPickedDate)
     }
 }
 
@@ -150,28 +156,49 @@ extension HomeViewController {
     
     private func getBookedTablesFor(date: Date) {
         
-        if tables.isEmpty {
+        if reservations.isEmpty {
             activitiesTableView.showLoadingIndicator()
         }
-        bookingController
-            .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
-                
-                self?.activitiesTableView.showLoadingIndicator()
-                self?.tables = tables[1]
-                self?.reservationIds = reservationIds
-                
-                if self?.tables.count ?? 0 > 0 {
-                    
-                    self?.activitiesTableView.hideLoadingIndicator()
-                }
-                
-                self?.activitiesTableView.reloadData()
-            }
+        isLoading = true
+        reservations = []
+        events = []
+//        bookingController
+//            .getAvailableTablesFor(date: date, time: nil) { [weak self] tables, reservationIds in
+//
+////                self?.activitiesTableView.showLoadingIndicator()
+//                self?.tables = tables[1]
+//                self?.reservationIds = reservationIds
+//
+//                if self?.tables.count ?? 0 > 0 {
+//
+//                    self?.activitiesTableView.hideLoadingIndicator()
+//                }
+//
+//                self?.activitiesTableView.reloadData()
+//            }
+        
+        reservationController.getReservationsFor(date: date) {[weak self] reservations in
+            
+            self?.reservations = reservations
+            self?.getEvents(date: date)
+//            if self?.reservations.count ?? 0 > 0 {
+//
+//                self?.activitiesTableView.hideLoadingIndicator()
+//            }
+        }
+    }
+    
+    private func getEvents(date: Date) {
         
         eventBookingController.getEventsFor(date: date) { [weak self] events in
             
             self?.events = events
+            self?.isLoading = false
+            if events.count > 0 {
+                self?.activitiesTableView.hideLoadingIndicator()
+            }
             self?.activitiesTableView.reloadData()
+            self?.activitiesTableView.refreshControl?.endRefreshing()
         }
     }
 }
@@ -181,7 +208,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
-        if section == 0 && tables.count > 0 {
+        if section == 0 && reservations.count > 0 {
             return "Booked Tables".localized()
         } else if section == 1 && events.count > 0 {
             
@@ -192,12 +219,16 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
-        return 2
+        if !isLoading {
+            return 2
+        } else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if tables.isEmpty && events.isEmpty {
+        if reservations.isEmpty && events.isEmpty {
             
             let noActivitiesString = "No activities for this day".localized()
             self.activitiesTableView.setEmptyView(title: noActivitiesString, message: "", image: UIImage(named: "calendar"))
@@ -207,7 +238,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             self.activitiesTableView.restore()
             if section == 0 {
                 
-                return tables.count == 0 ? 1 : tables.count
+                return reservations.count == 0 ? 1 : reservations.count
             } else {
                 
                 return events.count == 0 ? 1 : events.count
@@ -218,16 +249,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: LabelTableViewCell.identifier) as! LabelTableViewCell
-        
+        cell.backgroundColor = .background
         if indexPath.section == 0 {
             
-            if tables.isEmpty == false {
+            if reservations.isEmpty == false {
                 
-                cell.label.text = tables[indexPath.row].name
+                cell.label.text = reservations[indexPath.row].name
 
             } else {
                 
+                cell.label.textAlignment = .center
                 cell.label.text = "No table Booked for this Day".localized()
+                
             }
         } else {
             
@@ -236,10 +269,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 cell.label.text = events[indexPath.row].name
             } else {
                 
-                cell.label.text = "No Events for this Day".localized()
-            }
+//                if !isLoading {
+                    cell.backgroundColor = .systemGray5
+                    cell.label.textAlignment = .center
+                    cell.configureCellWith(text: "No events for this day".localized())
+                }
+//            }
         }
-        cell.backgroundColor = .background
         return cell
     }
     
@@ -251,10 +287,23 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         
         tableView.deselectRow(at: indexPath, animated: true)
         
-        if indexPath.section == 0 {
+        if indexPath.section == 0  {
             
-            let reservationId = reservationIds[indexPath.row]
-            let recordInfoVc = RecordInfoTableViewController(recordModule: "Reservations", recordId: reservationId, title: "Reservation Details")
+            if !reservations.isEmpty {
+                let reservationId = reservations[indexPath.row].id
+                let recordInfoVc = RecordInfoTableViewController(recordModule: "Reservations", recordId: reservationId, title: "Reservation Details")
+                recordInfoVc.modalPresentationStyle = .pageSheet
+                if let sheet = recordInfoVc.sheetPresentationController {
+                    
+                    sheet.prefersGrabberVisible = true
+                    sheet.prefersEdgeAttachedInCompactHeight = true
+                }
+                present(recordInfoVc, animated: true)
+            }
+        } else {
+            
+            let eventId = events[indexPath.row].id
+            let recordInfoVc = RecordInfoTableViewController(recordModule: "Functions1", recordId: eventId, title: "Event Details")
             recordInfoVc.modalPresentationStyle = .pageSheet
             if let sheet = recordInfoVc.sheetPresentationController {
                 

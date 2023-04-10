@@ -11,7 +11,7 @@ class LookupTableViewCell: FormTableViewCell {
 
     static let lookupCellIdentifier = "lookupCell"
     private var lookupId: String!
-    let discloseIndicatorMark = UIButton()
+    private let discloseIndicatorMark = UIButton()
 
     var lookupApiName: String!
 
@@ -33,7 +33,7 @@ class LookupTableViewCell: FormTableViewCell {
         
     }
     
-    func configureDiscloseIndicator() {
+    private func configureDiscloseIndicator() {
         
         if UIView.userInterfaceLayoutDirection(
             for: self.semanticContentAttribute) == .leftToRight {
@@ -57,7 +57,6 @@ class LookupTableViewCell: FormTableViewCell {
             discloseIndicatorMark.topAnchor.constraint(equalTo: contentView.topAnchor)
         ])
     }
-
 
     override func configureTextField() {
         super.configureTextField()
@@ -89,9 +88,10 @@ class LookupTableViewCell: FormTableViewCell {
             self.lookupId = lookupData[0]
 //            self.textView.text = lookupData[1]
             self.formTextField.text = lookupData[1]
-        } else if let lookupData = data as? String {
-            self.formTextField.text = lookupData
         }
+//        else if let lookupData = data as? String {
+//            self.formTextField.text = lookupData
+//        }
         
         saveLookupValue()
 //        if !isRecordEditing {

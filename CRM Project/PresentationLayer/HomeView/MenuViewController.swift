@@ -17,15 +17,21 @@ class MenuViewController: UIViewController {
     private let tableView = UITableView()
     private let userController: UserDetailControllerContract = UserDetailController()
     
+    private var modulesController: ModulesContract = ModulesController()
+    private var recordsViewController: RecordsTableViewController?
+    private var modules = [Module]()
+    
     private lazy var menuOptions = [
-        "Modules".localized(),
-        "Generate Auth Token".localized()
+        "Generate Auth Token".localized(),
+        "Dark Mode"
     ]
     private lazy var nameLabel = UILabel()
     private lazy var emailLabel = UILabel()
+    private lazy var logutButton = UIButton()
     weak var delegate: MenuViewDelegate?
     
     private let darkModeSwitch = UISwitch()
+    private var isDarkMode = false
     private let logoutButton = UIButton()
     
     init() {
@@ -40,12 +46,12 @@ class MenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Menu".localized()
+        title = "Settings".localized()
         view.backgroundColor = .systemGray6
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        let logoutImage = UIImage(systemName: "power")
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: logoutImage, style: .plain, target: self, action: #selector(logoutButtonTapped))
+//        let logoutImage = UIImage(systemName: "power")
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: logoutImage, style: .plain, target: self, action: #selector(logoutButtonTapped))
         
         getCurrentUser()
         confiureTableHeaderView()
@@ -106,6 +112,20 @@ class MenuViewController: UIViewController {
             emailLabel.trailingAnchor.constraint(lessThanOrEqualTo: headerView.safeAreaLayoutGuide.trailingAnchor),
             emailLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -3)
         ])
+        
+        logutButton.translatesAutoresizingMaskIntoConstraints = false
+        logutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        logutButton.setImage(UIImage(systemName: "power"), for: .normal)
+        logutButton.configuration = .borderless()
+        headerView.addSubview(logutButton)
+        
+        NSLayoutConstraint.activate([
+            logutButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
+            logutButton.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            logutButton.widthAnchor.constraint(equalToConstant: 50),
+            logutButton.heightAnchor.constraint(equalToConstant: 50)
+            
+        ])
     }
     
     private func configureTableView() {
@@ -162,14 +182,18 @@ class MenuViewController: UIViewController {
     
     @objc private func darkModeButtonTapped() {
         
-        
         if #available(iOS 13.0, *) {
             if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-                let window = UIWindow(windowScene: windowScene)
-                if darkModeSwitch.isOn {
-                    window.overrideUserInterfaceStyle = .dark
+                let keyWindow = windowScene.windows.filter({ $0.isKeyWindow })
+                
+
+                if !isDarkMode {
+                    print("ss")
+                    isDarkMode = true
+                    keyWindow.first?.overrideUserInterfaceStyle = .dark
                 } else {
-                    window.overrideUserInterfaceStyle = .light
+                    isDarkMode = false
+                    keyWindow.first?.overrideUserInterfaceStyle = .light
                 }
             }
         }
@@ -187,6 +211,11 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         
         cell.label.text = menuOptions[indexPath.row]
         cell.backgroundColor = .systemGray6
+        
+        if indexPath.row == 1 {
+            cell.addSwitch()
+            cell.darkModeSwitch.addTarget(self, action: #selector(darkModeButtonTapped), for: .touchUpInside)
+        }
         
         return cell
     }

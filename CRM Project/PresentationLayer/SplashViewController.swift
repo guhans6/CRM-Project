@@ -106,17 +106,21 @@ class SplashViewController: UIViewController {
         let menuVC = UINavigationController(rootViewController: menuViewController)
         let tableBookingVC = UINavigationController(rootViewController: tableBookingViewController)
         let homeNavigationVC = UINavigationController(rootViewController: homeViewController)
+        let moduleVC = UINavigationController(rootViewController: ModulesTableViewController())
         
         mainTabBarController.tabBar.autoresizesSubviews = false
-        mainTabBarController.setViewControllers([homeNavigationVC, tableBookingVC, menuVC], animated: false)
+        mainTabBarController.setViewControllers([homeNavigationVC, tableBookingVC, moduleVC, menuVC], animated: false)
         mainTabBarController.selectedIndex = 0
         mainTabBarController.tabBar.backgroundColor = .systemBackground
         mainTabBarController.tabBar.items?[0].image = UIImage(systemName: "house")
         mainTabBarController.tabBar.items?[0].title = "Home"
         mainTabBarController.tabBar.items?[1].image = UIImage(systemName: "fork.knife.circle")
         mainTabBarController.tabBar.items?[1].title = "Book Table"
-        mainTabBarController.tabBar.items?[2].image = UIImage(systemName: "list.dash")
-        mainTabBarController.tabBar.items?[2].title = "Menu"
+        mainTabBarController.tabBar.items?[2].image = UIImage(systemName: "list.bullet")
+        mainTabBarController.tabBar.items?[2].title = "Modules"
+        mainTabBarController.tabBar.items?[3].image = UIImage(systemName: "gearshape")
+        mainTabBarController.tabBar.items?[3].title = "Settings"
+        
 
         mainTabBarController.modalPresentationStyle = .fullScreen
     }
@@ -130,15 +134,6 @@ extension SplashViewController: MenuViewDelegate {
         
         switch title {
     
-        case "Modules".localized():
-            
-            let moduleTableVC = ModulesTableViewController()
-            
-            moduleTableVC.modalPresentationStyle = .fullScreen
-            menuViewController.navigationController?.pushViewController(moduleTableVC, animated: true)
-//            mainTabBarController.navigationController?.pushViewController(moduleTableVC, animated: true)
-//            didTapCloseButton()
-            
         case "Generate Auth Token".localized():
             
             NetworkController().generateAuthToken()

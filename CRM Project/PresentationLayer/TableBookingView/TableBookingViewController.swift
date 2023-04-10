@@ -271,7 +271,7 @@ extension TableBookingViewController {
             record.append(("Booking_Date", dateString))
             record.append(("Pick_List_1", pickedTime))
             
-            formVC.setUpCellsForEditing(recordid: nil, recordData: record, recordState: .editAndUserInteractionDisabled, recordImage: nil)
+            formVC.setUpCellsForEditing(recordId: nil, recordData: record, recordState: .editAndUserInteractionDisabled, recordImage: nil)
             
             let navVc = UINavigationController(rootViewController: formVC)
             navVc.modalPresentationStyle = .fullScreen

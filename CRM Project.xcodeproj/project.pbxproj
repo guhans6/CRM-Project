@@ -108,6 +108,10 @@
 		53F43A6B299AD7C8002528BE /* LookupTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */; };
 		53F43A6D299ADABB002528BE /* RecordTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */; };
 		53F86E1E29DFFB5400ACD0B1 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E1D29DFFB5400ACD0B1 /* UIImageExtension.swift */; };
+		53F86E4029E3A20700ACD0B1 /* ReservationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E3F29E3A20700ACD0B1 /* ReservationController.swift */; };
+		53F86E4229E3A29D00ACD0B1 /* ReservationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E4129E3A29D00ACD0B1 /* ReservationDataManager.swift */; };
+		53F86E4429E3A2D100ACD0B1 /* ReservationNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E4329E3A2D100ACD0B1 /* ReservationNetworkService.swift */; };
+		53F86E4629E3A6B900ACD0B1 /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E4529E3A6B900ACD0B1 /* Reservation.swift */; };
 		53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
 
@@ -216,6 +220,10 @@
 		53F43A6A299AD7C8002528BE /* LookupTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LookupTableViewCell.swift; sourceTree = "<group>"; };
 		53F43A6C299ADABB002528BE /* RecordTableViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordTableViewDelegate.swift; sourceTree = "<group>"; };
 		53F86E1D29DFFB5400ACD0B1 /* UIImageExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		53F86E3F29E3A20700ACD0B1 /* ReservationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationController.swift; sourceTree = "<group>"; };
+		53F86E4129E3A29D00ACD0B1 /* ReservationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationDataManager.swift; sourceTree = "<group>"; };
+		53F86E4329E3A2D100ACD0B1 /* ReservationNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationNetworkService.swift; sourceTree = "<group>"; };
+		53F86E4529E3A6B900ACD0B1 /* Reservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reservation.swift; sourceTree = "<group>"; };
 		53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -318,6 +326,7 @@
 				531131BF29A79452006124AA /* RelatedListNetworkService.swift */,
 				5311864729A7A66A004088DD /* BookingNetworkService.swift */,
 				5301EF0B29BEFC8B00567753 /* EventBookingNetworkService.swift */,
+				53F86E4329E3A2D100ACD0B1 /* ReservationNetworkService.swift */,
 				5356AF0F29A332B800267943 /* NetworkService.swift */,
 			);
 			path = NetworkService;
@@ -413,6 +422,7 @@
 				5356AF1A29A33A8100267943 /* FieldsController.swift */,
 				5311864929A7BBE8004088DD /* BookingController.swift */,
 				5301EF0929BEFC2600567753 /* EventBookingController.swift */,
+				53F86E3F29E3A20700ACD0B1 /* ReservationController.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -434,6 +444,7 @@
 				53E9093D29B11DAF00452748 /* UserDataManager.swift */,
 				534DE59C29BC6D0600C229BD /* TableBookingDataManager.swift */,
 				5301EF0D29BEFEC500567753 /* EventDataManager.swift */,
+				53F86E4129E3A29D00ACD0B1 /* ReservationDataManager.swift */,
 			);
 			path = DataManager;
 			sourceTree = "<group>";
@@ -488,6 +499,7 @@
 				5311863E29A794B1004088DD /* RelatedList.swift */,
 				5311864B29A884DF004088DD /* Table.swift */,
 				5301EF0F29BF028200567753 /* Event.swift */,
+				53F86E4529E3A6B900ACD0B1 /* Reservation.swift */,
 				53F1EE8A29AB0BE900C17723 /* User.swift */,
 			);
 			path = Entities;
@@ -617,6 +629,7 @@
 				5308481B29D9B4D700D08087 /* RecordInfoHeaderView.swift in Sources */,
 				5301EF0329BE0F3300567753 /* RecordInfoDatabaseService.swift in Sources */,
 				53EF4A6929C97BB60077B977 /* NetworkControllerContract.swift in Sources */,
+				53F86E4229E3A29D00ACD0B1 /* ReservationDataManager.swift in Sources */,
 				53EF4A9129C9C3840077B977 /* FieldsContract.swift in Sources */,
 				531BBB4B29DD6A7B00C81BC2 /* DatabaseController.swift in Sources */,
 				5356AF1F29A340D400267943 /* ModulesController.swift in Sources */,
@@ -635,6 +648,7 @@
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */,
 				534DE59B29BAF8D200C229BD /* FieldsDatabaseService.swift in Sources */,
+				53F86E4629E3A6B900ACD0B1 /* Reservation.swift in Sources */,
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
 				537B608029962C7E00ACA883 /* LabelTableViewCell.swift in Sources */,
 				531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */,
@@ -665,9 +679,11 @@
 				5311865129A8C551004088DD /* TableViewExtension.swift in Sources */,
 				53EEAEFE29A5EF4F00403541 /* TextAreaTableViewCell.swift in Sources */,
 				5301EF0C29BEFC8B00567753 /* EventBookingNetworkService.swift in Sources */,
+				53F86E4029E3A20700ACD0B1 /* ReservationController.swift in Sources */,
 				5308481329D6FF2600D08087 /* RecordsCollectionViewController.swift in Sources */,
 				537B60A92998B70100ACA883 /* DoubleTableViewCell.swift in Sources */,
 				530847E929D5498500D08087 /* LoginPageViewController.swift in Sources */,
+				53F86E4429E3A2D100ACD0B1 /* ReservationNetworkService.swift in Sources */,
 				5318F5CF29796B4900AF76DC /* WebViewController.swift in Sources */,
 				53F1EEB029AB9DB500C17723 /* UIColourExtension.swift in Sources */,
 				53EF4A6729C979AE0077B977 /* ModuleContract.swift in Sources */,
@@ -825,11 +841,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = R4F89R73A4;
+				DEVELOPMENT_TEAM = TPP3HP6WJ6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CRM Project/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -844,7 +858,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vtouch.zcrm.demo.hotelhub;
 				PRODUCT_NAME = "Hotel Hub";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Zoho CRM New joinees Demo";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -861,11 +874,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = R4F89R73A4;
+				DEVELOPMENT_TEAM = TPP3HP6WJ6;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "CRM Project/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -880,7 +891,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.vtouch.zcrm.demo.hotelhub;
 				PRODUCT_NAME = "Hotel Hub";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Zoho CRM New joinees Demo";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

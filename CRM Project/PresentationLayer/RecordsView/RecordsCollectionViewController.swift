@@ -73,7 +73,7 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
             
         }
 //        navigationController?.navigationBar.prefersLargeTitles = true
-        
+        getRecords()
         reloadData()
     }
     
@@ -160,6 +160,11 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
     func showLoadingIndicator() {
         
         collectionView.showLoadingIndicator()
+    }
+    
+    func stopLoadingIndicator() {
+        
+        collectionView.hideLoadingIndicator()
     }
     
     func setRecords(records: [Record]) {

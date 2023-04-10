@@ -11,6 +11,6 @@ struct Event {
     
     let id: String
     let name: String
-    let eventHall: String
-    let eventType: String
+    let eventHall: String?
+    let eventType: String?
 }

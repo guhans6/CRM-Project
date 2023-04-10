@@ -10,11 +10,13 @@ import UIKit
 class DateTableViewCell: FormTableViewCell { // This shows datePicker
     
     static let dateCellIdentifier = "dateCell"
+    private let dateButton = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureLabel()
         configureTextField()
+        configureDateButton()
     }
     
     required init?(coder: NSCoder) {
@@ -23,7 +25,34 @@ class DateTableViewCell: FormTableViewCell { // This shows datePicker
     
     override func configureTextField() {
         super.configureTextField()
+        
         formTextField.isUserInteractionEnabled = false
+        
+        formTextField.removeConstraint(texFieldTrailing!)
+        texFieldTrailing?.isActive = false
+        
+        texFieldTrailing =  formTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -25)
+        texFieldTrailing?.isActive = true
+    }
+    
+    private func configureDateButton() {
+        
+        
+        contentView.addSubview(dateButton)
+        dateButton.image = UIImage(systemName: "calendar")
+        dateButton.translatesAutoresizingMaskIntoConstraints = false
+        dateButton.clipsToBounds = true
+        dateButton.contentMode = .scaleAspectFit
+        dateButton.tintColor = .gray
+        dateButton.backgroundColor = .systemBackground
+        
+        NSLayoutConstraint.activate([
+//            discloseIndicatorMark.leadingAnchor.constraint(equalTo: formTextField.trailingAnchor),
+            dateButton.leadingAnchor.constraint(equalTo: formTextField.trailingAnchor),
+            dateButton.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
+            dateButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            dateButton.topAnchor.constraint(equalTo: contentView.topAnchor)
+        ])
     }
     
     override func setRecordData(for data: Any, isEditable isRecordEditing: Bool = true) {

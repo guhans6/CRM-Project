@@ -28,11 +28,7 @@ class PickListTableViewCell: LookupTableViewCell {
         
         self.formTextField.text = data as? String
         self.pickListValues = self.formTextField.text!.components(separatedBy: ",")
-//        self.isUserInteractionEnabled = isRecordEditing
-//        if !isRecordEditing {
-//            formTextField.isEnabled = false
-//            label.isEnabled = false
-//        }
+
         configureIsCellEditable(isRecordEditing)
         savePickListValue()
     }

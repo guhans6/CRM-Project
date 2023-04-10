@@ -77,7 +77,7 @@ class RecordsDatabaseService {
             
             if database.delete(tableName: recordsTableName,
                                        whereClause: whereClause, whereArgs: whereArgs) == false {
-//                print(Database.shared.errorMsg)
+                print(Database.shared.errorMsg)
             }
         }
     }

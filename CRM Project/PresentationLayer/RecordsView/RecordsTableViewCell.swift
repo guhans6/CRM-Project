@@ -33,8 +33,25 @@ class RecordsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutMarginsDidChange() {
+        
+        if secondaryLabel.text == "" {
+            
+            nameLabelTop?.isActive = false
+            nameLabelBottom?.isActive = false
+            
+            recordNameLabel.removeConstraints([nameLabelTop!, nameLabelBottom!])
+            nameLabelTop = recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16)
+            nameLabelTop?.isActive = true
+
+            nameLabelBottom = recordNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            nameLabelBottom?.isActive = true
+        }
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
+        
         
         recordNameLabel.text = nil
         secondaryLabel.text = nil
@@ -71,10 +88,10 @@ class RecordsTableViewCell: UITableViewCell {
         minHeightConstraint.priority = UILayoutPriority(rawValue: 999)
         minHeightConstraint.isActive = true
         
-        nameLabelTop = recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 13)
+        nameLabelTop = recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16)
         nameLabelTop?.isActive = true
 
-        nameLabelBottom = recordNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -13)
+        nameLabelBottom = recordNameLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         nameLabelBottom?.isActive = true
         
         NSLayoutConstraint.activate([
@@ -91,7 +108,7 @@ class RecordsTableViewCell: UITableViewCell {
         recordNameLabel.removeConstraints([nameLabelTop!, nameLabelBottom!])
     
         nameLabelTop = recordNameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10)
-        nameLabelTop?.isActive = translatesAutoresizingMaskIntoConstraints
+        nameLabelTop?.isActive = true
     
         contentView.addSubview(secondaryLabel)
         secondaryLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +146,7 @@ class RecordsTableViewCell: UITableViewCell {
             
             configureRecordEmailLabel()
             self.secondaryLabel.text = secondaryData
-        } 
+        }
     }
 
 }

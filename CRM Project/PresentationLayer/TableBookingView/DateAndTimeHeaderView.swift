@@ -82,6 +82,7 @@ class DateAndTimeHeaderView: UIView {
         timeLabel.text = "Time: "
         timeLabel.textAlignment = .left
         timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.font = .systemFont(ofSize: 20, weight: .regular)
         
         self.addSubview(timeLabel)
         

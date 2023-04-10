@@ -16,7 +16,7 @@ extension UITableView {
         
         activityIndicator.startAnimating()
         self.backgroundView = activityIndicator
-        self.separatorStyle = .none
+//        self.separatorStyle = .none
     }
     
     func hideLoadingIndicator() {
@@ -80,7 +80,7 @@ extension UITableView {
         ])
         
         self.backgroundView = emptyView
-        self.separatorStyle = .none
+//        self.separatorStyle = .none
         
         if shouldImageAnimate {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
@@ -101,6 +101,6 @@ extension UITableView {
     func restore() {
         
         backgroundView = nil
-        separatorStyle = .singleLine
+//        separatorStyle = .singleLine
     }
 }

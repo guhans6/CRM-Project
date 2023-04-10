@@ -109,7 +109,6 @@ class RecordInfoTableViewController: UITableViewController {
     private func configureTableView() {
         
         tableView = UITableView(frame: .zero, style: .insetGrouped)
-        tableView.separatorStyle = .none
         tableView.rowHeight = UITableView.automaticDimension
         
         let safeAreaInset = view.safeAreaInsets.top
@@ -131,7 +130,7 @@ class RecordInfoTableViewController: UITableViewController {
             return
         }
         
-        formVc.setUpCellsForEditing(recordid: recordId,
+        formVc.setUpCellsForEditing(recordId: recordId,
                                     recordData: recordInfo,
                                     recordState: .edit, recordImage: recordImage)
         let navigationVC = UINavigationController(rootViewController: formVc)
