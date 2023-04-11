@@ -32,6 +32,6 @@ class DatabaseService {
    
     func deleteAllTables() {
         
-        UserDatabaseService().deleteUserTable()
+        Database.shared.dropDatabase()
     }
 }

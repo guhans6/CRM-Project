@@ -24,6 +24,8 @@ class BooleanTableViewCell: FormTableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        switchButton.isOn = false
     }
     
     private func configureSwitch() {

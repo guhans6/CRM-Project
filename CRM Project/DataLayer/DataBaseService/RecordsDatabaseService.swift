@@ -89,3 +89,26 @@ class RecordsDatabaseService {
         }
     }
 }
+
+extension RecordsDatabaseService {
+    
+    func getRecordImage(module: String, id: String, completion: @escaping (Data) -> Void) {
+        
+        database.select(tableName: recordsTableName,
+                        whereClause: "\(recordIdColumn) = ?",
+                        args: [id],
+                        select: recordImage) { [weak self] results in
+            
+            guard let recordImage = self?.recordImage else {
+                print("No record Image")
+                return
+            }
+            
+            if let result = results?.first, let recordImage = result[recordImage] as? Data {
+                // Use the recordImage data
+                completion(recordImage)
+            }
+        }
+
+    }
+}

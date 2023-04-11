@@ -52,6 +52,9 @@ class RecordsTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        if recordImageView.image != defaultImage {
+            
+        }
         
         recordNameLabel.text = nil
         secondaryLabel.text = nil
@@ -138,9 +141,9 @@ class RecordsTableViewCell: UITableViewCell {
     func configureRecordCell(recordName: String, secondaryData: String, recordImage: UIImage?) {
         
         self.recordNameLabel.text = recordName
-        if let recordImage = recordImage {
-            recordImageView.image = recordImage
-        }
+//        if let recordImage = recordImage {
+//            recordImageView.image = recordImage
+//        }
         
         if secondaryData != "" {
             
@@ -152,6 +155,13 @@ class RecordsTableViewCell: UITableViewCell {
 }
 
 extension RecordsTableViewCell {
+    
+    func setImage(_ image: UIImage?) {
+        
+        if let image = image {
+            recordImageView.image = image
+        }
+    }
     
     func removeImageView() {
         

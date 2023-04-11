@@ -1,17 +1,16 @@
 //
-//  ModuleTableViewCell.swift
-//  CRM Project
+//  HomeViewCell.swift
+//  CRM C
 //
-//  Created by guhan-pt6208 on 10/02/23.
+//  Created by guhan-pt6208 on 10/04/23.
 //
 
 import UIKit
 
-class LabelTableViewCell: UITableViewCell {
+class HomeTableViewCell: UITableViewCell {
     
-    static let identifier = "labelCell"
-    let darkModeSwitch = UISwitch()
-    let label = UILabel()
+    static let identifier = "homeCell"
+    private let label = UILabel()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -27,14 +26,7 @@ class LabelTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         self.label.text = nil
         label.textAlignment = .natural
-        label.textColor = .normalText
         self.accessoryType = .none
-        darkModeSwitch.removeFromSuperview()
-        self.gestureRecognizers = []
-    }
-    
-    @objc private func dummyTap() {
-        
     }
     
     private func configureLabel() {
@@ -54,26 +46,8 @@ class LabelTableViewCell: UITableViewCell {
         
     }
     
-    private func configureDarkModeSwitch() {
-        
-        contentView.addSubview(darkModeSwitch)
-        darkModeSwitch.translatesAutoresizingMaskIntoConstraints = false
-        darkModeSwitch.onTintColor = .tableSelect
-        
-        NSLayoutConstraint.activate([
-            darkModeSwitch.centerYAnchor.constraint(equalTo: label.centerYAnchor),
-//            darkModeSwitch.leadingAnchor.constraint(equalTo: label.trailingAnchor)
-            darkModeSwitch.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -15)
-            
-        ])
-    }
-    
     func configureCellWith(text: String) {
         label.text = text
     }
-    
-    func addSwitch() {
-        
-        configureDarkModeSwitch()
-    }
 }
+

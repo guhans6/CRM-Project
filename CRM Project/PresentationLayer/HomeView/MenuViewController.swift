@@ -23,7 +23,8 @@ class MenuViewController: UIViewController {
     
     private lazy var menuOptions = [
         "Generate Auth Token".localized(),
-        "Dark Mode"
+        "Dark Mode",
+        "Logout"
     ]
     private lazy var nameLabel = UILabel()
     private lazy var emailLabel = UILabel()
@@ -65,11 +66,11 @@ class MenuViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "Logout",
                                                 style: .destructive,
                                                 handler: { [weak self] _ in
+            DatabaseService.shared.deleteAllTables()
             self?.logout()
         }))
         
         alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-        
         present(alertController, animated: true)
     }
     private func confiureTableHeaderView() {
@@ -215,6 +216,11 @@ extension MenuViewController: UITableViewDelegate, UITableViewDataSource {
         if indexPath.row == 1 {
             cell.addSwitch()
             cell.darkModeSwitch.addTarget(self, action: #selector(darkModeButtonTapped), for: .touchUpInside)
+        }
+        if indexPath.row == 2 {
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(logoutButtonTapped))
+            cell.addGestureRecognizer(tapGesture)
+            cell.label.textColor = .systemRed
         }
         
         return cell

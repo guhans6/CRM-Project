@@ -250,3 +250,20 @@ class Database {
         }
     }
 }
+
+extension Database {
+    
+    
+    func dropDatabase() {
+        
+        closeDatabase()
+        let fileManager = FileManager.default
+        
+        do {
+            try fileManager.removeItem(at: fileURL)
+            print("Database dropped successfully")
+        } catch {
+            print("Failed to drop database: \(error.localizedDescription)")
+        }
+    }
+}

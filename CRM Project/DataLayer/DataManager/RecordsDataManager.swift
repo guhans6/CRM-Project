@@ -121,37 +121,37 @@ class RecordsDataManager {
                 self?.recordsDatabaseService.saveRecordInDatabase(record: record,
                                                             moduleApiName: module)
             }
-            
-            var recordsWithImages = [Record]()
-            var recordDictionary = [Int: Record]()
-            var count = 0
-
-            for i in 0 ..< recordsArray.count {
-
-                let record = recordsArray[i]
-                self?.recordsNetworkService.getRecordImage(module: module,
-                                                           id: record.recordId,
-                                                           completion: { resultImage in
-                    count += 1
-                    var recordCopy = record
-                    recordCopy.recordImage = resultImage
-                    
-                    recordsWithImages.append(recordCopy)
-                    
-                    recordDictionary[i] = recordCopy
-                    
-                    if count == recordsArray.count {
-                        
-                        for i in 0 ..< recordsArray.count {
-                            
-                            recordsWithImages[i] = recordDictionary[i]!
-                            self?.recordsDatabaseService.saveRecordInDatabase(record: recordsWithImages[i],
-                                                                        moduleApiName: module)
-                        }
-                        completion(recordsWithImages)
-                    }
-                })
-            }
+            completion(recordsArray)
+//            var recordsWithImages = [Record]()
+//            var recordDictionary = [Int: Record]()
+//            var count = 0
+//
+//            for i in 0 ..< recordsArray.count {
+//
+//                let record = recordsArray[i]
+//                self?.recordsNetworkService.getRecordImage(module: module,
+//                                                           id: record.recordId,
+//                                                           completion: { resultImage in
+//                    count += 1
+//                    var recordCopy = record
+//                    recordCopy.recordImage = resultImage
+//
+//                    recordsWithImages.append(recordCopy)
+//
+//                    recordDictionary[i] = recordCopy
+//
+//                    if count == recordsArray.count {
+//
+//                        for i in 0 ..< recordsArray.count {
+//
+//                            recordsWithImages[i] = recordDictionary[i]!
+//                            self?.recordsDatabaseService.saveRecordInDatabase(record: recordsWithImages[i],
+//                                                                        moduleApiName: module)
+//                        }
+//                        completion(recordsWithImages)
+//                    }
+//                })
+//            }
         }
     }
     
@@ -338,5 +338,20 @@ class RecordsDataManager {
             }
         }
         return date
+    }
+}
+
+extension RecordsDataManager {
+    
+    func getRecordImage(module: String, recordId: String, completion: @escaping (UIImage?) -> Void) {
+        
+//        recordsDatabaseService.getRecordImage(module: module, id: recordId) { imageData in
+//
+//            completion(UIImage(data: imageData))
+//        }
+//
+        recordsNetworkService.getRecordImage(module: module, id: recordId) { image in
+            completion(image)
+        }
     }
 }

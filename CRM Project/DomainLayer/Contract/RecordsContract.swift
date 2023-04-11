@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 protocol AddRecordContract {
     
@@ -23,6 +24,8 @@ protocol RecordsContract {
     func sortRecords(records: [Record],
                      sortMethod: String,
                      completion: ([String: [Record]], [String]) -> Void) -> Void
+    
+    func getRecordImage(module: String, recordId: String, completion: @escaping (UIImage?) -> Void)
 }
 
 protocol RecordInfoContract {

@@ -166,6 +166,8 @@ class RecordInfoTableViewController: UITableViewController {
     
     @objc private func deleteButtonTapped(_ sender: UIBarButtonItem) {
         
+        sender.isEnabled = false
+        navigationController?.navigationItem.leftBarButtonItem?.isEnabled = false
         let alertController = UIAlertController(title: "Are you sure want to delete this Record ?", message: nil, preferredStyle: .actionSheet)
         
         alertController.addAction(UIAlertAction(title: "Delete",
@@ -176,14 +178,21 @@ class RecordInfoTableViewController: UITableViewController {
                 return
             }
             
-            self.recordsController.deleteRecords(module: self.moduleApiName, ids: [self.recordId]) { result in
+            self.recordsController.deleteRecords(module: self.moduleApiName,
+                                                 ids: [self.recordId]) { [weak self] result in
                 
-                self.navigationController?.popViewController(animated: true)
+                self?.navigationController?.popViewController(animated: true)
+                sender.isEnabled = true
+                self?.navigationController?.navigationItem.leftBarButtonItem?.isEnabled = true
 //                self.dismiss(animated: true, completion: nil)
             }
         }))
         
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+            
+            self.navigationController?.navigationItem.leftBarButtonItem?.isEnabled = true
+            sender.isEnabled = true
+        }))
         
         if let popoverController = alertController.popoverPresentationController {
             popoverController.barButtonItem = sender
@@ -230,7 +239,7 @@ extension RecordInfoTableViewController {  // RecordInfo Delegate and DataSource
         
         let record = recordInfo[indexPath.row]
         cell.setUpRecordInfoCell(recordName: record.0, recordData: record.1)
-        
+
         return cell
     }
     

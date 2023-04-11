@@ -160,7 +160,9 @@ class RecordsTableViewController: UIViewController {
 
         sectionTitles = []
         sortedRecords = [:]
-        tableView.showLoadingIndicator()
+        if !filteredRecords.isEmpty {
+            tableView.showLoadingIndicator()
+        }
         recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
 
             self?.records = records
@@ -178,8 +180,8 @@ class RecordsTableViewController: UIViewController {
             } else {
                 self?.tableView.restore()
             }
+            self?.tableView.refreshControl?.endRefreshing()
         }
-        self.tableView.refreshControl?.endRefreshing()
     }
     
     func showLoadingIndicator() {
@@ -219,6 +221,7 @@ class RecordsTableViewController: UIViewController {
                                      message: "Add a new record",
                                      image: UIImage(named: "records"))
     }
+    
 }
 
 extension RecordsTableViewController: UITableViewDataSource, UITableViewDelegate {
@@ -255,11 +258,19 @@ extension RecordsTableViewController: UITableViewDataSource, UITableViewDelegate
             
             record = sortedRecords[sectionTitles[indexPath.section]]![indexPath.row]
         }
-        
+        recordsController.getRecordImage(module: moduleApiName, recordId: record.recordId) { image in
+            cell.setImage(image)
+            print("downloaded")
+        }
         cell.configureRecordCell(recordName: record.recordName,
                                  secondaryData: record.secondaryRecordData,
                                  recordImage: record.recordImage)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+       
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

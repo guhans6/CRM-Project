@@ -37,3 +37,14 @@ class BookingController {
         bookingService.sendConformationMail(recordInfo: info)
     }
 }
+
+extension BookingController {
+    
+    func getAssociatedReservationsFor(tableId: String, completion: @escaping ([String]) -> Void) -> Void {
+        
+        bookingDataManager.getAssociatedReservations(tableId: tableId) { ids in
+            completion(ids)
+        }
+    }
+    
+}

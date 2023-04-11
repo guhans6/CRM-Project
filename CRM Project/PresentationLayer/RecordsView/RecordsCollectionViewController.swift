@@ -206,7 +206,9 @@ extension RecordsCollectionViewController {
 
         sectionTitles = []
         sortedRecords = [:]
-        collectionView.showLoadingIndicator()
+        if !filteredRecords.isEmpty {
+            collectionView.showLoadingIndicator()
+        }
         recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
 
             self?.records = records
@@ -264,10 +266,14 @@ extension RecordsCollectionViewController: UICollectionViewDataSource {
             
             record = sortedRecords[sectionTitles[indexPath.section]]![indexPath.row]
         }
-        
-        if let recordImage = record.recordImage {
-            cell.imageview.image = recordImage
+        recordsController.getRecordImage(module: moduleApiName, recordId: record.recordId) { image in
+            if let recordImage = image {
+                cell.imageview.image = recordImage
+            }
         }
+//        if let recordImage = record.recordImage {
+//            cell.imageview.image = recordImage
+//        }
         cell.name.text = record.recordName
         cell.secondaryLabel.text = record.secondaryRecordData
         return cell

@@ -112,6 +112,7 @@
 		53F86E4229E3A29D00ACD0B1 /* ReservationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E4129E3A29D00ACD0B1 /* ReservationDataManager.swift */; };
 		53F86E4429E3A2D100ACD0B1 /* ReservationNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E4329E3A2D100ACD0B1 /* ReservationNetworkService.swift */; };
 		53F86E4629E3A6B900ACD0B1 /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E4529E3A6B900ACD0B1 /* Reservation.swift */; };
+		53F86E6C29E4551E00ACD0B1 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F86E6B29E4551E00ACD0B1 /* HomeTableViewCell.swift */; };
 		53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
 
@@ -224,6 +225,7 @@
 		53F86E4129E3A29D00ACD0B1 /* ReservationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationDataManager.swift; sourceTree = "<group>"; };
 		53F86E4329E3A2D100ACD0B1 /* ReservationNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationNetworkService.swift; sourceTree = "<group>"; };
 		53F86E4529E3A6B900ACD0B1 /* Reservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reservation.swift; sourceTree = "<group>"; };
+		53F86E6B29E4551E00ACD0B1 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		53FF2CF129B3CF1A005ABB3A /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -336,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				531B11112980E558000FAF02 /* HomeViewController.swift */,
+				53F86E6B29E4551E00ACD0B1 /* HomeTableViewCell.swift */,
 				5362F76529AA342C00DA5F44 /* MenuViewController.swift */,
 			);
 			path = HomeView;
@@ -618,6 +621,7 @@
 				5311864A29A7BBE8004088DD /* BookingController.swift in Sources */,
 				534DE59329BA57CC00C229BD /* RecordsDatabaseService.swift in Sources */,
 				534DE59D29BC6D0600C229BD /* TableBookingDataManager.swift in Sources */,
+				53F86E6C29E4551E00ACD0B1 /* HomeTableViewCell.swift in Sources */,
 				537B608629963F8200ACA883 /* Module.swift in Sources */,
 				5301EF1029BF028200567753 /* Event.swift in Sources */,
 				53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */,

@@ -6,12 +6,12 @@
 //
 
 import Foundation
+import UIKit
 
 class RecordsController {
     
     private let recordsDataManager = RecordsDataManager()
     private let fieldsController = FieldsDataManager()
-    
 }
 
 extension RecordsController: AddRecordContract {
@@ -125,12 +125,58 @@ extension RecordsController: RecordInfoContract {
     func deleteRecords(module: String, ids: [String], completion: @escaping (Bool) -> Void) -> Void {
         
         DispatchQueue.global().async {
-            self.recordsDataManager.deleteRecords(module: module, ids: ids) { data in
+            
+            if module == "Table_Reservations" {
                 
-                DispatchQueue.main.async {
-                    completion(data)
+                guard let id = ids.first else {
+                    print("no table id to delete reservations")
+                    return
+                }
+                
+                BookingController().getAssociatedReservationsFor(tableId: id) { [weak self] reservationIds in
+                    
+                    self?.recordsDataManager.deleteRecords(module: "Reservations",
+                                                           ids: reservationIds)
+                    { isSuccess in
+                        
+                        if !isSuccess {
+                            print("Delete reservations Failiure")
+                        } else {
+                            print("all deletion success")
+                            self?.recordsDataManager.deleteRecords(module: module, ids: ids) { data in
+                                
+                                DispatchQueue.main.async {
+                                    completion(data)
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+            
+                self.recordsDataManager.deleteRecords(module: module, ids: ids) { data in
+                    
+                    DispatchQueue.main.async {
+                        completion(data)
+                    }
                 }
             }
         }
+    }
+}
+
+extension RecordsController {
+    
+    func getRecordImage(module: String, recordId: String, completion: @escaping (UIImage?) -> Void) {
+        
+        DispatchQueue.global().async { [weak self] in
+            
+            self?.recordsDataManager.getRecordImage(module: module, recordId: recordId) { image in
+                DispatchQueue.main.async {
+                    completion(image)
+                }
+            }
+        }
+        
     }
 }

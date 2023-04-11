@@ -80,6 +80,7 @@ class HomeViewController: UIViewController {
     @objc private func resetDateButtonTapped() {
         
         datePicker.date = Date()
+        lastPickedDate = datePicker.date
         dateResetButton.isHidden = true
         getBookedTablesFor(date: datePicker.date)
     }
@@ -260,7 +261,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 cell.label.textAlignment = .center
                 cell.label.text = "No table Booked for this Day".localized()
-                
+                print(reservations.count)
             }
         } else {
             
@@ -302,15 +303,17 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
             }
         } else {
             
-            let eventId = events[indexPath.row].id
-            let recordInfoVc = RecordInfoTableViewController(recordModule: "Functions1", recordId: eventId, title: "Event Details")
-            recordInfoVc.modalPresentationStyle = .pageSheet
-            if let sheet = recordInfoVc.sheetPresentationController {
-                
-                sheet.prefersGrabberVisible = true
-                sheet.prefersEdgeAttachedInCompactHeight = true
+            if !events.isEmpty {
+                let eventId = events[indexPath.row].id
+                let recordInfoVc = RecordInfoTableViewController(recordModule: "Functions1", recordId: eventId, title: "Event Details")
+                recordInfoVc.modalPresentationStyle = .pageSheet
+                if let sheet = recordInfoVc.sheetPresentationController {
+                    
+                    sheet.prefersGrabberVisible = true
+                    sheet.prefersEdgeAttachedInCompactHeight = true
+                }
+                present(recordInfoVc, animated: true)
             }
-            present(recordInfoVc, animated: true)
         }
     }
 }

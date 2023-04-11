@@ -164,3 +164,28 @@ class TableBookingDataManager {
     }
     
 }
+
+extension TableBookingDataManager {
+    
+    func getAssociatedReservations(tableId: String, completion: @escaping ([String]) -> Void) -> Void {
+        
+        bookingNetworkService.getAssociatedRerservations(tableId: tableId) { data, error in
+            
+            var ids: [String] = []
+            if let data = data,
+               let data = data["data"] as? [[String: Any]] {
+                
+                data.forEach { reservations in
+                    guard let reservationId = reservations["id"] as? String else {
+                        
+                        print("Booking_Table.id not present")
+                        return
+                    }
+                    
+                    ids.append(reservationId)
+                }
+            }
+            completion(ids)
+        }
+    }
+}

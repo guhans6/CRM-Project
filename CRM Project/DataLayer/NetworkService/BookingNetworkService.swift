@@ -100,3 +100,21 @@ class BookingNetworkService {
 
     }
 }
+
+extension BookingNetworkService {
+    
+    func getAssociatedRerservations(tableId: String, completion: @escaping ([String: Any]?, Error?) -> Void) -> Void {
+        
+        let urlRequestString = "crm/v3/coql"
+        var query = "select  id from Reservations where Booking_Table.id = '\(tableId)'"
+        
+        let parameters = [
+            "select_query" : query
+        ]
+        
+        networkService.performNetworkCall(url: urlRequestString, method: .POST, urlComponents: nil, parameters: parameters, headers: nil) { data, error in
+            
+            completion(data, error)
+        }
+    }
+}
