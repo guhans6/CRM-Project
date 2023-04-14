@@ -15,7 +15,7 @@ class SplashViewController: UIViewController {
     private let mainTabBarController = UITabBarController()
     
     private let menuViewController = MenuViewController()
-    private let homeViewController = HomeViewController()
+    private let homeViewController = HomeViewController2()
     private let tableBookingViewController = TableBookingViewController()
     private let loginViewController = LoginViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
     

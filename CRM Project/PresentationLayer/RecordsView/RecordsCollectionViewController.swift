@@ -266,14 +266,10 @@ extension RecordsCollectionViewController: UICollectionViewDataSource {
             
             record = sortedRecords[sectionTitles[indexPath.section]]![indexPath.row]
         }
-        recordsController.getRecordImage(module: moduleApiName, recordId: record.recordId) { image in
-            if let recordImage = image {
-                cell.imageview.image = recordImage
-            }
+
+        if let recordImage = record.recordImage {
+            cell.imageview.image = recordImage
         }
-//        if let recordImage = record.recordImage {
-//            cell.imageview.image = recordImage
-//        }
         cell.name.text = record.recordName
         cell.secondaryLabel.text = record.secondaryRecordData
         return cell

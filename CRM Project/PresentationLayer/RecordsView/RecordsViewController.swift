@@ -78,7 +78,6 @@ class RecordsViewController: UIViewController {
         
         addChild(tableview)
         addChild(collectionView)
-
         
         // Add the table view as the initial child view controller:
         if currentView == .collectionView {
@@ -199,53 +198,53 @@ class RecordsViewController: UIViewController {
         }
     }
     
-    private func getRecords() {
-        
-        sectionTitles = []
-        sortedRecords = [:]
-        
-        if currentView == .tableView {
-            tableview.showLoadingIndicator()
-        } else {
-            collectionView.showLoadingIndicator()
-        }
-        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
-            
-//            self?.records = records
-//            if self?.isSearching == false {
-//                self?.filteredRecords = records
+//    private func getRecords() {
+//        
+//        sectionTitles = []
+//        sortedRecords = [:]
+//        
+//        if currentView == .tableView {
+//            tableview.showLoadingIndicator()
+//        } else {
+//            collectionView.showLoadingIndicator()
+//        }
+//        recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
+//            
+////            self?.records = records
+////            if self?.isSearching == false {
+////                self?.filteredRecords = records
+////            }
+//            self?.setUpRecordsInView(records: records)
+////            self?.collectionView.hideLoadingIndicator()
+////            self?.collectionView.reloadData()
+//
+//            if self?.currentView == .collectionView {
+//                self?.collectionView.stopLoadingIndicator()
+//            } else {
+//                self?.tableview.stopLoadingIndicator()
 //            }
-            self?.setUpRecordsInView(records: records)
-//            self?.collectionView.hideLoadingIndicator()
-//            self?.collectionView.reloadData()
-
-            if self?.currentView == .collectionView {
-                self?.collectionView.stopLoadingIndicator()
-            } else {
-                self?.tableview.stopLoadingIndicator()
-            }
-            if records.count == 0 {
-                
-                if self?.currentView == .collectionView {
-                    self?.collectionView.setEmptyView()
-                } else {
-                    self?.tableview.setEmptyView()
-                }
-               
-            } else {
+//            if records.count == 0 {
+//                
+//                if self?.currentView == .collectionView {
+//                    self?.collectionView.setEmptyView()
+//                } else {
+//                    self?.tableview.setEmptyView()
+//                }
+//               
+//            } else {
 //                self?.collectionView.restore()
-            }
-        }
-    }
+//            }
+//        }
+//    }
     
     private func setUpRecordsInView(records: [Record]) {
         
-        if currentView == .collectionView {
-            
-            collectionView.setRecords(records: records)
-        } else {
-            tableview.setRecords(records: records)
-        }
+//        if currentView == .collectionView {
+//            
+//            collectionView.setRecords(records: records)
+//        } else {
+//            tableview.setRecords(records: records)
+//        }
     }
 }
 

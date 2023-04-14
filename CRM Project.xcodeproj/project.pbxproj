@@ -89,6 +89,10 @@
 		53E9094529B11DAF00452748 /* FieldsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9093F29B11DAF00452748 /* FieldsDataManager.swift */; };
 		53E9094829B11DAF00452748 /* RecordsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53E9094229B11DAF00452748 /* RecordsDataManager.swift */; };
 		53EC9A48298261430056C300 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EC9A47298261430056C300 /* SplashViewController.swift */; };
+		53EDC0B829E9251700FE4603 /* HomeViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0B429E9251600FE4603 /* HomeViewController2.swift */; };
+		53EDC0B929E9251700FE4603 /* SegmentedStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0B529E9251600FE4603 /* SegmentedStackView.swift */; };
+		53EDC0BA29E9251700FE4603 /* DashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0B629E9251700FE4603 /* DashBoardView.swift */; };
+		53EDC0BB29E9251700FE4603 /* TableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0B729E9251700FE4603 /* TableCollectionViewCell.swift */; };
 		53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */; };
 		53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */; };
 		53EEAEFC29A5402D00403541 /* PickListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */; };
@@ -202,6 +206,10 @@
 		53E9093F29B11DAF00452748 /* FieldsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FieldsDataManager.swift; sourceTree = "<group>"; };
 		53E9094229B11DAF00452748 /* RecordsDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordsDataManager.swift; sourceTree = "<group>"; };
 		53EC9A47298261430056C300 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
+		53EDC0B429E9251600FE4603 /* HomeViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController2.swift; sourceTree = "<group>"; };
+		53EDC0B529E9251600FE4603 /* SegmentedStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedStackView.swift; sourceTree = "<group>"; };
+		53EDC0B629E9251700FE4603 /* DashBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardView.swift; sourceTree = "<group>"; };
+		53EDC0B729E9251700FE4603 /* TableCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCollectionViewCell.swift; sourceTree = "<group>"; };
 		53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiSelectTableViewController.swift; path = "CRM Project/PresentationLayer/MultiSelectTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTapRecognizer.swift; sourceTree = "<group>"; };
 		53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickListTableViewCell.swift; sourceTree = "<group>"; };
@@ -337,6 +345,7 @@
 		5362F76229AA33EE00DA5F44 /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				53EDC0B329E924F600FE4603 /* HomeView2.0 */,
 				531B11112980E558000FAF02 /* HomeViewController.swift */,
 				53F86E6B29E4551E00ACD0B1 /* HomeTableViewCell.swift */,
 				5362F76529AA342C00DA5F44 /* MenuViewController.swift */,
@@ -450,6 +459,17 @@
 				53F86E4129E3A29D00ACD0B1 /* ReservationDataManager.swift */,
 			);
 			path = DataManager;
+			sourceTree = "<group>";
+		};
+		53EDC0B329E924F600FE4603 /* HomeView2.0 */ = {
+			isa = PBXGroup;
+			children = (
+				53EDC0B629E9251700FE4603 /* DashBoardView.swift */,
+				53EDC0B429E9251600FE4603 /* HomeViewController2.swift */,
+				53EDC0B729E9251700FE4603 /* TableCollectionViewCell.swift */,
+				53EDC0B529E9251600FE4603 /* SegmentedStackView.swift */,
+			);
+			path = HomeView2.0;
 			sourceTree = "<group>";
 		};
 		53EEAEF329A4A7A700403541 /* MultiSelectTableView */ = {
@@ -630,6 +650,7 @@
 				53E9094429B11DAF00452748 /* ModulesDataManger.swift in Sources */,
 				5308481929D7156F00D08087 /* RecordsCollectionHeaderView.swift in Sources */,
 				5311864C29A884DF004088DD /* Table.swift in Sources */,
+				53EDC0B929E9251700FE4603 /* SegmentedStackView.swift in Sources */,
 				5308481B29D9B4D700D08087 /* RecordInfoHeaderView.swift in Sources */,
 				5301EF0329BE0F3300567753 /* RecordInfoDatabaseService.swift in Sources */,
 				53EF4A6929C97BB60077B977 /* NetworkControllerContract.swift in Sources */,
@@ -651,9 +672,11 @@
 				530847EB29D56CA000D08087 /* ImageViewExtension.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,
 				53F1EEB229AC6E3200C17723 /* DateTableViewCell.swift in Sources */,
+				53EDC0BA29E9251700FE4603 /* DashBoardView.swift in Sources */,
 				534DE59B29BAF8D200C229BD /* FieldsDatabaseService.swift in Sources */,
 				53F86E4629E3A6B900ACD0B1 /* Reservation.swift in Sources */,
 				537B60A62998B70100ACA883 /* IntegerTableViewCell.swift in Sources */,
+				53EDC0BB29E9251700FE4603 /* TableCollectionViewCell.swift in Sources */,
 				537B608029962C7E00ACA883 /* LabelTableViewCell.swift in Sources */,
 				531131C029A79452006124AA /* RelatedListNetworkService.swift in Sources */,
 				5308483D29DAB7CE00D08087 /* RecordsViewController.swift in Sources */,
@@ -674,6 +697,7 @@
 				5340DEE12982CD8C00ED51D1 /* LoginViewController.swift in Sources */,
 				5356AF0E29A32DDC00267943 /* RecordsNetworkService.swift in Sources */,
 				5362F76729AA342C00DA5F44 /* MenuViewController.swift in Sources */,
+				53EDC0B829E9251700FE4603 /* HomeViewController2.swift in Sources */,
 				53EF4A6B29C9909F0077B977 /* UserDetailControllerContract.swift in Sources */,
 				5311864429A796F1004088DD /* TableBookingViewController.swift in Sources */,
 				53D273222977D20F001718BD /* AppDelegate.swift in Sources */,

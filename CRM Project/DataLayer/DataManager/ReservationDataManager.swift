@@ -47,6 +47,7 @@ class ReservationDataManager {
                 
                 let bookingTime = event["Pick_List_1"] as? String
                 let bookingTable = event["Booking_Table.Name"] as? String
+                
                 reservations.append(Reservation(id: id, name: name, bookingTime: bookingTime, bookingTable: bookingTable))
 //                bookedEvents.append(Event(id: id, name: name, eventHall: hall, eventType: eventType))
             }

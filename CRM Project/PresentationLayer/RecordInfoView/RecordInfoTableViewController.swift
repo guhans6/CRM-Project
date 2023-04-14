@@ -98,7 +98,7 @@ class RecordInfoTableViewController: UITableViewController {
 
     private func configureNavigationBar() {
         
-        let editButtonImage = UIImage(systemName: "square.and.pencil")
+        let editButtonImage = UIImage(systemName: "pencil")
         
         let editButton = UIBarButtonItem(image: editButtonImage, style: .plain, target: self, action: #selector(editButtonTapped))
         let deleteButton = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped(_:)))
@@ -168,7 +168,12 @@ class RecordInfoTableViewController: UITableViewController {
         
         sender.isEnabled = false
         navigationController?.navigationItem.leftBarButtonItem?.isEnabled = false
-        let alertController = UIAlertController(title: "Are you sure want to delete this Record ?", message: nil, preferredStyle: .actionSheet)
+        var title = "Are you sure want to delete this Record ?"
+        if moduleApiName == "Table_Reservations" {
+            
+            title.append("\nDeleting this record also deletes associated reservations.")
+        }
+        let alertController = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
         
         alertController.addAction(UIAlertAction(title: "Delete",
                                                 style: .destructive, handler: { [weak self] _ in

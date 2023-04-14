@@ -60,12 +60,7 @@ class RecordsTableViewController: UIViewController {
         
 //        configureNavigationBar()
         configureRecordsTableView()
-        if isLookUp {
-            
-            getRecords()
-        } else {
-            reloadData()
-        }
+        getRecords()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -87,7 +82,6 @@ class RecordsTableViewController: UIViewController {
             isVCPushed = false
         }
         getRecords()
-        reloadData()
     }
     
     private func configureNavigationBar() {
@@ -170,6 +164,7 @@ class RecordsTableViewController: UIViewController {
                 self?.filteredRecords = records
             }
             self?.tableView.reloadData()
+            self?.tableView.refreshControl?.endRefreshing()
 
             if records.count == 0 {
 
@@ -180,39 +175,38 @@ class RecordsTableViewController: UIViewController {
             } else {
                 self?.tableView.restore()
             }
-            self?.tableView.refreshControl?.endRefreshing()
         }
     }
     
-    func showLoadingIndicator() {
-        
-        tableView.showLoadingIndicator()
-        isLoading = true
-    }
+//    func showLoadingIndicator() {
+//        
+//        tableView.showLoadingIndicator()
+//        isLoading = true
+//    }
+//    
+//    func stopLoadingIndicator() {
+//        
+//        tableView.hideLoadingIndicator()
+//        isLoading = false
+//    }
     
-    func stopLoadingIndicator() {
-        
-        tableView.hideLoadingIndicator()
-        isLoading = false
-    }
-    
-    func setRecords(records: [Record]) {
-        
-        self.records = records
-        if self.isSearching == false {
-            self.filteredRecords = records
-        }
-        if let tableView = tableView {
-            tableView.hideLoadingIndicator()
-        }
-        reloadData()
-    }
-    
-    func reloadData() {
-        if let tableView = tableView {
-            tableView.reloadData()
-        }
-    }
+//    func setRecords(records: [Record]) {
+//
+//        self.records = records
+//        if self.isSearching == false {
+//            self.filteredRecords = records
+//        }
+//        if let tableView = tableView {
+//            tableView.hideLoadingIndicator()
+//        }
+//        reloadData()
+//    }
+//
+//    func reloadData() {
+//        if let tableView = tableView {
+//            tableView.reloadData()
+//        }
+//    }
     
     func setEmptyView() {
         
@@ -258,10 +252,7 @@ extension RecordsTableViewController: UITableViewDataSource, UITableViewDelegate
             
             record = sortedRecords[sectionTitles[indexPath.section]]![indexPath.row]
         }
-        recordsController.getRecordImage(module: moduleApiName, recordId: record.recordId) { image in
-            cell.setImage(image)
-            print("downloaded")
-        }
+        cell.setImage(record.recordImage)
         cell.configureRecordCell(recordName: record.recordName,
                                  secondaryData: record.secondaryRecordData,
                                  recordImage: record.recordImage)

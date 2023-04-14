@@ -32,14 +32,15 @@ class UserDataManager {
                   let users = resultData["users"] as? [[String: Any]],
                   let id = users[0]["id"] as? String,
                   let fullName = users[0]["full_name"] as? String,
-                  let email = users[0]["email"] as? String
+                  let email = users[0]["email"] as? String,
+                  let firstName = users[0]["first_name"] as? String
             else {
                 
                 print("User Detail Data Error")
                 return
             }
             
-            let user = User(id: id,fullName: fullName, email: email)
+            let user = User(id: id,fullName: fullName, email: email, firstName: firstName)
             completion(user)
             self?.databaseService.saveUser(user: user)
         }

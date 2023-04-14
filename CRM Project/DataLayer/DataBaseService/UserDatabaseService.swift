@@ -14,6 +14,7 @@ class UserDatabaseService {
     private let userdIdColumn = "id"
     private let userFullName = "full_name"
     private let userEmail = "email"
+    private let userFirstName = "firstName"
     
     private let database = Database.shared
     
@@ -22,7 +23,8 @@ class UserDatabaseService {
         let columns = [
             userdIdColumn.appending("\(DatabaseService.text) \(DatabaseService.primaryKey)"),
             userFullName.appending(DatabaseService.text),
-            userEmail.appending(DatabaseService.text)
+            userEmail.appending(DatabaseService.text),
+            userFirstName.appending(DatabaseService.text)
         ]
         
         if database.createTable(tableName: usersTableName, columns: columns) == false {
@@ -38,6 +40,7 @@ class UserDatabaseService {
         userDictionary[userdIdColumn] = user.id
         userDictionary[userFullName] = user.fullName
         userDictionary[userEmail] = user.email
+        userDictionary[userFirstName] = user.firstName
         
         if Database.shared.insert(tableName: usersTableName, values: userDictionary) == false {
             print(Database.shared.errorMsg)
@@ -62,14 +65,15 @@ class UserDatabaseService {
         
         guard let userId = data[userdIdColumn] as? String,
               let userFullName = data[userFullName] as? String,
-              let userEmail = data[userEmail] as? String  else
+              let userEmail = data[userEmail] as? String,
+              let firstName = data[userFirstName] as? String  else
         {
             
             print("Error in User parsing")
             return nil
         }
         
-        let user = User(id: userId, fullName: userFullName, email: userEmail)
+        let user = User(id: userId, fullName: userFullName, email: userEmail, firstName: firstName)
         return user
     }
     

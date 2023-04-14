@@ -12,10 +12,13 @@ struct User {
     let id: String
     let fullName: String
     let email: String
+    let firstName: String
     
-    init(id: String, fullName: String, email: String) {
+    internal init(id: String, fullName: String, email: String, firstName: String) {
         self.id = id
         self.fullName = fullName
         self.email = email
+        self.firstName = firstName
     }
+    
 }

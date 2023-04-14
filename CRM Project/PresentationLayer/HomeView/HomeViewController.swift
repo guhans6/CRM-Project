@@ -13,7 +13,6 @@ class HomeViewController: UIViewController {
     private let dateResetButton = UIButton()
     private let activitiesTableView = UITableView(frame: .zero, style: .insetGrouped)
     private var lastPickedDate = Date()
-    private let mainTabBarController = UITabBarController()
     private var isLoading = true
     
     private var todayDate: String {
@@ -37,7 +36,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         title = "Home".localized()
-
         configureUI()
 //        getBookedTablesFor(date: lastPickedDate)
     }

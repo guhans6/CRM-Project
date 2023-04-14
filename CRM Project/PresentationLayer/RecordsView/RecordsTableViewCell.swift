@@ -52,13 +52,9 @@ class RecordsTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        if recordImageView.image != defaultImage {
-            
-        }
-        
+        recordImageView.image = defaultImage
         recordNameLabel.text = nil
         secondaryLabel.text = nil
-        recordImageView.image = defaultImage
     }
     
     private func configureImageView() {
