@@ -66,6 +66,7 @@ class TableCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(emailLabel)
 
         tableNameLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        tableNameLabel.text = ""
         tableNameLabel.textColor = .secondaryLabel
         tableNameLabel.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(tableNameLabel)

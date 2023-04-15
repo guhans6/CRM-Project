@@ -58,6 +58,12 @@ class HomeViewController2: UIViewController {
         segmentedView.resetSelectedView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        getDashBoardStats()
+        getBookedTablesFor(date: Date())
+        getEvents(date: Date())
+    }
+    
     private func configureUI() {
         
         navigationController?.navigationBar.isHidden = true
@@ -73,6 +79,7 @@ class HomeViewController2: UIViewController {
         configureEventsCollectionView()
         scrollView.contentSize = CGSize(width: view.bounds.width, height: collectionView.frame.maxY + 20)
         getBookedTablesFor(date: Date())
+        self.getEvents(date: Date())
     }
 
     
@@ -165,7 +172,7 @@ class HomeViewController2: UIViewController {
             self.setupDashBoard(option: .weekly, title: "Weekly", index: 1)
 
         }
-        let monthlyAction = UIAction(title: "Monthly", image: UIImage(named: "yearly")) { [weak self] _ in
+        let monthlyAction = UIAction(title: "Monthly", image: UIImage(named: "monthly")) { [weak self] _ in
             
             guard let self = self else { return }
             self.setupDashBoard(option: .monthly, title: "Monthly", index: 2)
@@ -327,23 +334,18 @@ extension HomeViewController2 {
         if reservations.isEmpty {
             collectionView.showLoadingIndicator()
         }
-//        isLoading = true
-        reservations = []
-        events = []
 
-        self.getEvents(date: date)
         reservationController.getReservationsFor(date: date) { [weak self] reservations in
             
             self?.reservations = reservations
             self?.filteredReservations = reservations
-//            self?.collectionView.hideLoadingIndicator()
+            self?.collectionView.reloadData()
             if self?.reservations.count ?? 0 > 0 {
 
                 self?.collectionView.hideLoadingIndicator()
             } else {
                 self?.setEmptyViewForReservations()
             }
-            self?.collectionView.reloadData()
         }
     }
     
@@ -366,7 +368,6 @@ extension HomeViewController2 {
                                    image: UIImage(named: "noEvent"))
             }
             self?.eventsCollectionView.reloadData()
-            self?.eventsCollectionView.refreshControl?.endRefreshing()
             self?.scrollView.refreshControl?.endRefreshing()
         }
     }
@@ -404,16 +405,17 @@ extension HomeViewController2: UICollectionViewDataSource, UICollectionViewDeleg
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TableCollectionViewCell", for: indexPath) as! TableCollectionViewCell
         
-        
         if collectionView.tag == 1 {
             let reservationDetail = filteredReservations[indexPath.row]
             cell.imageView.image = img
             cell.nameLabel.text = reservationDetail.name
-            cell.tableNameLabel.text = reservationDetail.bookingTable
+            cell.tableNameLabel.text = reservationDetail.bookingTable != nil ? reservationDetail.bookingTime : " "
         } else {
+            
+            let eventDetail = events[indexPath.row]
             cell.imageView.image = UIImage(named: "Events")
-            cell.nameLabel.text = "Booked by: John Doe"
-            cell.tableNameLabel.text = "Table 1"
+            cell.nameLabel.text = eventDetail.name
+            cell.tableNameLabel.text = eventDetail.eventType != nil ? eventDetail.eventType : " "
         }
         
         return cell

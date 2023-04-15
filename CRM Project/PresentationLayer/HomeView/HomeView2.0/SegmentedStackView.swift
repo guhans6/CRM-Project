@@ -100,11 +100,11 @@ class SegmentedStackView: UIStackView {
         
         UIView.animate(withDuration: 0.3) {
             self.selectionView.frame = self.selectedLabel!.frame
-            self.delegate?.didSelect(index: selectedLabel.tag)
 //            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.1) {
 //                self.selectedLabel!.textColor = .systemBackground
 //            }
         }
+        self.delegate?.didSelect(index: selectedLabel.tag)
     }
 
     func setUp() {

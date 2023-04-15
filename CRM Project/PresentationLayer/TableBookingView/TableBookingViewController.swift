@@ -41,7 +41,7 @@ class TableBookingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Book Table"
+        title = "Reserve Table"
         navigationController?.navigationBar.prefersLargeTitles = true
         configureUI()
     }
@@ -128,7 +128,7 @@ class TableBookingViewController: UIViewController {
         tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: datePickerView.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: datePickerView.bottomAnchor, constant: 20),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -170,15 +170,16 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let count = self.tables[section].count
+        let count = self.tables[0].count
+        let count2 = self.tables[1].count
         
-        if count == 0 {
+        if count == 0 && count2 == 0 {
             self.tableView.setEmptyView(title: "No Tables Available", message: "")
         } else {
             self.tableView.restore()
         }
         
-        return count
+        return tables[section].count
     }
     
     func tableView(_ tableView: UITableView,
@@ -254,10 +255,10 @@ extension TableBookingViewController {
     
     private func showReservationDetails(indexPath: IndexPath) {
         
-        let table = tables[0][indexPath.row]
         
         if indexPath.section == 0 {
             
+            let table = tables[0][indexPath.row]
             var record = [(String, Any)]()
             
             let dateFormat = "dd-MM-yyyy"
@@ -279,6 +280,7 @@ extension TableBookingViewController {
             
         } else if indexPath.section == 1 {
 
+            let table = tables[1][indexPath.row]
             let reservationId = reservationIds[indexPath.row]
             let recordInfoVC = RecordInfoTableViewController(recordModule: "Reservations",
                                                              recordId: reservationId)

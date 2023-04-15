@@ -115,7 +115,7 @@ class SplashViewController: UIViewController {
         mainTabBarController.tabBar.items?[0].image = UIImage(systemName: "house")
         mainTabBarController.tabBar.items?[0].title = "Home"
         mainTabBarController.tabBar.items?[1].image = UIImage(systemName: "fork.knife.circle")
-        mainTabBarController.tabBar.items?[1].title = "Book Table"
+        mainTabBarController.tabBar.items?[1].title = "Reserve Table"
         mainTabBarController.tabBar.items?[2].image = UIImage(systemName: "list.bullet")
         mainTabBarController.tabBar.items?[2].title = "Modules"
         mainTabBarController.tabBar.items?[3].image = UIImage(systemName: "gearshape")
