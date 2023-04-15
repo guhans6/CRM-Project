@@ -65,7 +65,7 @@ class RecordsNetworkService {
                 return
             } else {
                 
-                print(resultData)
+                print(resultData as Any)
                 isSaved(false)
                 return
             }

@@ -62,9 +62,7 @@ class RecordsDataManager {
                 recordsArray.append(convertedRecord)
             }
             
-            DispatchQueue.main.async {
-                completion(recordsArray)
-            }
+            completion(recordsArray)
         }
     }
     
@@ -105,17 +103,9 @@ class RecordsDataManager {
                     return
                 }
                 
-                var recordImage: UIImage?
-                self?.recordsNetworkService.getRecordImage(module: module,
-                                                           id: recordId,
-                                                           completion: { resultImage in
-                    
-                    recordImage = resultImage
-                })
-                
                 let record = Record(recordName: recordName,
                                     secondaryRecordData: secondaryData,
-                                    recordId: recordId, recordImage: recordImage)
+                                    recordId: recordId, recordImage: nil)
                 
                 recordsArray.append(record)
                 self?.recordsDatabaseService.saveRecordInDatabase(record: record,

@@ -152,8 +152,6 @@ class RecordsTableViewController: UIViewController {
     
     private func getRecords() {
 
-        sectionTitles = []
-        sortedRecords = [:]
         if !filteredRecords.isEmpty {
             tableView.showLoadingIndicator()
         }

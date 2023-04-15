@@ -97,6 +97,8 @@
 		53EDC0BF29E9B00F00FE4603 /* DashBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0BE29E9B00F00FE4603 /* DashBoardController.swift */; };
 		53EDC0C129E9B0DB00FE4603 /* DashBoardNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0C029E9B0DB00FE4603 /* DashBoardNetworkService.swift */; };
 		53EDC0C329E9DCAD00FE4603 /* DashBoardDetailOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0C229E9DCAD00FE4603 /* DashBoardDetailOption.swift */; };
+		53EDC0C529EA83CD00FE4603 /* ImageDownloadController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0C429EA83CD00FE4603 /* ImageDownloadController.swift */; };
+		53EDC0C729EA859A00FE4603 /* ImageDownloadNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0C629EA859A00FE4603 /* ImageDownloadNetworkService.swift */; };
 		53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */; };
 		53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */; };
 		53EEAEFC29A5402D00403541 /* PickListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */; };
@@ -218,6 +220,8 @@
 		53EDC0BE29E9B00F00FE4603 /* DashBoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardController.swift; sourceTree = "<group>"; };
 		53EDC0C029E9B0DB00FE4603 /* DashBoardNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardNetworkService.swift; sourceTree = "<group>"; };
 		53EDC0C229E9DCAD00FE4603 /* DashBoardDetailOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardDetailOption.swift; sourceTree = "<group>"; };
+		53EDC0C429EA83CD00FE4603 /* ImageDownloadController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadController.swift; sourceTree = "<group>"; };
+		53EDC0C629EA859A00FE4603 /* ImageDownloadNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadNetworkService.swift; sourceTree = "<group>"; };
 		53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiSelectTableViewController.swift; path = "CRM Project/PresentationLayer/MultiSelectTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTapRecognizer.swift; sourceTree = "<group>"; };
 		53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickListTableViewCell.swift; sourceTree = "<group>"; };
@@ -338,6 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				5356AF1429A3382100267943 /* ModulesNetworkService.swift */,
+				53EDC0C629EA859A00FE4603 /* ImageDownloadNetworkService.swift */,
 				53EDC0C029E9B0DB00FE4603 /* DashBoardNetworkService.swift */,
 				5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */,
 				5356AF1629A3393800267943 /* UserNetworkService.swift */,
@@ -445,6 +450,7 @@
 				5301EF0929BEFC2600567753 /* EventBookingController.swift */,
 				53F86E3F29E3A20700ACD0B1 /* ReservationController.swift */,
 				53EDC0BE29E9B00F00FE4603 /* DashBoardController.swift */,
+				53EDC0C429EA83CD00FE4603 /* ImageDownloadController.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -682,7 +688,9 @@
 				53EC9A48298261430056C300 /* SplashViewController.swift in Sources */,
 				5301EF0E29BEFEC500567753 /* EventDataManager.swift in Sources */,
 				53FF2CF229B3CF1A005ABB3A /* NetworkMonitor.swift in Sources */,
+				53EDC0C729EA859A00FE4603 /* ImageDownloadNetworkService.swift in Sources */,
 				537B60A82998B70100ACA883 /* StringTableViewCell.swift in Sources */,
+				53EDC0C529EA83CD00FE4603 /* ImageDownloadController.swift in Sources */,
 				534DE57B29B5B02A00C229BD /* ModulesDatabaseService.swift in Sources */,
 				530847EB29D56CA000D08087 /* ImageViewExtension.swift in Sources */,
 				537B608D299674E700ACA883 /* RecordsTableViewCell.swift in Sources */,

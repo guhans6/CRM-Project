@@ -249,6 +249,11 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         showReservationDetails(indexPath: indexPath)
     }
     
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 100
+    }
+    
 }
 
 extension TableBookingViewController {
@@ -280,7 +285,6 @@ extension TableBookingViewController {
             
         } else if indexPath.section == 1 {
 
-            let table = tables[1][indexPath.row]
             let reservationId = reservationIds[indexPath.row]
             let recordInfoVC = RecordInfoTableViewController(recordModule: "Reservations",
                                                              recordId: reservationId)
@@ -295,6 +299,7 @@ extension TableBookingViewController {
             present(recordInfoVC, animated: true)
         }
     }
+  
 }
 
 extension TableBookingViewController: PickerViewDelegate {
