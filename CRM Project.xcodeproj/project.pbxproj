@@ -93,6 +93,10 @@
 		53EDC0B929E9251700FE4603 /* SegmentedStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0B529E9251600FE4603 /* SegmentedStackView.swift */; };
 		53EDC0BA29E9251700FE4603 /* DashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0B629E9251700FE4603 /* DashBoardView.swift */; };
 		53EDC0BB29E9251700FE4603 /* TableCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0B729E9251700FE4603 /* TableCollectionViewCell.swift */; };
+		53EDC0BD29E9AEED00FE4603 /* DashBoardSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0BC29E9AEED00FE4603 /* DashBoardSupplementaryView.swift */; };
+		53EDC0BF29E9B00F00FE4603 /* DashBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0BE29E9B00F00FE4603 /* DashBoardController.swift */; };
+		53EDC0C129E9B0DB00FE4603 /* DashBoardNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0C029E9B0DB00FE4603 /* DashBoardNetworkService.swift */; };
+		53EDC0C329E9DCAD00FE4603 /* DashBoardDetailOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDC0C229E9DCAD00FE4603 /* DashBoardDetailOption.swift */; };
 		53EEAEF529A4A7C900403541 /* MultiSelectTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */; };
 		53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */; };
 		53EEAEFC29A5402D00403541 /* PickListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */; };
@@ -210,6 +214,10 @@
 		53EDC0B529E9251600FE4603 /* SegmentedStackView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedStackView.swift; sourceTree = "<group>"; };
 		53EDC0B629E9251700FE4603 /* DashBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DashBoardView.swift; sourceTree = "<group>"; };
 		53EDC0B729E9251700FE4603 /* TableCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableCollectionViewCell.swift; sourceTree = "<group>"; };
+		53EDC0BC29E9AEED00FE4603 /* DashBoardSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardSupplementaryView.swift; sourceTree = "<group>"; };
+		53EDC0BE29E9B00F00FE4603 /* DashBoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardController.swift; sourceTree = "<group>"; };
+		53EDC0C029E9B0DB00FE4603 /* DashBoardNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardNetworkService.swift; sourceTree = "<group>"; };
+		53EDC0C229E9DCAD00FE4603 /* DashBoardDetailOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardDetailOption.swift; sourceTree = "<group>"; };
 		53EEAEF429A4A7C900403541 /* MultiSelectTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MultiSelectTableViewController.swift; path = "CRM Project/PresentationLayer/MultiSelectTableViewController.swift"; sourceTree = SOURCE_ROOT; };
 		53EEAEF929A513F400403541 /* CustomTapRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTapRecognizer.swift; sourceTree = "<group>"; };
 		53EEAEFB29A5402D00403541 /* PickListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickListTableViewCell.swift; sourceTree = "<group>"; };
@@ -330,6 +338,7 @@
 			isa = PBXGroup;
 			children = (
 				5356AF1429A3382100267943 /* ModulesNetworkService.swift */,
+				53EDC0C029E9B0DB00FE4603 /* DashBoardNetworkService.swift */,
 				5356AF0D29A32DDC00267943 /* RecordsNetworkService.swift */,
 				5356AF1629A3393800267943 /* UserNetworkService.swift */,
 				5356AF1829A3397100267943 /* FieldsNetworkService.swift */,
@@ -435,6 +444,7 @@
 				5311864929A7BBE8004088DD /* BookingController.swift */,
 				5301EF0929BEFC2600567753 /* EventBookingController.swift */,
 				53F86E3F29E3A20700ACD0B1 /* ReservationController.swift */,
+				53EDC0BE29E9B00F00FE4603 /* DashBoardController.swift */,
 			);
 			path = UseCase;
 			sourceTree = "<group>";
@@ -465,6 +475,7 @@
 			isa = PBXGroup;
 			children = (
 				53EDC0B629E9251700FE4603 /* DashBoardView.swift */,
+				53EDC0BC29E9AEED00FE4603 /* DashBoardSupplementaryView.swift */,
 				53EDC0B429E9251600FE4603 /* HomeViewController2.swift */,
 				53EDC0B729E9251700FE4603 /* TableCollectionViewCell.swift */,
 				53EDC0B529E9251600FE4603 /* SegmentedStackView.swift */,
@@ -524,6 +535,7 @@
 				5301EF0F29BF028200567753 /* Event.swift */,
 				53F86E4529E3A6B900ACD0B1 /* Reservation.swift */,
 				53F1EE8A29AB0BE900C17723 /* User.swift */,
+				53EDC0C229E9DCAD00FE4603 /* DashBoardDetailOption.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -634,6 +646,7 @@
 				531B11122980E558000FAF02 /* HomeViewController.swift in Sources */,
 				5311864229A796AE004088DD /* DateAndTimeHeaderView.swift in Sources */,
 				5308481529D70D5200D08087 /* RecordCollectionViewCell.swift in Sources */,
+				53EDC0BF29E9B00F00FE4603 /* DashBoardController.swift in Sources */,
 				53EF7B0F29928D0B000B1FA1 /* Field.swift in Sources */,
 				53A696DE297C6D310029F92E /* Network.swift in Sources */,
 				5318F5D7297AB81E00AF76DC /* NetworkController.swift in Sources */,
@@ -646,6 +659,7 @@
 				5301EF1029BF028200567753 /* Event.swift in Sources */,
 				53EEAEFA29A513F400403541 /* CustomTapRecognizer.swift in Sources */,
 				5356AF1729A3393800267943 /* UserNetworkService.swift in Sources */,
+				53EDC0C129E9B0DB00FE4603 /* DashBoardNetworkService.swift in Sources */,
 				53EF7B0229921E0C000B1FA1 /* FormTextField.swift in Sources */,
 				53E9094429B11DAF00452748 /* ModulesDataManger.swift in Sources */,
 				5308481929D7156F00D08087 /* RecordsCollectionHeaderView.swift in Sources */,
@@ -654,6 +668,7 @@
 				5308481B29D9B4D700D08087 /* RecordInfoHeaderView.swift in Sources */,
 				5301EF0329BE0F3300567753 /* RecordInfoDatabaseService.swift in Sources */,
 				53EF4A6929C97BB60077B977 /* NetworkControllerContract.swift in Sources */,
+				53EDC0BD29E9AEED00FE4603 /* DashBoardSupplementaryView.swift in Sources */,
 				53F86E4229E3A29D00ACD0B1 /* ReservationDataManager.swift in Sources */,
 				53EF4A9129C9C3840077B977 /* FieldsContract.swift in Sources */,
 				531BBB4B29DD6A7B00C81BC2 /* DatabaseController.swift in Sources */,
@@ -687,6 +702,7 @@
 				537B60A52998B70100ACA883 /* BooleanTableViewCell.swift in Sources */,
 				5356AF1029A332B800267943 /* NetworkService.swift in Sources */,
 				537B607E29962C3B00ACA883 /* ModulesTableViewController.swift in Sources */,
+				53EDC0C329E9DCAD00FE4603 /* DashBoardDetailOption.swift in Sources */,
 				5356AF1229A3362C00267943 /* KeychainService.swift in Sources */,
 				53E9094529B11DAF00452748 /* FieldsDataManager.swift in Sources */,
 				53EF7B0129921E0C000B1FA1 /* FormTableViewCell.swift in Sources */,

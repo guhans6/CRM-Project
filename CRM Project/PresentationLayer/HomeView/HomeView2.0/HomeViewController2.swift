@@ -15,24 +15,28 @@ class HomeViewController2: UIViewController {
     private let reservationLabel = UILabel()
     private let eventLabel = UILabel()
     
-    private let dashBoardView = DashBoardView()
-    
-    private let mealTimes = ["All", "Breakfast", "Lunch", "Dinner"]
-    private lazy var segmentedControl = UISegmentedControl(items: mealTimes)
     private let segmentedView = SegmentedStackView()
+    private let dashBoardView = DashBoardView()
+    private var dashboardStats = [(String, String)](repeating: ("", ""), count: 4)
+    private var lastPickedStats: DashBoardDetailOption = .weekly
     
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let eventsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     private let img = UIImage(named: "Table")
-    
     private let scrollView = UIScrollView()
     
+    private var isFirstTime = true
+    private var isEmptyViewActive = false
+    
     private var reservations = [Reservation]()
+    private var filteredReservations = [Reservation]()
     private var reservationIds = [String]()
     private var events = [Event]()
     private let bookingController = BookingController()
     private let reservationController = ReservationController()
     private let eventBookingController = EventBookingController()
+    private let userController: UserDetailControllerContract = UserDetailController()
+    private let dashBoardController = DashBoardController()
     
     deinit {
         print("Login deinitialized")
@@ -57,17 +61,18 @@ class HomeViewController2: UIViewController {
     private func configureUI() {
         
         navigationController?.navigationBar.isHidden = true
+        getCurrentUser()
         configureScrollView()
         configureTitleLabel()
         configureDashBoardView()
+        getDashBoardStats()
         configureReservationLabel()
-        configureSegmentedControl()
+        configureSegmentView()
         configureCollectionView()
         configureEventLabel()
         configureEventsCollectionView()
         scrollView.contentSize = CGSize(width: view.bounds.width, height: collectionView.frame.maxY + 20)
         getBookedTablesFor(date: Date())
-        
     }
 
     
@@ -77,6 +82,8 @@ class HomeViewController2: UIViewController {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.delegate = self
+        scrollView.refreshControl = UIRefreshControl()
+        scrollView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         
         // Set up constraints to position and size the scroll view and its contents
         NSLayoutConstraint.activate([
@@ -87,6 +94,11 @@ class HomeViewController2: UIViewController {
         ])
     }
     
+    @objc private func didPullToRefresh() {
+        
+        getBookedTablesFor(date: Date())
+        getDashBoardStats()
+    }
     
     private func configureTitleLabel() {
         
@@ -104,6 +116,15 @@ class HomeViewController2: UIViewController {
         ])
     }
     
+    private func getCurrentUser() {
+        
+        userController.getUserDetails { [weak self] currentUser in
+            if self?.titleLabel.text == "Hello " {
+                self?.titleLabel.text?.append(currentUser?.firstName ?? "")
+            }
+        }
+    }
+    
     private func configureDashBoardView() {
         
         scrollView.addSubview(dashBoardView)
@@ -111,6 +132,8 @@ class HomeViewController2: UIViewController {
         dashBoardView.backgroundColor = .systemGray6
         dashBoardView.layer.cornerRadius = 10.0
         dashBoardView.translatesAutoresizingMaskIntoConstraints = false
+        dashBoardView.dropdownButton.menu = getMenu()
+        dashBoardView.dropdownButton.showsMenuAsPrimaryAction = true
         
         NSLayoutConstraint.activate([
             dashBoardView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10),
@@ -120,6 +143,66 @@ class HomeViewController2: UIViewController {
             dashBoardView.heightAnchor.constraint(equalToConstant: 200),
 //            dashBoardView.widthAnchor.constraint(equalTo: view.widthAnchor, constant: -10)
         ])
+    }
+
+    private func getMenu() -> UIMenu {
+        
+        let todayAction = UIAction(title: "Today", image: UIImage(systemName: "calendar")) { [weak self] _ in
+            
+            guard let self = self else { return }
+            self.lastPickedStats = .today
+            self.dashBoardView.setStats(stats: self.dashboardStats[0])
+            self.dashBoardView.dropdownButton.setTitle("Today", for: .normal)
+            let reservationCount = String(self.reservations.count)
+            let eventsCount = String(self.events.count)
+            self.dashboardStats[0] = ((reservationCount, eventsCount))
+            self.dashBoardView.setStats(stats: self.dashboardStats[0])
+        }
+        
+        let weeklyAction = UIAction(title: "Weekly", image: UIImage(named: "weekly")) { [weak self] _ in
+            
+            guard let self = self else { return }
+            self.setupDashBoard(option: .weekly, title: "Weekly", index: 1)
+
+        }
+        let monthlyAction = UIAction(title: "Monthly", image: UIImage(named: "yearly")) { [weak self] _ in
+            
+            guard let self = self else { return }
+            self.setupDashBoard(option: .monthly, title: "Monthly", index: 2)
+
+        }
+        
+        let yearlyAction = UIAction(title: "Yearly", image: UIImage(named: "yearly")) { [weak self] _ in
+            
+            guard let self = self else { return }
+            self.setupDashBoard(option: .yearly, title: "Yearly", index: 3)
+
+        }
+        
+        let menu = UIMenu(title: "", children: [todayAction, weeklyAction, monthlyAction, yearlyAction])
+ 
+        return menu
+    }
+    
+    private func setupDashBoard(option: DashBoardDetailOption, title: String, index: Int) {
+        
+        self.lastPickedStats = option
+        self.dashBoardView.dropdownButton.setTitle(title, for: .normal)
+        self.dashBoardView.setStats(stats: self.dashboardStats[index])
+        
+        self.dashBoardController.getStats(for: option) { [weak self] count in
+            
+            self?.dashboardStats[index] = count
+            self?.dashBoardView.setStats(stats: count)
+        }
+    }
+    
+    private func getDashBoardStats() {
+        
+        dashBoardController.getStats(for: lastPickedStats) { [weak self] count in
+            
+            self?.dashBoardView.setStats(stats: count)
+        }
     }
     
     private func configureReservationLabel() {
@@ -138,9 +221,10 @@ class HomeViewController2: UIViewController {
         ])
     }
     
-    private func configureSegmentedControl() {
+    private func configureSegmentView() {
         
         scrollView.addSubview(segmentedView)
+        segmentedView.delegate = self
         // Set up constraints to position and size the stack view
         segmentedView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -149,20 +233,6 @@ class HomeViewController2: UIViewController {
             segmentedView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10),
             segmentedView.heightAnchor.constraint(equalToConstant: 44),
         ])
-//        scrollView.addSubview(segmentedControl)
-//        // Set up constraints to position and size the stack view
-//        segmentedControl.translatesAutoresizingMaskIntoConstraints = false
-//        segmentedControl.selectedSegmentIndex = 0
-//        NSLayoutConstraint.activate([
-//            segmentedControl.topAnchor.constraint(equalTo: reservationLabel.bottomAnchor, constant: 20),
-//            segmentedControl.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 18),
-//            segmentedControl.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -10),
-//            segmentedControl.heightAnchor.constraint(equalToConstant: 44),
-//        ])
-//        let font = UIFont.systemFont(ofSize: 17, weight: .medium)
-//        segmentedControl.layer.cornerRadius = 8
-//        segmentedControl.setTitleTextAttributes([NSAttributedString.Key.font: font], for: .selected)
-//        segmentedControl.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
     }
     
     private func configureCollectionView() {
@@ -256,47 +326,56 @@ extension HomeViewController2 {
         
         if reservations.isEmpty {
             collectionView.showLoadingIndicator()
-            eventsCollectionView.showLoadingIndicator()
         }
 //        isLoading = true
         reservations = []
         events = []
 
-        
-        reservationController.getReservationsFor(date: date) {[weak self] reservations in
+        self.getEvents(date: date)
+        reservationController.getReservationsFor(date: date) { [weak self] reservations in
             
             self?.reservations = reservations
+            self?.filteredReservations = reservations
 //            self?.collectionView.hideLoadingIndicator()
-            self?.collectionView.reloadData()
-            self?.getEvents(date: date)
             if self?.reservations.count ?? 0 > 0 {
 
                 self?.collectionView.hideLoadingIndicator()
             } else {
-                self?.collectionView.setEmptyView(title: "No tables booked for this day",
-                                            message: "",
-                                            image: UIImage(named: "noReservation"))
+                self?.setEmptyViewForReservations()
             }
+            self?.collectionView.reloadData()
         }
     }
     
     private func getEvents(date: Date) {
         
+        if events.isEmpty {
+            eventsCollectionView.showLoadingIndicator()
+        }
+        
         eventBookingController.getEventsFor(date: date) { [weak self] events in
             
             self?.events = events
-            self?.collectionView.reloadData()
             if events.count > 0 {
                 
                 self?.eventsCollectionView.hideLoadingIndicator()
             } else {
                 
                 self?.eventsCollectionView.setEmptyView(title: "No events booked for this day",
-                                            message: "",
-                                            image: UIImage(named: "noEvent"))
+                                   message: "",
+                                   image: UIImage(named: "noEvent"))
             }
+            self?.eventsCollectionView.reloadData()
             self?.eventsCollectionView.refreshControl?.endRefreshing()
+            self?.scrollView.refreshControl?.endRefreshing()
         }
+    }
+    
+    private func setEmptyViewForReservations() {
+        
+        collectionView.setEmptyView(title: "No tables booked for this day",
+                                                         message: "",
+                                                         image: UIImage(named: "noReservation"))
     }
 }
 
@@ -304,9 +383,9 @@ extension HomeViewController2: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.y < -50 {
-            scrollView.contentOffset = CGPointMake(0, -50) // this is to disable tableview bouncing at top.
-        }
+//        if scrollView.contentOffset.y < -100 {
+//            scrollView.contentOffset = CGPointMake(0, -100) // this is to disable tableview bouncing at top.
+//        }
       }
 }
 
@@ -314,7 +393,11 @@ extension HomeViewController2: UICollectionViewDataSource, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return reservations.count
+        if collectionView.tag == 1 {
+            return filteredReservations.count
+        } else {
+            return events.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -323,7 +406,7 @@ extension HomeViewController2: UICollectionViewDataSource, UICollectionViewDeleg
         
         
         if collectionView.tag == 1 {
-            let reservationDetail = reservations[indexPath.row]
+            let reservationDetail = filteredReservations[indexPath.row]
             cell.imageView.image = img
             cell.nameLabel.text = reservationDetail.name
             cell.tableNameLabel.text = reservationDetail.bookingTable
@@ -363,5 +446,42 @@ extension HomeViewController2: UICollectionViewDataSource, UICollectionViewDeleg
                 present(recordInfoVc, animated: true)
             }
         }
+    }
+}
+
+extension HomeViewController2: SegemetedStackViewDelegate {
+    
+    func didSelect(index: Int) {
+        
+        switch index {
+        case 0:
+            filteredReservations = reservations
+        case 1:
+            filteredReservations = reservations.filter({ reservartion in
+                reservartion.bookingTime == "Breakfast" ? true : false
+            })
+        case 2:
+            filteredReservations = reservations.filter({ reservartion in
+                reservartion.bookingTime == "Meals" ? true : false
+            })
+        case 3:
+            filteredReservations = reservations.filter({ reservartion in
+                reservartion.bookingTime == "Lunch" ? true : false
+            })
+        default:
+            print("This should not be called")
+        }
+        if filteredReservations.isEmpty {
+            
+            if isFirstTime {
+                isFirstTime = false
+            } else if isEmptyViewActive == false {
+                isEmptyViewActive = true
+                setEmptyViewForReservations()
+            }
+        } else {
+            isEmptyViewActive = false
+        }
+        collectionView.reloadData()
     }
 }

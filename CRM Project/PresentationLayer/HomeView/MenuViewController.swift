@@ -113,20 +113,6 @@ class MenuViewController: UIViewController {
             emailLabel.trailingAnchor.constraint(lessThanOrEqualTo: headerView.safeAreaLayoutGuide.trailingAnchor),
             emailLabel.bottomAnchor.constraint(equalTo: headerView.bottomAnchor, constant: -3)
         ])
-        
-        logutButton.translatesAutoresizingMaskIntoConstraints = false
-        logutButton.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
-        logutButton.setImage(UIImage(systemName: "power"), for: .normal)
-        logutButton.configuration = .borderless()
-        headerView.addSubview(logutButton)
-        
-        NSLayoutConstraint.activate([
-            logutButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor),
-            logutButton.trailingAnchor.constraint(equalTo: headerView.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            logutButton.widthAnchor.constraint(equalToConstant: 50),
-            logutButton.heightAnchor.constraint(equalToConstant: 50)
-            
-        ])
     }
     
     private func configureTableView() {

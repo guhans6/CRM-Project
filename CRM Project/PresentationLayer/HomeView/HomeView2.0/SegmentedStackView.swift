@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol SegemetedStackViewDelegate: AnyObject {
+    
+    func didSelect(index: Int) -> Void
+}
+
 class SegmentedStackView: UIStackView {
     
     let allLabel = UILabel()
@@ -18,20 +23,7 @@ class SegmentedStackView: UIStackView {
     }
     var selectedLabel: UILabel?
     let selectionView = UIView()
-    var isFirst = true
-    
-    var lastFrame: CGRect?
-    
-    var data: [String]? {
-        didSet {
-            // Update the labels with the new data
-            guard let data = data else { return }
-            allLabel.text = "All (\(data.count))"
-            breakfastLabel.text = "Breakfast (\(data.filter({ $0 == "Breakfast" }).count))"
-            lunchLabel.text = "Lunch (\(data.filter({ $0 == "Lunch" }).count))"
-            dinnerLabel.text = "Dinner (\(data.filter({ $0 == "Dinner" }).count))"
-        }
-    }
+    weak var delegate: SegemetedStackViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,14 +50,14 @@ class SegmentedStackView: UIStackView {
         lunchLabel.text = "Lunch"
         dinnerLabel.text = "Dinner"
         
-        selectionView.backgroundColor = .systemPink
+        selectionView.backgroundColor = UIColor(named: "segment")
         selectionView.layer.cornerRadius = 12
         selectionView.layer.masksToBounds = true
         addSubview(selectionView)
         bringSubviewToFront(selectionView)
         selectionView.frame = frame
         
-        
+        var count = 0
         for label in labels {
             label.isUserInteractionEnabled = true
             label.textAlignment = .center
@@ -75,6 +67,8 @@ class SegmentedStackView: UIStackView {
             label.minimumScaleFactor = 0.5
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(labelTapped(_:)))
             label.addGestureRecognizer(tapGesture)
+            label.tag = count
+            count += 1
         }
         addArrangedSubview(allLabel)
         addArrangedSubview(breakfastLabel)
@@ -84,7 +78,7 @@ class SegmentedStackView: UIStackView {
         selectedLabel = allLabel
         
         allLabel.textColor = .systemBackground
-        allLabel.backgroundColor = .systemYellow
+        allLabel.backgroundColor = UIColor(named: "segment")
         allLabel.layer.cornerRadius = 12
         allLabel.layer.masksToBounds = true
         
@@ -106,7 +100,7 @@ class SegmentedStackView: UIStackView {
         
         UIView.animate(withDuration: 0.3) {
             self.selectionView.frame = self.selectedLabel!.frame
-            self.lastFrame = self.selectedLabel!.frame
+            self.delegate?.didSelect(index: selectedLabel.tag)
 //            DispatchQueue.main.asyncAfter(wallDeadline: .now() + 0.1) {
 //                self.selectedLabel!.textColor = .systemBackground
 //            }

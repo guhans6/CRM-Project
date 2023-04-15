@@ -10,9 +10,9 @@ import UIKit
 class DashBoardView: UIView {
     
     private let headingLabel = UILabel()
+    var dropdownButton = UIButton()
     private let belowView = DashBoardSuplementaryView()
     private let eventDashboardView = DashBoardSuplementaryView()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,6 +27,7 @@ class DashBoardView: UIView {
     private func setUp() {
         
         setHeading()
+        setFilterView()
         
         // Create a horizontal stack view
         let stackView = UIStackView()
@@ -62,7 +63,7 @@ class DashBoardView: UIView {
         
         headingLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        headingLabel.text = "Stats"
+        headingLabel.text = "Summary"
         let fontMetrics = UIFontMetrics(forTextStyle: .largeTitle)
         headingLabel.font = fontMetrics.scaledFont(for: .systemFont(ofSize: 25, weight: .semibold))
         headingLabel.textColor = .label
@@ -72,6 +73,37 @@ class DashBoardView: UIView {
             headingLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             headingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
         ])
+    }
+    
+    private func setFilterView() {
+        
+        var configuration = UIButton.Configuration.borderless()
+        configuration.image = UIImage(systemName: "chevron.down")
+        configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        configuration.titlePadding = 10
+        configuration.imagePadding = 10
+        configuration.attributedTitle = AttributedString("Weekly", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.label]))
+
+        dropdownButton = UIButton(configuration: configuration)
+                                                              
+        dropdownButton.translatesAutoresizingMaskIntoConstraints = false
+        dropdownButton.setTitleColor(.label, for: .normal)
+        dropdownButton.tintColor = .background
+        dropdownButton.semanticContentAttribute = .forceRightToLeft
+        dropdownButton.backgroundColor = UIColor(named: "segment")
+        dropdownButton.layer.cornerRadius = 10
+
+        addSubview(dropdownButton)
+        
+        // Set up the dropdown button constraints
+        NSLayoutConstraint.activate([
+            dropdownButton.topAnchor.constraint(equalTo: headingLabel.topAnchor),
+//            dropdownButton.bottomAnchor.constraint(equalTo: headingLabel.bottomAnchor),
+            dropdownButton.centerYAnchor.constraint(equalTo: headingLabel.centerYAnchor),
+            dropdownButton.trailingAnchor.constraint(equalTo: headingLabel.trailingAnchor, constant: -8),
+            dropdownButton.widthAnchor.constraint(equalToConstant: 120)
+        ])
+        
     }
     
     private func setBelowView() {
@@ -102,94 +134,10 @@ class DashBoardView: UIView {
         ])
     }
     
-}
-
-class DashBoardSuplementaryView: UIView {
-    
-    private let iconView = UIImageView()
-    private let countLabel = UILabel()
-    private let subLabel = UILabel()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    func setStats(stats: (String, String)) {
         
-        configureView()
+        belowView.setupCountLabel(stats.0)
+        eventDashboardView.setupCountLabel(stats.1)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func configureView() {
-        
-        backgroundColor = UIColor(named: "Background")
-        layer.cornerRadius = 10
-        
-        setupIconView()
-        configureMainLabel()
-        configureSubLabel()
-    }
-    
-    private func setupIconView() {
-        
-        addSubview(iconView)
-        iconView.image = UIImage(systemName: "square.and.arrow.up")
-        iconView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            iconView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            iconView.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            iconView.heightAnchor.constraint(equalToConstant: 30),
-            iconView.widthAnchor.constraint(equalToConstant: 30)
-        ])
-    }
-    
-    private func configureMainLabel() {
-        
-        countLabel.text = "30"
-        countLabel.textColor = .label
-        countLabel.font = .preferredFont(forTextStyle: .headline)
-        countLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(countLabel)
-        
-        NSLayoutConstraint.activate([
-            countLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
-            countLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20)
-            
-        ])
-    }
-    
-    private func configureSubLabel() {
-        
-        addSubview(subLabel)
-        
-        subLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        subLabel.text = "tables booked"
-        subLabel.textColor = .secondaryLabel
-        subLabel.font = .systemFont(ofSize: 15, weight: .semibold)
-        subLabel.textAlignment = .center
-        
-        NSLayoutConstraint.activate([
-            subLabel.topAnchor.constraint(equalTo: iconView.bottomAnchor, constant: 23),
-            subLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10)
-//            subLabel.centerXAnchor.constraint(equalTo: centerXAnchor)
-        ])
-    }
-    
-    func setupIconImage(_ image: UIImage?) {
-        
-        iconView.image = image
-    }
-    
-    func setupCountLabel(_ mainLabelText: String) {
-        
-        countLabel.text = mainLabelText
-    }
-    
-    func setSubLabel(_ text: String) {
-        
-        subLabel.text = text
-    }
 }

@@ -20,7 +20,9 @@ class UserDefaultsManager {
     private var isFirstTime = true
     private var isGridViewPicked = true
     
-    private init() { }
+    private init() {
+        saveLastPickedView()
+    }
     
     func isUserLoggedIn() -> Bool {
         
