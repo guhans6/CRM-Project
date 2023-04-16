@@ -43,7 +43,10 @@ class ModulesDataManager {
                     print("Error in converting module to struct")
                     return
                 }
-                customModules.append(convertedModule)
+                
+                if convertedModule.apiName != "Form_Test" {
+                    customModules.append(convertedModule)
+                }
             }
             
             completion(customModules)
@@ -63,14 +66,16 @@ class ModulesDataManager {
                 }
                 
                 // Only need custom modules
-                if generatedType == "custom" {
+                if generatedType == "custom"  {
                     
                     guard let convertedModule = self?.convertToModule(module: module) else {
                         print("Error in converting module to struct")
                         return
                     }
                     
-                    customModules.append(convertedModule)
+                    if convertedModule.apiName != "Form_Test" {
+                        customModules.append(convertedModule)
+                    }
                     self?.databaseService.insertModuleInTable(module: convertedModule)
                 }
             }

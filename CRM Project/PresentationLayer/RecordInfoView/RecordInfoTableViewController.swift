@@ -125,6 +125,9 @@ class RecordInfoTableViewController: UITableViewController {
     
     @objc private func editButtonTapped() {
         
+        if let recordModule = recordModule {
+            formVc = FormTableViewController(module: recordModule)
+        }
         guard let formVc = formVc else {
             print("No formVC this should not happen")
             return
@@ -166,6 +169,9 @@ class RecordInfoTableViewController: UITableViewController {
     
     @objc private func deleteButtonTapped(_ sender: UIBarButtonItem) {
         
+        self.navigationController?.navigationItem.rightBarButtonItems?.forEach({ button in
+            button.isEnabled = false
+        })
         sender.isEnabled = false
         navigationController?.navigationItem.leftBarButtonItem?.isEnabled = false
         var title = "Are you sure want to delete this Record ?"
@@ -186,17 +192,23 @@ class RecordInfoTableViewController: UITableViewController {
             self.recordsController.deleteRecords(module: self.moduleApiName,
                                                  ids: [self.recordId]) { [weak self] result in
                 
+                print("is deleted", result)
                 self?.navigationController?.popViewController(animated: true)
                 sender.isEnabled = true
                 self?.navigationController?.navigationItem.leftBarButtonItem?.isEnabled = true
-//                self.dismiss(animated: true, completion: nil)
+                self?.navigationController?.navigationItem.rightBarButtonItems?.forEach({ button in
+                    button.isEnabled = true
+                })
             }
         }))
         
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { _ in
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] _ in
             
-            self.navigationController?.navigationItem.leftBarButtonItem?.isEnabled = true
+            self?.navigationController?.navigationItem.leftBarButtonItem?.isEnabled = true
             sender.isEnabled = true
+            self?.navigationController?.navigationItem.rightBarButtonItems?.forEach({ button in
+                button.isEnabled = true
+            })
         }))
         
         if let popoverController = alertController.popoverPresentationController {

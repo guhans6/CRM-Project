@@ -136,15 +136,15 @@ class RecordsViewController: UIViewController {
         
         navigationItem.rightBarButtonItems = [barButton, addButton]
         
-        searchController.searchBar.delegate = self
-        searchController.delegate = self
-        navigationItem.searchController = searchController
-//        searchController.searchBar.isHidden = true
-//        tableview.reloadData()
-//        collectionView.reloadData()
-        navigationItem.hidesSearchBarWhenScrolling = false
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.searchController.searchBar.delegate = self
+            self?.searchController.delegate = self
+            self?.navigationItem.searchController = self?.searchController
+            self?.searchController.searchBar.autocapitalizationType = .none
+//            navigationItem.hidesSearchBarWhenScrolling = false
+        }
 
-        searchController.searchBar.autocapitalizationType = .none
     }
     
     @objc private func sortButtonTapped() {

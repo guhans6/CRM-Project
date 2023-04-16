@@ -25,6 +25,14 @@ class HomeViewController2: UIViewController {
     private let img = UIImage(named: "Table")
     private let scrollView = UIScrollView()
     
+    private enum bookedTime {
+        case all
+        case breakfast
+        case lunch
+        case dinner
+    }
+    private var lastPickedTime: bookedTime = .all
+    
     private var isFirstTime = true
     private var isEmptyViewActive = false
     
@@ -37,6 +45,7 @@ class HomeViewController2: UIViewController {
     private let eventBookingController = EventBookingController()
     private let userController: UserDetailControllerContract = UserDetailController()
     private let dashBoardController = DashBoardController()
+    private let imageController = ImageDownloadController()
     
     deinit {
         print("Login deinitialized")
@@ -51,7 +60,6 @@ class HomeViewController2: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        segmentedView.setUp()
     }
     
     override func viewDidLayoutSubviews() {
@@ -77,7 +85,7 @@ class HomeViewController2: UIViewController {
         configureCollectionView()
         configureEventLabel()
         configureEventsCollectionView()
-        scrollView.contentSize = CGSize(width: view.bounds.width, height: collectionView.frame.maxY + 20)
+//        scrollView.contentSize = CGSize(width: view.bounds.width, height: collectionView.frame.maxY + 20)
         getBookedTablesFor(date: Date())
         self.getEvents(date: Date())
     }
@@ -271,7 +279,6 @@ class HomeViewController2: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: segmentedView.bottomAnchor),
             collectionView.heightAnchor.constraint(equalToConstant: 250),
-//            collectionView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             collectionView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
@@ -331,6 +338,7 @@ extension HomeViewController2 {
     
     private func getBookedTablesFor(date: Date) {
         
+        collectionView.backgroundView = nil
         if reservations.isEmpty {
             collectionView.showLoadingIndicator()
         }
@@ -340,17 +348,19 @@ extension HomeViewController2 {
             self?.reservations = reservations
             self?.filteredReservations = reservations
             self?.collectionView.reloadData()
-            if self?.reservations.count ?? 0 > 0 {
+            if self?.filteredReservations.count ?? 0 > 0 {
 
                 self?.collectionView.hideLoadingIndicator()
             } else {
-                self?.setEmptyViewForReservations()
+                self?.setEmptyViewForReservations(message: "this day")
             }
+            self?.scrollView.refreshControl?.endRefreshing()
         }
     }
     
     private func getEvents(date: Date) {
         
+        eventsCollectionView.backgroundView = nil
         if events.isEmpty {
             eventsCollectionView.showLoadingIndicator()
         }
@@ -368,13 +378,12 @@ extension HomeViewController2 {
                                    image: UIImage(named: "noEvent"))
             }
             self?.eventsCollectionView.reloadData()
-            self?.scrollView.refreshControl?.endRefreshing()
         }
     }
     
-    private func setEmptyViewForReservations() {
+    private func setEmptyViewForReservations(message: String) {
         
-        collectionView.setEmptyView(title: "No tables booked for this day",
+        collectionView.setEmptyView(title: "No tables booked for \(message)",
                                                          message: "",
                                                          image: UIImage(named: "noReservation"))
     }
@@ -384,9 +393,6 @@ extension HomeViewController2: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-//        if scrollView.contentOffset.y < -100 {
-//            scrollView.contentOffset = CGPointMake(0, -100) // this is to disable tableview bouncing at top.
-//        }
       }
 }
 
@@ -410,12 +416,28 @@ extension HomeViewController2: UICollectionViewDataSource, UICollectionViewDeleg
             cell.imageView.image = img
             cell.nameLabel.text = reservationDetail.name
             cell.tableNameLabel.text = reservationDetail.bookingTable != nil ? reservationDetail.bookingTime : " "
+            
+            imageController.downloadImage(for: reservationDetail.id, module: "Reservations") { image in
+//                if reservationDetail.name == "A" {
+//
+//                }
+                if let image = image {
+                    cell.imageView.image = image
+                }
+            }
         } else {
             
             let eventDetail = events[indexPath.row]
             cell.imageView.image = UIImage(named: "Events")
             cell.nameLabel.text = eventDetail.name
             cell.tableNameLabel.text = eventDetail.eventType != nil ? eventDetail.eventType : " "
+            
+            imageController.downloadImage(for: eventDetail.id, module: "Functions") { image in
+                if let image = image {
+                    
+                    cell.imageView.image = image
+                }
+            }
         }
         
         return cell
@@ -455,6 +477,8 @@ extension HomeViewController2: SegemetedStackViewDelegate {
     
     func didSelect(index: Int) {
         
+        var message = "this day."
+//        collectionView.backgroundView = nil
         switch index {
         case 0:
             filteredReservations = reservations
@@ -462,14 +486,17 @@ extension HomeViewController2: SegemetedStackViewDelegate {
             filteredReservations = reservations.filter({ reservartion in
                 reservartion.bookingTime == "Breakfast" ? true : false
             })
+            message = "breakfast."
         case 2:
             filteredReservations = reservations.filter({ reservartion in
                 reservartion.bookingTime == "Meals" ? true : false
             })
+            message = "lunch."
         case 3:
             filteredReservations = reservations.filter({ reservartion in
                 reservartion.bookingTime == "Lunch" ? true : false
             })
+            message = "dinner."
         default:
             print("This should not be called")
         }
@@ -479,7 +506,7 @@ extension HomeViewController2: SegemetedStackViewDelegate {
                 isFirstTime = false
             } else if isEmptyViewActive == false {
                 isEmptyViewActive = true
-                setEmptyViewForReservations()
+                setEmptyViewForReservations(message: message)
             }
         } else {
             isEmptyViewActive = false

@@ -60,7 +60,7 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         
 //        configureNavigationBar()
         configureCollectionView()
-        reloadData()
+//        reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -74,7 +74,7 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         }
 //        navigationController?.navigationBar.prefersLargeTitles = true
         getRecords()
-        reloadData()
+//        reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -157,28 +157,6 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         getRecords()
     }
     
-    func showLoadingIndicator() {
-        
-        collectionView.showLoadingIndicator()
-    }
-    
-    func stopLoadingIndicator() {
-        
-        collectionView.hideLoadingIndicator()
-    }
-    
-    func setRecords(records: [Record]) {
-        
-        self.records = records
-        if self.isSearching == false {
-            self.filteredRecords = records
-        }
-        if let collectionView = collectionView {
-            collectionView.hideLoadingIndicator()
-        }
-        reloadData()
-    }
-    
     func reloadData() {
         if let collectionView = collectionView {
             collectionView.reloadData()
@@ -204,30 +182,34 @@ extension RecordsCollectionViewController {
     
     private func getRecords() {
 
-        sectionTitles = []
-        sortedRecords = [:]
-        if !filteredRecords.isEmpty {
+        var isFromDB = true
+        if filteredRecords.isEmpty {
             collectionView.showLoadingIndicator()
         }
         recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
 
+            
             self?.records = records
             if self?.isSearching == false {
                 self?.filteredRecords = records
             }
             self?.collectionView.reloadData()
 
-            if records.count == 0 {
+            if self?.records.count ?? 0 > 0 {
 
-                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
-                self?.collectionView.setEmptyView(title: title,
-                                             message: "Add a new record",
-                                             image: UIImage(named: "records"))
+                self?.collectionView.hideLoadingIndicator()
+
             } else {
-                self?.collectionView.restore()
+                if isFromDB == false {
+                    let title = "No \(self?.module?.moduleSingularName ?? "") record found"
+                    self?.collectionView.setEmptyView(title: title,
+                                                      message: "Add a new record",
+                                                      image: UIImage(named: "records"))
+                }
             }
+            isFromDB = false
+            self?.collectionView.refreshControl?.endRefreshing()
         }
-        self.collectionView.refreshControl?.endRefreshing()
     }
 }
 

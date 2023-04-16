@@ -97,7 +97,6 @@ class FormTableViewCell: UITableViewCell {
     @objc private func textFieldValueChanged() {
         
         let textFieldData = getFieldData(for: fieldType)
-        print(textFieldData)
         delegate?.textFieldData(data: textFieldData.0, isValid: textFieldData.1, index: index)
     }
     
@@ -199,11 +198,14 @@ extension FormTableViewCell {
     
     func configureIsCellEditable(_ isEditable: Bool) {
         
-        if !isEditable {
-            alpha = 0.5
-        }
+//        if !isEditable {
+//            alpha = 0.5
+//        }
         isUserInteractionEnabled = isEditable
-//            formTextField.isEnabled = isEditable
+        formTextField.isEnabled = isEditable
+        if !isEditable {
+            formTextField.textColor = .placeholderText
+        }
 //            label.isEnabled = isEditable
 //            switchButton.isEnabled = isEditable
             

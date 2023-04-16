@@ -11,6 +11,7 @@ import UIKit
 class RecordsTableViewController: UIViewController {
     
     private let recordsController: RecordsContract = RecordsController()
+    private let imageController: ImageDownloadController  = ImageDownloadController()
     private var formViewController: FormTableViewController!
     private let searchController = UISearchController()
     private let refreshControl = UIRefreshControl()
@@ -58,17 +59,15 @@ class RecordsTableViewController: UIViewController {
         title = module?.modulePluralName ?? moduleApiName
         view.backgroundColor = .systemGray6
         
-//        configureNavigationBar()
+        if isLookUp {
+            configureNavigationBar()
+        }
         configureRecordsTableView()
-        getRecords()
+//        getRecords()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-//        searchController.searchBar.delegate = self
-//        searchController.delegate = self
-//        navigationItem.searchController = searchController
-//        
-//        searchController.searchBar.autocapitalizationType = .none
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,6 +88,13 @@ class RecordsTableViewController: UIViewController {
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewRecordButtonTapped))
         let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
         navigationItem.rightBarButtonItems = [addButton, sortButton]
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.searchController.searchBar.delegate = self
+            self?.searchController.delegate = self
+            self?.navigationItem.searchController = self?.searchController
+            self?.searchController.searchBar.autocapitalizationType = .none
+        }
         
     }
     
@@ -135,6 +141,7 @@ class RecordsTableViewController: UIViewController {
         tableView.refreshControl = refreshControl
         tableView.refreshControl?.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         tableView.register(RecordsTableViewCell.self, forCellReuseIdentifier: RecordsTableViewCell.recordCellIdentifier)
+        tableView.backgroundView = nil
         
         view.addSubview(tableView)
 
@@ -152,7 +159,9 @@ class RecordsTableViewController: UIViewController {
     
     private func getRecords() {
 
-        if !filteredRecords.isEmpty {
+        var isFromDB = true
+        tableView.backgroundView = nil
+        if filteredRecords.isEmpty{
             tableView.showLoadingIndicator()
         }
         recordsController.getAllRecordsFor(module: moduleApiName) { [weak self] records in
@@ -161,59 +170,25 @@ class RecordsTableViewController: UIViewController {
             if self?.isSearching == false {
                 self?.filteredRecords = records
             }
+            
             self?.tableView.reloadData()
-            self?.tableView.refreshControl?.endRefreshing()
 
-            if records.count == 0 {
-
-                let title = "No \(self?.module?.moduleSingularName ?? "") record found"
-                self?.tableView.setEmptyView(title: title,
-                                             message: "Add a new record",
-                                             image: UIImage(named: "records"))
+            if self?.records.count ?? 0 > 0 {
+                
+                self?.tableView.hideLoadingIndicator()
             } else {
-                self?.tableView.restore()
+                
+                if isFromDB == false {
+                    let title = "No \(self?.module?.moduleSingularName ?? "") record found"
+                    self?.tableView.setEmptyView(title: title,
+                                                 message: "Add a new record",
+                                                 image: UIImage(named: "records"))
+                }
             }
+            isFromDB = false
+            self?.tableView.refreshControl?.endRefreshing()
         }
     }
-    
-//    func showLoadingIndicator() {
-//        
-//        tableView.showLoadingIndicator()
-//        isLoading = true
-//    }
-//    
-//    func stopLoadingIndicator() {
-//        
-//        tableView.hideLoadingIndicator()
-//        isLoading = false
-//    }
-    
-//    func setRecords(records: [Record]) {
-//
-//        self.records = records
-//        if self.isSearching == false {
-//            self.filteredRecords = records
-//        }
-//        if let tableView = tableView {
-//            tableView.hideLoadingIndicator()
-//        }
-//        reloadData()
-//    }
-//
-//    func reloadData() {
-//        if let tableView = tableView {
-//            tableView.reloadData()
-//        }
-//    }
-    
-    func setEmptyView() {
-        
-        let title = "No \(module?.moduleSingularName ?? "") record found"
-        tableView.setEmptyView(title: title,
-                                     message: "Add a new record",
-                                     image: UIImage(named: "records"))
-    }
-    
 }
 
 extension RecordsTableViewController: UITableViewDataSource, UITableViewDelegate {
@@ -242,6 +217,7 @@ extension RecordsTableViewController: UITableViewDataSource, UITableViewDelegate
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RecordsTableViewCell.recordCellIdentifier) as! RecordsTableViewCell
         
+        cell.tag = indexPath.row
         let record: Record!
         if !isFiltered || isSearching {
             
@@ -250,7 +226,6 @@ extension RecordsTableViewController: UITableViewDataSource, UITableViewDelegate
             
             record = sortedRecords[sectionTitles[indexPath.section]]![indexPath.row]
         }
-        cell.setImage(record.recordImage)
         cell.configureRecordCell(recordName: record.recordName,
                                  secondaryData: record.secondaryRecordData,
                                  recordImage: record.recordImage)
@@ -297,7 +272,6 @@ extension RecordsTableViewController: UISearchBarDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        filteredRecords = []
         if searchText == "" {
             
             tableView.restore()
@@ -327,6 +301,7 @@ extension RecordsTableViewController: UISearchBarDelegate {
                                    image: UIImage(named: "search"),
                                    shouldImageAnimate: true)
         }
+        
         tableView.reloadData()
     }
     
@@ -356,6 +331,7 @@ extension RecordsTableViewController: UISearchControllerDelegate {
         isSearching = false
         tableView.restore()
         filteredRecords = records
+        
         tableView.reloadData()
     }
 }
@@ -371,11 +347,13 @@ extension RecordsTableViewController: PickerViewDelegate {
                 
                 self?.sectionTitles  = sectionTitles
                 self?.sortedRecords = sectionData
+                
                 tableView.reloadData()
             }
         } else {
             
             isFiltered = false
+            
             tableView.reloadData()
         }
     }

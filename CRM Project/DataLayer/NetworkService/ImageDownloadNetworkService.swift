@@ -12,7 +12,7 @@ class ImageDownloadNetworkService {
     
     private let recordNetworkService = RecordsNetworkService()
     
-    func getImageFor(module: String, id: String, completion: @escaping (UIImage?) -> Void) -> Void {
+    func downloadImage(module: String, id: String, completion: @escaping (UIImage?) -> Void) -> Void {
         
         recordNetworkService.getRecordImage(module: module, id: id) { image in
             completion(image)

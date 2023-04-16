@@ -44,7 +44,10 @@ class RecordsDatabaseService {
         recordDictionary[recordNameColumn] = record.recordName
         recordDictionary[secondaryDataColumn] = record.secondaryRecordData
         recordDictionary[recordModule] = moduleApiName
-        recordDictionary[recordImage] = record.recordImage?.pngData()
+        
+        if let image = record.recordImage {
+            recordDictionary[recordImage] = image.pngData()
+        }
         
         if database.insert(tableName: recordsTableName, values: recordDictionary) == false {
             
@@ -64,7 +67,7 @@ class RecordsDatabaseService {
                 print("Record DB fetch error \(errMsg ?? "")")
                 return
             }
-            completion(result)
+             completion(result)
         }
     }
     
@@ -78,6 +81,8 @@ class RecordsDatabaseService {
             if database.delete(tableName: recordsTableName,
                                        whereClause: whereClause, whereArgs: whereArgs) == false {
                 print(Database.shared.errorMsg)
+            } else {
+                print("record delete Success")
             }
         }
     }

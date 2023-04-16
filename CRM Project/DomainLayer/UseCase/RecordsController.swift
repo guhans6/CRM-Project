@@ -12,6 +12,7 @@ class RecordsController {
     
     private let recordsDataManager = RecordsDataManager()
     private let fieldsController = FieldsDataManager()
+    private lazy var bookingController = BookingController()
 }
 
 extension RecordsController: AddRecordContract {
@@ -133,7 +134,7 @@ extension RecordsController: RecordInfoContract {
                     return
                 }
                 
-                BookingController().getAssociatedReservationsFor(tableId: id) { [weak self] reservationIds in
+                self.bookingController.getAssociatedReservationsFor(tableId: id) { [weak self] reservationIds in
                     
                     self?.recordsDataManager.deleteRecords(module: "Reservations",
                                                            ids: reservationIds)

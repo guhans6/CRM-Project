@@ -137,9 +137,10 @@ class RecordsTableViewCell: UITableViewCell {
     func configureRecordCell(recordName: String, secondaryData: String, recordImage: UIImage?) {
         
         self.recordNameLabel.text = recordName
-//        if let recordImage = recordImage {
-//            recordImageView.image = recordImage
-//        }
+        if let recordImage = recordImage {
+            
+            recordImageView.image = recordImage
+        }
         
         if secondaryData != "" {
             

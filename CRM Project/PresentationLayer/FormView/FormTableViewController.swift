@@ -24,7 +24,6 @@ class FormTableViewController: UITableViewController {
     private var module: Module?
     private var moduleName: String?
     private var fieldData = [Any]()
-    private lazy var recordImage: UIImage? = nil
     var recordsToBeSaved: [(isValid: Bool, data: Any?)?]!
     
     private var recordState: RecordState = .add
@@ -42,6 +41,7 @@ class FormTableViewController: UITableViewController {
     
     weak var delegate: FormTableViewDelegate?
     
+    private lazy var recordImage: UIImage? = nil
     private var selectedImageCell: ImageTableViewCell?
     
     init(module: Module) {
@@ -282,13 +282,16 @@ extension FormTableViewController {
             
         case "profileimage":
             
-            cell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.identifier) as! ImageTableViewCell
+            let imageCell = tableView.dequeueReusableCell(withIdentifier: ImageTableViewCell.identifier) as! ImageTableViewCell
             
-            
-            let tapGesture = LookupTapGestureRecognizer(target: self,
-                                                    action: #selector(didTapImageView(sender:)))
-            cell.recordImageView.addGestureRecognizer(tapGesture)
-            
+            cell = imageCell
+
+            if let recordImage = recordImage {
+                cell.recordImageView.image = recordImage
+                recordsToBeSaved[indexPath.row] = (true, recordImage)
+            }
+            imageCell.hiddenButton.menu = getMenu(cell: imageCell)
+            imageCell.hiddenButton.showsMenuAsPrimaryAction = true
         default:
             
             cell = tableView.dequeueReusableCell(withIdentifier: StringTableViewCell.stringCellIdentifier) as! StringTableViewCell
@@ -313,6 +316,73 @@ extension FormTableViewController {
 
         let cell = getCellFor(indexPath: indexPath)
         
+//        if recordState == .edit || recordState == .editAndUserInteractionDisabled {
+//
+//            for record in editableRecords {
+//
+////                print(field., record.0)
+//                if field.displayLabel == record.0
+//                    || field.apiName == record.0
+//                    || field.fieldLabel == record.0 {
+//
+//                    var shouldEnableUserInteracion = true
+//                    if recordState == .editAndUserInteractionDisabled {
+//                        shouldEnableUserInteracion = false
+//                    }
+//
+//                    if field.dataType == "lookup" {
+//
+//                        if let lookupData = record.1 as? [String] {
+//                            recordsToBeSaved[indexPath.row] = (true, ["id", lookupData[0]])
+//                        }
+//                    }
+//                    else if field.dataType == "multiselectpicklist" {
+//
+//                        if let data = record.1 as? String {
+//
+//                            let dataArray = data.components(separatedBy: ",")
+//                            recordsToBeSaved[indexPath.row] = (true, dataArray)
+//                        }
+//                    }
+//                    else {
+//                        recordsToBeSaved[indexPath.row] = (true, record.1)
+//                    }
+//                    cell.setRecordData(for: record.1, isEditable: shouldEnableUserInteracion)
+//                    break
+//                }
+//            }
+//        }
+        cell.backgroundColor = .systemGray6
+        cell.delegate = self
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        let cell = cell as! FormTableViewCell
+        let field = fields[indexPath.row]
+        
+//        if let cellRecord = recordsToBeSaved[indexPath.row]?.1 {
+//
+//            var isEditable = true
+//            if recordState == .editAndUserInteractionDisabled {
+//                isEditable = false
+//            }
+
+//            if field.dataType == "lookup" {
+//
+//                for record in editableRecords {
+//
+//                    if let data = record.1 as? [String] {
+//
+//                        cell.setRecordData(for: data, isEditable: isEditable)
+//                    }
+//                }
+//            } else {
+//                cell.setRecordData(for: cellRecord, isEditable: isEditable)
+//            }
+//            print(recordsToBeSaved)
+//        }
         if recordState == .edit || recordState == .editAndUserInteractionDisabled {
             
             for record in editableRecords {
@@ -348,37 +418,6 @@ extension FormTableViewController {
                     break
                 }
             }
-        }
-        cell.backgroundColor = .systemGray6
-        cell.delegate = self
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        
-        let cell = cell as! FormTableViewCell
-        let field = fields[indexPath.row]
-        
-        if let cellRecord = recordsToBeSaved[indexPath.row]?.1 {
-            
-            var isEditable = true
-            if recordState == .editAndUserInteractionDisabled {
-                isEditable = false
-            }
-            print(cellRecord, indexPath.row)
-            if field.dataType == "lookup" {
-                
-                for record in editableRecords {
-                    
-                    if let data = record.1 as? [String] {
-                        
-                        cell.setRecordData(for: data, isEditable: isEditable)
-                    }
-                }
-            } else {
-                cell.setRecordData(for: cellRecord, isEditable: isEditable)
-            }
-//            print(recordsToBeSaved)
         }
     }
     
@@ -508,23 +547,6 @@ extension FormTableViewController {
                     }
                     multiSelectVc.setSelectedItems(selectedIndex)
                 }
-                
-//                if !editableRecords.isEmpty {
-//                    if let cellData = editableRecords[row - 1].1 as? String {
-//                        var selectedIndex: [Int] = []
-//                        let selectedValues = cellData.components(separatedBy: ",")
-//
-//                        for index in 0 ..< pickListValues.count {
-//                            for selectedValue in selectedValues {
-//                                if pickListValues[index].displayValue == selectedValue {
-//                                    selectedIndex.append(index)
-//                                }
-//                            }
-//                        }
-//                        multiSelectVc.setSelectedItems(selectedIndex)
-//                    }
-//                }
-                
                 navigationController?.pushViewController(multiSelectVc, animated: true)
             }
         }
@@ -534,18 +556,55 @@ extension FormTableViewController {
 
 extension FormTableViewController {
     
-    @objc private func didTapImageView(sender: LookupTapGestureRecognizer) {
+    @objc private func didTapImageView(sender: ImageTableViewCell) {
         
-        guard let cell = sender.view?.superview?.superview as? ImageTableViewCell else {
-            return
-        }
+//        guard let cell = sender.view?.superview?.superview as? ImageTableViewCell else {
+//            return
+//        }
         
-        selectedImageCell = cell
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         present(imagePicker, animated: true)
+    }
+    
+    private func getMenu(cell: ImageTableViewCell) -> UIMenu? {
+        
+        selectedImageCell = cell
+        
+        guard let selectedImageCell = selectedImageCell else {
+            print("no selected cell")
+            return nil
+        }
+        
+        let selectAction =  UIAction(title: "Select from Photo Library",
+                                     image: UIImage(systemName: "photo.on.rectangle.angled"))
+        { [weak self] action in
+            self?.didTapImageView(sender: cell)
+        }
+        
+        var menu =  UIMenu(title: "Select an option", children: [
+            selectAction,
+        ])
+        
+        if !cell.isDefualtImage() {
+            let removeAction = UIAction(title: "Remove Image",
+                                        image: UIImage(systemName: "trash"),
+                                        attributes: .destructive)
+            { [weak self] action in
+                
+                self?.recordsToBeSaved.remove(at: selectedImageCell.index)
+                selectedImageCell.removeImage()
+            }
+            
+            menu =  UIMenu(title: "Select an option", children: [
+                selectAction,
+                removeAction
+            ])
+        }
+        
+        return menu
     }
 }
 
@@ -612,9 +671,9 @@ extension FormTableViewController {
         self.recordState = recordState
         self.editableRecords = recordData
         self.editingRecordId = recordId
-//        if let recordImage = recordImage {
-//            editableRecords.append(("Record_Image", recordImage))
-//        }
+        if let recordImage = recordImage {
+            self.recordImage = recordImage
+        }
         self.tableView.reloadData()
     }
 }

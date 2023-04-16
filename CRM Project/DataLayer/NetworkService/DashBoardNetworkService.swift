@@ -32,7 +32,18 @@ class DashBoardNetworkService {
             
             if let error = error {
                     
-                completion(nil, error)
+                if let networkError = error as? NetworkError, networkError == .emptyDataError {
+                    
+                    self?.getEventStats(fromDate: fromDate, toDate: toDate) { eventCount in
+                        
+                        if let eventCount = eventCount {
+                            completion(("0", eventCount), nil)
+                        }
+                    }
+                } else {
+
+                    completion(nil, error)
+                }
                 print(error)
                 return
             }
@@ -43,6 +54,7 @@ class DashBoardNetworkService {
                 print("Invalid count data")
                 return
             }
+            
             self?.getEventStats(fromDate: fromDate, toDate: toDate) { eventCount in
                 
                 if let eventCount = eventCount {
@@ -71,16 +83,20 @@ class DashBoardNetworkService {
                                           headers: nil)
         { resultData, error in
             
-            if let _ = error {
-                    
-                completion(nil)
+            if let error = error {
+                
+                if let networkError = error as? NetworkError, networkError == .emptyDataError {
+                    completion("0")
+                } else {
+                    completion(nil)
+                }
                 return
             }
 
             guard let data = resultData,
                   let info = data["info"] as? [String: Any],
                   let count = info["count"] as? Int else {
-                print("Invalid modules data")
+                print("Invalid event count data")
                 return
             }
             

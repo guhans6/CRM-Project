@@ -58,14 +58,16 @@ class RecordsNetworkService {
                     
                     self.networService.uploadImage(photoData: recordImage,
                                                    module: module,
-                                                   recordId: recordIdFromResponse)
+                                                   recordId: recordIdFromResponse) { isASuccess in
+                        
+                    }
                 }
                 
                 isSaved(true)
                 return
             } else {
                 
-                print(resultData as Any)
+                print(resultData)
                 isSaved(false)
                 return
             }

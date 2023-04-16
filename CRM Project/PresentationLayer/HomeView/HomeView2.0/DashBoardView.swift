@@ -82,11 +82,12 @@ class DashBoardView: UIView {
         configuration.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         configuration.titlePadding = 10
         configuration.imagePadding = 10
-        configuration.attributedTitle = AttributedString("Weekly", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.label]))
+//        configuration.attributedTitle = AttributedString("Weekly", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont.systemFont(ofSize: 20, weight: .light), NSAttributedString.Key.foregroundColor: UIColor.label]))
 
         dropdownButton = UIButton(configuration: configuration)
                                                               
         dropdownButton.translatesAutoresizingMaskIntoConstraints = false
+        dropdownButton.setTitle("Weekly", for: .normal)
         dropdownButton.setTitleColor(.label, for: .normal)
         dropdownButton.tintColor = .background
         dropdownButton.semanticContentAttribute = .forceRightToLeft

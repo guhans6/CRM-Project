@@ -20,6 +20,7 @@ class RecordsDataManager {
     private let recordsDatabaseService = RecordsDatabaseService()
     private let recordInfoDatabaseService = RecordInfoDatabaseService()
     private let fieldsDataManager = FieldsDataManager()
+    private var count = 0
     
     func addRecord(module: String,
                    recordData: [String: Any?],
@@ -44,6 +45,7 @@ class RecordsDataManager {
         }
         
         self.getRecordsFromNetwork(module: module) { records in
+            
             completion(records)
         }
     }
@@ -108,8 +110,8 @@ class RecordsDataManager {
                                     recordId: recordId, recordImage: nil)
                 
                 recordsArray.append(record)
-                self?.recordsDatabaseService.saveRecordInDatabase(record: record,
-                                                            moduleApiName: module)
+//                self?.recordsDatabaseService.saveRecordInDatabase(record: record,
+//                                                            moduleApiName: module)
             }
 //            completion(recordsArray)
             var recordsWithImages = [Record]()
@@ -154,6 +156,9 @@ class RecordsDataManager {
         var recordImage: UIImage? = nil
         
         if let imageData = record[recordImageColumn] as? Data {
+            if recordName == "Deepak" {
+                print(0)
+            }
             recordImage = UIImage(data: imageData)
         }
 
@@ -194,7 +199,11 @@ class RecordsDataManager {
 
                     if  field.apiName == key || field.fieldLabel == key {
 
-                        recordInfo.append((field.fieldLabel, value))
+                        if field.displayLabel == "CustomModule Name" {
+                            recordInfo.append(("Name", value))
+                        } else {
+                            recordInfo.append((field.displayLabel, value))
+                        }
                     }
                 }
             }
@@ -221,7 +230,7 @@ class RecordsDataManager {
                     
                     if field.fieldLabel == key || field.apiName == key {
                         
-                            let isLookup = field.lookup.module != nil
+                        let isLookup = field.lookup.module != nil
                         
                         if !key.starts(with: "$") && key != "Locked__s" {
                             if let recordDictionary = value as? [String: Any] {
@@ -230,45 +239,54 @@ class RecordsDataManager {
                                 let id = recordDictionary["id"] as! String
                                 
                                 databaseData.append(id)
-                                recordInfo.append((field.fieldLabel, [id, name]))
+                                recordInfo.append((field.displayLabel, [id, name]))
                                 
                             } else if let value = value as? Bool {
                                 
                                 let data = value == true ? "Yes" : "No"
                                 
                                 databaseData.append(data)
-                                recordInfo.append((field.fieldLabel, data))
+                                recordInfo.append((field.displayLabel, data))
                             } else if let recordArray = value as? [String] {
                                 
                                 let data = recordArray.joined(separator: ",")
                                 
                                 databaseData.append(data)
-                                recordInfo.append((field.fieldLabel, data))
+                                recordInfo.append((field.displayLabel, data))
                             } else if let doubleValue = value as? Double {
                                 
                                 let data = String(doubleValue)
                                 databaseData.append(data)
                                 
-                                recordInfo.append((field.fieldLabel, data))
+                                recordInfo.append((field.displayLabel, data))
                             } else if let intValue = value as? Int {
                                 
                                 let data = String(intValue)
                                 databaseData.append(data)
                                 
-                                recordInfo.append((field.fieldLabel, data))
+                                recordInfo.append((field.displayLabel, data))
                             } else {
                                 
                                 let modifiedValue = value as? String ?? ""
                                 let dateOrText = self?.convert(date: modifiedValue)
                                 
                                 databaseData.append(dateOrText ?? modifiedValue)
-                                recordInfo.append((field.fieldLabel, dateOrText ?? modifiedValue))
+                                
+                                if field.displayLabel == "CustomModule Name" {
+                                    recordInfo.append(("Name", dateOrText ?? modifiedValue))
+                                } else {
+//                                    recordInfo.append((field.displayLabel, value))
+                                    recordInfo.append((field.displayLabel, dateOrText ?? modifiedValue))
+                                }
                             }
                             
                             var column = field.apiName
                             if isLookup {
                                 
                                 column = column.appending("Id")
+                            }
+                            if column == "From" || column == "To" {
+                                column = "'\(column)'"
                             }
                             columns.append(column)
                         }
@@ -298,11 +316,12 @@ class RecordsDataManager {
     // MARK: RETURN SUCCESS OR FAILIURE
     func deleteRecords(module: String, ids: [String], completion: @escaping (Bool) -> Void) -> Void {
         
+        recordsDatabaseService.deleteRecordInDatabase(module: module, ids: ids)
+        
         recordsNetworkService.deleteRecords(module: module, ids: ids) { data in
             completion(data)
         }
         
-        recordsDatabaseService.deleteRecordInDatabase(module: module, ids: ids)
         
     }
     
@@ -334,11 +353,11 @@ class RecordsDataManager {
 extension RecordsDataManager {
     
     func getRecordImage(module: String, recordId: String, completion: @escaping (UIImage?) -> Void) {
-//
-//        recordsDatabaseService.getRecordImage(module: module, id: recordId) { imageData in
-//
-//            completion(UIImage(data: imageData))
-//        }
+
+        recordsDatabaseService.getRecordImage(module: module, id: recordId) { imageData in
+
+            completion(UIImage(data: imageData))
+        }
 //
         recordsNetworkService.getRecordImage(module: module, id: recordId) { image in
             completion(image)

@@ -96,14 +96,14 @@ class RecordInfoDatabaseService {
                                id: String,
                                completion: @escaping ([String]?) -> Void) -> Void {
         
-        let whereClause = "id = '\(id)'"
+        let whereClause = "record_id = '\(id)'"
         var lookupData = [String]()
         
-        database.select(tableName: tableName ,whereClause: whereClause) { result in
+        database.select(tableName: "Records" ,whereClause: whereClause) { result in
             
-            guard let data = result?[0],
-                  let id = data["id"] as? String,
-                  let name = data["Name"] as? String else
+            guard let data = result?.first,
+                  let id = data["record_id"] as? String,
+                  let name = data["record_name"] as? String else
             {
                 print("no lookupData found")
                 completion(nil)

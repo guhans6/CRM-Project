@@ -128,7 +128,7 @@ class TableBookingViewController: UIViewController {
         tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: datePickerView.bottomAnchor, constant: 20),
+            tableView.topAnchor.constraint(equalTo: datePickerView.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -215,8 +215,8 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
         switch pickerVC.getPickedTime() {
         case "Breakfast":
             message.append("for breakfast.")
-        case "Meals":
-            message.append("for meal.")
+        case "Lunch":
+            message.append("for lunch.")
         case "Dinner":
             message.append("for dinner.")
         default:
@@ -251,7 +251,10 @@ extension TableBookingViewController: UITableViewDelegate, UITableViewDataSource
     
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 100
+        if (section == 0 && tables.first?.count ?? 0 == 0) {
+            return 100
+        }
+        return 50
     }
     
 }

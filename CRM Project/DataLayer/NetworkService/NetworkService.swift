@@ -303,7 +303,7 @@ class NetworkService {
         return registerURLString
     }
     
-    func uploadImage(photoData: UIImage?, module: String, recordId: String) {
+    func uploadImage(photoData: UIImage?, module: String, recordId: String, completion: @escaping (Bool) -> Void)  {
         
         guard let photo = photoData?.pngData() else {
             print("No image")
@@ -343,7 +343,23 @@ class NetworkService {
                                        body: body)
         { result, error in
             
-            print(result! , "aaaa")
+            if let _ = error {
+                print("error uploading photo")
+                completion(false)
+                return
+            }
+            
+            guard let result = result, let code = result["code"] as? String else {
+                print("error in imageUpload result")
+                completion(false)
+                return
+            }
+            
+            if code == "SUCCESS" {
+                completion(true)
+            } else {
+                completion(false)
+            }
         }
     }
 

@@ -12,7 +12,7 @@ class SplashViewController: UIViewController {
     private lazy var logoImageView = UIImageView(image: UIImage(named: "OnlyText"))
     private lazy var appLabel = UILabel()
     private let splitvc = UISplitViewController(style: .doubleColumn)
-    private let mainTabBarController = UITabBarController()
+    private var mainTabBarController = UITabBarController()
     
     private let menuViewController = MenuViewController()
     private let homeViewController = HomeViewController2()
@@ -38,6 +38,8 @@ class SplashViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        mainTabBarController = UITabBarController()
+        configureTabBarController()
         mainTabBarController.selectedIndex = 0
     }
     
@@ -89,7 +91,9 @@ class SplashViewController: UIViewController {
     func setUpViewController() {
         
         if UserDefaultsManager.shared.isUserLoggedIn() {
-
+            
+            Database.shared.openDatabase()
+            DatabaseService.shared.createAllTables()
             present(mainTabBarController, animated: true)
         } else {
             
