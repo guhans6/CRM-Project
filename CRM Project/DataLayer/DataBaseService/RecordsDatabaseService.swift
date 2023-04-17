@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class RecordsDatabaseService {
     
@@ -15,7 +16,7 @@ class RecordsDatabaseService {
     private let recordNameColumn = "record_name"
     private let secondaryDataColumn = "secondary_data"
     private let recordModule = "recordModule"
-    private let recordImage = "recordImage"
+    private let recordImageColumn = "recordImage"
     
     private let database = Database.shared
     
@@ -26,7 +27,7 @@ class RecordsDatabaseService {
             recordNameColumn.appending(DatabaseService.text),
             secondaryDataColumn.appending(DatabaseService.text),
             recordModule.appending(DatabaseService.text),
-            recordImage.appending(DatabaseService.blob)
+            recordImageColumn.appending(DatabaseService.blob)
         ]
 
         if database.createTable(tableName: recordsTableName, columns: columns) == false {
@@ -46,7 +47,7 @@ class RecordsDatabaseService {
         recordDictionary[recordModule] = moduleApiName
         
         if let image = record.recordImage {
-            recordDictionary[recordImage] = image.pngData()
+            recordDictionary[recordImageColumn] = image.pngData()
         }
         
         if database.insert(tableName: recordsTableName, values: recordDictionary) == false {
@@ -102,9 +103,9 @@ extension RecordsDatabaseService {
         database.select(tableName: recordsTableName,
                         whereClause: "\(recordIdColumn) = ?",
                         args: [id],
-                        select: recordImage) { [weak self] results in
+                        select: recordImageColumn) { [weak self] results in
             
-            guard let recordImage = self?.recordImage else {
+            guard let recordImage = self?.recordImageColumn else {
                 print("No record Image")
                 return
             }
@@ -112,8 +113,39 @@ extension RecordsDatabaseService {
             if let result = results?.first, let recordImage = result[recordImage] as? Data {
                 // Use the recordImage data
                 completion(recordImage)
+            } else {
+                print("No record Image")
             }
         }
 
+    }
+}
+
+extension RecordsDatabaseService {
+    
+    func saveImage(image: UIImage?, module: String, recordId: String, completion: @escaping (Bool) -> Void) {
+        
+        let whereClause = "\(recordIdColumn) = ?"
+        let whereArgs = [recordId]
+        let imageData = image?.pngData()
+        let setClause: [String: Any] = [recordImageColumn: imageData as Any]
+        
+        if database.update(tableName: recordsTableName, values: setClause, whereClause: whereClause, whereArgs: whereArgs) {
+            print("Image set successfully")
+        } else {
+            print("can't update image")
+        }
+    }
+    
+    func deleteImage(module: String, recordId: String, completion: @escaping (Bool) -> Void) {
+        
+        let whereClause =  "\(recordIdColumn) = ?"
+        
+        if database.delete(tableName: recordsTableName, whereClause: whereClause, whereArgs: [recordId]) {
+            
+            print("Image deleted successfully")
+        } else {
+            print("can't delete image")
+        }
     }
 }

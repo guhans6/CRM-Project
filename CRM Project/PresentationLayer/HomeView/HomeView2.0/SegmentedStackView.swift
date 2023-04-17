@@ -104,7 +104,14 @@ class SegmentedStackView: UIStackView {
 //                self.selectedLabel!.textColor = .systemBackground
 //            }
         }
-        self.delegate?.didSelect(index: selectedLabel.tag)
+//        self.delegate?.didSelect(index: selectedLabel.tag)
+        selectLastLabel()
+    }
+    
+    func selectLastLabel() {
+        if let selectedLabel = selectedLabel {
+            self.delegate?.didSelect(index: selectedLabel.tag)
+        }
     }
 
     func setUp() {
@@ -117,6 +124,7 @@ class SegmentedStackView: UIStackView {
         DispatchQueue.main.async { 
             if let selectedLabel = self.selectedLabel {
                 self.selectionView.frame = selectedLabel.frame
+                self.delegate?.didSelect(index: selectedLabel.tag)
             }
         }
     }

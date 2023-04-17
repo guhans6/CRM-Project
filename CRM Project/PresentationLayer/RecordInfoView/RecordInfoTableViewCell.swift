@@ -39,6 +39,7 @@ class RecordInfoTableViewCell: UITableViewCell {
         recordInfoNameLabel.font = .preferredFont(forTextStyle: .body)
         recordInfoNameLabel.numberOfLines = 0
         recordInfoNameLabel.textColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        recordInfoNameLabel.lineBreakMode = .byWordWrapping
         
         NSLayoutConstraint.activate([
             
@@ -55,6 +56,7 @@ class RecordInfoTableViewCell: UITableViewCell {
         recordDataLabel.translatesAutoresizingMaskIntoConstraints = false
         recordDataLabel.font = .preferredFont(forTextStyle: .body)
         recordDataLabel.numberOfLines = 0
+        recordDataLabel.lineBreakMode = .byWordWrapping
         
         NSLayoutConstraint.activate([
 

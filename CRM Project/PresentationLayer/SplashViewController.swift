@@ -14,10 +14,11 @@ class SplashViewController: UIViewController {
     private let splitvc = UISplitViewController(style: .doubleColumn)
     private var mainTabBarController = UITabBarController()
     
-    private let menuViewController = MenuViewController()
-    private let homeViewController = HomeViewController2()
-    private let tableBookingViewController = TableBookingViewController()
-    private let loginViewController = LoginViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    private var menuViewController = MenuViewController()
+    private var homeViewController = HomeViewController2()
+    private var tableBookingViewController = TableBookingViewController()
+    private var loginViewController = LoginViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+    private var moduleViewController = ModulesTableViewController()
     
     private var isMenuOpen = false
     
@@ -41,6 +42,11 @@ class SplashViewController: UIViewController {
         mainTabBarController = UITabBarController()
         configureTabBarController()
         mainTabBarController.selectedIndex = 0
+        menuViewController = MenuViewController()
+        homeViewController = HomeViewController2()
+        tableBookingViewController = TableBookingViewController()
+        loginViewController = LoginViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        moduleViewController = ModulesTableViewController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -110,7 +116,7 @@ class SplashViewController: UIViewController {
         let menuVC = UINavigationController(rootViewController: menuViewController)
         let tableBookingVC = UINavigationController(rootViewController: tableBookingViewController)
         let homeNavigationVC = UINavigationController(rootViewController: homeViewController)
-        let moduleVC = UINavigationController(rootViewController: ModulesTableViewController())
+        let moduleVC = UINavigationController(rootViewController: moduleViewController)
         
         mainTabBarController.tabBar.autoresizesSubviews = false
         mainTabBarController.setViewControllers([homeNavigationVC, tableBookingVC, moduleVC, menuVC], animated: false)
@@ -131,6 +137,10 @@ class SplashViewController: UIViewController {
 }
 
 extension SplashViewController: MenuViewDelegate {
+    
+    func clearData() {
+        homeViewController.clearTitle()
+    }
     
     func didSelectRow(row: Int, title: String) {
         

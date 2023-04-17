@@ -25,7 +25,6 @@ protocol RecordsContract {
                      sortMethod: String,
                      completion: ([String: [Record]], [String]) -> Void) -> Void
     
-    func getRecordImage(module: String, recordId: String, completion: @escaping (UIImage?) -> Void)
 }
 
 protocol RecordInfoContract {
@@ -37,5 +36,10 @@ protocol RecordInfoContract {
     func deleteRecords(module: String,
                        ids: [String],
                        completion: @escaping (Bool) -> Void) -> Void
+    
+    func getRecordImage(module: String, recordId: String, completion: @escaping (UIImage?) -> Void)
+    func saveImage(image: UIImage?, module: String, recordId: String, completion: @escaping (Bool) -> Void)
+    
+    func deleteImage(module: String, recordId: String, completion: @escaping (Bool) -> Void)
 
 }

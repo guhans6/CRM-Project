@@ -9,6 +9,7 @@ import UIKit
 protocol MenuViewDelegate: AnyObject {
     
     func didSelectRow(row: Int, title: String) -> Void
+    func clearData() 
 }
 
 class MenuViewController: UIViewController {
@@ -66,7 +67,7 @@ class MenuViewController: UIViewController {
         alertController.addAction(UIAlertAction(title: "Logout",
                                                 style: .destructive,
                                                 handler: { [weak self] _ in
-            DatabaseService.shared.deleteAllTables()
+            
             self?.logout()
         }))
         
@@ -140,6 +141,8 @@ class MenuViewController: UIViewController {
     
     @objc private func logout() {
         
+        nameLabel.text = nil
+        emailLabel.text = nil
         UserDefaultsManager.shared.setLogIn(equalTo: false)
         DatabaseController().clearAllData()
         dismiss(animated: true)
@@ -150,7 +153,6 @@ class MenuViewController: UIViewController {
         userController.getUserDetails { currentUser in
             self.nameLabel.text = currentUser?.fullName
             self.emailLabel.text = currentUser?.email
-            self.tableView.reloadData()
         }
     }
     

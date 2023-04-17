@@ -60,7 +60,7 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         
 //        configureNavigationBar()
         configureCollectionView()
-//        reloadData()
+//        reloadData()]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -79,11 +79,6 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
     
     override func viewDidAppear(_ animated: Bool) {
         
-//        searchController.searchBar.delegate = self
-//        searchController.delegate = self
-//        navigationItem.searchController = searchController
-//
-//        searchController.searchBar.autocapitalizationType = .none
     }
     
     private func configureNavigationBar() {
@@ -91,6 +86,15 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
         let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewRecordButtonTapped))
         let sortButton = UIBarButtonItem(image: UIImage(systemName: "arrow.up.arrow.down"), style: .plain, target: self, action: #selector(sortButtonTapped))
         navigationItem.rightBarButtonItems = [addButton, sortButton]
+        
+        DispatchQueue.main.async { [weak self] in
+            self?.searchController.searchBar.delegate = self
+            self?.searchController.delegate = self
+            self?.navigationItem.searchController = self?.searchController
+            self?.searchController.searchBar.autocapitalizationType = .none
+            self?.navigationItem.hidesSearchBarWhenScrolling = false
+        }
+        
     }
     
     @objc private func sortButtonTapped() {
@@ -103,6 +107,7 @@ class RecordsCollectionViewController: UIViewController, UICollectionViewDelegat
             sheetController.prefersGrabberVisible = true
             sheetController.detents = [.medium(), .large()]
             sheetController.prefersEdgeAttachedInCompactHeight = true
+
         }
         
         present(pickerVc, animated: true)
@@ -252,8 +257,11 @@ extension RecordsCollectionViewController: UICollectionViewDataSource {
         if let recordImage = record.recordImage {
             cell.imageview.image = recordImage
         }
-        cell.name.text = record.recordName
+        cell.nameLabel.text = record.recordName
         cell.secondaryLabel.text = record.secondaryRecordData
+        if record.secondaryRecordData == "" {
+            cell.nameLabel.numberOfLines = 2
+        }
         return cell
     }
     

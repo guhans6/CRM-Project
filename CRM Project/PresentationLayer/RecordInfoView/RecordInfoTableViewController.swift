@@ -29,6 +29,7 @@ class RecordInfoTableViewController: UITableViewController {
     private let headerImageView = UIImageView()
     private var headerImageViewHeightConstraint: NSLayoutConstraint?
     private var recordImage: UIImage?
+    private let hiddenButton = UIButton()
     
     init(recordModule: Module, recordId: String, recordImage: UIImage?) {
         
@@ -152,7 +153,7 @@ class RecordInfoTableViewController: UITableViewController {
         if let recordImage = recordImage {
             headerImageView.image = recordImage
         } else {
-            headerImageView.image = UIImage(named: "camera")
+            headerImageView.image = UIImage(named: "cameraPlus")
         }
         headerImageView.backgroundColor = .systemGray5
         headerView.addSubview(headerImageView)
@@ -161,9 +162,24 @@ class RecordInfoTableViewController: UITableViewController {
         headerImageView.translatesAutoresizingMaskIntoConstraints = false
         headerImageView.centerXAnchor.constraint(equalTo: headerView.centerXAnchor).isActive = true
         headerImageView.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
-        headerImageViewHeightConstraint = headerImageView.heightAnchor.constraint(equalToConstant: imageHeight)
+        headerImageViewHeightConstraint = headerImageView.heightAnchor.constraint(equalToConstant: imageHeight + 10)
         headerImageViewHeightConstraint?.isActive = true
         headerImageView.widthAnchor.constraint(equalTo: headerImageView.heightAnchor).isActive = true
+        
+        headerView.addSubview(hiddenButton)
+        
+//        hiddenButton.frame = headerImageView.frame
+        hiddenButton.translatesAutoresizingMaskIntoConstraints = false
+        hiddenButton.centerXAnchor.constraint(equalTo: headerView.centerXAnchor).isActive = true
+        hiddenButton.centerYAnchor.constraint(equalTo: headerView.centerYAnchor).isActive = true
+        hiddenButton.heightAnchor.constraint(equalToConstant: imageHeight + 10).isActive = true
+        hiddenButton.widthAnchor.constraint(equalTo: headerImageView.heightAnchor).isActive = true
+//        hiddenButton.leadingAnchor.constraint(equalTo: headerImageView.leadingAnchor).isActive = true
+//        hiddenButton.topAnchor.constraint(equalTo: headerImageView.topAnchor).isActive = true
+//        hiddenButton.trailingAnchor.constraint(equalTo: headerImageView.trailingAnchor).isActive = true
+//        hiddenButton.bottomAnchor.constraint(equalTo: headerImageView.bottomAnchor).isActive = true
+        hiddenButton.menu = getMenu()
+        hiddenButton.showsMenuAsPrimaryAction = true
 
     }
     
@@ -219,6 +235,13 @@ class RecordInfoTableViewController: UITableViewController {
     }
     
     private func getRecord() {
+        
+        recordsController.getRecordImage(module: moduleApiName, recordId: recordId) { image in
+            
+            if let image = image {
+                self.headerImageView.image = image
+            }
+        }
         
         tableView.showLoadingIndicator()
         
@@ -284,5 +307,112 @@ extension RecordInfoTableViewController: FormTableViewDelegate {
         if let recordImage = recordImage {
             self.headerImageView.image = recordImage
         }
+    }
+}
+
+extension RecordInfoTableViewController {
+    
+    @objc private func didTapImageView() {
+        
+//        guard let cell = sender.view?.superview?.superview as? ImageTableViewCell else {
+//            return
+//        }
+        
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true)
+    }
+    
+    private func getMenu() -> UIMenu? {
+
+        let selectAction =  UIAction(title: "Select from Photo Library",
+                                     image: UIImage(systemName: "photo.on.rectangle.angled"))
+        { [weak self] action in
+            self?.didTapImageView()
+        }
+        
+        var menu =  UIMenu(title: "Select an option", children: [
+            selectAction,
+        ])
+        
+        if headerImageView.image != UIImage(named: "cameraPlus") {
+            let removeAction = UIAction(title: "Remove Image",
+                                        image: UIImage(systemName: "trash"),
+                                        attributes: .destructive)
+            { [weak self] action in
+                
+                guard let self = self else { print("Must Not happen in menu Action"); return }
+                self.headerImageView.image = UIImage(named: "cameraPlus")
+                
+                self.recordsController.deleteImage(module: self.moduleApiName, recordId: self.recordId) { isSuccess in
+                    print("imageDeletionSuccessfull", isSuccess)
+                }
+                self.hiddenButton.menu = self.getMenu()
+            }
+            
+            menu =  UIMenu(title: "Select an option", children: [
+                selectAction,
+                removeAction
+            ])
+        }
+        return menu
+    }
+}
+
+extension RecordInfoTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        // Get the selected image
+        guard let pickedImage = info[.editedImage] as? UIImage else {
+            print("No image selected")
+            return
+        }
+        
+        // Convert image to PNG data representation
+        guard let imageData = pickedImage.pngData() else {
+            print("Unable to convert image to PNG data")
+            return
+        }
+        
+        // Check if image size is within the allowed range (10 MB)
+        let allowedSize: Int64 = 10 * 1024 * 1024 // 10 MB
+        let imageSize = Int64(imageData.count)
+        guard imageSize <= allowedSize else {
+            
+            // Display an alert to the user
+            let alert = UIAlertController(title: "Image Size Exceeded", message: "The selected image size exceeds the allowed size (10 MB). Please select a smaller image.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            picker.dismiss(animated: true)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        // Check if image resolution is within the allowed range (10 MP)
+        let allowedResolution: CGFloat = 10000000 // 10 MP
+        let imageResolution = pickedImage.size.width * pickedImage.size.height
+        guard imageResolution <= allowedResolution else {
+            // Display an alert to the user
+            let alert = UIAlertController(title: "Image Resolution Exceeded", message: "The selected image resolution exceeds the allowed resolution (10 MP). Please select a smaller image.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            picker.dismiss(animated: true)
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        recordsController.saveImage(image: pickedImage, module: moduleApiName, recordId: recordId) { isSuccess in
+            print(isSuccess)
+        }
+        headerImageView.image = pickedImage
+        self.hiddenButton.menu = self.getMenu()
+        picker.dismiss(animated: true)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
+        picker.dismiss(animated: true)
     }
 }

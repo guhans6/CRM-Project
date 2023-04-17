@@ -69,7 +69,12 @@ class LabelTableViewCell: UITableViewCell {
     }
     
     func configureCellWith(text: String) {
-        label.text = text
+        
+        if text == "Functions" {
+            label.text = "Events"
+        } else {
+            label.text = text
+        }
     }
     
     func addSwitch() {

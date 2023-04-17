@@ -307,7 +307,7 @@ extension FormTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return fields.count
+        return fields.count - 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -429,9 +429,6 @@ extension FormTableViewController {
         
         // If it is text area it should be bigger and it is scrollable so constant height
         if textAreaIndexes.contains(indexPath) {
-            
-            return 65
-        } else if indexPath.row == 0 {
             
             return 65
         } else {

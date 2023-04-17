@@ -33,11 +33,12 @@ class ModulesTableViewController: UITableViewController {
         title = "Modules"
         navigationController?.navigationBar.prefersLargeTitles = true
         view.backgroundColor = .systemBackground
-        
+//        tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 50
         tableView.separatorColor = .tableViewSeperator
-        tableView.backgroundColor = .systemGray6
+        tableView.backgroundColor = .systemBackground
+//        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 25))
         
         tableView.register(LabelTableViewCell.self, forCellReuseIdentifier: LabelTableViewCell.identifier)
     }

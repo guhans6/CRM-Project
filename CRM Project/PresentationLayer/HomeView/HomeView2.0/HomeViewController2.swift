@@ -70,6 +70,8 @@ class HomeViewController2: UIViewController {
         getDashBoardStats()
         getBookedTablesFor(date: Date())
         getEvents(date: Date())
+        
+        
     }
     
     private func configureUI() {
@@ -129,6 +131,10 @@ class HomeViewController2: UIViewController {
             titleLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 20),
             titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: scrollView.trailingAnchor),
         ])
+    }
+    
+    func clearTitle() {
+        titleLabel.text = "Hello "
     }
     
     private func getCurrentUser() {
@@ -415,7 +421,7 @@ extension HomeViewController2: UICollectionViewDataSource, UICollectionViewDeleg
             let reservationDetail = filteredReservations[indexPath.row]
             cell.imageView.image = img
             cell.nameLabel.text = reservationDetail.name
-            cell.tableNameLabel.text = reservationDetail.bookingTable != nil ? reservationDetail.bookingTime : " "
+            cell.tableNameLabel.text = reservationDetail.bookingTable ?? " "
             
             imageController.downloadImage(for: reservationDetail.id, module: "Reservations") { image in
 //                if reservationDetail.name == "A" {
@@ -478,7 +484,7 @@ extension HomeViewController2: SegemetedStackViewDelegate {
     func didSelect(index: Int) {
         
         var message = "this day."
-//        collectionView.backgroundView = nil
+        collectionView.backgroundView = nil
         switch index {
         case 0:
             filteredReservations = reservations
@@ -489,12 +495,12 @@ extension HomeViewController2: SegemetedStackViewDelegate {
             message = "breakfast."
         case 2:
             filteredReservations = reservations.filter({ reservartion in
-                reservartion.bookingTime == "Meals" ? true : false
+                reservartion.bookingTime == "Lunch" ? true : false
             })
             message = "lunch."
         case 3:
             filteredReservations = reservations.filter({ reservartion in
-                reservartion.bookingTime == "Lunch" ? true : false
+                reservartion.bookingTime == "Dinner" ? true : false
             })
             message = "dinner."
         default:

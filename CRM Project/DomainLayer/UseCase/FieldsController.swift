@@ -17,12 +17,12 @@ class FieldsController: FieldsContract {
             self.fieldsDataManager.getfieldMetaData(module: module) { fields in
                 
                 if !fields.isEmpty {
-                    var modifiedFields = fields
-                    let lastElement = modifiedFields.removeLast()
-                    modifiedFields.insert(lastElement, at: 0)
+//                    var modifiedFields = fields
+//                    let lastElement = modifiedFields.removeLast()
+//                    modifiedFields.insert(lastElement, at: 0)
                     
                     DispatchQueue.main.async {
-                        completion(modifiedFields)
+                        completion(fields)
                     }
                 }
             }

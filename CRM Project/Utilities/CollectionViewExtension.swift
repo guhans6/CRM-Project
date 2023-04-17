@@ -30,7 +30,9 @@ extension UICollectionView {
         let emptyView = UIView(frame: CGRect(x: self.center.x, y: self.center.y, width: self.bounds.size.width, height: self.bounds.size.height))
         
         let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "wifi.slash")
         let titleLabel = UILabel()
+        titleLabel.text = "No network."
         let messageLabel = UILabel()
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -91,6 +93,11 @@ extension UICollectionView {
                 }
             }
         }
+    }
+    
+    func showNoNetworkView() {
+        
+        setEmptyView(title: "Not connected to network.", message: "", image: UIImage(systemName: "wifi.slash"))
     }
 
     /// Call this to restore the background view

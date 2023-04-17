@@ -21,7 +21,7 @@ class RecordCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    let name : UILabel = {
+    let nameLabel : UILabel = {
         let label = UILabel()
         label.textColor = .label
         label.textAlignment = .center
@@ -31,7 +31,7 @@ class RecordCollectionViewCell: UICollectionViewCell {
         label.font = fontMetrics.scaledFont(for: label.font)
         label.adjustsFontForContentSizeCategory = true
         label.numberOfLines = 0
-        label.lineBreakMode = .byTruncatingMiddle
+//        label.lineBreakMode = .byTruncatingMiddle
         
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -66,7 +66,7 @@ class RecordCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         
         imageview.image = UIImage(named: "camera")
-        name.text = nil
+        nameLabel.text = nil
         secondaryLabel.text = nil
     }
     
@@ -80,7 +80,7 @@ class RecordCollectionViewCell: UICollectionViewCell {
     
     func setConstrains(){
         contentView.addSubview(imageview)
-        contentView.addSubview(name)
+        contentView.addSubview(nameLabel)
         contentView.addSubview(secondaryLabel)
         
         
@@ -109,14 +109,14 @@ class RecordCollectionViewCell: UICollectionViewCell {
         
         
         NSLayoutConstraint.activate([
-            name.topAnchor.constraint(equalTo: imageview.bottomAnchor, constant: 15),
-            name.heightAnchor.constraint(equalToConstant: height),
-            name.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: widthSpace),
-            name.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthSpace)
+            nameLabel.topAnchor.constraint(equalTo: imageview.bottomAnchor, constant: 15),
+//            nameLabel.heightAnchor.constraint(equalToConstant: height),dd
+            nameLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: widthSpace),
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthSpace)
         ])
         
         NSLayoutConstraint.activate([
-            secondaryLabel.topAnchor.constraint(equalTo: name.bottomAnchor, constant: 5),
+            secondaryLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 5),
             secondaryLabel.heightAnchor.constraint(equalToConstant: height),
             secondaryLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,constant: widthSpace),
             secondaryLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -widthSpace)

@@ -32,8 +32,6 @@ class RecordsDataManager {
             
             isRecordSaved(isASuccess)
         }
-        
-        
     }
     
     func getRecords(module: String,
@@ -249,7 +247,7 @@ class RecordsDataManager {
                                 recordInfo.append((field.displayLabel, data))
                             } else if let recordArray = value as? [String] {
                                 
-                                let data = recordArray.joined(separator: ",")
+                                let data = recordArray.joined(separator: ", ")
                                 
                                 databaseData.append(data)
                                 recordInfo.append((field.displayLabel, data))
@@ -356,11 +354,42 @@ extension RecordsDataManager {
 
         recordsDatabaseService.getRecordImage(module: module, id: recordId) { imageData in
 
+            if let image = UIImage(data: imageData) {
+                print(9)
+            }
             completion(UIImage(data: imageData))
         }
 //
         recordsNetworkService.getRecordImage(module: module, id: recordId) { image in
             completion(image)
         }
+    }
+}
+
+extension RecordsDataManager {
+    
+    func uploadImage(image: UIImage?, module: String, recordId: String, completion: @escaping (Bool) -> Void) {
+        
+        recordsDatabaseService.saveImage(image: image, module: module, recordId: recordId) { isSuccess in
+//            completion
+        }
+        
+        recordsNetworkService.uploadImage(photoData: image, module: module, recordId: recordId) { isSuccess in
+            completion(isSuccess)
+        }
+    }
+    
+    func deleteImage(module: String, recordId: String, completion: @escaping (Bool) -> Void) {
+        
+        recordsDatabaseService.deleteImage(module: module, recordId: recordId) { isSuccess in
+            print(isSuccess, "DB")
+        }
+        
+        recordsNetworkService.removeImage(module: module, recordId: recordId) { isSuccess in
+            
+            completion(isSuccess)
+        }
+        
+        
     }
 }

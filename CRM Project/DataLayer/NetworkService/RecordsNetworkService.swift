@@ -189,3 +189,37 @@ class RecordsNetworkService {
         }
     }
 }
+
+extension RecordsNetworkService {
+    
+    func uploadImage(photoData: UIImage?, module: String, recordId: String, completion: @escaping (Bool) -> Void) {
+        
+        networService.uploadImage(photoData: photoData, module: module, recordId: recordId) { isSuccess in
+            
+            completion(isSuccess)
+        }
+    }
+    
+    func removeImage(module: String, recordId: String, completion: @escaping (Bool) -> Void) {
+        
+        let urlRequestString = "crm/v3/\(module)/\(recordId)/photo"
+        
+        networService.performNetworkCall(url: urlRequestString, method: .DELETE, urlComponents: nil, parameters: nil, headers: nil) { result, error in
+            
+            if let error = error {
+                print(error)
+                return
+            }
+            
+            guard let result = result else {
+                return
+            }
+            
+            if let code = result["code"] as? String, code == "SUCCESS" {
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
+}

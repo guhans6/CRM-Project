@@ -384,4 +384,6 @@ class NetworkService {
             completion(imageData)
         }
     }
+    
+    
 }

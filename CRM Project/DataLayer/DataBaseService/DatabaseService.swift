@@ -32,6 +32,10 @@ class DatabaseService {
    
     func deleteAllTables() {
         
+        ModulesDatabaseService().deleteModulesTable()
+        RecordsDatabaseService().deleteRecordTable()
+        UserDatabaseService().deleteUserTable()
+        FieldsDatabaseService().deleteFieldsTable()
         Database.shared.dropDatabase()
     }
 }

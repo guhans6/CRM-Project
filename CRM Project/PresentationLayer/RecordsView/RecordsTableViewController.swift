@@ -94,6 +94,7 @@ class RecordsTableViewController: UIViewController {
             self?.searchController.delegate = self
             self?.navigationItem.searchController = self?.searchController
             self?.searchController.searchBar.autocapitalizationType = .none
+            self?.navigationItem.hidesSearchBarWhenScrolling = false
         }
         
     }

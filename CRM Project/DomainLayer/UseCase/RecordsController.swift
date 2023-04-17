@@ -181,3 +181,20 @@ extension RecordsController {
         
     }
 }
+
+extension RecordsController {
+    
+    func saveImage(image: UIImage?, module: String, recordId: String, completion: @escaping (Bool) -> Void) {
+        
+        recordsDataManager.uploadImage(image: image, module: module, recordId: recordId) { isSuccess in
+            completion(isSuccess)
+        }
+    }
+    
+    func deleteImage(module: String, recordId: String, completion: @escaping (Bool) -> Void) {
+        recordsDataManager.deleteImage(module: module, recordId: recordId) { isSuccess in
+            
+            completion(isSuccess)
+        }
+    }
+}

@@ -16,7 +16,7 @@ class BookingNetworkService {
         
         let urlRequestString = "crm/v3/coql"
         
-        var query = "select  Booking_Table.id from Reservations where Booking_Date = '\(date)'"
+        var query = "select  Booking_Table.id, Booking_Table.Seating_Capacity from Reservations where Booking_Date = '\(date)'"
         
         if let time = time {
             query.append("and Pick_List_1 ='\(time)'")
